@@ -4,12 +4,18 @@ using Fusion;
 using Fusion.Sockets;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
-
+    private bool _mouseButton0;
+    private void Update()
+    {
+        _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
+    }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         if (runner.IsServer)
@@ -35,16 +41,19 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         var data = new NetworkInputData();
 
         if (Input.GetKey(KeyCode.W))
-            data.direction += Vector3.forward;
+            //data.direction += Vector3.forward;
 
         if (Input.GetKey(KeyCode.S))
-            data.direction += Vector3.back;
+            //data.direction += Vector3.back;
 
         if (Input.GetKey(KeyCode.A))
             data.direction += Vector3.left;
 
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
+
+        data.buttons.Set(NetworkInputData.MOUSEBUTTON0, _mouseButton0);
+        _mouseButton0 = false;
 
         input.Set(data);
     }
