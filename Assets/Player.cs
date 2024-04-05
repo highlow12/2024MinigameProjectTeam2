@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     [SerializeField] private ball _prefabball;
+    [SerializeField] private PhysxBall _prefabPhysxBall;
 
     [Networked] private TickTimer delay { get; set; }
 
@@ -13,7 +14,7 @@ public class Player : NetworkBehaviour
     private void Awake()
     {
         _cc = GetComponent<NetworkCharacterController>();
-        _forward = transform.forward;
+        _forward = transform.up;
     }
 
     public override void FixedUpdateNetwork()
@@ -32,12 +33,26 @@ public class Player : NetworkBehaviour
                 {
                     delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
                     Runner.Spawn(_prefabball,
-                    transform.position + _forward, Quaternion.LookRotation(_forward),
-                    Object.InputAuthority, (runner, o) =>
-                    {
-                        // Initialize the ball before synchronizing it
-                        o.GetComponent<ball>().Init();
-                    });
+                      transform.position + _forward,
+                      Quaternion.LookRotation(_forward),
+                      Object.InputAuthority,
+                      (runner, o) =>
+                      {
+                          // Initialize the Ball before synchronizing it
+                          o.GetComponent<ball>().Init();
+                      });
+                }
+                else if (data.buttons.IsSet(NetworkInputData.MOUSEBUTTON1))
+                {
+                    delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
+                    Runner.Spawn(_prefabPhysxBall,
+                      transform.position + _forward+ Vector3.up*3,
+                      Quaternion.LookRotation(_forward),
+                      Object.InputAuthority,
+                      (runner, o) =>
+                      {
+                          o.GetComponent<PhysxBall>().Init(10 * _forward);
+                      });
                 }
             }
         }

@@ -6,15 +6,18 @@ using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
 using UnityEngine.UIElements;
+using Fusion.Addons.Physics;
 
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private bool _mouseButton0;
+    private bool _mouseButton1;
     private void Update()
     {
         _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
+        _mouseButton1 = _mouseButton1 || Input.GetMouseButton(1);
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -54,6 +57,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         data.buttons.Set(NetworkInputData.MOUSEBUTTON0, _mouseButton0);
         _mouseButton0 = false;
+        data.buttons.Set(NetworkInputData.MOUSEBUTTON1, _mouseButton1);
+        _mouseButton1 = false;
 
         input.Set(data);
     }
@@ -78,6 +83,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     async void StartGame(GameMode mode)
     {
+        gameObject.AddComponent<RunnerSimulatePhysics3D>();
         // Create the Fusion runner and let it know that we will be providing user input
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
@@ -93,6 +99,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         // Start or join (depends on gamemode) a session with a specific name
         await _runner.StartGame(new StartGameArgs()
         {
+            
             GameMode = mode,
             SessionName = "TestRoom",
             Scene = scene,
