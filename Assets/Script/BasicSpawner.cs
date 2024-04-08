@@ -62,6 +62,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         input.Set(data);
     }
+    #region
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
@@ -78,12 +79,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
-
+    #endregion
     private NetworkRunner _runner;
 
     async void StartGame(GameMode mode)
     {
-        gameObject.AddComponent<RunnerSimulatePhysics3D>();
+        gameObject.AddComponent<RunnerSimulatePhysics2D>();
         // Create the Fusion runner and let it know that we will be providing user input
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
