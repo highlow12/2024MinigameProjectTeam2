@@ -14,10 +14,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private bool _mouseButton0;
     private bool _mouseButton1;
+    private bool _keyboardP;
     private void Update()
     {
         _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
         _mouseButton1 = _mouseButton1 || Input.GetMouseButton(1);
+        _keyboardP = _keyboardP || Input.GetKey(KeyCode.P);
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -43,22 +45,23 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         var data = new NetworkInputData();
 
-        if (Input.GetKey(KeyCode.W))
-            //data.direction += Vector3.forward;
+        // if (Input.GetKey(KeyCode.W))
+        //     data.direction += Vector3.forward;
 
-        if (Input.GetKey(KeyCode.S))
-            //data.direction += Vector3.back;
+        // if (Input.GetKey(KeyCode.S))
+        //     data.direction += Vector3.back;
 
         if (Input.GetKey(KeyCode.A))
             data.direction += Vector3.left;
 
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
-
         data.buttons.Set(NetworkInputData.MOUSEBUTTON0, _mouseButton0);
         _mouseButton0 = false;
         data.buttons.Set(NetworkInputData.MOUSEBUTTON1, _mouseButton1);
         _mouseButton1 = false;
+        data.buttons.Set(NetworkInputData.KEYBOARD_P, _keyboardP);
+        _keyboardP = false;
 
         input.Set(data);
     }
@@ -100,7 +103,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         // Start or join (depends on gamemode) a session with a specific name
         await _runner.StartGame(new StartGameArgs()
         {
-            
+
             GameMode = mode,
             SessionName = "TestRoom",
             Scene = scene,

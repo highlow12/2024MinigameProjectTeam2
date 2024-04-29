@@ -11,139 +11,139 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Áß·Â")]
-    [Tooltip("Á¡ÇÁ ³ôÀÌ¿Í Á¡ÇÁ ½Ã°£À» ±â¹İÀ¸·Î ÇÏ´Â ¿øÇÏ´Â Áß·Â(¾Æ·¡·ÎÀÇ Èû).")]
-    [HideInInspector] public float gravityStrength; // Á¡ÇÁ ³ôÀÌ¿Í Á¡ÇÁ ½Ã°£À» ±â¹İÀ¸·Î ÇÏ´Â ¿øÇÏ´Â Áß·Â(¾Æ·¡·ÎÀÇ Èû).
-    [Tooltip("ÇÃ·¹ÀÌ¾îÀÇ Áß·Â °­µµ¸¦ Áß·ÂÀÇ ¹è¼ö·Î ¼³Á¤ÇÕ´Ï´Ù.\n(ProjectSettings/Physics2D¿¡¼­ ¼³Á¤).\nÇÃ·¹ÀÌ¾îÀÇ rigidbody2D.gravityScale¿¡ ¼³Á¤µÇ´Â °ªÀÔ´Ï´Ù.")]
-    [HideInInspector] public float gravityScale; // ÇÃ·¹ÀÌ¾îÀÇ Áß·Â °­µµ¸¦ Áß·ÂÀÇ ¹è¼ö·Î ¼³Á¤ÇÕ´Ï´Ù(ProjectSettings/Physics2D¿¡¼­ ¼³Á¤). ¶ÇÇÑ ÇÃ·¹ÀÌ¾îÀÇ rigidbody2D.gravityScale¿¡ ¼³Á¤µÇ´Â °ªÀÔ´Ï´Ù.
-    [Space(5)]
-    [Tooltip("¶³¾îÁö´Â µ¿¾È ÇÃ·¹ÀÌ¾îÀÇ Áß·Â ¹è¼öÀÔ´Ï´Ù.")]
-    public float fallGravityMult; // ¶³¾îÁö´Â µ¿¾È ÇÃ·¹ÀÌ¾î Áß·Â ¹è¼öÀÔ´Ï´Ù.
-    [Tooltip("¶³¾îÁú ¶§ ÇÃ·¹ÀÌ¾îÀÇ ÃÖ´ë ³«ÇÏ ¼Óµµ(ÃÖ´ë ¼Ó·Â)ÀÔ´Ï´Ù.")]
-    public float maxFallSpeed; // ¶³¾îÁú ¶§ ÇÃ·¹ÀÌ¾îÀÇ ÃÖ´ë ³«ÇÏ ¼Óµµ(ÃÖ´ë ¼Ó·Â).
-    [Space(5)]
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ ¶³¾îÁö°í ¾Æ·¡ ÀÔ·ÂÀÌ ´­¸° °æ¿ì ÇÃ·¹ÀÌ¾î Áß·Â ¹è¼öÀÇ Å« ¹è¼öÀÔ´Ï´Ù.\nCeleste¿Í °°Àº °ÔÀÓ¿¡¼­ º¼ ¼ö ÀÖÀ¸¸ç, ÇÃ·¹ÀÌ¾î°¡ ¿øÇÑ´Ù¸é Ãß°¡·Î ºü¸£°Ô ¶³¾îÁú ¼ö ÀÖ½À´Ï´Ù.")]
-    public float fastFallGravityMult; // ÇÃ·¹ÀÌ¾î°¡ ¶³¾îÁö°í ¾Æ·¡ ÀÔ·ÂÀÌ ´­¸° °æ¿ì ÇÃ·¹ÀÌ¾î Áß·Â ¹è¼öÀÇ Å« ¹è¼öÀÔ´Ï´Ù. Celeste¿Í °°Àº °ÔÀÓ¿¡¼­ º¼ ¼ö ÀÖÀ¸¸ç, ÇÃ·¹ÀÌ¾î°¡ ¿øÇÑ´Ù¸é Ãß°¡·Î ºü¸£°Ô ¶³¾îÁú ¼ö ÀÖ½À´Ï´Ù.
-    [Tooltip("ºü¸¥ ³«ÇÏ¸¦ ¼öÇàÇÒ ¶§ ÇÃ·¹ÀÌ¾îÀÇ ÃÖ´ë ³«ÇÏ ¼Óµµ(ÃÖ´ë ¼Ó·Â)ÀÔ´Ï´Ù.")]
-    public float maxFastFallSpeed; // ºü¸¥ ³«ÇÏ¸¦ ¼öÇàÇÒ ¶§ ÇÃ·¹ÀÌ¾îÀÇ ÃÖ´ë ³«ÇÏ ¼Óµµ(ÃÖ´ë ¼Ó·Â).
+	[Header("ì¤‘ë ¥")]
+	[Tooltip("ì í”„ ë†’ì´ì™€ ì í”„ ì‹œê°„ì„ ê¸°ë°˜ìœ¼ë¡œ í•˜ëŠ” ì›í•˜ëŠ” ì¤‘ë ¥(ì•„ë˜ë¡œì˜ í˜).")]
+	[HideInInspector] public float gravityStrength; // ì í”„ ë†’ì´ì™€ ì í”„ ì‹œê°„ì„ ê¸°ë°˜ìœ¼ë¡œ í•˜ëŠ” ì›í•˜ëŠ” ì¤‘ë ¥(ì•„ë˜ë¡œì˜ í˜).
+	[Tooltip("í”Œë ˆì´ì–´ì˜ ì¤‘ë ¥ ê°•ë„ë¥¼ ì¤‘ë ¥ì˜ ë°°ìˆ˜ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.\n(ProjectSettings/Physics2Dì—ì„œ ì„¤ì •).\ní”Œë ˆì´ì–´ì˜ rigidbody2D.gravityScaleì— ì„¤ì •ë˜ëŠ” ê°’ì…ë‹ˆë‹¤.")]
+	[HideInInspector] public float gravityScale; // í”Œë ˆì´ì–´ì˜ ì¤‘ë ¥ ê°•ë„ë¥¼ ì¤‘ë ¥ì˜ ë°°ìˆ˜ë¡œ ì„¤ì •í•©ë‹ˆë‹¤(ProjectSettings/Physics2Dì—ì„œ ì„¤ì •). ë˜í•œ í”Œë ˆì´ì–´ì˜ rigidbody2D.gravityScaleì— ì„¤ì •ë˜ëŠ” ê°’ì…ë‹ˆë‹¤.
+	[Space(5)]
+	[Tooltip("ë–¨ì–´ì§€ëŠ” ë™ì•ˆ í”Œë ˆì´ì–´ì˜ ì¤‘ë ¥ ë°°ìˆ˜ì…ë‹ˆë‹¤.")]
+	public float fallGravityMult; // ë–¨ì–´ì§€ëŠ” ë™ì•ˆ í”Œë ˆì´ì–´ ì¤‘ë ¥ ë°°ìˆ˜ì…ë‹ˆë‹¤.
+	[Tooltip("ë–¨ì–´ì§ˆ ë•Œ í”Œë ˆì´ì–´ì˜ ìµœëŒ€ ë‚™í•˜ ì†ë„(ìµœëŒ€ ì†ë ¥)ì…ë‹ˆë‹¤.")]
+	public float maxFallSpeed; // ë–¨ì–´ì§ˆ ë•Œ í”Œë ˆì´ì–´ì˜ ìµœëŒ€ ë‚™í•˜ ì†ë„(ìµœëŒ€ ì†ë ¥).
+	[Space(5)]
+	[Tooltip("í”Œë ˆì´ì–´ê°€ ë–¨ì–´ì§€ê³  ì•„ë˜ ì…ë ¥ì´ ëˆŒë¦° ê²½ìš° í”Œë ˆì´ì–´ ì¤‘ë ¥ ë°°ìˆ˜ì˜ í° ë°°ìˆ˜ì…ë‹ˆë‹¤.\nCelesteì™€ ê°™ì€ ê²Œì„ì—ì„œ ë³¼ ìˆ˜ ìˆìœ¼ë©°, í”Œë ˆì´ì–´ê°€ ì›í•œë‹¤ë©´ ì¶”ê°€ë¡œ ë¹ ë¥´ê²Œ ë–¨ì–´ì§ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤.")]
+	public float fastFallGravityMult; // í”Œë ˆì´ì–´ê°€ ë–¨ì–´ì§€ê³  ì•„ë˜ ì…ë ¥ì´ ëˆŒë¦° ê²½ìš° í”Œë ˆì´ì–´ ì¤‘ë ¥ ë°°ìˆ˜ì˜ í° ë°°ìˆ˜ì…ë‹ˆë‹¤. Celesteì™€ ê°™ì€ ê²Œì„ì—ì„œ ë³¼ ìˆ˜ ìˆìœ¼ë©°, í”Œë ˆì´ì–´ê°€ ì›í•œë‹¤ë©´ ì¶”ê°€ë¡œ ë¹ ë¥´ê²Œ ë–¨ì–´ì§ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	[Tooltip("ë¹ ë¥¸ ë‚™í•˜ë¥¼ ìˆ˜í–‰í•  ë•Œ í”Œë ˆì´ì–´ì˜ ìµœëŒ€ ë‚™í•˜ ì†ë„(ìµœëŒ€ ì†ë ¥)ì…ë‹ˆë‹¤.")]
+	public float maxFastFallSpeed; // ë¹ ë¥¸ ë‚™í•˜ë¥¼ ìˆ˜í–‰í•  ë•Œ í”Œë ˆì´ì–´ì˜ ìµœëŒ€ ë‚™í•˜ ì†ë„(ìµœëŒ€ ì†ë ¥).
 
-    [Space(20)]
+	[Space(20)]
 
-    [Header("´Ş¸®±â")]
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ µµ´ŞÇÏ±â¸¦ ¿øÇÏ´Â ¸ñÇ¥ ¼ÓµµÀÔ´Ï´Ù.")]
-    public float runMaxSpeed; // ÇÃ·¹ÀÌ¾î°¡ µµ´ŞÇÏ±â¸¦ ¿øÇÏ´Â ¸ñÇ¥ ¼ÓµµÀÔ´Ï´Ù.
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ ÃÖ´ë ¼Óµµ¿¡ °¡¼ÓÇÏ´Â ¼Óµµ·Î,\nrunMaxSpeed·Î ¼³Á¤ÇÏ¿© ¼Óµµ°¡ Áï½Ã 0À¸·Î °¨¼ÒÇÏµµ·Ï ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.")]
-    public float runAcceleration; // ÇÃ·¹ÀÌ¾î°¡ ÃÖ´ë ¼Óµµ¿¡ °¡¼ÓÇÏ´Â ¼Óµµ·Î, runMaxSpeed·Î ¼³Á¤ÇÏ¿© ¼Óµµ°¡ Áï½Ã 0À¸·Î °¨¼ÒÇÏµµ·Ï ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-    [HideInInspector] public float runAccelAmount; // ÇÃ·¹ÀÌ¾î¿¡ Àû¿ëµÇ´Â ½ÇÁ¦ Èû(speedDiff¿Í °öÇÔ).
-    [Tooltip("ÇöÀç ¼Óµµ¿¡¼­ ÇÃ·¹ÀÌ¾î°¡ °¨¼ÓÇÏ´Â ¼Óµµ·Î,\nrunMaxSpeed·Î ¼³Á¤ÇÏ¿© ¼Óµµ°¡ Áï½Ã 0À¸·Î °¨¼ÒÇÏµµ·Ï ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.")]
-    public float runDecceleration; // ÇöÀç ¼Óµµ¿¡¼­ ÇÃ·¹ÀÌ¾î°¡ °¨¼ÓÇÏ´Â ¼Óµµ·Î, runMaxSpeed·Î ¼³Á¤ÇÏ¿© ¼Óµµ°¡ Áï½Ã 0À¸·Î °¨¼ÒÇÏµµ·Ï ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-    [HideInInspector] public float runDeccelAmount; // ÇÃ·¹ÀÌ¾î¿¡ Àû¿ëµÇ´Â ½ÇÁ¦ Èû(speedDiff¿Í °öÇÔ).
-    [Space(5)]
-    [Tooltip("°øÁß¿¡¼­ °¡¼Óµµ ºñÀ²¿¡ Àû¿ëµÇ´Â °ö¼ÀÀÚÀÔ´Ï´Ù.")]
-    [Range(0f, 1)] public float accelInAir; // °øÁß¿¡¼­ °¡¼Óµµ ºñÀ²¿¡ Àû¿ëµÇ´Â °ö¼ÀÀÚÀÔ´Ï´Ù.
-    [Tooltip("°øÁß¿¡¼­ °¨¼Óµµ ºñÀ²¿¡ Àû¿ëµÇ´Â °ö¼ÀÀÚÀÔ´Ï´Ù.")]
-    [Range(0f, 1)] public float deccelInAir;
-    [Space(5)]
-    [Tooltip("¸ğ¸àÅÒÀ» º¸Á¸ÇÒÁö ¿©ºÎ¸¦ °áÁ¤ÇÕ´Ï´Ù.")]
-    public bool doConserveMomentum = true;
+	[Header("ë‹¬ë¦¬ê¸°")]
+	[Tooltip("í”Œë ˆì´ì–´ê°€ ë„ë‹¬í•˜ê¸°ë¥¼ ì›í•˜ëŠ” ëª©í‘œ ì†ë„ì…ë‹ˆë‹¤.")]
+	public float runMaxSpeed; // í”Œë ˆì´ì–´ê°€ ë„ë‹¬í•˜ê¸°ë¥¼ ì›í•˜ëŠ” ëª©í‘œ ì†ë„ì…ë‹ˆë‹¤.
+	[Tooltip("í”Œë ˆì´ì–´ê°€ ìµœëŒ€ ì†ë„ì— ê°€ì†í•˜ëŠ” ì†ë„ë¡œ,\nrunMaxSpeedë¡œ ì„¤ì •í•˜ì—¬ ì†ë„ê°€ ì¦‰ì‹œ 0ìœ¼ë¡œ ê°ì†Œí•˜ë„ë¡ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.")]
+	public float runAcceleration; // í”Œë ˆì´ì–´ê°€ ìµœëŒ€ ì†ë„ì— ê°€ì†í•˜ëŠ” ì†ë„ë¡œ, runMaxSpeedë¡œ ì„¤ì •í•˜ì—¬ ì†ë„ê°€ ì¦‰ì‹œ 0ìœ¼ë¡œ ê°ì†Œí•˜ë„ë¡ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	[HideInInspector] public float runAccelAmount; // í”Œë ˆì´ì–´ì— ì ìš©ë˜ëŠ” ì‹¤ì œ í˜(speedDiffì™€ ê³±í•¨).
+	[Tooltip("í˜„ì¬ ì†ë„ì—ì„œ í”Œë ˆì´ì–´ê°€ ê°ì†í•˜ëŠ” ì†ë„ë¡œ,\nrunMaxSpeedë¡œ ì„¤ì •í•˜ì—¬ ì†ë„ê°€ ì¦‰ì‹œ 0ìœ¼ë¡œ ê°ì†Œí•˜ë„ë¡ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.")]
+	public float runDecceleration; // í˜„ì¬ ì†ë„ì—ì„œ í”Œë ˆì´ì–´ê°€ ê°ì†í•˜ëŠ” ì†ë„ë¡œ, runMaxSpeedë¡œ ì„¤ì •í•˜ì—¬ ì†ë„ê°€ ì¦‰ì‹œ 0ìœ¼ë¡œ ê°ì†Œí•˜ë„ë¡ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	[HideInInspector] public float runDeccelAmount; // í”Œë ˆì´ì–´ì— ì ìš©ë˜ëŠ” ì‹¤ì œ í˜(speedDiffì™€ ê³±í•¨).
+	[Space(5)]
+	[Tooltip("ê³µì¤‘ì—ì„œ ê°€ì†ë„ ë¹„ìœ¨ì— ì ìš©ë˜ëŠ” ê³±ì…ˆìì…ë‹ˆë‹¤.")]
+	[Range(0f, 1)] public float accelInAir; // ê³µì¤‘ì—ì„œ ê°€ì†ë„ ë¹„ìœ¨ì— ì ìš©ë˜ëŠ” ê³±ì…ˆìì…ë‹ˆë‹¤.
+	[Tooltip("ê³µì¤‘ì—ì„œ ê°ì†ë„ ë¹„ìœ¨ì— ì ìš©ë˜ëŠ” ê³±ì…ˆìì…ë‹ˆë‹¤.")]
+	[Range(0f, 1)] public float deccelInAir;
+	[Space(5)]
+	[Tooltip("ëª¨ë©˜í…€ì„ ë³´ì¡´í• ì§€ ì—¬ë¶€ë¥¼ ê²°ì •í•©ë‹ˆë‹¤.")]
+	public bool doConserveMomentum = true;
 
-    [Space(20)]
+	[Space(20)]
 
-    [Header("Á¡ÇÁ")]
-    [Tooltip("ÇÃ·¹ÀÌ¾îÀÇ Á¡ÇÁ ³ôÀÌÀÔ´Ï´Ù.")]
-    public float jumpHeight; // ÇÃ·¹ÀÌ¾îÀÇ Á¡ÇÁ ³ôÀÌÀÔ´Ï´Ù.
-    [Tooltip("Á¡ÇÁ ÈûÀ» Àû¿ëÇÏ°í ¿øÇÏ´Â Á¡ÇÁ ³ôÀÌ¿¡ µµ´ŞÇÏ´Â ½Ã°£ÀÔ´Ï´Ù.\nÀÌ·¯ÇÑ °ªÀº ¶ÇÇÑ ÇÃ·¹ÀÌ¾îÀÇ Áß·Â ¹× Á¡ÇÁ ÈûÀ» Á¦¾îÇÕ´Ï´Ù.")]
-    public float jumpTimeToApex; // Á¡ÇÁ ÈûÀ» Àû¿ëÇÏ°í ¿øÇÏ´Â Á¡ÇÁ ³ôÀÌ¿¡ µµ´ŞÇÏ´Â ½Ã°£ÀÔ´Ï´Ù. ÀÌ·¯ÇÑ °ªÀº ¶ÇÇÑ ÇÃ·¹ÀÌ¾îÀÇ Áß·Â ¹× Á¡ÇÁ ÈûÀ» Á¦¾îÇÕ´Ï´Ù.
-    [HideInInspector] public float jumpForce; // ÇÃ·¹ÀÌ¾î¿¡°Ô Àû¿ëµÇ´Â ½ÇÁ¦ Èû(À§ÂÊÀ¸·Î Á¡ÇÁÇÒ ¶§).
+	[Header("ì í”„")]
+	[Tooltip("í”Œë ˆì´ì–´ì˜ ì í”„ ë†’ì´ì…ë‹ˆë‹¤.")]
+	public float jumpHeight; // í”Œë ˆì´ì–´ì˜ ì í”„ ë†’ì´ì…ë‹ˆë‹¤.
+	[Tooltip("ì í”„ í˜ì„ ì ìš©í•˜ê³  ì›í•˜ëŠ” ì í”„ ë†’ì´ì— ë„ë‹¬í•˜ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.\nì´ëŸ¬í•œ ê°’ì€ ë˜í•œ í”Œë ˆì´ì–´ì˜ ì¤‘ë ¥ ë° ì í”„ í˜ì„ ì œì–´í•©ë‹ˆë‹¤.")]
+	public float jumpTimeToApex; // ì í”„ í˜ì„ ì ìš©í•˜ê³  ì›í•˜ëŠ” ì í”„ ë†’ì´ì— ë„ë‹¬í•˜ëŠ” ì‹œê°„ì…ë‹ˆë‹¤. ì´ëŸ¬í•œ ê°’ì€ ë˜í•œ í”Œë ˆì´ì–´ì˜ ì¤‘ë ¥ ë° ì í”„ í˜ì„ ì œì–´í•©ë‹ˆë‹¤.
+	[HideInInspector] public float jumpForce; // í”Œë ˆì´ì–´ì—ê²Œ ì ìš©ë˜ëŠ” ì‹¤ì œ í˜(ìœ„ìª½ìœ¼ë¡œ ì í”„í•  ë•Œ).
 
-    [Header("µÎ Á¾·ùÀÇ Á¡ÇÁ")]
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ Á¡ÇÁ ¹öÆ°À» ³õÀ» ¶§ Áß·ÂÀ» Áõ°¡½ÃÅ°´Â ¹è¼öÀÔ´Ï´Ù.")]
-    public float jumpCutGravityMult; // ÇÃ·¹ÀÌ¾î°¡ Á¡ÇÁ ¹öÆ°À» ³õÀ» ¶§ Áß·ÂÀ» Áõ°¡½ÃÅ°´Â ¹è¼öÀÔ´Ï´Ù.
-    [Tooltip("Á¡ÇÁÀÇ Á¤Á¡(¿øÇÏ´Â ÃÖ´ë ³ôÀÌ)¿¡ °¡±î¿ï ¶§ Áß·ÂÀ» ÁÙÀÌ´Â ¹è¼öÀÔ´Ï´Ù.")]
-    [Range(0f, 1)] public float jumpHangGravityMult; // Á¡ÇÁÀÇ Á¤Á¡(¿øÇÏ´Â ÃÖ´ë ³ôÀÌ)¿¡ °¡±î¿ï ¶§ Áß·ÂÀ» ÁÙÀÌ´Â ¹è¼öÀÔ´Ï´Ù.
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ Ãß°¡·Î 'Á¡ÇÁ Çà'À» °æÇèÇÏ´Â °æ¿ìÀÔ´Ï´Ù.\nÇÃ·¹ÀÌ¾îÀÇ velocity.y´Â Á¡ÇÁ Á¤Á¡¿¡¼­ °¡Àå 0¿¡ °¡±õ½À´Ï´Ù(ÆÄ¶óº¼¶ó ¶Ç´Â ÀÌÂ÷ ÇÔ¼öÀÇ ±â¿ï±â¸¦ »ı°¢ÇØº¸¼¼¿ä).")]
-    public float jumpHangTimeThreshold; // ÇÃ·¹ÀÌ¾î°¡ Ãß°¡·Î 'Á¡ÇÁ Çà'À» °æÇèÇÏ´Â °æ¿ìÀÔ´Ï´Ù. ÇÃ·¹ÀÌ¾îÀÇ velocity.y´Â Á¡ÇÁ Á¤Á¡¿¡¼­ °¡Àå 0¿¡ °¡±õ½À´Ï´Ù(ÆÄ¶óº¼¶ó ¶Ç´Â ÀÌÂ÷ ÇÔ¼öÀÇ ±â¿ï±â¸¦ »ı°¢ÇØº¸¼¼¿ä).
-    [Space(0.5f)]
-    [Tooltip("Á¡ÇÁ Á¤Á¡¿¡ °¡±î¿ï ¶§ °¡¼Óµµ¿¡ Àû¿ëµÇ´Â ¹è¼öÀÔ´Ï´Ù.")]
-    public float jumpHangAccelerationMult;
-    [Tooltip("Á¡ÇÁ Á¤Á¡¿¡ °¡±î¿ï ¶§ ÃÖ´ë ¼Óµµ¿¡ Àû¿ëµÇ´Â ¹è¼öÀÔ´Ï´Ù.")]
-    public float jumpHangMaxSpeedMult;
+	[Header("ë‘ ì¢…ë¥˜ì˜ ì í”„")]
+	[Tooltip("í”Œë ˆì´ì–´ê°€ ì í”„ ë²„íŠ¼ì„ ë†“ì„ ë•Œ ì¤‘ë ¥ì„ ì¦ê°€ì‹œí‚¤ëŠ” ë°°ìˆ˜ì…ë‹ˆë‹¤.")]
+	public float jumpCutGravityMult; // í”Œë ˆì´ì–´ê°€ ì í”„ ë²„íŠ¼ì„ ë†“ì„ ë•Œ ì¤‘ë ¥ì„ ì¦ê°€ì‹œí‚¤ëŠ” ë°°ìˆ˜ì…ë‹ˆë‹¤.
+	[Tooltip("ì í”„ì˜ ì •ì (ì›í•˜ëŠ” ìµœëŒ€ ë†’ì´)ì— ê°€ê¹Œìš¸ ë•Œ ì¤‘ë ¥ì„ ì¤„ì´ëŠ” ë°°ìˆ˜ì…ë‹ˆë‹¤.")]
+	[Range(0f, 1)] public float jumpHangGravityMult; // ì í”„ì˜ ì •ì (ì›í•˜ëŠ” ìµœëŒ€ ë†’ì´)ì— ê°€ê¹Œìš¸ ë•Œ ì¤‘ë ¥ì„ ì¤„ì´ëŠ” ë°°ìˆ˜ì…ë‹ˆë‹¤.
+	[Tooltip("í”Œë ˆì´ì–´ê°€ ì¶”ê°€ë¡œ 'ì í”„ í–‰'ì„ ê²½í—˜í•˜ëŠ” ê²½ìš°ì…ë‹ˆë‹¤.\ní”Œë ˆì´ì–´ì˜ velocity.yëŠ” ì í”„ ì •ì ì—ì„œ ê°€ì¥ 0ì— ê°€ê¹ìŠµë‹ˆë‹¤(íŒŒë¼ë³¼ë¼ ë˜ëŠ” ì´ì°¨ í•¨ìˆ˜ì˜ ê¸°ìš¸ê¸°ë¥¼ ìƒê°í•´ë³´ì„¸ìš”).")]
+	public float jumpHangTimeThreshold; // í”Œë ˆì´ì–´ê°€ ì¶”ê°€ë¡œ 'ì í”„ í–‰'ì„ ê²½í—˜í•˜ëŠ” ê²½ìš°ì…ë‹ˆë‹¤. í”Œë ˆì´ì–´ì˜ velocity.yëŠ” ì í”„ ì •ì ì—ì„œ ê°€ì¥ 0ì— ê°€ê¹ìŠµë‹ˆë‹¤(íŒŒë¼ë³¼ë¼ ë˜ëŠ” ì´ì°¨ í•¨ìˆ˜ì˜ ê¸°ìš¸ê¸°ë¥¼ ìƒê°í•´ë³´ì„¸ìš”).
+	[Space(0.5f)]
+	[Tooltip("ì í”„ ì •ì ì— ê°€ê¹Œìš¸ ë•Œ ê°€ì†ë„ì— ì ìš©ë˜ëŠ” ë°°ìˆ˜ì…ë‹ˆë‹¤.")]
+	public float jumpHangAccelerationMult;
+	[Tooltip("ì í”„ ì •ì ì— ê°€ê¹Œìš¸ ë•Œ ìµœëŒ€ ì†ë„ì— ì ìš©ë˜ëŠ” ë°°ìˆ˜ì…ë‹ˆë‹¤.")]
+	public float jumpHangMaxSpeedMult;
 
-    [Header("º® Á¡ÇÁ")]
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ º® Á¡ÇÁÇÒ ¶§ Àû¿ëµÇ´Â ½ÇÁ¦ ÈûÀÔ´Ï´Ù.")]
-    public Vector2 wallJumpForce; // ÇÃ·¹ÀÌ¾î°¡ º® Á¡ÇÁÇÒ ¶§ Àû¿ëµÇ´Â ½ÇÁ¦ ÈûÀÔ´Ï´Ù.
-    [Space(5)]
-    [Tooltip("º®À» Å¸´Â µ¿¾È ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓ È¿°ú¸¦ ÁÙÀÔ´Ï´Ù.")]
-    [Range(0f, 1f)] public float wallJumpRunLerp; // º®À» Å¸´Â µ¿¾È ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓ È¿°ú¸¦ ÁÙÀÔ´Ï´Ù.
-    [Tooltip("º® Á¡ÇÁ ÈÄ ÀÏÁ¤ ½Ã°£ µ¿¾È ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓÀ» ´À¸®°ÔÇÕ´Ï´Ù.")]
-    [Range(0f, 1.5f)] public float wallJumpTime; // º® Á¡ÇÁ ÈÄ ÀÏÁ¤ ½Ã°£ µ¿¾È ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓÀ» ´À¸®°ÔÇÕ´Ï´Ù.
-    [Tooltip("º® Á¡ÇÁ ¹æÇâÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ È¸ÀüÇÕ´Ï´Ù.")]
-    public bool doTurnOnWallJump; // º® Á¡ÇÁ ¹æÇâÀ¸·Î ÇÃ·¹ÀÌ¾î°¡ È¸ÀüÇÕ´Ï´Ù.
+	[Header("ë²½ ì í”„")]
+	[Tooltip("í”Œë ˆì´ì–´ê°€ ë²½ ì í”„í•  ë•Œ ì ìš©ë˜ëŠ” ì‹¤ì œ í˜ì…ë‹ˆë‹¤.")]
+	public Vector2 wallJumpForce; // í”Œë ˆì´ì–´ê°€ ë²½ ì í”„í•  ë•Œ ì ìš©ë˜ëŠ” ì‹¤ì œ í˜ì…ë‹ˆë‹¤.
+	[Space(5)]
+	[Tooltip("ë²½ì„ íƒ€ëŠ” ë™ì•ˆ í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ íš¨ê³¼ë¥¼ ì¤„ì…ë‹ˆë‹¤.")]
+	[Range(0f, 1f)] public float wallJumpRunLerp; // ë²½ì„ íƒ€ëŠ” ë™ì•ˆ í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ íš¨ê³¼ë¥¼ ì¤„ì…ë‹ˆë‹¤.
+	[Tooltip("ë²½ ì í”„ í›„ ì¼ì • ì‹œê°„ ë™ì•ˆ í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ì„ ëŠë¦¬ê²Œí•©ë‹ˆë‹¤.")]
+	[Range(0f, 1.5f)] public float wallJumpTime; // ë²½ ì í”„ í›„ ì¼ì • ì‹œê°„ ë™ì•ˆ í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ì„ ëŠë¦¬ê²Œí•©ë‹ˆë‹¤.
+	[Tooltip("ë²½ ì í”„ ë°©í–¥ìœ¼ë¡œ í”Œë ˆì´ì–´ê°€ íšŒì „í•©ë‹ˆë‹¤.")]
+	public bool doTurnOnWallJump; // ë²½ ì í”„ ë°©í–¥ìœ¼ë¡œ í”Œë ˆì´ì–´ê°€ íšŒì „í•©ë‹ˆë‹¤.
 
-    [Space(20)]
+	[Space(20)]
 
-    [Header("½½¶óÀÌµå")]
-    [Tooltip("½½¶óÀÌµå ¼ÓµµÀÔ´Ï´Ù.")]
-    public float slideSpeed;
-    [Tooltip("½½¶óÀÌµå °¡¼ÓµµÀÔ´Ï´Ù.")]
-    public float slideAccel;
+	[Header("ìŠ¬ë¼ì´ë“œ")]
+	[Tooltip("ìŠ¬ë¼ì´ë“œ ì†ë„ì…ë‹ˆë‹¤.")]
+	public float slideSpeed;
+	[Tooltip("ìŠ¬ë¼ì´ë“œ ê°€ì†ë„ì…ë‹ˆë‹¤.")]
+	public float slideAccel;
 
-    [Header("µµ¿ò ±â´É")]
-    [Tooltip("ÇÃ·§Æû¿¡¼­ ¶³¾îÁø ÈÄ¿¡µµ Á¡ÇÁÇÒ ¼ö ÀÖ´Â °ü´ëÇÑ ½Ã°£ÀÔ´Ï´Ù.")]
-    [Range(0.01f, 0.5f)] public float coyoteTime; // ÇÃ·§Æû¿¡¼­ ¶³¾îÁø ÈÄ¿¡µµ Á¡ÇÁÇÒ ¼ö ÀÖ´Â °ü´ëÇÑ ½Ã°£
-    [Tooltip("Á¡ÇÁ¸¦ ´©¸¥ ÈÄ ¿ä±¸ »çÇ×(¿¹: Áö¸é¿¡ ¼­ ÀÖ´Â °Í)ÀÌ ÃæÁ·µÇ¸é ÀÚµ¿À¸·Î Á¡ÇÁµÇ´Â Á¡ÇÁ ¹öÆÛ ½Ã°£.")]
-    [Range(0.01f, 0.5f)] public float jumpInputBufferTime; // Á¡ÇÁ¸¦ ´©¸¥ ÈÄ ¿ä±¸ »çÇ×(¿¹: Áö¸é¿¡ ¼­ ÀÖ´Â °Í)ÀÌ ÃæÁ·µÇ¸é ÀÚµ¿À¸·Î Á¡ÇÁµÇ´Â Á¡ÇÁ ¹öÆÛ ½Ã°£.
+	[Header("ë„ì›€ ê¸°ëŠ¥")]
+	[Tooltip("í”Œë«í¼ì—ì„œ ë–¨ì–´ì§„ í›„ì—ë„ ì í”„í•  ìˆ˜ ìˆëŠ” ê´€ëŒ€í•œ ì‹œê°„ì…ë‹ˆë‹¤.")]
+	[Range(0.01f, 0.5f)] public float coyoteTime; // í”Œë«í¼ì—ì„œ ë–¨ì–´ì§„ í›„ì—ë„ ì í”„í•  ìˆ˜ ìˆëŠ” ê´€ëŒ€í•œ ì‹œê°„
+	[Tooltip("ì í”„ë¥¼ ëˆ„ë¥¸ í›„ ìš”êµ¬ ì‚¬í•­(ì˜ˆ: ì§€ë©´ì— ì„œ ìˆëŠ” ê²ƒ)ì´ ì¶©ì¡±ë˜ë©´ ìë™ìœ¼ë¡œ ì í”„ë˜ëŠ” ì í”„ ë²„í¼ ì‹œê°„.")]
+	[Range(0.01f, 0.5f)] public float jumpInputBufferTime; // ì í”„ë¥¼ ëˆ„ë¥¸ í›„ ìš”êµ¬ ì‚¬í•­(ì˜ˆ: ì§€ë©´ì— ì„œ ìˆëŠ” ê²ƒ)ì´ ì¶©ì¡±ë˜ë©´ ìë™ìœ¼ë¡œ ì í”„ë˜ëŠ” ì í”„ ë²„í¼ ì‹œê°„.
 
-    [Space(20)]
+	[Space(20)]
 
-    [Header("´ë½Ã")]
-    [Tooltip("´ë½Ã °¡´É È½¼öÀÔ´Ï´Ù.")]
-    public int dashAmount;
-    [Tooltip("´ë½Ã ¼ÓµµÀÔ´Ï´Ù.")]
-    public float dashSpeed;
-    [Tooltip("´ë½Ã¸¦ ´©¸£°í ¹æÇâ ÀÔ·ÂÀ» ÀĞ±â Àü¿¡ °ÔÀÓÀÌ ¾ó¸¶ µ¿¾È ¸ØÃß´ÂÁö¿¡ ´ëÇÑ Áö¼Ó ½Ã°£ÀÔ´Ï´Ù.")]
-    public float dashSleepTime; // ´ë½Ã¸¦ ´©¸£°í ¹æÇâ ÀÔ·ÂÀ» ÀĞ±â Àü¿¡ °ÔÀÓÀÌ ¾ó¸¶ µ¿¾È ¸ØÃß´ÂÁö¿¡ ´ëÇÑ Áö¼Ó ½Ã°£
-    [Space(5)]
-    [Tooltip("´ë½Ã °ø°İ¿¡ °É¸®´Â ½Ã°£ÀÔ´Ï´Ù.")]
-    public float dashAttackTime;
-    [Space(5)]
-    [Tooltip("ÃÊ±â µå·¡±× ´Ü°è¸¦ ¸¶Ä£ ÈÄ Ç¥ÁØ »óÅÂ(¶Ç´Â ÀÓÀÇÀÇ »óÅÂ)·ÎÀÇ ºÎµå·¯¿î ÀüÈ¯À» À§ÇØ ´ë½Ã°¡ ³¡³­ ½Ã°£ÀÔ´Ï´Ù.")]
-    public float dashEndTime; // ÃÊ±â µå·¡±× ´Ü°è¸¦ ¸¶Ä£ ÈÄ Ç¥ÁØ »óÅÂ(¶Ç´Â ÀÓÀÇÀÇ »óÅÂ)·ÎÀÇ ºÎµå·¯¿î ÀüÈ¯À» À§ÇØ ´ë½Ã°¡ ³¡³­ ½Ã°£
-    [Tooltip("ÇÃ·¹ÀÌ¾î¸¦ ´À¸®°Ô ¸¸µé¾î ´ë½Ã ¹İÀÀÀÌ ´õ ÁÁ¾ÆÁö°Ô ÇÕ´Ï´Ù.")]
-    public Vector2 dashEndSpeed; // ÇÃ·¹ÀÌ¾î¸¦ ´À¸®°Ô ¸¸µé¾î ´ë½Ã ¹İÀÀÀÌ ´õ ÁÁ¾ÆÁö°Ô ÇÕ´Ï´Ù(¼¼·¹½ºÅ×¿¡¼­ »ç¿ëµÊ).
-    [Tooltip("´ë½Ã Áß ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓÀÇ ¿µÇâÀ» ÁÙÀÔ´Ï´Ù.")]
-    [Range(0f, 1f)] public float dashEndRunLerp; // ´ë½Ã Áß ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓÀÇ ¿µÇâÀ» ÁÙÀÔ´Ï´Ù.
-    [Space(5)]
-    [Tooltip("´ë½Ã °¡´É È½¼ö¸¦ ´Ù½Ã Ã¤¿ì´Â µ¥ °É¸®´Â ½Ã°£ÀÔ´Ï´Ù.")]
-    public float dashRefillTime;
-    [Space(5)]
-    [Tooltip("´ë½Ã ÀÔ·Â ¹öÆÛ ½Ã°£ÀÔ´Ï´Ù.")]
-    [Range(0.01f, 0.5f)] public float dashInputBufferTime;
+	[Header("ëŒ€ì‹œ")]
+	[Tooltip("ëŒ€ì‹œ ê°€ëŠ¥ íšŸìˆ˜ì…ë‹ˆë‹¤.")]
+	public int dashAmount;
+	[Tooltip("ëŒ€ì‹œ ì†ë„ì…ë‹ˆë‹¤.")]
+	public float dashSpeed;
+	[Tooltip("ëŒ€ì‹œë¥¼ ëˆ„ë¥´ê³  ë°©í–¥ ì…ë ¥ì„ ì½ê¸° ì „ì— ê²Œì„ì´ ì–¼ë§ˆ ë™ì•ˆ ë©ˆì¶”ëŠ”ì§€ì— ëŒ€í•œ ì§€ì† ì‹œê°„ì…ë‹ˆë‹¤.")]
+	public float dashSleepTime; // ëŒ€ì‹œë¥¼ ëˆ„ë¥´ê³  ë°©í–¥ ì…ë ¥ì„ ì½ê¸° ì „ì— ê²Œì„ì´ ì–¼ë§ˆ ë™ì•ˆ ë©ˆì¶”ëŠ”ì§€ì— ëŒ€í•œ ì§€ì† ì‹œê°„
+	[Space(5)]
+	[Tooltip("ëŒ€ì‹œ ê³µê²©ì— ê±¸ë¦¬ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.")]
+	public float dashAttackTime;
+	[Space(5)]
+	[Tooltip("ì´ˆê¸° ë“œë˜ê·¸ ë‹¨ê³„ë¥¼ ë§ˆì¹œ í›„ í‘œì¤€ ìƒíƒœ(ë˜ëŠ” ì„ì˜ì˜ ìƒíƒœ)ë¡œì˜ ë¶€ë“œëŸ¬ìš´ ì „í™˜ì„ ìœ„í•´ ëŒ€ì‹œê°€ ëë‚œ ì‹œê°„ì…ë‹ˆë‹¤.")]
+	public float dashEndTime; // ì´ˆê¸° ë“œë˜ê·¸ ë‹¨ê³„ë¥¼ ë§ˆì¹œ í›„ í‘œì¤€ ìƒíƒœ(ë˜ëŠ” ì„ì˜ì˜ ìƒíƒœ)ë¡œì˜ ë¶€ë“œëŸ¬ìš´ ì „í™˜ì„ ìœ„í•´ ëŒ€ì‹œê°€ ëë‚œ ì‹œê°„
+	[Tooltip("í”Œë ˆì´ì–´ë¥¼ ëŠë¦¬ê²Œ ë§Œë“¤ì–´ ëŒ€ì‹œ ë°˜ì‘ì´ ë” ì¢‹ì•„ì§€ê²Œ í•©ë‹ˆë‹¤.")]
+	public Vector2 dashEndSpeed; // í”Œë ˆì´ì–´ë¥¼ ëŠë¦¬ê²Œ ë§Œë“¤ì–´ ëŒ€ì‹œ ë°˜ì‘ì´ ë” ì¢‹ì•„ì§€ê²Œ í•©ë‹ˆë‹¤(ì„¸ë ˆìŠ¤í…Œì—ì„œ ì‚¬ìš©ë¨).
+	[Tooltip("ëŒ€ì‹œ ì¤‘ í”Œë ˆì´ì–´ ì›€ì§ì„ì˜ ì˜í–¥ì„ ì¤„ì…ë‹ˆë‹¤.")]
+	[Range(0f, 1f)] public float dashEndRunLerp; // ëŒ€ì‹œ ì¤‘ í”Œë ˆì´ì–´ ì›€ì§ì„ì˜ ì˜í–¥ì„ ì¤„ì…ë‹ˆë‹¤.
+	[Space(5)]
+	[Tooltip("ëŒ€ì‹œ ê°€ëŠ¥ íšŸìˆ˜ë¥¼ ë‹¤ì‹œ ì±„ìš°ëŠ” ë° ê±¸ë¦¬ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.")]
+	public float dashRefillTime;
+	[Space(5)]
+	[Tooltip("ëŒ€ì‹œ ì…ë ¥ ë²„í¼ ì‹œê°„ì…ë‹ˆë‹¤.")]
+	[Range(0.01f, 0.5f)] public float dashInputBufferTime;
 
-    // Unity Äİ¹é, Inspector°¡ ¾÷µ¥ÀÌÆ®µÉ ¶§ È£ÃâµË´Ï´Ù.
-    private void OnValidate()
-    {
-        // Áß·Â °­µµ °è»ê¿¡ »ç¿ëµÇ´Â °ø½Ä(Áß·Â = 2 * jumpHeight / timeToJumpApex^2)À» »ç¿ëÇÏ¿© Áß·Â °­µµ¸¦ °è»êÇÕ´Ï´Ù.
-        gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
+	// Unity ì½œë°±, Inspectorê°€ ì—…ë°ì´íŠ¸ë  ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
+	private void OnValidate()
+	{
+		// ì¤‘ë ¥ ê°•ë„ ê³„ì‚°ì— ì‚¬ìš©ë˜ëŠ” ê³µì‹(ì¤‘ë ¥ = 2 * jumpHeight / timeToJumpApex^2)ì„ ì‚¬ìš©í•˜ì—¬ ì¤‘ë ¥ ê°•ë„ë¥¼ ê³„ì‚°í•©ë‹ˆë‹¤.
+		gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
 
-        // rigidbodyÀÇ Áß·Â ½ºÄÉÀÏÀ» °è»êÇÕ´Ï´Ù(Áï, unityÀÇ Áß·Â °ª¿¡ ´ëÇÑ Áß·Â °­µµÀÔ´Ï´Ù, project settings/Physics2D ÂüÁ¶).
-        gravityScale = gravityStrength / Physics2D.gravity.y;
+		// rigidbodyì˜ ì¤‘ë ¥ ìŠ¤ì¼€ì¼ì„ ê³„ì‚°í•©ë‹ˆë‹¤(ì¦‰, unityì˜ ì¤‘ë ¥ ê°’ì— ëŒ€í•œ ì¤‘ë ¥ ê°•ë„ì…ë‹ˆë‹¤, project settings/Physics2D ì°¸ì¡°).
+		gravityScale = gravityStrength / Physics2D.gravity.y;
 
-        // ½ÇÇà °¡¼Óµµ ¹× °¨¼Óµµ ÈûÀ» °è»êÇÕ´Ï´Ù. (Áï½Ã °¡¼Óµµ¸¦ 0À¸·Î ¼³Á¤ÇÏ·Á¸é runMaxSpeed·Î ¼³Á¤ÇÏ¼¼¿ä).
-        runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
-        runDeccelAmount = (50 * runDecceleration) / runMaxSpeed;
+		// ì‹¤í–‰ ê°€ì†ë„ ë° ê°ì†ë„ í˜ì„ ê³„ì‚°í•©ë‹ˆë‹¤. (ì¦‰ì‹œ ê°€ì†ë„ë¥¼ 0ìœ¼ë¡œ ì„¤ì •í•˜ë ¤ë©´ runMaxSpeedë¡œ ì„¤ì •í•˜ì„¸ìš”).
+		runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
+		runDeccelAmount = (50 * runDecceleration) / runMaxSpeed;
 
-        // Á¡ÇÁ Èû °è»ê¿¡ »ç¿ëµÇ´Â °ø½Ä(ÃÊ±â Á¡ÇÁ ¼Óµµ = Áß·Â * timeToJumpApex)À» »ç¿ëÇÏ¿© Á¡ÇÁ ÈûÀ» °è»êÇÕ´Ï´Ù.
-        jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
+		// ì í”„ í˜ ê³„ì‚°ì— ì‚¬ìš©ë˜ëŠ” ê³µì‹(ì´ˆê¸° ì í”„ ì†ë„ = ì¤‘ë ¥ * timeToJumpApex)ì„ ì‚¬ìš©í•˜ì—¬ ì í”„ í˜ì„ ê³„ì‚°í•©ë‹ˆë‹¤.
+		jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
 
-        #region º¯¼ö ¹üÀ§
-        runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
-        runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
-        #endregion
-    }
+		#region ë³€ìˆ˜ ë²”ìœ„
+		runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
+		runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
+		#endregion
+	}
 
-    #region COMPONENTS
-    public Rigidbody2D RB { get; private set; }
+	#region COMPONENTS
+	public Rigidbody2D RB { get; private set; }
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	//public PlayerAnimator //AnimHandler { get; private set; }
 	#endregion
@@ -189,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
 
 	#region CHECK PARAMETERS
 	//Set all of these up in the inspector
-	[Header("Checks")] 
+	[Header("Checks")]
 	[SerializeField] private Transform _groundCheckPoint;
 	//Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 	[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
@@ -197,14 +197,14 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private Transform _frontWallCheckPoint;
 	[SerializeField] private Transform _backWallCheckPoint;
 	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
-    #endregion
+	#endregion
 
-    #region LAYERS & TAGS
-    [Header("Layers & Tags")]
+	#region LAYERS & TAGS
+	[Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
 	#endregion
 
-    private void Awake()
+	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
 		//AnimHandler = GetComponent<PlayerAnimator>();
@@ -212,14 +212,14 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Start()
 	{
-		SetGravityScale( gravityScale);
+		SetGravityScale(gravityScale);
 		IsFacingRight = true;
 	}
 
 	private void Update()
 	{
-        #region TIMERS
-        LastOnGroundTime -= Time.deltaTime;
+		#region TIMERS
+		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
 		LastOnWallRightTime -= Time.deltaTime;
 		LastOnWallLeftTime -= Time.deltaTime;
@@ -235,10 +235,10 @@ public class PlayerMovement : MonoBehaviour
 		if (_moveInput.x != 0)
 			CheckDirectionToFace(_moveInput.x > 0);
 
-		if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
-        {
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
+		{
 			OnJumpInput();
-        }
+		}
 
 		if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
 		{
@@ -257,23 +257,23 @@ public class PlayerMovement : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-				if(LastOnGroundTime < -0.1f)
-                {
+				if (LastOnGroundTime < -0.1f)
+				{
 					//AnimHandler.justLanded = true;
-                }
+				}
 
-				LastOnGroundTime =  coyoteTime; //if so sets the lastGrounded to coyoteTime
-            }		
+				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
+			}
 
 			//Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
 					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
-				LastOnWallRightTime =  coyoteTime;
+				LastOnWallRightTime = coyoteTime;
 
 			//Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
 				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
-				LastOnWallLeftTime =  coyoteTime;
+				LastOnWallLeftTime = coyoteTime;
 
 			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
 			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
@@ -288,13 +288,13 @@ public class PlayerMovement : MonoBehaviour
 			_isJumpFalling = true;
 		}
 
-		if (IsWallJumping && Time.time - _wallJumpStartTime >  wallJumpTime)
+		if (IsWallJumping && Time.time - _wallJumpStartTime > wallJumpTime)
 		{
 			IsWallJumping = false;
 		}
 
 		if (LastOnGroundTime > 0 && !IsJumping && !IsWallJumping)
-        {
+		{
 			_isJumpCut = false;
 
 			_isJumpFalling = false;
@@ -333,7 +333,7 @@ public class PlayerMovement : MonoBehaviour
 		if (CanDash() && LastPressedDashTime > 0)
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
-			Sleep( dashSleepTime); 
+			Sleep(dashSleepTime);
 
 			//If not direction pressed, dash forward
 			if (_moveInput != Vector2.zero)
@@ -370,31 +370,31 @@ public class PlayerMovement : MonoBehaviour
 			else if (RB.velocity.y < 0 && _moveInput.y < 0)
 			{
 				//Much higher gravity if holding down
-				SetGravityScale( gravityScale *  fastFallGravityMult);
+				SetGravityScale(gravityScale * fastFallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, - maxFastFallSpeed));
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -maxFastFallSpeed));
 			}
 			else if (_isJumpCut)
 			{
 				//Higher gravity if jump button released
-				SetGravityScale( gravityScale *  jumpCutGravityMult);
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, - maxFallSpeed));
+				SetGravityScale(gravityScale * jumpCutGravityMult);
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -maxFallSpeed));
 			}
-			else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) <  jumpHangTimeThreshold)
+			else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < jumpHangTimeThreshold)
 			{
-				SetGravityScale( gravityScale *  jumpHangGravityMult);
+				SetGravityScale(gravityScale * jumpHangGravityMult);
 			}
 			else if (RB.velocity.y < 0)
 			{
 				//Higher gravity if falling
-				SetGravityScale( gravityScale *  fallGravityMult);
+				SetGravityScale(gravityScale * fallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, - maxFallSpeed));
+				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -maxFallSpeed));
 			}
 			else
 			{
 				//Default gravity if standing on a platform or moving upwards
-				SetGravityScale( gravityScale);
+				SetGravityScale(gravityScale);
 			}
 		}
 		else
@@ -403,33 +403,33 @@ public class PlayerMovement : MonoBehaviour
 			SetGravityScale(0);
 		}
 		#endregion
-    }
+	}
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
 		//Handle Run
 		if (!IsDashing)
 		{
 			if (IsWallJumping)
-				Run( wallJumpRunLerp);
+				Run(wallJumpRunLerp);
 			else
 				Run(1);
 		}
 		else if (_isDashAttacking)
 		{
-			Run( dashEndRunLerp);
+			Run(dashEndRunLerp);
 		}
 
 		//Handle Slide
 		if (IsSliding)
 			Slide();
-    }
+	}
 
-    #region INPUT CALLBACKS
+	#region INPUT CALLBACKS
 	//Methods which whandle input detected in Update()
-    public void OnJumpInput()
+	public void OnJumpInput()
 	{
-		LastPressedJumpTime =  jumpInputBufferTime;
+		LastPressedJumpTime = jumpInputBufferTime;
 	}
 
 	public void OnJumpUpInput()
@@ -440,38 +440,38 @@ public class PlayerMovement : MonoBehaviour
 
 	public void OnDashInput()
 	{
-		LastPressedDashTime =  dashInputBufferTime;
+		LastPressedDashTime = dashInputBufferTime;
 	}
-    #endregion
+	#endregion
 
-    #region GENERAL METHODS
-    public void SetGravityScale(float scale)
+	#region GENERAL METHODS
+	public void SetGravityScale(float scale)
 	{
 		RB.gravityScale = scale;
 	}
 
 	private void Sleep(float duration)
-    {
+	{
 		//Method used so we don't need to call StartCoroutine everywhere
 		//nameof() notation means we don't need to input a string directly.
 		//Removes chance of spelling mistakes and will improve error messages if any
 		StartCoroutine(nameof(PerformSleep), duration);
-    }
+	}
 
 	private IEnumerator PerformSleep(float duration)
-    {
+	{
 		Time.timeScale = 0;
 		yield return new WaitForSecondsRealtime(duration); //Must be Realtime since timeScale with be 0 
 		Time.timeScale = 1;
 	}
-    #endregion
+	#endregion
 
 	//MOVEMENT METHODS
-    #region RUN METHODS
-    private void Run(float lerpAmount)
+	#region RUN METHODS
+	private void Run(float lerpAmount)
 	{
 		//Calculate the direction we want to move in and our desired velocity
-		float targetSpeed = _moveInput.x *  runMaxSpeed;
+		float targetSpeed = _moveInput.x * runMaxSpeed;
 		//We can reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
@@ -481,27 +481,27 @@ public class PlayerMovement : MonoBehaviour
 		//Gets an acceleration value based on if we are accelerating (includes turning) 
 		//or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
 		if (LastOnGroundTime > 0)
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ?  runAccelAmount :  runDeccelAmount;
+			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount : runDeccelAmount;
 		else
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ?  runAccelAmount *  accelInAir :  runDeccelAmount *  deccelInAir;
+			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount * accelInAir : runDeccelAmount * deccelInAir;
 		#endregion
 
 		#region Add Bonus Jump Apex Acceleration
 		//Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
-		if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) <  jumpHangTimeThreshold)
+		if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < jumpHangTimeThreshold)
 		{
-			accelRate *=  jumpHangAccelerationMult;
-			targetSpeed *=  jumpHangMaxSpeedMult;
+			accelRate *= jumpHangAccelerationMult;
+			targetSpeed *= jumpHangMaxSpeedMult;
 		}
 		#endregion
 
 		#region Conserve Momentum
 		//We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if( doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		if (doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			//Prevent any deceleration from happening, or in other words conserve are current momentum
 			//You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
-			accelRate = 0; 
+			accelRate = 0;
 		}
 		#endregion
 
@@ -524,16 +524,16 @@ public class PlayerMovement : MonoBehaviour
 	private void Turn()
 	{
 		//stores scale and flips the player along the x axis, 
-		Vector3 scale = transform.localScale; 
+		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
 
 		IsFacingRight = !IsFacingRight;
 	}
-    #endregion
+	#endregion
 
-    #region JUMP METHODS
-    private void Jump()
+	#region JUMP METHODS
+	private void Jump()
 	{
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
@@ -543,7 +543,7 @@ public class PlayerMovement : MonoBehaviour
 		//We increase the force applied if we are falling
 		//This means we'll always feel like we jump the same amount 
 		//(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
-		float force =  jumpForce;
+		float force = jumpForce;
 		if (RB.velocity.y < 0)
 			force -= RB.velocity.y;
 
@@ -560,7 +560,7 @@ public class PlayerMovement : MonoBehaviour
 		LastOnWallLeftTime = 0;
 
 		#region Perform Wall Jump
-		Vector2 force = new Vector2( wallJumpForce.x,  wallJumpForce.y);
+		Vector2 force = new Vector2(wallJumpForce.x, wallJumpForce.y);
 		force.x *= dir; //apply force in opposite direction of wall
 
 		if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
@@ -594,9 +594,9 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(0);
 
 		//We keep the player's velocity at the dash speed during the "attack" phase (in celeste the first 0.15s)
-		while (Time.time - startTime <=  dashAttackTime)
+		while (Time.time - startTime <= dashAttackTime)
 		{
-			RB.velocity = dir.normalized *  dashSpeed;
+			RB.velocity = dir.normalized * dashSpeed;
 			//Pauses the loop until the next frame, creating something of a Update loop. 
 			//This is a cleaner implementation opposed to multiple timers and this coroutine approach is actually what is used in Celeste :D
 			yield return null;
@@ -607,10 +607,10 @@ public class PlayerMovement : MonoBehaviour
 		_isDashAttacking = false;
 
 		//Begins the "end" of our dash where we return some control to the player but still limit run acceleration (see Update() and Run())
-		SetGravityScale( gravityScale);
-		RB.velocity =  dashEndSpeed * dir.normalized;
+		SetGravityScale(gravityScale);
+		RB.velocity = dashEndSpeed * dir.normalized;
 
-		while (Time.time - startTime <=  dashEndTime)
+		while (Time.time - startTime <= dashEndTime)
 		{
 			yield return null;
 		}
@@ -624,9 +624,9 @@ public class PlayerMovement : MonoBehaviour
 	{
 		//SHoet cooldown, so we can't constantly dash along the ground, again this is the implementation in Celeste, feel free to change it up
 		_dashRefilling = true;
-		yield return new WaitForSeconds( dashRefillTime);
+		yield return new WaitForSeconds(dashRefillTime);
 		_dashRefilling = false;
-		_dashesLeft = Mathf.Min( dashAmount, _dashesLeft + 1);
+		_dashesLeft = Mathf.Min(dashAmount, _dashesLeft + 1);
 	}
 	#endregion
 
@@ -634,46 +634,46 @@ public class PlayerMovement : MonoBehaviour
 	private void Slide()
 	{
 		//We remove the remaining upwards Impulse to prevent upwards sliding
-		if(RB.velocity.y > 0)
+		if (RB.velocity.y > 0)
 		{
-		    RB.AddForce(-RB.velocity.y * Vector2.up,ForceMode2D.Impulse);
+			RB.AddForce(-RB.velocity.y * Vector2.up, ForceMode2D.Impulse);
 		}
-	
+
 		//Works the same as the Run but only in the y-axis
 		//THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
-		float speedDif =  slideSpeed - RB.velocity.y;	
-		float movement = speedDif *  slideAccel;
+		float speedDif = slideSpeed - RB.velocity.y;
+		float movement = speedDif * slideAccel;
 		//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
 		//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
 		RB.AddForce(movement * Vector2.up);
 	}
-    #endregion
+	#endregion
 
 
-    #region CHECK METHODS
-    public void CheckDirectionToFace(bool isMovingRight)
+	#region CHECK METHODS
+	public void CheckDirectionToFace(bool isMovingRight)
 	{
 		if (isMovingRight != IsFacingRight)
 			Turn();
 	}
 
-    private bool CanJump()
-    {
+	private bool CanJump()
+	{
 		return LastOnGroundTime > 0 && !IsJumping;
-    }
+	}
 
 	private bool CanWallJump()
-    {
+	{
 		return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
 			 (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
 	}
 
 	private bool CanJumpCut()
-    {
+	{
 		return IsJumping && RB.velocity.y > 0;
-    }
+	}
 
 	private bool CanWallJumpCut()
 	{
@@ -682,7 +682,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private bool CanDash()
 	{
-		if (!IsDashing && _dashesLeft <  dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
+		if (!IsDashing && _dashesLeft < dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
 		{
 			StartCoroutine(nameof(RefillDash), 1);
 		}
@@ -691,25 +691,25 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	public bool CanSlide()
-    {
+	{
 		if (LastOnWallTime > 0 && !IsJumping && !IsWallJumping && !IsDashing && LastOnGroundTime <= 0)
 			return true;
 		else
 			return false;
 	}
-    #endregion
+	#endregion
 
 
-    #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
-    {
+	#region EDITOR METHODS
+	private void OnDrawGizmosSelected()
+	{
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
 		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
-    #endregion
+	#endregion
 }
 
 // created by Dawnosaur :D
