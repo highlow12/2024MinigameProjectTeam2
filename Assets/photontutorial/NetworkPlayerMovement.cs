@@ -219,7 +219,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 		IsFacingRight = true;
 	}
 
-	private void Update()
+	public override void FixedUpdateNetwork()
 	{
         #region TIMERS
         LastOnGroundTime -= Time.deltaTime;
@@ -232,6 +232,35 @@ public class NetworkPlayerMovement : NetworkBehaviour
 		#endregion
 
 		#region INPUT HANDLER
+		if (GetInput(out NetworkInputData data)) 
+		{
+            data.direction.Normalize();
+			_moveInput.x = data.direction.x;
+            _moveInput.y = data.direction.y;
+
+            if (_moveInput.x != 0)
+                CheckDirectionToFace(_moveInput.x > 0);
+
+			if (data.buttons.IsSet(NetworkInputData.JUMP))
+			{
+                OnJumpInput();
+				Debug.Log("jump");
+            }
+
+            if (data.buttons.IsSet(NetworkInputData.JUMPUP))
+            {
+                OnJumpUpInput();
+                Debug.Log("jumpup");
+            }
+
+            if (data.buttons.IsSet(NetworkInputData.DASH))
+            {
+                OnDashInput();
+                Debug.Log("dash");
+            }
+
+        }
+		/*
 		_moveInput.x = Input.GetAxisRaw("Horizontal");
 		_moveInput.y = Input.GetAxisRaw("Vertical");
 
@@ -251,7 +280,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 		if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.K))
 		{
 			OnDashInput();
-		}
+		}*/
 		#endregion
 
 		#region COLLISION CHECKS
@@ -405,27 +434,29 @@ public class NetworkPlayerMovement : NetworkBehaviour
 			//No gravity when dashing (returns to normal once initial dashAttack phase over)
 			SetGravityScale(0);
 		}
-		#endregion
+        #endregion
+
+        //Handle Run
+        if (!IsDashing)
+        {
+            if (IsWallJumping)
+                Run(wallJumpRunLerp);
+            else
+                Run(1);
+        }
+        else if (_isDashAttacking)
+        {
+            Run(dashEndRunLerp);
+        }
+
+        //Handle Slide
+        if (IsSliding)
+            Slide();
     }
 
     private void FixedUpdate()
 	{
-		//Handle Run
-		if (!IsDashing)
-		{
-			if (IsWallJumping)
-				Run( wallJumpRunLerp);
-			else
-				Run(1);
-		}
-		else if (_isDashAttacking)
-		{
-			Run( dashEndRunLerp);
-		}
-
-		//Handle Slide
-		if (IsSliding)
-			Slide();
+		
     }
 
     #region INPUT CALLBACKS

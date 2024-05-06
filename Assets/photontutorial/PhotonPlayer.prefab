@@ -41,9 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8949332146043733894}
   - component: {fileID: 2882440647092442908}
-  - component: {fileID: 5123903439323523989}
-  - component: {fileID: 7426319129712542060}
   - component: {fileID: 7687266291543372405}
+  - component: {fileID: 7426319129712542060}
+  - component: {fileID: 5123903439323523989}
   - component: {fileID: 215579178233489932}
   m_Layer: 0
   m_Name: PhotonPlayer
@@ -98,47 +98,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5123903439323523989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219823984579655946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e690b5fb1084f5ab1c86457af401d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 0
-  SyncParent: 1
-  _interpolationTarget: {fileID: 1141140741156334857}
-  UsePreciseRotation: 0
-  UseRenderSleepThresholds: 1
-  RenderThresholds:
-    UseEnergy: 1
-    Position: 0.01
-    Rotation: 0.01
-    Scale: 0.01
---- !u!114 &7426319129712542060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219823984579655946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 3565306011
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 5123903439323523989}
-  - {fileID: 215579178233489932}
 --- !u!70 &7687266291543372405
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -174,6 +133,47 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &7426319129712542060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219823984579655946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3565306011
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5123903439323523989}
+  - {fileID: 215579178233489932}
+--- !u!114 &5123903439323523989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219823984579655946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e690b5fb1084f5ab1c86457af401d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 1
+  _interpolationTarget: {fileID: 1141140741156334857}
+  UsePreciseRotation: 0
+  UseRenderSleepThresholds: 1
+  RenderThresholds:
+    UseEnergy: 1
+    Position: 0.01
+    Rotation: 0.01
+    Scale: 0.01
 --- !u!114 &215579178233489932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,11 +192,11 @@ MonoBehaviour:
   maxFallSpeed: 30
   fastFallGravityMult: 1
   maxFastFallSpeed: 30
-  runMaxSpeed: 10
-  runAcceleration: 1
-  runAccelAmount: 5
-  runDecceleration: 3
-  runDeccelAmount: 15
+  runMaxSpeed: 11.07
+  runAcceleration: 3.38
+  runAccelAmount: 15.266487
+  runDecceleration: 4.42
+  runDeccelAmount: 19.963867
   accelInAir: 1
   deccelInAir: 0.1
   doConserveMomentum: 1

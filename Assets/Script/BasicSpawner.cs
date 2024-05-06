@@ -12,13 +12,15 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
-    private bool _mouseButton0;
-    private bool _mouseButton1;
+    private bool jump;
+    private bool jumpup;
+    private bool dash;
     private bool _keyboardP;
     private void Update()
     {
-        _mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
-        _mouseButton1 = _mouseButton1 || Input.GetMouseButton(1);
+        jump = jump || Input.GetKeyDown(KeyCode.Space);
+        jumpup = jumpup || Input.GetKeyUp(KeyCode.Space);
+        dash = dash || Input.GetKeyDown(KeyCode.LeftShift);
         _keyboardP = _keyboardP || Input.GetKey(KeyCode.P);
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -56,10 +58,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
-        data.buttons.Set(NetworkInputData.MOUSEBUTTON0, _mouseButton0);
-        _mouseButton0 = false;
-        data.buttons.Set(NetworkInputData.MOUSEBUTTON1, _mouseButton1);
-        _mouseButton1 = false;
+        data.buttons.Set(NetworkInputData.JUMP, jump);
+        jump = false;
+        data.buttons.Set(NetworkInputData.JUMPUP, jumpup);
+        jumpup = false;
+        data.buttons.Set(NetworkInputData.DASH, dash);
+        dash = false;
         data.buttons.Set(NetworkInputData.KEYBOARD_P, _keyboardP);
         _keyboardP = false;
 

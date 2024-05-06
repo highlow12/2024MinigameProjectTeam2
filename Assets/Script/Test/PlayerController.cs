@@ -59,7 +59,7 @@ public class PlayerController : NetworkBehaviour
 
             if (HasStateAuthority && delay.ExpiredOrNotRunning(Runner))
             {
-                if (data.buttons.IsSet(NetworkInputData.MOUSEBUTTON0))
+                if (data.buttons.IsSet(NetworkInputData.JUMP))
                 {
                     delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
                     Runner.Spawn(_prefabball,
@@ -72,7 +72,7 @@ public class PlayerController : NetworkBehaviour
                           o.GetComponent<ball>().Init();
                       });
                 }
-                else if (data.buttons.IsSet(NetworkInputData.MOUSEBUTTON1))
+                else if (data.buttons.IsSet(NetworkInputData.DASH))
                 {
                     delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
                     Runner.Spawn(_prefabPhysxBall,
