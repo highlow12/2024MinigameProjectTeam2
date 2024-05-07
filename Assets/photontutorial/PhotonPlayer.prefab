@@ -186,45 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c7b81755dd30f44a76b985d4a28abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityStrength: -150
-  gravityScale: 15.290519
-  fallGravityMult: 1
-  maxFallSpeed: 30
-  fastFallGravityMult: 1
-  maxFastFallSpeed: 30
-  runMaxSpeed: 11.07
-  runAcceleration: 3.38
-  runAccelAmount: 15.266487
-  runDecceleration: 4.42
-  runDeccelAmount: 19.963867
-  accelInAir: 1
-  deccelInAir: 0.1
-  doConserveMomentum: 1
-  jumpHeight: 3
-  jumpTimeToApex: 0.2
-  jumpForce: 30
-  jumpCutGravityMult: 1
-  jumpHangGravityMult: 1
-  jumpHangTimeThreshold: 100
-  jumpHangAccelerationMult: 10
-  jumpHangMaxSpeedMult: 1
-  wallJumpForce: {x: 0, y: 0}
-  wallJumpRunLerp: 0
-  wallJumpTime: 0
-  doTurnOnWallJump: 0
-  slideSpeed: 0
-  slideAccel: 0
-  coyoteTime: 0.2
-  jumpInputBufferTime: 0.1
-  dashAmount: 10
-  dashSpeed: 30
-  dashSleepTime: 0.03
-  dashAttackTime: 0.1
-  dashEndTime: 0.2
-  dashEndSpeed: {x: 10, y: 10}
-  dashEndRunLerp: 0.5
-  dashRefillTime: 1
-  dashInputBufferTime: 0.5
+  Data: {fileID: 11400000, guid: 5c6615b962c39ab47a64f98c6a867400, type: 2}
   _groundCheckPoint: {fileID: 3720834714597178806}
   _groundCheckSize: {x: 0.49, y: 0.03}
   _frontWallCheckPoint: {fileID: 6414600266191343159}

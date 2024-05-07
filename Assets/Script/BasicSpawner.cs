@@ -11,14 +11,14 @@ using Fusion.Addons.Physics;
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
-    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new();
     private bool jump;
     private bool jumpup;
     private bool dash;
     private bool _keyboardP;
     private void Update()
     {
-        jump = jump || Input.GetKeyDown(KeyCode.Space);
+        jump = jump || Input.GetKey(KeyCode.Space);
         jumpup = jumpup || Input.GetKeyUp(KeyCode.Space);
         dash = dash || Input.GetKeyDown(KeyCode.LeftShift);
         _keyboardP = _keyboardP || Input.GetKey(KeyCode.P);
@@ -28,7 +28,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             // Create a unique position for the player
-            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 0, 1, 0);
+            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
@@ -87,6 +87,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     #endregion
+
     private NetworkRunner _runner;
 
     async void StartGame(GameMode mode)
