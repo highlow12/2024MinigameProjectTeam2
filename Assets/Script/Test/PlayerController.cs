@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
 {
-    [SerializeField] private ball _prefabball;
-    [SerializeField] private PhysxBall _prefabPhysxBall;
+    //[SerializeField] private ball _prefabball;
+    //[SerializeField] private PhysxBall _prefabPhysxBall;
     [SerializeField] private TestBossMonster _prefabBossMonster;
 
     [Networked] private TickTimer delay { get; set; }
@@ -59,7 +59,7 @@ public class PlayerController : NetworkBehaviour
 
             if (HasStateAuthority && delay.ExpiredOrNotRunning(Runner))
             {
-                if (data.buttons.IsSet(NetworkInputData.JUMP))
+                /*if (data.buttons.IsSet(NetworkInputData.JUMP))
                 {
                     delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
                     Runner.Spawn(_prefabball,
@@ -84,7 +84,7 @@ public class PlayerController : NetworkBehaviour
                           o.GetComponent<PhysxBall>().Init(10 * _forward);
                       });
                 }
-                else if (data.buttons.IsSet(NetworkInputData.KEYBOARD_P))
+                else*/ if (data.buttons.IsSet(NetworkInputData.KEYBOARD_P))
                 {
                     delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
                     Runner.Spawn(_prefabBossMonster,
