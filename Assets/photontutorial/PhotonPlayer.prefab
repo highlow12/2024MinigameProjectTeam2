@@ -107,7 +107,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1219823984579655946}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fd57aabf907367d48838d401eccd0dd2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -187,6 +187,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 5c6615b962c39ab47a64f98c6a867400, type: 2}
+  _IsFacingRight:
+    _value: 0
+  _IsJumping:
+    _value: 0
+  _IsWallJumping:
+    _value: 0
+  _IsDashing:
+    _value: 0
+  _IsSliding:
+    _value: 0
+  _LastOnGroundTime: 0
+  _LastOnWallTime: 0
+  _LastOnWallRightTime: 0
+  _LastOnWallLeftTime: 0
+  _LastPressedJumpTime: 0
+  _LastPressedDashTime: 0
   _groundCheckPoint: {fileID: 3720834714597178806}
   _groundCheckSize: {x: 0.49, y: 0.03}
   _frontWallCheckPoint: {fileID: 6414600266191343159}

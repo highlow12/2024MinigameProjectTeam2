@@ -17,7 +17,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     public PlayerData Data;
 
     #region COMPONENTS
-    public NetworkRigidbody2D NRB {  get; private set; }
+    
     public Rigidbody2D RB { get; private set; }
     #endregion
 
@@ -25,17 +25,17 @@ public class NetworkPlayerMovement : NetworkBehaviour
     //Variables control the various actions the player can perform at any time.
     //These are fields which can are public allowing for other sctipts to read them
     //but can only be privately written to.
-    [Networked] public NetworkBool IsFacingRight { get; private set; }
-    [Networked] public NetworkBool IsJumping { get; private set; }
-    [Networked] public NetworkBool IsWallJumping { get; private set; }
-    [Networked] public NetworkBool IsDashing { get; private set; }
-    [Networked] public NetworkBool IsSliding { get; private set; }
+    [HideInInspector][Networked] public NetworkBool IsFacingRight { get; private set; }
+    [HideInInspector][Networked] public NetworkBool IsJumping { get; private set; }
+    [HideInInspector][Networked] public NetworkBool IsWallJumping { get; private set; }
+    [HideInInspector][Networked] public NetworkBool IsDashing { get; private set; }
+    [HideInInspector][Networked] public NetworkBool IsSliding { get; private set; }
 
     //Timers (also all fields, could be private and a method returning a NetworkBool could be used)
-    [Networked] public float LastOnGroundTime { get; private set; }
-    [Networked] public float LastOnWallTime { get; private set; }
-    [Networked] public float LastOnWallRightTime { get; private set; }
-    [Networked] public float LastOnWallLeftTime { get; private set; }
+    [HideInInspector][Networked] public float LastOnGroundTime { get; private set; }
+    [HideInInspector][Networked] public float LastOnWallTime { get; private set; }
+    [HideInInspector][Networked] public float LastOnWallRightTime { get; private set; }
+    [HideInInspector][Networked] public float LastOnWallLeftTime { get; private set; }
 
     //Jump
     [Networked] private NetworkBool _isJumpCut { get; set; }
@@ -56,8 +56,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
     #region INPUT PARAMETERS
     [Networked] private Vector2 _moveInput { get; set; }
 
-    [Networked] public float LastPressedJumpTime { get; private set; }
-    [Networked] public float LastPressedDashTime { get; private set; }
+    [HideInInspector][Networked] public float LastPressedJumpTime { get; private set; }
+    [HideInInspector][Networked] public float LastPressedDashTime { get; private set; }
     #endregion
 
     #region CHECK PARAMETERS
@@ -79,8 +79,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
     private void Awake()
     {
-        NRB = GetComponent<NetworkRigidbody2D>();
-        RB = NRB.Rigidbody;
+
+        RB = GetComponent<NetworkRigidbody2D>().Rigidbody;
     }
 
     private void Start()
@@ -89,7 +89,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         IsFacingRight = true;
     }
 
-    public override void FixedUpdateNetwork()
+    private void Update()
     {
         #region TIMERS
         LastOnGroundTime -= Time.deltaTime;
@@ -101,36 +101,6 @@ public class NetworkPlayerMovement : NetworkBehaviour
         LastPressedDashTime -= Time.deltaTime;
         #endregion
 
-        #region INPUT HANDLER
-        if (GetInput(out NetworkInputData data))
-        {
-            data.direction.Normalize();
-            _moveInput = data.direction;
-            
-
-            if (_moveInput.x != 0)
-                CheckDirectionToFace(_moveInput.x > 0);
-
-            if (data.buttons.IsSet(NetworkInputData.JUMP))
-            {
-                OnJumpInput();
-                Debug.Log("jump");
-            }
-
-            if (data.buttons.IsSet(NetworkInputData.JUMPUP))
-            {
-                OnJumpUpInput();
-                Debug.Log("jumpup");
-            }
-
-            if (data.buttons.IsSet(NetworkInputData.DASH))
-            {
-                OnDashInput();
-                Debug.Log("dash");
-            }
-
-        }
-        #endregion
 
         #region COLLISION CHECKS
         if (!IsDashing && !IsJumping)
@@ -205,6 +175,50 @@ public class NetworkPlayerMovement : NetworkBehaviour
         }
         #endregion
 
+
+        #region SLIDE CHECKS
+        if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+            IsSliding = true;
+        else
+            IsSliding = false;
+        #endregion
+
+        
+    }
+    public override void FixedUpdateNetwork()
+    {
+
+        #region INPUT HANDLER
+        if (GetInput(out NetworkInputData data))
+        {
+            data.direction.Normalize();
+            _moveInput = data.direction;
+
+
+            if (_moveInput.x != 0)
+                CheckDirectionToFace(_moveInput.x > 0);
+
+            if (data.buttons.IsSet(NetworkInputData.JUMP))
+            {
+                OnJumpInput();
+                Debug.Log("jump");
+            }
+
+            if (data.buttons.IsSet(NetworkInputData.JUMPUP))
+            {
+                OnJumpUpInput();
+                Debug.Log("jumpup");
+            }
+
+            if (data.buttons.IsSet(NetworkInputData.DASH))
+            {
+                OnDashInput();
+                Debug.Log("dash");
+            }
+
+        }
+        #endregion
+
         #region DASH CHECKS
         if (CanDash() && LastPressedDashTime > 0)
         {
@@ -226,13 +240,6 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
             StartCoroutine(nameof(StartDash), _lastDashDir);
         }
-        #endregion
-
-        #region SLIDE CHECKS
-        if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
-            IsSliding = true;
-        else
-            IsSliding = false;
         #endregion
 
         #region GRAVITY
