@@ -150,7 +150,7 @@ public class LevelBehaviour : NetworkBehaviour
         int i = 0;
         foreach (var player in Winners)
         {
-            PlayerData data = GameManager.Instance.GetPlayerData(player, Runner);
+            PlayerData_ data = GameManager.Instance.GetPlayerData(player, Runner);
             if (data != null)
             {
                 _finishRace.SetWinner(data.Nick.ToString(), data.Instance.GetComponent<PlayerBehaviour>().PlayerColor, i);

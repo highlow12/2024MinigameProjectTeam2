@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public FusionEvent OnPlayerLeftEvent;
     public FusionEvent OnRunnerShutDownEvent;
     
-    private Dictionary<PlayerRef, PlayerData> _playerData = new Dictionary<PlayerRef, PlayerData>();
+    private Dictionary<PlayerRef, PlayerData_> _playerData = new Dictionary<PlayerRef, PlayerData_>();
 
 
     public enum GameState
@@ -69,12 +69,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PlayerData GetPlayerData(PlayerRef player, NetworkRunner runner)
+    public PlayerData_ GetPlayerData(PlayerRef player, NetworkRunner runner)
     {
         NetworkObject NO;
         if (runner.TryGetPlayerObject(player, out NO))
         {
-            PlayerData data = NO.GetComponent<PlayerData>();
+            PlayerData_ data = NO.GetComponent<PlayerData_>();
             return data;
         }
         else
@@ -145,8 +145,8 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void SetPlayerDataObject(PlayerRef objectInputAuthority, PlayerData playerData)
+    public void SetPlayerDataObject(PlayerRef objectInputAuthority, PlayerData_ PlayerData_)
     {
-        _playerData.Add(objectInputAuthority, playerData);
+        _playerData.Add(objectInputAuthority, PlayerData_);
     }
 }

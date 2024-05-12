@@ -37,7 +37,7 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             NetworkObject playerObj = runner.Spawn(PlayerPrefab, PlayerSpawnPos, Quaternion.identity, player, InitializeObjBeforeSpawn);
 
-            PlayerData data = GameManager.Instance.GetPlayerData(player, runner);
+            PlayerData_ data = GameManager.Instance.GetPlayerData(player, runner);
             data.Instance = playerObj;
 
             playerObj.GetComponent<PlayerBehaviour>().Nickname = data.Nick;
