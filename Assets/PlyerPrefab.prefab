@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 9128198402771669459}
   - component: {fileID: 8030119868154360836}
   - component: {fileID: 1484290110871530100}
-  - component: {fileID: 8174594433573905088}
   m_Layer: 0
   m_Name: PlyerPrefab
   m_TagString: Untagged
@@ -137,7 +136,6 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1484290110871530100}
-  - {fileID: 8174594433573905088}
 --- !u!143 &8030119868154360836
 CharacterController:
   m_ObjectHideFlags: 0
@@ -182,17 +180,3 @@ MonoBehaviour:
   braking: 10
   maxSpeed: 2
   rotationSpeed: 15
---- !u!114 &8174594433573905088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294581479235499908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbc7c294653ca34ebbe608ea0782942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabball: {fileID: 8807411377345340877, guid: 42cd274432daad343b48598f4cf547e2, type: 3}
-  _prefabPhysxBall: {fileID: 3665113520252530091, guid: a0e384c661be4d048a1ecf1732710522, type: 3}

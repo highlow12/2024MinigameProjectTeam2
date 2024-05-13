@@ -1,19 +1,20 @@
 using UnityEngine;
+using Items;
+using System.Collections;
 
-public class Shield : MonoBehaviour
+public class Shield : Items.Weapon
 {
-    public float attackSpeed = 1.0f; 
-    public float moveSpeed = 5.0f; 
-    public float range = 2.0f; 
-    public int defense = 100; 
-
-    public int healingAmount = 50; 
-
-    
-    public void HealAlly(PlayerController ally)
+    public Shield()
     {
-        
-        ally.Heal(healingAmount);
+        attackSpeed = 1.0f;
+        range = 2.0f;
+        defense = 100;
+        healingAmount = 50;
+    }
+
+    public override IEnumerator Attack()
+    {
+        Debug.Log("Blocking");
+        yield return new WaitForSeconds(attackSpeed);
     }
 }
-

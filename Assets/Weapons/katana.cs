@@ -1,10 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Items;
 
-public class Katana : MonoBehaviour
+public class Katana : Items.Weapon
 {
-    public float attackSpeed = 2.0f; 
-    public float moveSpeed = 6.0f; 
-    public float range = 2.0f; 
-    public int damage = 60; 
+    public Katana()
+    {
+        attackSpeed = 2.0f;
+        range = 2.0f;
+        damage = 60;
+    }
 
+    public override IEnumerator Attack()
+    {
+        Debug.Log("Swinging Katana");
+        yield return new WaitForSeconds(attackSpeed);
+    }
 }

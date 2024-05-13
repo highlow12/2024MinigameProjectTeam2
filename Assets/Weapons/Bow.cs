@@ -1,11 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using items;
-public class Bow : items.item
+using Items;
+
+public class Bow : Items.Weapon
 {
-    public float attackSpeed = 1.0f; 
-    public float moveSpeed = 5.0f; 
-    public float projectileSpeed = 10.0f; 
-    public float range = 20.0f; 
-    public int damage = 50; 
+    public Bow()
+    {
+        attackSpeed = 1.0f;
+        projectileSpeed = 10.0f;
+        range = 20.0f;
+        damage = 50;
+    }
+
+    public override IEnumerator Attack()
+    {
+        Debug.Log("Firing Arrow");
+        yield return new WaitForSeconds(attackSpeed);
+    }
 
 }
