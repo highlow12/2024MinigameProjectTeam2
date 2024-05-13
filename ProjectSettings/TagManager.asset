@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - AttackObject
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - backgroundLayer
   - Water
   - UI
   - _groundLayer
@@ -40,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BackgroundLayer
+    uniqueID: 4187766383
+    locked: 0
+  - name: GroundLayer
+    uniqueID: 2877758079
+    locked: 0
+  - name: ScriptableObjectsLayer
+    uniqueID: 2578708205
     locked: 0
