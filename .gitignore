@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 # OS generated files
 .DS_Store
+.vscode/extensions.json
+.vscode/launch.json
+.vscode/settings.json
