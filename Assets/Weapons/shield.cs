@@ -2,7 +2,7 @@ using UnityEngine;
 using Items;
 using System.Collections;
 
-public class Shield : Items.Weapon
+public class Shield : Weapon
 {
     public Shield()
     {
@@ -12,7 +12,7 @@ public class Shield : Items.Weapon
         healingAmount = 50;
     }
 
-    public override IEnumerator Attack()
+    public override IEnumerator Attack(Animator anim, Transform character)
     {
         Debug.Log("Blocking");
         yield return new WaitForSeconds(attackSpeed);
