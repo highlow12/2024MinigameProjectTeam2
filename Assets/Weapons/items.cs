@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Items
@@ -8,11 +7,14 @@ namespace Items
     {
         public float attackSpeed;
         public float range;
+        public float projectileSpeed;
         public int damage;
         public int defense;
         public int healingAmount;
-        public float projectileSpeed;
-        public virtual IEnumerator Attack()
+        public GameObject rangeObject;
+        public bool isRangeObjectSpawned = false;
+
+        public virtual IEnumerator Attack(Animator anim, Transform character)
         {
             Debug.Log("Attacking");
             yield return new WaitForSeconds(attackSpeed);

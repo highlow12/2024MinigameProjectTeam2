@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Items;
 
-public class Bow : Items.Weapon
+public class Bow : Weapon
 {
     public Bow()
     {
@@ -13,7 +12,7 @@ public class Bow : Items.Weapon
         damage = 50;
     }
 
-    public override IEnumerator Attack()
+    public override IEnumerator Attack(Animator anim, Transform character)
     {
         Debug.Log("Firing Arrow");
         yield return new WaitForSeconds(attackSpeed);

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Shield;
 
 public class Tank : CharacterClass
 {
@@ -11,6 +10,8 @@ public class Tank : CharacterClass
         attackSpeed = 0.8f;
         moveSpeed = 4.0f;
         weapon = new Shield();
+        characterAnimator = Resources.Load<RuntimeAnimatorController>("Warrior");
+
     }
 
 }
