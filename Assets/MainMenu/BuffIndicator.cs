@@ -1,22 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class BuffIndicator : MonoBehaviour
 {
-    public List<DeBuff> deBuffs;
-    public List<Object> EffectImages;
+    static public List<Sprite> EffectImages = new List<Sprite>();
+    static public Sprite GetIcon(DeBuffTypes type)
+    {
+        if (EffectImages.Count == 0) {
+            EffectImages = Resources.LoadAll<Sprite>("Icons/Effects").ToList();
+        }
+
+        return EffectImages.Find(x => x.name == type.ToString());
+    }
+
+    public List<DeBuff> deBuffs;    
     public GameObject deBuffPrefab;
 
     public bool reqUpdated = false;
 
+    float iconHalfSize;
+
     // Start is called before the first frame update
     void Start()
     {
+        iconHalfSize = deBuffPrefab.gameObject.GetComponent<RectTransform>().sizeDelta.x / 2;
         deBuffs = new List<DeBuff>();
-        EffectImages = Resources.LoadAll("Icons/Effects").ToList();
     }
 
     public void AddBuff(DeBuffTypes type)
@@ -33,10 +43,10 @@ public class BuffIndicator : MonoBehaviour
             deBuffs.Add(nD);
             reqUpdated = true;
         }
-        else if (debuff.stackable)
+        else if (debuff.info.stacks != 0)
         {
             // 중첩이 가능한 경우 1스택 추가 후 레이블 업데이트
-            debuff.stacks++;
+            debuff.info.stacks++;
             debuff.UpdateLabel();
         }
         else
@@ -44,6 +54,11 @@ public class BuffIndicator : MonoBehaviour
             // 지속시간 초기화
             debuff.startTime = Time.time;
         }
+    }
+
+    public void test()
+    {
+        AddBuff(DeBuffTypes.Burn);
     }
 
     public void RemoveBuff(DeBuff _)
@@ -55,26 +70,17 @@ public class BuffIndicator : MonoBehaviour
         }
     }
 
-    public Sprite GetIcon(DeBuffTypes type)
-    {
-        return EffectImages.Find(x => x.name == type.ToString() && x.GetType() == typeof(Sprite)) as Sprite;
-    }
-
-
     // Update is called once per frame
     void Update()
     {
-        // 새로운 버프에 걸리거나 버프가 사라졌을 경우에만 위치 업데이트가 필요하다.
-        if (!reqUpdated) return;
+        // 새로운 버프에 걸릴 경우에만 위치 업데이트가 필요하다.
+        if (!reqUpdated || deBuffs.Count < 1) return;
         int cur = 0;
-        float size = 1;
-        if (deBuffs.Count > 0)
-        {
-            size = deBuffs[0].gameObject.GetComponent<RectTransform>().sizeDelta.x / 2; // 버프 아이콘의 길이에 따른 간격 조정을 위한 계산
-        }
+        
+
         foreach (DeBuff deBuff in deBuffs)
         {
-            float x = size + (cur * (size + size + 2));
+            float x = iconHalfSize + (cur * ((2 * iconHalfSize) + 4));
             deBuff.gameObject.transform.localPosition = new Vector2(x, 0);
             cur++;
         }
