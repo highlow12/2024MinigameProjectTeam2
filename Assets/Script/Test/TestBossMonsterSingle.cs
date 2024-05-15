@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class TestBossMonsterSingle : MonoBehaviour
 {
+    private Rigidbody2D _rb;
     public Collider2D attackRange;
     public GameObject attackRangeIndicator;
     public GameObject followTarget;
@@ -21,6 +22,7 @@ public class TestBossMonsterSingle : MonoBehaviour
         _healthBar = GameObject.FindWithTag("BossHealthUI").GetComponent<Image>();
         _parryTimeIndicator = GameObject.FindWithTag("ParryTimeUI").GetComponent<Image>();
         attackRange = transform.GetChild(0).gameObject.GetComponent<Collider2D>();
+        _rb = GetComponent<Rigidbody2D>();
         attackRangeIndicator = transform.GetChild(1).gameObject;
         StartCoroutine(SetTarget());
         StartCoroutine(Attack());
@@ -57,18 +59,20 @@ public class TestBossMonsterSingle : MonoBehaviour
     {
         animator.SetTrigger("doAttack");
         attackRangeIndicator.SetActive(true);
-        _parryTimeIndicator.fillAmount = 0.0f;
+        float parryTime = 0f;
+        _parryTimeIndicator.fillAmount = 0f;
         while (_parryTimeIndicator.fillAmount < 1.0f)
         {
-            _parryTimeIndicator.fillAmount += 0.04f;
-            yield return new WaitForSeconds(0.01f);
+            parryTime += Time.deltaTime;
+            _parryTimeIndicator.fillAmount = parryTime / 0.4f;
+            yield return null;
         }
         attackRange.enabled = true;
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.3f);
         attackRange.enabled = false;
         attackRangeIndicator.SetActive(false);
         _parryTimeIndicator.fillAmount = 0.0f;
-        var attackCooldown = Random.Range(1.0f, 3.0f);
+        var attackCooldown = Random.Range(2.0f, 4.0f);
         yield return new WaitForSeconds(attackCooldown);
         StartCoroutine(Move());
     }
@@ -81,23 +85,24 @@ public class TestBossMonsterSingle : MonoBehaviour
             StartCoroutine(Move());
         }
         float distance = transform.position.x - followTarget.transform.position.x;
+        Vector3 scale = transform.localScale;
+        if (distance > 0)
+        {
+            scale.x = -3;
+            transform.localScale = scale;
+        }
+        else
+        {
+            scale.x = 3;
+            transform.localScale = scale;
+        }
         animator.SetInteger("walkState", 1);
         while (Math.Abs(distance) > 2.0f)
         {
             Vector3 targetPos = followTarget.transform.position;
             targetPos.y = transform.position.y;
             transform.position = Vector2.MoveTowards(transform.position, targetPos, 0.01f);
-            Vector3 scale = transform.localScale;
-            if (distance > 0)
-            {
-                scale.x = -3;
-                transform.localScale = scale;
-            }
-            else
-            {
-                scale.x = 3;
-                transform.localScale = scale;
-            }
+
             distance = transform.position.x - followTarget.transform.position.x;
             yield return null;
         }
