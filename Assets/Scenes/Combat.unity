@@ -1197,7 +1197,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 271621029}
         m_TargetAssemblyTypeName: BuffIndicator, Assembly-CSharp
-        m_MethodName: addBuff
+        m_MethodName: test
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

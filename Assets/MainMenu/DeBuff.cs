@@ -11,13 +11,42 @@ public enum DeBuffTypes
     Undead
 }
 
+public enum EffectIndex
+{
+    damage = 0 // (디버프) 받는 데미지
+}
+
+public class BasicBuff {
+    public DeBuffTypes type;
+    public string name;
+    public string description;
+    public Sprite icon;
+    public float duration;
+    public int stacks; // 0일 경우 스택을 쌓을 수 없음.
+
+    public float[] effects;
+}
+
+public class BurnDebuff: BasicBuff {
+    public BurnDebuff()
+    {
+        type = DeBuffTypes.Burn;
+        name = "화상";
+        description = "지속적으로 화염 피해를 입습니다.";
+        icon = BuffIndicator.GetIcon(type);
+        duration = 1f;
+        stacks = 1;
+
+        effects = new float[2];
+        effects[(int)EffectIndex.damage] = 5;
+    }
+}
+
 public class DeBuff : MonoBehaviour
 {
     public BuffIndicator indicator;
+    public BasicBuff info;
     public DeBuffTypes deBuffType;
-    public float defaultDuration = 1f;
-    public int stacks = 1;
-    public bool stackable = true;
 
     public float startTime;
 
@@ -33,6 +62,16 @@ public class DeBuff : MonoBehaviour
 
     void Start()
     {
+        switch (deBuffType)
+        {
+            case DeBuffTypes.Burn:
+                info = new BurnDebuff();
+                break;
+            default:
+                info = new BurnDebuff();
+                break;
+        }
+
         startTime = Time.time;
         Transform[] childrensTransforms = GetComponentsInChildren<Transform>();
 
@@ -44,15 +83,9 @@ public class DeBuff : MonoBehaviour
 
             if (activated != null && deActivated != null && stacksLabel != null) break;
         }
-        Sprite icon = indicator.GetIcon(deBuffType);
 
-        if (icon != null)
-        {
-            activated.sprite = icon;
-            deActivated.sprite = icon;
-        }
-
-        // if (deBuffType == DeBuffTypes.Burn)
+        activated.sprite = info.icon;
+        deActivated.sprite = info.icon;
 
         UpdateLabel();
     }
@@ -60,18 +93,19 @@ public class DeBuff : MonoBehaviour
     public void UpdateLabel()
     {
         if (stacksLabel == null) return; // if not initialized
-        stacksLabel.gameObject.SetActive(stackable);
-        stacksLabel.text = stacks.ToString();
+        stacksLabel.gameObject.SetActive(info.stacks != 0);
+        stacksLabel.text = info.stacks.ToString();
     }
 
     void Update()
     {
+        if (info == null) return;
         float now = Time.time;
-        if ((now - startTime) > defaultDuration)
+        if ((now - startTime) > info.duration)
         {
-            if (stacks > 1)
+            if (info.stacks > 1)
             {
-                stacks--;
+                info.stacks--;
                 UpdateLabel();
                 startTime = now;
             }
@@ -83,7 +117,7 @@ public class DeBuff : MonoBehaviour
             }
         }
 
-        float imgScale = (now - startTime) / defaultDuration;
+        float imgScale = (now - startTime) / info.duration;
 
         deActivated.fillAmount = imgScale;
     }
