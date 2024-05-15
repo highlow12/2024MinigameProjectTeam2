@@ -33,7 +33,7 @@ public class DurationIndicator : MonoBehaviour
     private void SetPos(int order)
     {
         var pos = GetComponent<RectTransform>().anchoredPosition;
-        pos.x = -200 + 180 * order;
+        pos.x = 180 * order;
         GetComponent<RectTransform>().anchoredPosition = pos;
     }
 
