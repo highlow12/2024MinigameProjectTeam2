@@ -8,6 +8,7 @@ public class PlayerControllerSingle : MonoBehaviour
 {
     private GameObject _durationUI;
     private GameObject _durationIndicator;
+    private BuffIndicator _buffIndicator;
     private Rigidbody2D _rb;
     private Animator _anim;
     private Collider2D _collider;
@@ -33,6 +34,7 @@ public class PlayerControllerSingle : MonoBehaviour
         Application.targetFrameRate = 60;
         _durationIndicator = Resources.Load<GameObject>("Duration");
         _durationUI = GameObject.FindWithTag("DurationUI");
+        _buffIndicator = GameObject.FindWithTag("BuffIndicator").GetComponent<BuffIndicator>();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
@@ -116,15 +118,15 @@ public class PlayerControllerSingle : MonoBehaviour
 
     IEnumerator Jump()
     {
-        if (isGrounded)
+        if (isGrounded) // 지상에서 점프
         {
             _rb.velocity = new Vector2(_rb.velocity.x, jumpPower);
             _anim.SetTrigger("Jump");
             currentJumpCount++;
         }
-        else if (currentJumpCount > 0 && currentJumpCount < maxJumpCount)
+        else if (currentJumpCount > 0 && currentJumpCount < maxJumpCount) // N단 점프
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, jumpPower * 0.8f);
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpPower * 0.8f); // 점프력 감소
             _anim.SetTrigger("Jump");
             currentJumpCount++;
 
@@ -137,10 +139,10 @@ public class PlayerControllerSingle : MonoBehaviour
         if (isGrounded && !isRollCoolDown)
         {
             isRollCoolDown = true;
-            _anim.SetTrigger("Roll");
-            StartCoroutine(GetInvincible(0.5f));
-            _collider.excludeLayers = enemyLayer;
-            CreateDurationIndicator(4f, "Roll");
+            _anim.SetTrigger("Roll"); // 구르기 애니메이션
+            StartCoroutine(GetInvincible(0.5f)); // 무적 0.5초
+            _collider.excludeLayers = enemyLayer; // 보스 충돌 무시
+            CreateDurationIndicator(4f, "Roll");  // 쿨다운 표시
             yield return new WaitForSeconds(0.5f);
             _collider.excludeLayers = 0;
             yield return new WaitForSeconds(3.5f);
@@ -155,8 +157,8 @@ public class PlayerControllerSingle : MonoBehaviour
         {
             isParryCoolDown = true;
             isParrying = true;
-            _anim.SetTrigger("Block");
-            CreateDurationIndicator(2.25f, "Parry");
+            _anim.SetTrigger("Block"); // 방패 애니메이션
+            CreateDurationIndicator(2.25f, "Parry"); // 쿨다운 표시
             yield return new WaitForSeconds(0.25f);
             isParrying = false;
             yield return new WaitForSeconds(2f);
@@ -175,17 +177,17 @@ public class PlayerControllerSingle : MonoBehaviour
             yield break;
         }
         isInvincible = true;
-        CreateDurationIndicator(duration, "Invincible");
+        CreateDurationIndicator(duration, "Invincible"); // 지속시간 표시
         yield return new WaitForSeconds(duration);
         isInvincible = false;
     }
 
     void CreateDurationIndicator(float maxDuration, string name = "")
     {
-        GameObject durationIndicator = Instantiate(_durationIndicator, _durationUI.transform);
-        var indicatorComponent = durationIndicator.GetComponent<DurationIndicator>();
-        indicatorComponent.maxDuration = maxDuration;
-        indicatorComponent.skillName = name;
+        GameObject durationIndicator = Instantiate(_durationIndicator, _durationUI.transform); // 지속시간 표시 오브젝트 생성
+        var indicatorComponent = durationIndicator.GetComponent<DurationIndicator>(); // 지속시간 표시 컴포넌트
+        indicatorComponent.maxDuration = maxDuration; // 지속시간 설정
+        indicatorComponent.skillName = name; // 이름 설정
 
     }
     void UpdateCharacterClass(int characterClass)
@@ -195,33 +197,41 @@ public class PlayerControllerSingle : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("BossAttack"))
+        if (col.gameObject.CompareTag("BossAttack")) // 보스 공격에 맞았을 때
         {
             if (isParrying)
             {
-                StartCoroutine(GetInvincible(2.0f));
-                _rb.AddForce(new Vector2(-50f * transform.localScale.x, 30), ForceMode2D.Impulse);
+                StartCoroutine(GetInvincible(2.0f)); // 2초간 무적
+                _rb.AddForce(new Vector2(-50f * transform.localScale.x, 30), ForceMode2D.Impulse); // 넉백
             }
             else if (!isInvincible)
             {
-                _anim.SetTrigger("Hurt");
-                currentHealth -= col.gameObject.GetComponent<BossAttack>().damage;
+                _anim.SetTrigger("Hurt"); // 피격 애니메이션
+                // 디버프 추가 테스트
+                _buffIndicator.AddBuff(DeBuffTypes.Burn); // 화상 디버프 추가
+                _buffIndicator.AddBuff(DeBuffTypes.Blind); // 실명 디버프 추가
+                _buffIndicator.AddBuff(DeBuffTypes.Undead); // 언데드 디버프 추가
+                currentHealth -= col.gameObject.GetComponent<BossAttack>().damage; // 데미지
             }
 
         }
+        // 벽 충돌 관련 기능들은 로직 수정 필요 함
         if (col.gameObject.CompareTag("Wall"))
         {
-            _rb.velocity = new Vector2(0, _rb.velocity.y);
-            _rb.AddForce(new Vector2(-25f * transform.localScale.x, 30), ForceMode2D.Impulse);
+            _rb.velocity = new Vector2(0, _rb.velocity.y); // 벽에 부딪히면 속도 0
+            _rb.AddForce(new Vector2(-25f * transform.localScale.x, 30), ForceMode2D.Impulse); // 넉백
         }
     }
 
     void OnTriggerStay2D(Collider2D col)
     {
+        // 벽 충돌 관련 기능들은 로직 수정 필요 함
         if (col.gameObject.CompareTag("Wall"))
         {
-            _rb.AddForce(new Vector2(0, -10), ForceMode2D.Impulse);
+            _rb.AddForce(new Vector2(0, -10), ForceMode2D.Impulse); // 벽에 붙어있으면 중력으로 떨어짐
         }
     }
+
+
 
 }

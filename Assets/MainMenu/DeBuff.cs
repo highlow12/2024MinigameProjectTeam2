@@ -4,7 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum DeBuffTypes {
+public enum DeBuffTypes
+{
     Burn,
     Blind,
     Undead
@@ -24,7 +25,8 @@ public class DeBuff : MonoBehaviour
     Image deActivated;
     TMP_Text stacksLabel;
 
-    void OnEnable() {
+    void OnEnable()
+    {
         startTime = Time.time;
         UpdateLabel();
     }
@@ -34,12 +36,20 @@ public class DeBuff : MonoBehaviour
         startTime = Time.time;
         Transform[] childrensTransforms = GetComponentsInChildren<Transform>();
 
-        foreach (Transform child in childrensTransforms) {
+        foreach (Transform child in childrensTransforms)
+        {
             if (child.name == "Activated") activated = child.GetComponent<Image>();
             else if (child.name == "DeActivated") deActivated = child.GetComponent<Image>();
             else if (child.name == "StacksLabel") stacksLabel = child.GetComponent<TMP_Text>();
 
             if (activated != null && deActivated != null && stacksLabel != null) break;
+        }
+        Sprite icon = indicator.GetIcon(deBuffType);
+
+        if (icon != null)
+        {
+            activated.sprite = icon;
+            deActivated.sprite = icon;
         }
 
         // if (deBuffType == DeBuffTypes.Burn)
@@ -49,6 +59,7 @@ public class DeBuff : MonoBehaviour
 
     public void UpdateLabel()
     {
+        if (stacksLabel == null) return; // if not initialized
         stacksLabel.gameObject.SetActive(stackable);
         stacksLabel.text = stacks.ToString();
     }
@@ -56,14 +67,18 @@ public class DeBuff : MonoBehaviour
     void Update()
     {
         float now = Time.time;
-        if ((now - startTime) > defaultDuration) {
-            if (stacks > 1) {
+        if ((now - startTime) > defaultDuration)
+        {
+            if (stacks > 1)
+            {
                 stacks--;
                 UpdateLabel();
                 startTime = now;
-            } else {
+            }
+            else
+            {
                 // call parent script
-                if (indicator) indicator.removeBuff(this);
+                if (indicator) indicator.RemoveBuff(this);
                 else gameObject.SetActive(false);
             }
         }

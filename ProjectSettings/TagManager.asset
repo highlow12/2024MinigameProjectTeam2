@@ -12,6 +12,7 @@ TagManager:
   - ParryTimeUI
   - DurationUI
   - Wall
+  - BuffIndicator
   layers:
   - Default
   - TransparentFX
