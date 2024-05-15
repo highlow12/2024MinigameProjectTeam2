@@ -10,6 +10,8 @@ TagManager:
   - BossAttack
   - BossHealthUI
   - ParryTimeUI
+  - DurationUI
+  - Wall
   layers:
   - Default
   - TransparentFX

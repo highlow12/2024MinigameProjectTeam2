@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerControllerSingle : MonoBehaviour
 {
+    private GameObject _durationUI;
+    private GameObject _durationIndicator;
     private Rigidbody2D _rb;
     private Animator _anim;
     private Collider2D _collider;
@@ -23,11 +26,13 @@ public class PlayerControllerSingle : MonoBehaviour
     public float jumpPower = 5.0f;
     public int characterClass = 0;
     public int maxJumpCount = 2;
-    public int currentJumpCount = 1;
+    public int currentJumpCount = 0;
     public Items.Weapon weapon;
     private void Awake()
     {
         Application.targetFrameRate = 60;
+        _durationIndicator = Resources.Load<GameObject>("Duration");
+        _durationUI = GameObject.FindWithTag("DurationUI");
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
@@ -58,9 +63,9 @@ public class PlayerControllerSingle : MonoBehaviour
     private void Update()
     {
         isGrounded = IsCheckGrounded();
-        if (isGrounded)
+        if (isGrounded && _rb.velocity.y == 0)
         {
-            currentJumpCount = 1;
+            currentJumpCount = 0;
         }
         _anim.SetBool("Grounded", isGrounded);
         _anim.SetFloat("AirSpeedY", _rb.velocity.y);
@@ -99,27 +104,27 @@ public class PlayerControllerSingle : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            switch (characterClass)
+            int newCharacterClass = characterClass + 1;
+            if (newCharacterClass > 2)
             {
-                case (int)CharacterClass.CharacterClassEnum.Warrior:
-                    UpdateCharacterClass((int)CharacterClass.CharacterClassEnum.Archer);
-                    break;
-                case (int)CharacterClass.CharacterClassEnum.Archer:
-                    UpdateCharacterClass((int)CharacterClass.CharacterClassEnum.Tank);
-                    break;
-                case (int)CharacterClass.CharacterClassEnum.Tank:
-                    UpdateCharacterClass((int)CharacterClass.CharacterClassEnum.Warrior);
-                    break;
+                newCharacterClass = 0;
             }
+            UpdateCharacterClass(newCharacterClass);
             Debug.Log($"CharacterClass: {characterClass}, moveSpeed: {moveSpeed}, attackSpeed: {attackSpeed}, maxHealth: {maxHealth}, weapon: {weapon}");
         }
     }
 
     IEnumerator Jump()
     {
-        if (currentJumpCount < maxJumpCount)
+        if (isGrounded)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, jumpPower);
+            _anim.SetTrigger("Jump");
+            currentJumpCount++;
+        }
+        else if (currentJumpCount > 0 && currentJumpCount < maxJumpCount)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpPower * 0.8f);
             _anim.SetTrigger("Jump");
             currentJumpCount++;
 
@@ -133,11 +138,11 @@ public class PlayerControllerSingle : MonoBehaviour
         {
             isRollCoolDown = true;
             _anim.SetTrigger("Roll");
-            isInvincible = true;
+            StartCoroutine(GetInvincible(0.5f));
             _collider.excludeLayers = enemyLayer;
+            CreateDurationIndicator(4f, "Roll");
             yield return new WaitForSeconds(0.5f);
             _collider.excludeLayers = 0;
-            isInvincible = false;
             yield return new WaitForSeconds(3.5f);
             isRollCoolDown = false;
         }
@@ -151,9 +156,10 @@ public class PlayerControllerSingle : MonoBehaviour
             isParryCoolDown = true;
             isParrying = true;
             _anim.SetTrigger("Block");
+            CreateDurationIndicator(2.25f, "Parry");
             yield return new WaitForSeconds(0.25f);
             isParrying = false;
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(2f);
             isParryCoolDown = false;
         }
         else
@@ -162,13 +168,26 @@ public class PlayerControllerSingle : MonoBehaviour
         }
     }
 
-    IEnumerator GetInvincible()
+    IEnumerator GetInvincible(float duration)
     {
+        if (isInvincible)
+        {
+            yield break;
+        }
         isInvincible = true;
-        yield return new WaitForSeconds(2.0f);
+        CreateDurationIndicator(duration, "Invincible");
+        yield return new WaitForSeconds(duration);
         isInvincible = false;
     }
 
+    void CreateDurationIndicator(float maxDuration, string name = "")
+    {
+        GameObject durationIndicator = Instantiate(_durationIndicator, _durationUI.transform);
+        var indicatorComponent = durationIndicator.GetComponent<DurationIndicator>();
+        indicatorComponent.maxDuration = maxDuration;
+        indicatorComponent.skillName = name;
+
+    }
     void UpdateCharacterClass(int characterClass)
     {
         CharacterClass.ChangeClass(characterClass, gameObject);
@@ -180,7 +199,7 @@ public class PlayerControllerSingle : MonoBehaviour
         {
             if (isParrying)
             {
-                StartCoroutine(GetInvincible());
+                StartCoroutine(GetInvincible(2.0f));
                 _rb.AddForce(new Vector2(-50f * transform.localScale.x, 30), ForceMode2D.Impulse);
             }
             else if (!isInvincible)
@@ -190,5 +209,19 @@ public class PlayerControllerSingle : MonoBehaviour
             }
 
         }
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            _rb.velocity = new Vector2(0, _rb.velocity.y);
+            _rb.AddForce(new Vector2(-25f * transform.localScale.x, 30), ForceMode2D.Impulse);
+        }
     }
+
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            _rb.AddForce(new Vector2(0, -10), ForceMode2D.Impulse);
+        }
+    }
+
 }
