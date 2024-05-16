@@ -5,17 +5,18 @@ using UnityEngine;
 
 public class BuffIndicator : MonoBehaviour
 {
-    static public List<Sprite> EffectImages = new List<Sprite>();
+    static public List<Sprite> EffectImages = new();
     static public Sprite GetIcon(DeBuffTypes type)
     {
-        if (EffectImages.Count == 0) {
+        if (EffectImages.Count == 0)
+        {
             EffectImages = Resources.LoadAll<Sprite>("Icons/Effects").ToList();
         }
 
         return EffectImages.Find(x => x.name == type.ToString());
     }
 
-    public List<DeBuff> deBuffs;    
+    public List<DeBuff> deBuffs;
     public GameObject deBuffPrefab;
 
     public bool reqUpdated = false;
@@ -76,7 +77,7 @@ public class BuffIndicator : MonoBehaviour
         // 새로운 버프에 걸릴 경우에만 위치 업데이트가 필요하다.
         if (!reqUpdated || deBuffs.Count < 1) return;
         int cur = 0;
-        
+
 
         foreach (DeBuff deBuff in deBuffs)
         {

@@ -1,51 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 
 public class DurationIndicator : MonoBehaviour
 {
-    private Image _durationIndicator;
-    private TextMeshProUGUI _durationText;
-    public string skillName;
-    public int order;
-    public float maxDuration;
-    public float currentDuration;
+    public List<GameObject> durationIndicators;
+    GameObject _durationIndicator;
     void Start()
     {
-        _durationIndicator = GetComponent<Image>();
-        _durationText = GetComponentInChildren<TextMeshProUGUI>();
-        _durationText.text = $"{skillName} - {maxDuration}s";
-        order = transform.GetSiblingIndex();
-        SetPos(order);
-        StartCoroutine(Duration());
+        _durationIndicator = Resources.Load<GameObject>("Duration");
     }
 
+    // Update is called once per frame
     void Update()
     {
-        order = transform.GetSiblingIndex();
-        _durationText.text = $"{skillName} - {Math.Round(currentDuration, 1)}s";
-        SetPos(order);
-    }
 
-    private void SetPos(int order)
-    {
-        var pos = GetComponent<RectTransform>().anchoredPosition;
-        pos.x = 180 * order;
-        GetComponent<RectTransform>().anchoredPosition = pos;
     }
-
-    IEnumerator Duration()
+    public void CreateDurationIndicator(float maxDuration, string name = "")
     {
-        currentDuration = maxDuration;
-        while (currentDuration > 0)
-        {
-            currentDuration -= Time.deltaTime;
-            _durationIndicator.fillAmount = currentDuration / maxDuration;
-            yield return null;
-        }
-        Destroy(gameObject);
+        GameObject durationIndicator = Instantiate(_durationIndicator, transform); // 지속시간 표시 오브젝트 생성
+        var indicatorComponent = durationIndicator.GetComponent<Duration>(); // 지속시간 표시 컴포넌트
+        indicatorComponent.maxDuration = maxDuration; // 지속시간 설정
+        indicatorComponent.skillName = name; // 이름 설정
+        durationIndicators.Add(durationIndicator); // 리스트에 추가
+
     }
 }

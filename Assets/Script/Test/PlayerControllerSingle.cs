@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerControllerSingle : MonoBehaviour
 {
-    private GameObject _durationUI;
-    private GameObject _durationIndicator;
+    private DurationIndicator _durationIndicator;
     private BuffIndicator _buffIndicator;
     private Rigidbody2D _rb;
     private Animator _anim;
@@ -32,8 +31,7 @@ public class PlayerControllerSingle : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        _durationIndicator = Resources.Load<GameObject>("Duration");
-        _durationUI = GameObject.FindWithTag("DurationUI");
+        _durationIndicator = GameObject.FindWithTag("DurationUI").GetComponent<DurationIndicator>();
         _buffIndicator = GameObject.FindWithTag("BuffIndicator").GetComponent<BuffIndicator>();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
@@ -142,7 +140,7 @@ public class PlayerControllerSingle : MonoBehaviour
             _anim.SetTrigger("Roll"); // 구르기 애니메이션
             StartCoroutine(GetInvincible(0.5f)); // 무적 0.5초
             _collider.excludeLayers = enemyLayer; // 보스 충돌 무시
-            CreateDurationIndicator(4f, "Roll");  // 쿨다운 표시
+            _durationIndicator.CreateDurationIndicator(4f, "Roll");  // 쿨다운 표시
             yield return new WaitForSeconds(0.5f);
             _collider.excludeLayers = 0;
             yield return new WaitForSeconds(3.5f);
@@ -158,7 +156,7 @@ public class PlayerControllerSingle : MonoBehaviour
             isParryCoolDown = true;
             isParrying = true;
             _anim.SetTrigger("Block"); // 방패 애니메이션
-            CreateDurationIndicator(2.25f, "Parry"); // 쿨다운 표시
+            _durationIndicator.CreateDurationIndicator(2.25f, "Parry"); // 쿨다운 표시
             yield return new WaitForSeconds(0.25f);
             isParrying = false;
             yield return new WaitForSeconds(2f);
@@ -177,19 +175,11 @@ public class PlayerControllerSingle : MonoBehaviour
             yield break;
         }
         isInvincible = true;
-        CreateDurationIndicator(duration, "Invincible"); // 지속시간 표시
+        _durationIndicator.CreateDurationIndicator(duration, "Invincible"); // 지속시간 표시
         yield return new WaitForSeconds(duration);
         isInvincible = false;
     }
 
-    void CreateDurationIndicator(float maxDuration, string name = "")
-    {
-        GameObject durationIndicator = Instantiate(_durationIndicator, _durationUI.transform); // 지속시간 표시 오브젝트 생성
-        var indicatorComponent = durationIndicator.GetComponent<DurationIndicator>(); // 지속시간 표시 컴포넌트
-        indicatorComponent.maxDuration = maxDuration; // 지속시간 설정
-        indicatorComponent.skillName = name; // 이름 설정
-
-    }
     void UpdateCharacterClass(int characterClass)
     {
         CharacterClass.ChangeClass(characterClass, gameObject);
