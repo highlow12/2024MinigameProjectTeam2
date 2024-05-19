@@ -18,7 +18,7 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private void Update()
     {
         _jump = _jump || Input.GetKeyDown(KeyCode.Space);
-        _dash = _dash || Input.GetKeyDown(KeyCode.LeftShift);
+        _dash = _dash || Input.GetKeyDown(KeyCode.C);
     }
     async void StartGame(GameMode mode)
     {
@@ -96,9 +96,16 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector2.right;
 
-        data.buttons.Set(NetworkInputData.JUMP, _jump);
+        /*data.buttons.Set(NetworkInputData.JUMP, _jump);
+        Debug.Log($"jump {_jump}");
         _jump = false;
         data.buttons.Set(NetworkInputData.DASH, _dash);
+        Debug.Log($"dash {_dash}");
+        _dash = false;*/
+
+        data.buttons.Set(PlayerButtons.Jump, _jump);
+        _jump = false;
+        data.buttons.Set(PlayerButtons.Roll, _dash);
         _dash = false;
 
         input.Set(data);

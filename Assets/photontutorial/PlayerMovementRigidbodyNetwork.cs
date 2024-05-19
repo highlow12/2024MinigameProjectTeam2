@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
 {
     NetworkRigidbody2D _rb;
-    
+    PlayerInputConsumer _input;
 
     #region
     [SerializeField] private LayerMask _groundLayer;
@@ -18,7 +18,11 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
 
     [SerializeField] float _speed = 10f;
     [SerializeField] float _jumpForce = 10f;
+    [SerializeField] float _DoubleJumpForce = 8f;
     [SerializeField] float _maxVelocity = 8f;
+
+    [SerializeField] float _dashDuration = 0.5f; // 대쉬 지속 시간
+    [SerializeField] float _dashDistance = 3.0f; // 대쉬 거리
 
     [Space]
 
@@ -35,15 +39,20 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     [Space]
 
     bool IsGrounded = false;
+    bool _isDashing = false;
 
     float _jumpBufferThreshold = .2f;
     float _jumpBufferTime;
+
+    float _rollBufferThreshold = .2f;
+    float _rollBufferTime;
 
     
     float CoyoteTimeThreshold = .1f;
     float TimeLeftGrounded;
     bool CoyoteTimeCD;
     bool WasGrounded;
+    bool hasDoubleJumped;
 
     [SerializeField]
     Vector3 Velocity;
@@ -56,6 +65,7 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     void Awake()
     {
         _rb = gameObject.GetComponent<NetworkRigidbody2D>();
+        _input = gameObject.GetComponent<PlayerInputConsumer>();
     }
 
     // Update is called once per frame
@@ -68,6 +78,7 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
         if (IsGrounded)
         {
             CoyoteTimeCD = false;
+            hasDoubleJumped = false;
             return;
         }
 
@@ -92,19 +103,30 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     }
     void inputTask()
     {
-        if (GetInput<PlayerInputData>(out var input))
+        var dir = _input.dir.normalized;
+        UpdateMovement(dir.x);
+        Jump(_input.pressed.IsSet(PlayerButtons.Jump));
+        BetterJumpLogic(_input.pressed.IsSet(PlayerButtons.Jump));
+        Roll(_input.pressed.IsSet(PlayerButtons.Roll));
+        /*if (GetInput<PlayerInputData>(out var input))
         {
             input.direction.Normalize();
+            
             UpdateMovement(input.direction.x);
             //Debug.Log(input.direction.x);
 
             Jump(input.buttons.IsSet(PlayerInputData.JUMP));
 
             BetterJumpLogic(input.buttons.IsSet(PlayerInputData.JUMP));
-        }
+
+            Roll(input.buttons.IsSet(PlayerInputData.DASH));
+            
+        }*/
     }
     void UpdateMovement(float input)
     {
+        if (_isDashing) return;
+
         DetectGroundAndWalls();
 
         if (input<0)
@@ -161,6 +183,14 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
             
                 if (!IsGrounded && jump)
                 {
+                    if (!hasDoubleJumped)
+                    {
+                        _rb.Rigidbody.velocity *= Vector2.right; //Reset y Velocity
+                        _rb.Rigidbody.AddForce(Vector2.up * _DoubleJumpForce, ForceMode2D.Impulse);
+                        CoyoteTimeCD = true;
+                        hasDoubleJumped = true;
+                    }
+
                     _jumpBufferTime = Runner.SimulationTime;
                 }
 
@@ -201,5 +231,38 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
             }
         }
         
+    }
+
+    private void Roll(bool dash)
+    {if (dash || CalculateRollBuffer())
+        {
+            if (_isDashing || !IsGrounded && dash)
+            {
+                _rollBufferTime = Runner.SimulationTime;
+            }
+
+            if (IsGrounded && (dash) && !_isDashing) // IsGrounded는 플레이어가 땅에 있는지 확인하는 메서드라고 가정
+            {
+                StartCoroutine("DashCoroutine");
+            }
+        }
+    }
+
+    private bool CalculateRollBuffer()
+    {
+        return (Runner.SimulationTime <= _rollBufferTime + _rollBufferThreshold) && IsGrounded;
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        _isDashing = true;
+
+        Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // 오브젝트가 보고 있는 방향 (오른쪽)
+        _rb.Rigidbody.velocity = dashDirection * Vector2.right * _dashDistance / _dashDuration;
+
+        yield return new WaitForSeconds(_dashDuration);
+
+        _rb.Rigidbody.velocity = Vector2.zero; // 대쉬 후 속도 초기화
+        _isDashing = false;
     }
 }
