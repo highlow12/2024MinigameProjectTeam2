@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 8555215149748870250}
   - component: {fileID: 6895360640908716429}
   - component: {fileID: 843071325141228968}
+  - component: {fileID: 4380394096111412995}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -288,6 +289,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8555215149748870250}
   - {fileID: 843071325141228968}
+  - {fileID: 4380394096111412995}
 --- !u!114 &843071325141228968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,8 +307,27 @@ MonoBehaviour:
     m_Bits: 64
   _speed: 10
   _jumpForce: 10
+  _DoubleJumpForce: 8
   _maxVelocity: 8
+  _dashDuration: 0.5
+  _dashDistance: 3
   fallMultiplier: 3.3
   lowJumpMultiplier: 2
+  _groundHorizontalDragVector: {x: 0.1, y: 1}
+  _airHorizontalDragVector: {x: 0.98, y: 1}
+  _horizontalSpeedReduceVector: {x: 0.95, y: 1}
+  _verticalSpeedReduceVector: {x: 1, y: 0.95}
   Velocity: {x: 0, y: 0, z: 0}
   GroundcheckPosition: {x: 0, y: -1, z: 0}
+--- !u!114 &4380394096111412995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121770454779270399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dae125d62933624babf756af9d95357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
