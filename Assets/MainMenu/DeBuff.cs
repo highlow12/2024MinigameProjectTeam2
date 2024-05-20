@@ -34,11 +34,11 @@ public class BurnDebuff: BasicBuff {
         name = "화상";
         description = "지속적으로 화염 피해를 입습니다.";
         icon = BuffIndicator.GetIcon(type);
-        duration = 1f;
+        duration = 60f;
         stacks = 1;
 
         effects = new float[2];
-        effects[(int)EffectIndex.damage] = 5;
+        effects[(int)EffectIndex.damage] = 2;
     }
 }
 
@@ -95,6 +95,16 @@ public class DeBuff : MonoBehaviour
         if (stacksLabel == null) return; // if not initialized
         stacksLabel.gameObject.SetActive(info.stacks != 0);
         stacksLabel.text = info.stacks.ToString();
+    }
+
+    public void OnPointerEnter()
+    {
+        if (indicator) indicator.ShowTooltip(this);
+    }
+
+    public void OnPointerExit()
+    {
+        if (indicator) indicator.HideTooltip();
     }
 
     void Update()
