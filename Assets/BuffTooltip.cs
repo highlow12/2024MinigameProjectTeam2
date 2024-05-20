@@ -39,13 +39,6 @@ public class BuffTooltip : MonoBehaviour
         desc.text = buff.info.description;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         Vector2 mousePos = Input.mousePosition;
@@ -55,6 +48,6 @@ public class BuffTooltip : MonoBehaviour
         float invertY = deltaPos.y / Mathf.Abs(deltaPos.y);
         mousePos.x += invertX * (rect.sizeDelta.x * rect.lossyScale.x / 2) + deltaPos.x;
         mousePos.y += invertY * (rect.sizeDelta.y * rect.lossyScale.y / 2) + deltaPos.y;
-        transform.position = mousePos;
+        transform.position = Vector2.Lerp(transform.position, mousePos, 0.3f);
     }
 }

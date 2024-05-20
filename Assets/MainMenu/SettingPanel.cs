@@ -30,8 +30,8 @@ public class SettingPanel : MonoBehaviour
     T Find<T>(string name) where T : UnityEngine.Object {
         return Finds<T>().Where(t => t.name == name).First();
     }
-    
-    void Start()
+
+    void Awake()
     {
         settings = Find<GameObject>("SettingsObj").GetComponent<HandleSettings>();
         panel = Find<GameObject>("SettingPanel");

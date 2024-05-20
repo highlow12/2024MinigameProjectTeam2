@@ -16,16 +16,12 @@ public class HandleSettings : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void HandleSlider() {
-    }
 
-    // Start is called before the first frame update
     void Start()
     {
         // SceneManager.LoadScene("PlayerMovementTestScne");
     }
 
-    // Update is called once per frame
     void Update()
     {
         
