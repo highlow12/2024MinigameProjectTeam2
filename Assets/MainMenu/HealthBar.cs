@@ -12,8 +12,7 @@ public class HealthBar : MonoBehaviour
 
     public BuffIndicator buffIndicator;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Transform[] childrens = GetComponentsInChildren<Transform>();
         foreach (Transform child in childrens)
@@ -23,9 +22,9 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (!buffIndicator) return;
         if (buffIndicator.deBuffs.Count > 0)
         {
             // Debug.Log(buffIndicator)

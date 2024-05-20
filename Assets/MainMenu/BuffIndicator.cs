@@ -62,7 +62,8 @@ public class BuffIndicator : MonoBehaviour
 
     public void test()
     {
-        AddBuff(DeBuffTypes.Burn);
+        int index = Random.Range(0, 3);
+        AddBuff((DeBuffTypes)index);
     }
 
     public void ShowTooltip(DeBuff buff)

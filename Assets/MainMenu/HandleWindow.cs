@@ -8,12 +8,9 @@ public class HandleWindow : MonoBehaviour
     GameObject titleBar;
     GameObject panel;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Transform[] childrensTransforms = GetComponentsInChildren<Transform>();
-        // GameObject[] childrens = new GameObject[childrensTransforms.Length];
-
         foreach (Transform child in childrensTransforms) {
             if (child.name == "Panel") panel = child.gameObject;
             else if (child.name == "TitleBar") titleBar = child.gameObject;

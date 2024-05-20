@@ -12,14 +12,12 @@ public class HandleTitleBar : MonoBehaviour
     RectTransform rect;
     bool isDragging;
 
-    // Start is called before the first frame update
     void Start()
     {
         rect = GetComponent<RectTransform>();
         parentCanvas = parentHandler.GetComponent<Canvas>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector2 mousePos = Input.mousePosition;

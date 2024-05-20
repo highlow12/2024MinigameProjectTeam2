@@ -37,8 +37,36 @@ public class BurnDebuff: BasicBuff {
         duration = 60f;
         stacks = 1;
 
-        effects = new float[2];
+        effects = new float[1];
         effects[(int)EffectIndex.damage] = 2;
+    }
+}
+
+public class BlindDebuff: BasicBuff {
+    public BlindDebuff()
+    {
+        type = DeBuffTypes.Blind;
+        name = "실명";
+        description = "시야가 좁아집니다.";
+        icon = BuffIndicator.GetIcon(type);
+        duration = 60f;
+        stacks = 0;
+
+        effects = new float[1];
+    }
+}
+
+public class UndeadDebuff: BasicBuff {
+    public UndeadDebuff()
+    {
+        type = DeBuffTypes.Undead;
+        name = "언데드";
+        description = "???";
+        icon = BuffIndicator.GetIcon(type);
+        duration = 60f;
+        stacks = 0;
+
+        effects = new float[1];
     }
 }
 
@@ -53,26 +81,9 @@ public class DeBuff : MonoBehaviour
     Image activated;
     Image deActivated;
     TMP_Text stacksLabel;
-
-    void OnEnable()
+    
+    void Awake()
     {
-        startTime = Time.time;
-        UpdateLabel();
-    }
-
-    void Start()
-    {
-        switch (deBuffType)
-        {
-            case DeBuffTypes.Burn:
-                info = new BurnDebuff();
-                break;
-            default:
-                info = new BurnDebuff();
-                break;
-        }
-
-        startTime = Time.time;
         Transform[] childrensTransforms = GetComponentsInChildren<Transform>();
 
         foreach (Transform child in childrensTransforms)
@@ -83,6 +94,21 @@ public class DeBuff : MonoBehaviour
 
             if (activated != null && deActivated != null && stacksLabel != null) break;
         }
+    }
+
+    void OnEnable()
+    {
+        startTime = Time.time;
+        UpdateLabel();
+    }
+
+    void Start()
+    {
+        if (deBuffType == DeBuffTypes.Burn) info = new BurnDebuff();
+        else if (deBuffType == DeBuffTypes.Blind) info = new BlindDebuff();
+        else if (deBuffType == DeBuffTypes.Undead) info = new UndeadDebuff();
+
+        startTime = Time.time;
 
         activated.sprite = info.icon;
         deActivated.sprite = info.icon;
