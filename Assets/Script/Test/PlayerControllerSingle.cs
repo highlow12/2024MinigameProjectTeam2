@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerControllerSingle : MonoBehaviour
 {
-    private DurationIndicator _durationIndicator;
-    private BuffIndicator _buffIndicator;
+
     private Rigidbody2D _rb;
     private Animator _anim;
     private Collider2D _collider;
-    private Image _healthBar;
+    public GameObject groundCheck;
+    public Dictionary<string, float> skillList;
+    public DurationIndicator durationIndicator;
+    public BuffIndicator buffIndicator;
+    public Image healthBar;
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
     public bool isGrounded;
@@ -31,12 +33,9 @@ public class PlayerControllerSingle : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        _durationIndicator = GameObject.FindWithTag("DurationUI").GetComponent<DurationIndicator>();
-        _buffIndicator = GameObject.FindWithTag("BuffIndicator").GetComponent<BuffIndicator>();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
-        _healthBar = GameObject.FindWithTag("CharacterHealthUI").GetComponent<Image>();
         UpdateCharacterClass(characterClass);
     }
 
@@ -44,7 +43,7 @@ public class PlayerControllerSingle : MonoBehaviour
     {
         // Raycast config 
         float maxDistance = 0.1f;
-        Vector2 position = transform.position;
+        Vector2 position = groundCheck.transform.position;
         Vector2 direction = Vector2.down;
         // Raycast
         RaycastHit2D hit = Physics2D.Raycast(position, direction, maxDistance, groundLayer);
@@ -69,7 +68,7 @@ public class PlayerControllerSingle : MonoBehaviour
         }
         _anim.SetBool("Grounded", isGrounded);
         _anim.SetFloat("AirSpeedY", _rb.velocity.y);
-        _healthBar.fillAmount = currentHealth / maxHealth;
+        healthBar.fillAmount = currentHealth / maxHealth;
         var direction = -Input.GetAxis("Horizontal").CompareTo(0);
 
         if (direction != 0)
@@ -140,10 +139,12 @@ public class PlayerControllerSingle : MonoBehaviour
             _anim.SetTrigger("Roll"); // 구르기 애니메이션
             StartCoroutine(GetInvincible(0.5f)); // 무적 0.5초
             _collider.excludeLayers = enemyLayer; // 보스 충돌 무시
-            _durationIndicator.CreateDurationIndicator(4f, "Roll");  // 쿨다운 표시
-            yield return new WaitForSeconds(0.5f);
+            float cooldown = skillList["Roll"];
+            float rollLength = 0.5f;
+            durationIndicator.CreateDurationIndicator(cooldown, "Roll");  // 쿨다운 표시
+            yield return new WaitForSeconds(rollLength);
             _collider.excludeLayers = 0;
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(cooldown - rollLength);
             isRollCoolDown = false;
         }
         yield return null;
@@ -156,10 +157,12 @@ public class PlayerControllerSingle : MonoBehaviour
             isParryCoolDown = true;
             isParrying = true;
             _anim.SetTrigger("Block"); // 방패 애니메이션
-            _durationIndicator.CreateDurationIndicator(2.25f, "Parry"); // 쿨다운 표시
-            yield return new WaitForSeconds(0.25f);
+            float cooldown = skillList["Parry"];
+            float parryLength = 0.25f;
+            durationIndicator.CreateDurationIndicator(cooldown, "Parry"); // 쿨다운 표시
+            yield return new WaitForSeconds(parryLength);
             isParrying = false;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(cooldown - parryLength);
             isParryCoolDown = false;
         }
         else
@@ -175,7 +178,7 @@ public class PlayerControllerSingle : MonoBehaviour
             yield break;
         }
         isInvincible = true;
-        _durationIndicator.CreateDurationIndicator(duration, "Invincible"); // 지속시간 표시
+        durationIndicator.CreateDurationIndicator(duration, "Invincible"); // 지속시간 표시
         yield return new WaitForSeconds(duration);
         isInvincible = false;
     }
@@ -198,9 +201,9 @@ public class PlayerControllerSingle : MonoBehaviour
             {
                 _anim.SetTrigger("Hurt"); // 피격 애니메이션
                 // 디버프 추가 테스트
-                _buffIndicator.AddBuff(DeBuffTypes.Burn); // 화상 디버프 추가
-                _buffIndicator.AddBuff(DeBuffTypes.Blind); // 실명 디버프 추가
-                _buffIndicator.AddBuff(DeBuffTypes.Undead); // 언데드 디버프 추가
+                buffIndicator.AddBuff(DeBuffTypes.Burn); // 화상 디버프 추가
+                buffIndicator.AddBuff(DeBuffTypes.Blind); // 실명 디버프 추가
+                buffIndicator.AddBuff(DeBuffTypes.Undead); // 언데드 디버프 추가
                 currentHealth -= col.gameObject.GetComponent<BossAttack>().damage; // 데미지
             }
 

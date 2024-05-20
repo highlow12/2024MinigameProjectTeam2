@@ -11,7 +11,8 @@ public class Tank : CharacterClass
         moveSpeed = 4.0f;
         weapon = new Shield();
         characterAnimator = Resources.Load<RuntimeAnimatorController>("Warrior");
-
+        skillList.Add("Parry", 5.25f);
+        skillList.Add("Roll", 5.0f);
     }
 
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -8,22 +7,19 @@ using Random = UnityEngine.Random;
 public class TestBossMonsterSingle : MonoBehaviour
 {
     private Rigidbody2D _rb;
+    public Image healthBar;
+    public DurationIndicator durationIndicator;
     public Collider2D attackRange;
     public GameObject attackRangeIndicator;
     public GameObject followTarget;
-    private Image _healthBar;
-    private Image _parryTimeIndicator;
     public float maxHealth = 1000.0f;
     public float currentHealth = 1000.0f;
     Animator animator;
+
     void Start()
     {
         animator = GetComponent<Animator>();
-        _healthBar = GameObject.FindWithTag("BossHealthUI").GetComponent<Image>();
-        _parryTimeIndicator = GameObject.FindWithTag("ParryTimeUI").GetComponent<Image>();
-        attackRange = transform.GetChild(0).gameObject.GetComponent<Collider2D>();
         _rb = GetComponent<Rigidbody2D>();
-        attackRangeIndicator = transform.GetChild(1).gameObject;
         StartCoroutine(SetTarget());
         StartCoroutine(Attack());
         StartCoroutine(Move());
@@ -31,7 +27,7 @@ public class TestBossMonsterSingle : MonoBehaviour
 
     void Update()
     {
-        _healthBar.fillAmount = currentHealth / maxHealth;
+        healthBar.fillAmount = currentHealth / maxHealth;
     }
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -59,21 +55,18 @@ public class TestBossMonsterSingle : MonoBehaviour
     {
         animator.SetTrigger("doAttack");
         attackRangeIndicator.SetActive(true);
-        float parryTime = 0f;
-        _parryTimeIndicator.fillAmount = 0f;
-        while (_parryTimeIndicator.fillAmount < 1.0f)
-        {
-            parryTime += Time.deltaTime;
-            _parryTimeIndicator.fillAmount = parryTime / 0.4f;
-            yield return null;
-        }
+        float parryTime = 0.4f;
+        float attackLength = 0.3f;
+        durationIndicator.CreateDurationIndicator(parryTime, "ParryTime");
+        yield return new WaitForSecondsRealtime(parryTime);
         attackRange.enabled = true;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSecondsRealtime(attackLength);
         attackRange.enabled = false;
         attackRangeIndicator.SetActive(false);
-        _parryTimeIndicator.fillAmount = 0.0f;
         var attackCooldown = Random.Range(2.0f, 4.0f);
-        yield return new WaitForSeconds(attackCooldown);
+        Debug.Log($"Move after {attackCooldown} seconds");
+        // durationIndicator.CreateDurationIndicator(attackCooldown, $"MoveAfter{attackCooldown}");
+        yield return new WaitForSecondsRealtime(attackCooldown);
         StartCoroutine(Move());
     }
 
@@ -81,7 +74,7 @@ public class TestBossMonsterSingle : MonoBehaviour
     {
         if (followTarget == null)
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSecondsRealtime(1.0f);
             StartCoroutine(Move());
         }
         float distance = transform.position.x - followTarget.transform.position.x;
@@ -108,13 +101,15 @@ public class TestBossMonsterSingle : MonoBehaviour
         }
         animator.SetInteger("walkState", 0);
         var moveCooldown = Random.Range(1.0f, 1.5f);
-        yield return new WaitForSeconds(moveCooldown);
+        Debug.Log("Attack after " + moveCooldown + " seconds");
+        // durationIndicator.CreateDurationIndicator(moveCooldown, $"AttackAfter{moveCooldown}");
+        yield return new WaitForSecondsRealtime(moveCooldown);
         StartCoroutine(Attack());
     }
 
     IEnumerator SetTarget()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSecondsRealtime(1.0f);
         var players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length > 0)
         {
