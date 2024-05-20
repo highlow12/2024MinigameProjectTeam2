@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Items;
 using UnityEngine;
@@ -10,6 +9,7 @@ public abstract class CharacterClass
     public float moveSpeed;
     public Weapon weapon;
     public RuntimeAnimatorController characterAnimator;
+    public Dictionary<string, float> skillList = new(); // skillName, coolDown
     public enum CharacterClassEnum
     {
         Warrior,
@@ -50,6 +50,7 @@ public abstract class CharacterClass
         controller.characterClass = classEnum;
         controller.weapon = classObj.weapon;
         controller.currentHealth = classObj.maxHealth;
+        controller.skillList = classObj.skillList;
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;
     }
 }

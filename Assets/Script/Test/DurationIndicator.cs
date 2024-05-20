@@ -5,10 +5,9 @@ using UnityEngine;
 public class DurationIndicator : MonoBehaviour
 {
     public List<GameObject> durationIndicators;
-    GameObject _durationIndicator;
+    public GameObject durationIndicator;
     void Start()
     {
-        _durationIndicator = Resources.Load<GameObject>("Duration");
     }
 
     // Update is called once per frame
@@ -18,11 +17,11 @@ public class DurationIndicator : MonoBehaviour
     }
     public void CreateDurationIndicator(float maxDuration, string name = "")
     {
-        GameObject durationIndicator = Instantiate(_durationIndicator, transform); // 지속시간 표시 오브젝트 생성
-        var indicatorComponent = durationIndicator.GetComponent<Duration>(); // 지속시간 표시 컴포넌트
+        GameObject duration = Instantiate(durationIndicator, transform); // 지속시간 표시 오브젝트 생성
+        var indicatorComponent = duration.GetComponent<Duration>(); // 지속시간 표시 컴포넌트
         indicatorComponent.maxDuration = maxDuration; // 지속시간 설정
         indicatorComponent.skillName = name; // 이름 설정
-        durationIndicators.Add(durationIndicator); // 리스트에 추가
+        durationIndicators.Add(duration); // 리스트에 추가
 
     }
 }

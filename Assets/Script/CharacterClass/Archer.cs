@@ -11,7 +11,8 @@ public class Archer : CharacterClass
         moveSpeed = 8.0f;
         weapon = new Bow();
         characterAnimator = Resources.Load<RuntimeAnimatorController>("Warrior");
-
+        skillList.Add("Parry", 5.25f);
+        skillList.Add("Roll", 5.0f);
     }
 
 }

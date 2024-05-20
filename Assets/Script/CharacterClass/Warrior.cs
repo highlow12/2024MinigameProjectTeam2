@@ -12,6 +12,8 @@ public class Warrior : CharacterClass
         moveSpeed = 5.0f;
         weapon = new Katana();
         characterAnimator = Resources.Load<RuntimeAnimatorController>("Warrior");
+        skillList.Add("Parry", 5.25f);
+        skillList.Add("Roll", 5.0f);
     }
 
 }
