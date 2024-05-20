@@ -19,9 +19,12 @@ public class BuffIndicator : MonoBehaviour
     public List<DeBuff> deBuffs;
     public GameObject deBuffPrefab;
 
+    public BuffTooltip tooltip;
+
     public bool reqUpdated = false;
 
     float iconHalfSize;
+    public Vector2 tooltipDeltaPos = new Vector2(0, 42);
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +63,19 @@ public class BuffIndicator : MonoBehaviour
     public void test()
     {
         AddBuff(DeBuffTypes.Burn);
+    }
+
+    public void ShowTooltip(DeBuff buff)
+    {
+        tooltip.buff = buff;
+        // 버프 인디케이터 툴팁 위치 변경
+        tooltip.deltaPos = tooltipDeltaPos;
+        tooltip.gameObject.SetActive(true);
+    }
+
+    public void HideTooltip()
+    {
+        tooltip.gameObject.SetActive(false);
     }
 
     public void RemoveBuff(DeBuff _)
