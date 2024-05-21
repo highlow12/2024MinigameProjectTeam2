@@ -69,7 +69,7 @@ public class PlayerControllerSingle : MonoBehaviour
         _anim.SetBool("Grounded", isGrounded);
         _anim.SetFloat("AirSpeedY", _rb.velocity.y);
         healthBar.fillAmount = currentHealth / maxHealth;
-        var direction = -Input.GetAxis("Horizontal").CompareTo(0);
+        var direction = Input.GetAxis("Horizontal").CompareTo(0);
 
         if (direction != 0)
         {
