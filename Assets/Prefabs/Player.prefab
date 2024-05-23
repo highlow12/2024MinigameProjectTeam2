@@ -309,8 +309,8 @@ MonoBehaviour:
   _jumpForce: 10
   _DoubleJumpForce: 8
   _maxVelocity: 8
-  _dashDuration: 0.5
-  _dashDistance: 3
+  _dashDuration: 0.25
+  _dashDistance: 5
   fallMultiplier: 3.3
   lowJumpMultiplier: 2
   _groundHorizontalDragVector: {x: 0.1, y: 1}
