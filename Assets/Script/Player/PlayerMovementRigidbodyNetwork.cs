@@ -180,14 +180,27 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
         //Jump
         if (jump|| CalculateJumpBuffer())
         {
-            
-                if (!IsGrounded && jump)
+            void _jump(float __jumpForce)
+            {
+                _rb.Rigidbody.velocity *= Vector2.right; //Reset y Velocity
+                _rb.Rigidbody.AddForce(Vector2.up * __jumpForce, ForceMode2D.Impulse);
+                CoyoteTimeCD = true;
+
+            }
+            void advanced_jump(float jumpHeight, float timeToApex)
+            {
+                float gravity = (2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
+                float initialJumpVelocity = Mathf.Sqrt(2 * gravity * jumpHeight);
+
+                _rb.Rigidbody.velocity = new Vector2(_rb.Rigidbody.velocity.x, initialJumpVelocity);
+                Physics.gravity = new Vector3(0, -gravity, 0);
+                CoyoteTimeCD = true;
+            }
+            if (!IsGrounded && jump)
                 {
                     if (!hasDoubleJumped)
                     {
-                        _rb.Rigidbody.velocity *= Vector2.right; //Reset y Velocity
-                        _rb.Rigidbody.AddForce(Vector2.up * _DoubleJumpForce, ForceMode2D.Impulse);
-                        CoyoteTimeCD = true;
+                        _jump(_DoubleJumpForce);
                         hasDoubleJumped = true;
                     }
 
@@ -196,10 +209,8 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
 
                 if (IsGrounded || CalculateCoyoteTime())
                 {
-                    _rb.Rigidbody.velocity *= Vector2.right; //Reset y Velocity
-                    _rb.Rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-                    CoyoteTimeCD = true;
-                    
+                //_jump(_jumpForce);
+                advanced_jump(10, 0.5f);
                 }
                 
             
