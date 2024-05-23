@@ -69,7 +69,7 @@ public class PlayerControllerSingle : MonoBehaviour
         _anim.SetBool("Grounded", isGrounded);
         _anim.SetFloat("AirSpeedY", _rb.velocity.y);
         healthBar.fillAmount = currentHealth / maxHealth;
-        var direction = -Input.GetAxis("Horizontal").CompareTo(0);
+        var direction = Input.GetAxis("Horizontal").CompareTo(0);
 
         if (direction != 0)
         {
@@ -159,7 +159,8 @@ public class PlayerControllerSingle : MonoBehaviour
             _anim.SetTrigger("Block"); // 방패 애니메이션
             float cooldown = skillList["Parry"];
             float parryLength = 0.25f;
-            durationIndicator.CreateDurationIndicator(cooldown, "Parry"); // 쿨다운 표시
+            durationIndicator.CreateDurationIndicator(0.25f, "Parry");
+            durationIndicator.CreateDurationIndicator(cooldown, "ParryCD"); // 쿨다운 표시
             yield return new WaitForSeconds(parryLength);
             isParrying = false;
             yield return new WaitForSeconds(cooldown - parryLength);

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6013223204714709835}
   m_Layer: 5
   m_Name: BuffIndicator
-  m_TagString: Untagged
+  m_TagString: BuffIndicator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deBuffs: []
-  EffectImages: []
   deBuffPrefab: {fileID: 8323311233350440908, guid: f7954732376234e6f86c5ce16c54cea2, type: 3}
+  tooltip: {fileID: 0}
   reqUpdated: 0
+  tooltipDeltaPos: {x: 0, y: 42}

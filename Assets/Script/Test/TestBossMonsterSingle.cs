@@ -14,6 +14,7 @@ public class TestBossMonsterSingle : MonoBehaviour
     public GameObject followTarget;
     public float maxHealth = 1000.0f;
     public float currentHealth = 1000.0f;
+    public float bossScale = 3.0f;
     Animator animator;
 
     void Start()
@@ -23,6 +24,7 @@ public class TestBossMonsterSingle : MonoBehaviour
         StartCoroutine(SetTarget());
         StartCoroutine(Attack());
         StartCoroutine(Move());
+        transform.localScale = new Vector3(bossScale, bossScale, 1);
     }
 
     void Update()
@@ -55,17 +57,17 @@ public class TestBossMonsterSingle : MonoBehaviour
     {
         animator.SetTrigger("doAttack");
         attackRangeIndicator.SetActive(true);
-        float parryTime = 0.4f;
+        float omenLength = 0.4f;
         float attackLength = 0.3f;
-        durationIndicator.CreateDurationIndicator(parryTime, "ParryTime");
-        yield return new WaitForSecondsRealtime(parryTime);
+        durationIndicator.CreateDurationIndicator(omenLength, "OmenDuration");
+        yield return new WaitForSecondsRealtime(omenLength);
         attackRange.enabled = true;
         yield return new WaitForSecondsRealtime(attackLength);
         attackRange.enabled = false;
         attackRangeIndicator.SetActive(false);
         var attackCooldown = Random.Range(2.0f, 4.0f);
         Debug.Log($"Move after {attackCooldown} seconds");
-        // durationIndicator.CreateDurationIndicator(attackCooldown, $"MoveAfter{attackCooldown}");
+        durationIndicator.CreateDurationIndicator(attackCooldown, $"MoveAfter{attackCooldown}");
         yield return new WaitForSecondsRealtime(attackCooldown);
         StartCoroutine(Move());
     }
@@ -81,12 +83,12 @@ public class TestBossMonsterSingle : MonoBehaviour
         Vector3 scale = transform.localScale;
         if (distance > 0)
         {
-            scale.x = -3;
+            scale.x = -bossScale;
             transform.localScale = scale;
         }
         else
         {
-            scale.x = 3;
+            scale.x = bossScale;
             transform.localScale = scale;
         }
         animator.SetInteger("walkState", 1);
@@ -102,7 +104,7 @@ public class TestBossMonsterSingle : MonoBehaviour
         animator.SetInteger("walkState", 0);
         var moveCooldown = Random.Range(1.0f, 1.5f);
         Debug.Log("Attack after " + moveCooldown + " seconds");
-        // durationIndicator.CreateDurationIndicator(moveCooldown, $"AttackAfter{moveCooldown}");
+        durationIndicator.CreateDurationIndicator(moveCooldown, $"AttackAfter{moveCooldown}");
         yield return new WaitForSecondsRealtime(moveCooldown);
         StartCoroutine(Attack());
     }
