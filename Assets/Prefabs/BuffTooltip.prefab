@@ -607,6 +607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buff: {fileID: 0}
+  deltaPos: {x: 0, y: 42}
 --- !u!1 &6628227834893988011
 GameObject:
   m_ObjectHideFlags: 0

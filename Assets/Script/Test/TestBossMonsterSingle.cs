@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -7,6 +8,9 @@ using Random = UnityEngine.Random;
 public class TestBossMonsterSingle : MonoBehaviour
 {
     private Rigidbody2D _rb;
+    private List<GameObject> effects = new();
+    public GameObject effectPool;
+    public CameraMovement cameraMovement;
     public Image healthBar;
     public DurationIndicator durationIndicator;
     public Collider2D attackRange;
@@ -21,6 +25,7 @@ public class TestBossMonsterSingle : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        effects = effectPool.GetComponent<EffectPool>().effects;
         StartCoroutine(SetTarget());
         StartCoroutine(Attack());
         StartCoroutine(Move());
@@ -29,7 +34,6 @@ public class TestBossMonsterSingle : MonoBehaviour
 
     void Update()
     {
-        healthBar.fillAmount = currentHealth / maxHealth;
     }
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -42,18 +46,16 @@ public class TestBossMonsterSingle : MonoBehaviour
 
     IEnumerator Hit()
     {
-        animator.SetTrigger("isHit");
+        // TODO: Need to implement object pooling for effects
+        GameObject hitEffect = effects.Find(e => e.name == "blood");
+        ParticleSystem instaEffect = Instantiate(hitEffect, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+        instaEffect.Play();
+        Destroy(instaEffect, instaEffect.main.duration);
         yield return null;
     }
 
-    IEnumerator JumpAttack()
-    {
-        animator.SetTrigger("doJumpAttack");
-        yield return new WaitForSeconds(1.0f);
-        StartCoroutine(Attack());
-    }
 
-    IEnumerator Attack()
+    public IEnumerator Attack()
     {
         animator.SetTrigger("doAttack");
         attackRangeIndicator.SetActive(true);
@@ -65,14 +67,30 @@ public class TestBossMonsterSingle : MonoBehaviour
         yield return new WaitForSecondsRealtime(attackLength);
         attackRange.enabled = false;
         attackRangeIndicator.SetActive(false);
-        var attackCooldown = Random.Range(2.0f, 4.0f);
-        Debug.Log($"Move after {attackCooldown} seconds");
-        durationIndicator.CreateDurationIndicator(attackCooldown, $"MoveAfter{attackCooldown}");
-        yield return new WaitForSecondsRealtime(attackCooldown);
-        StartCoroutine(Move());
+        yield return null;
     }
 
-    IEnumerator Move()
+    public IEnumerator JumpDashAttack()
+    {
+        cameraMovement.isBossJumping = true;
+        _rb.velocity = Vector2.zero;
+        _rb.mass = 1.0f;
+        Vector2 targetPos = followTarget.transform.position;
+        Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
+        float jumpForce = 10.0f;
+        float dashForce = 10.0f;
+        float dashTime = 0.5f;
+        float jumpTime = 0.8f;
+        _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        yield return new WaitForSecondsRealtime(jumpTime);
+        _rb.AddForce(direction * dashForce, ForceMode2D.Impulse);
+        yield return new WaitForSecondsRealtime(dashTime);
+        _rb.mass = 100000.0f;
+        cameraMovement.isBossJumping = false;
+        yield return null;
+    }
+
+    public IEnumerator Move()
     {
         if (followTarget == null)
         {
@@ -96,17 +114,13 @@ public class TestBossMonsterSingle : MonoBehaviour
         {
             Vector3 targetPos = followTarget.transform.position;
             targetPos.y = transform.position.y;
-            transform.position = Vector2.MoveTowards(transform.position, targetPos, 0.01f);
+            transform.position = Vector2.MoveTowards(transform.position, targetPos, 0.15f);
 
             distance = transform.position.x - followTarget.transform.position.x;
             yield return null;
         }
         animator.SetInteger("walkState", 0);
-        var moveCooldown = Random.Range(1.0f, 1.5f);
-        Debug.Log("Attack after " + moveCooldown + " seconds");
-        durationIndicator.CreateDurationIndicator(moveCooldown, $"AttackAfter{moveCooldown}");
-        yield return new WaitForSecondsRealtime(moveCooldown);
-        StartCoroutine(Attack());
+        yield return null;
     }
 
     IEnumerator SetTarget()

@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d995830b3b54f44851f0fb19f112c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectPool: {fileID: 0}
   healthBar: {fileID: 0}
   durationIndicator: {fileID: 0}
   attackRange: {fileID: 8241128489197965130}
