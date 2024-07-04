@@ -5,8 +5,8 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 public class BossBehaviourTree : MonoBehaviour
 {
-    [SerializeField] private BossState currentState;
-    [SerializeField] private Condition bossCondition;
+    public BossState currentState;
+    public Condition bossCondition;
     private TestBossMonsterSingle mainScript;
     public float conditionDuration;
     public float currentDistance;
@@ -14,7 +14,7 @@ public class BossBehaviourTree : MonoBehaviour
     public bool isAttacking;
     public bool isMoving;
     [Flags]
-    enum BossState
+    public enum BossState
     {
         Idle = 1 << 0,
         Move = 1 << 1,
@@ -24,7 +24,7 @@ public class BossBehaviourTree : MonoBehaviour
     }
 
     [Flags]
-    enum Condition
+    public enum Condition
     {
         IsPlayerInNear = 1 << 0,
         IsPlayerInFar = 1 << 1,
@@ -39,7 +39,7 @@ public class BossBehaviourTree : MonoBehaviour
         JumpDash = 1 << 1,
     }
 
-    private Dictionary<string, object> bossAttribute = new();
+    public Dictionary<string, object> bossAttribute = new();
 
     void Start()
     {
@@ -187,7 +187,6 @@ public class BossBehaviourTree : MonoBehaviour
 
                         StartCoroutine(AttackController(mainScript.Attack()));
                         Debug.Log("Do Melee Attack");
-                        // mainScript.MeleeAttack();
                         break;
                     case AttackType.JumpDash:
                         StartCoroutine(AttackController(mainScript.JumpDashAttack()));
