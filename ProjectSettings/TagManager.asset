@@ -13,6 +13,7 @@ TagManager:
   - DurationUI
   - Wall
   - BuffIndicator
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -111,7 +111,7 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         input.Set(data);
     }
 
-   
+
     #region Not used callbacks
     public void OnConnectedToServer(NetworkRunner runner)
     {
@@ -193,5 +193,5 @@ public class PlayerSpawner : MonoBehaviour, INetworkRunnerCallbacks
         //throw new NotImplementedException();
     }
     #endregion
-    
+
 }

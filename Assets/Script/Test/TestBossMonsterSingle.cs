@@ -19,11 +19,10 @@ public class TestBossMonsterSingle : MonoBehaviour
     public float maxHealth = 1000.0f;
     public float currentHealth = 1000.0f;
     public float bossScale = 3.0f;
-    Animator animator;
+    public Animator animator;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         effects = effectPool.GetComponent<EffectPool>().effects;
         StartCoroutine(SetTarget());
@@ -114,7 +113,7 @@ public class TestBossMonsterSingle : MonoBehaviour
         {
             Vector3 targetPos = followTarget.transform.position;
             targetPos.y = transform.position.y;
-            transform.position = Vector2.MoveTowards(transform.position, targetPos, 0.15f);
+            transform.position = Vector2.Lerp(transform.position, targetPos, 0.01f);
 
             distance = transform.position.x - followTarget.transform.position.x;
             yield return null;

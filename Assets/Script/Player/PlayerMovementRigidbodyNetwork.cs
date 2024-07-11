@@ -21,8 +21,8 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     [SerializeField] float _DoubleJumpForce = 8f;
     [SerializeField] float _maxVelocity = 8f;
 
-    [SerializeField] float _dashDuration = 0.5f; // ´ë½¬ Áö¼Ó ½Ã°£
-    [SerializeField] float _dashDistance = 3.0f; // ´ë½¬ °Å¸®
+    [SerializeField] float _dashDuration = 0.5f; // ï¿½ë½¬ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    [SerializeField] float _dashDistance = 3.0f; // ï¿½ë½¬ ï¿½Å¸ï¿½
 
     [Space]
 
@@ -47,7 +47,7 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     float _rollBufferThreshold = .2f;
     float _rollBufferTime;
 
-    
+
     float CoyoteTimeThreshold = .1f;
     float TimeLeftGrounded;
     bool CoyoteTimeCD;
@@ -73,7 +73,7 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     {
         WasGrounded = IsGrounded;
         IsGrounded = default;
-        
+
         IsGrounded = (bool)Runner.GetPhysicsScene2D().OverlapBox((Vector2)transform.position + (Vector2)GroundcheckPosition, Vector2.one * .85f, 0, _groundLayer);
         if (IsGrounded)
         {
@@ -129,7 +129,7 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
 
         DetectGroundAndWalls();
 
-        if (input<0)
+        if (input < 0)
         {
             //Reset x velocity if start moving in oposite direction.
             if (_rb.Rigidbody.velocity.x > 0 && IsGrounded)
@@ -138,7 +138,7 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
             }
             _rb.Rigidbody.AddForce(_speed * Vector2.left, ForceMode2D.Force);
         }
-        else if (input>0)
+        else if (input > 0)
         {
             //Reset x velocity if start moving in oposite direction.
             if (_rb.Rigidbody.velocity.x < 0 && IsGrounded)
@@ -173,12 +173,12 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
         }
     }
 
-    
+
     private void Jump(bool jump)
     {
 
         //Jump
-        if (jump|| CalculateJumpBuffer())
+        if (jump || CalculateJumpBuffer())
         {
             void _jump(float __jumpForce)
             {
@@ -197,23 +197,23 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
                 CoyoteTimeCD = true;
             }
             if (!IsGrounded && jump)
+            {
+                if (!hasDoubleJumped)
                 {
-                    if (!hasDoubleJumped)
-                    {
-                        _jump(_DoubleJumpForce);
-                        hasDoubleJumped = true;
-                    }
-
-                    _jumpBufferTime = Runner.SimulationTime;
+                    _jump(_DoubleJumpForce);
+                    hasDoubleJumped = true;
                 }
 
-                if (IsGrounded || CalculateCoyoteTime())
-                {
+                _jumpBufferTime = Runner.SimulationTime;
+            }
+
+            if (IsGrounded || CalculateCoyoteTime())
+            {
                 //_jump(_jumpForce);
                 advanced_jump(10, 0.5f);
-                }
-                
-            
+            }
+
+
         }
     }
 
@@ -241,18 +241,19 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
                 _rb.Rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Runner.DeltaTime;
             }
         }
-        
+
     }
 
     private void Roll(bool dash)
-    {if (dash || CalculateRollBuffer())
+    {
+        if (dash || CalculateRollBuffer())
         {
             if (_isDashing || !IsGrounded && dash)
             {
                 _rollBufferTime = Runner.SimulationTime;
             }
 
-            if (IsGrounded && (dash) && !_isDashing) // IsGrounded´Â ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ¸Þ¼­µå¶ó°í °¡Á¤
+            if (IsGrounded && (dash) && !_isDashing) // IsGroundedï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 StartCoroutine("DashCoroutine");
             }
@@ -268,12 +269,12 @@ public class PlayerMovementRigidbodyNetwork : NetworkBehaviour
     {
         _isDashing = true;
 
-        Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // ¿ÀºêÁ§Æ®°¡ º¸°í ÀÖ´Â ¹æÇâ (¿À¸¥ÂÊ)
+        Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _dashDistance / _dashDuration;
 
         yield return new WaitForSeconds(_dashDuration);
 
-        _rb.Rigidbody.velocity = Vector2.zero; // ´ë½¬ ÈÄ ¼Óµµ ÃÊ±âÈ­
+        _rb.Rigidbody.velocity = Vector2.zero; // ï¿½ë½¬ ï¿½ï¿½ ï¿½Óµï¿½ ï¿½Ê±ï¿½È­
         _isDashing = false;
     }
 }

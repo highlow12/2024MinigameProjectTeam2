@@ -32,10 +32,12 @@ public class PlayerControllerSingle : MonoBehaviour
     public Items.Weapon weapon;
     private void Awake()
     {
-        Application.targetFrameRate = 60;
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
+        durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
+        buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<BuffIndicator>();
+        healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
         UpdateCharacterClass(characterClass);
     }
 
