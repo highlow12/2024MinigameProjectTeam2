@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
 
-    public Vector3 followTarget;
+    public NetworkObject followTarget;
     public float cameraSpeed;
     public float groundWidth;
     public bool isBossJumping = false;
@@ -17,12 +18,12 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (followTarget == Vector3.zero)
+        if (!followTarget)
         {
             return;
         }
         // use Lerp to make smooth camera movement
-        Vector3 targetPos = followTarget;
+        Vector3 targetPos = new(followTarget.transform.position.x, followTarget.transform.position.y + 4f, transform.position.z);
         Camera.main.orthographicSize = isBossJumping ? 8f : 5f;
         if (isBossJumping)
         {
@@ -31,7 +32,7 @@ public class CameraMovement : MonoBehaviour
         }
         if (Math.Abs(targetPos.x) < groundWidth / 2 - Camera.main.orthographicSize * Camera.main.aspect)
         {
-            targetPos.x = followTarget.x;
+            targetPos.x = followTarget.transform.position.x;
         }
         else
         {

@@ -75,6 +75,8 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
             spawnPosition = new((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 1, 1, 0);
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
+            CameraMovement cameraMovement = Camera.main.GetComponent<CameraMovement>();
+            cameraMovement.followTarget = networkCharacterObject;
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkCharacterObject);
 
