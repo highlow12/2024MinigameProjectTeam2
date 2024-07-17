@@ -103,11 +103,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         base.Render();
     }
 
-    void UpdateHealthBar()
-    {
-        healthBar.fillAmount = CurrentHealth / maxHealth;
-    }
-
     // Player targeting coroutine
     IEnumerator SetTargetRecursive()
     {
@@ -154,7 +149,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             transform.localScale = scale;
         }
         _animator.SetInteger("walkState", 1);
-        while (Math.Abs(distance) > 2.0f)
+        while (Math.Abs(distance) > 3.0f)
         {
             Vector3 targetPos = FollowTarget.transform.position;
             targetPos.y = transform.position.y;
@@ -183,20 +178,18 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     public IEnumerator JumpDashAttack()
     {
+        float jumpVelocity = 15.0f;
+        float dashVelocity = 10.0f;
+        float jumpTime = 0.8f;
+        float dashTime = 0.5f;
         cameraMovement.isBossJumping = true;
         _rb.Rigidbody.velocity = Vector2.zero;
-        _rb.Rigidbody.mass = 1.0f;
         Vector2 targetPos = FollowTarget.transform.position;
         Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
-        float jumpForce = 10.0f;
-        float dashForce = 10.0f;
-        float dashTime = 0.5f;
-        float jumpTime = 0.8f;
-        _rb.Rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        _rb.Rigidbody.velocity = new Vector2(0, jumpVelocity);
         yield return new WaitForSecondsRealtime(jumpTime);
-        _rb.Rigidbody.AddForce(direction * dashForce, ForceMode2D.Impulse);
+        _rb.Rigidbody.velocity = direction * dashVelocity;
         yield return new WaitForSecondsRealtime(dashTime);
-        _rb.Rigidbody.mass = 100000.0f;
         cameraMovement.isBossJumping = false;
         yield return null;
     }

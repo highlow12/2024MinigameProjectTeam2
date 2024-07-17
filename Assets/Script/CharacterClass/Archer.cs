@@ -7,10 +7,10 @@ public class Archer : CharacterClass
     public Archer()
     {
         maxHealth = 100.0f;
-        attackSpeed = 1.5f;
-        moveSpeed = 8.0f;
+        attackSpeed = 1.0f;
+        moveSpeed = 2.3f;
         weapon = new Bow();
-        characterAnimator = Resources.Load<RuntimeAnimatorController>("Warrior");
+        characterAnimator = Resources.Load<RuntimeAnimatorController>("ArcherAnimator");
         skillList.Add("Parry", 5.25f);
         skillList.Add("Roll", 5.0f);
     }

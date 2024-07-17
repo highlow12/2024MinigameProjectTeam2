@@ -6,7 +6,9 @@ using UnityEngine;
 enum PlayerButtons
 {
     Jump = 0,
-    Roll = 1,
+    Dash = 1,
+    Roll = 2,
+    Attack = 3,
 }
 public struct PlayerInputData : INetworkInput
 {

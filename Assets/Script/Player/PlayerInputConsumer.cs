@@ -5,8 +5,8 @@ using Fusion;
 
 public class PlayerInputConsumer : NetworkBehaviour
 {
-    [Networked] public NetworkButtons ButtonPrevious {  get; set; }
-    public NetworkButtons pressed {  get; private set; }
+    [Networked] public NetworkButtons ButtonPrevious { get; set; }
+    public NetworkButtons pressed { get; private set; }
     public NetworkButtons released { get; private set; }
     public Vector2 dir { get; private set; }
     public override void FixedUpdateNetwork()

@@ -6,6 +6,8 @@ namespace Items
     public abstract class Weapon
     {
         public float attackSpeed;
+        public int attackState;
+        public float prevAttack;
         public float range;
         public float projectileSpeed;
         public int damage;

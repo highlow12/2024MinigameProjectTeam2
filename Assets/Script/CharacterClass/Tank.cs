@@ -8,7 +8,7 @@ public class Tank : CharacterClass
     {
         maxHealth = 130.0f;
         attackSpeed = 0.8f;
-        moveSpeed = 4.0f;
+        moveSpeed = 1.3f;
         weapon = new Shield();
         characterAnimator = Resources.Load<RuntimeAnimatorController>("Warrior");
         skillList.Add("Parry", 5.25f);

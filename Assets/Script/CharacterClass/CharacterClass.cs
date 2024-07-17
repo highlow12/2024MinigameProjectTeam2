@@ -12,7 +12,7 @@ public abstract class CharacterClass
     public Dictionary<string, float> skillList = new(); // skillName, coolDown
     public enum CharacterClassEnum
     {
-        Warrior,
+        Knight,
         Archer,
         Tank,
     }
@@ -21,9 +21,9 @@ public abstract class CharacterClass
     {
         switch (characterClass)
         {
-            case (int)CharacterClassEnum.Warrior:
-                var Warrior = new Warrior();
-                ChangeStats(Warrior, characterClass, player);
+            case (int)CharacterClassEnum.Knight:
+                var Knight = new Knight();
+                ChangeStats(Knight, characterClass, player);
                 break;
             case (int)CharacterClassEnum.Archer:
                 var archer = new Archer();
@@ -38,13 +38,13 @@ public abstract class CharacterClass
 
     static void ChangeStats(CharacterClass classObj, int classEnum, GameObject player)
     {
-        var controller = player.GetComponent<PlayerControllerSingle>();
+        var controller = player.GetComponent<PlayerControllerNetworked>();
         if (controller.weapon != null && controller.weapon.rangeObject != null && controller.weapon.isRangeObjectSpawned)
         {
             Debug.Log(controller.weapon.rangeObject);
             GameObject.DestroyImmediate(controller.weapon.rangeObject, true);
         }
-        controller.moveSpeed = classObj.moveSpeed;
+        controller.speed = classObj.moveSpeed;
         controller.attackSpeed = classObj.attackSpeed;
         controller.maxHealth = classObj.maxHealth;
         controller.characterClass = classEnum;

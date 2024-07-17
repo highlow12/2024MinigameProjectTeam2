@@ -15,7 +15,17 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef characterPrefab;
     [SerializeField] private GameObject debugPanel;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
-
+    bool _jump = false;
+    bool _dash = false;
+    bool _roll = false;
+    bool _attack = false;
+    private void Update()
+    {
+        _jump = _jump || Input.GetKeyDown(KeyCode.Space);
+        _dash = _dash || Input.GetKeyDown(KeyCode.C);
+        _roll = _roll || Input.GetKeyDown(KeyCode.LeftShift);
+        _attack = _attack || Input.GetKeyDown(KeyCode.Mouse0);
+    }
     async void StartGame(GameMode mode)
     {
         Application.targetFrameRate = 60;
@@ -68,7 +78,8 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
             {
                 spawnPosition = new(0, -4.6f, 0);
                 networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
-                _spawnedCharacters.Add(player, networkCharacterObject);
+                var newPlayerRef = new PlayerRef();
+                _spawnedCharacters.Add(newPlayerRef, networkCharacterObject);
                 debugPanel.SetActive(true);
             }
 
@@ -93,7 +104,37 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
+        var data = new PlayerInputData();
 
+        if (Input.GetKey(KeyCode.W))
+            data.direction += Vector2.up;
+
+        if (Input.GetKey(KeyCode.S))
+            data.direction += Vector2.down;
+
+        if (Input.GetKey(KeyCode.A))
+            data.direction += Vector2.left;
+
+        if (Input.GetKey(KeyCode.D))
+            data.direction += Vector2.right;
+
+        /*data.buttons.Set(NetworkInputData.JUMP, _jump);
+        Debug.Log($"jump {_jump}");
+        _jump = false;
+        data.buttons.Set(NetworkInputData.DASH, _dash);
+        Debug.Log($"dash {_dash}");
+        _dash = false;*/
+
+        data.buttons.Set(PlayerButtons.Jump, _jump);
+        _jump = false;
+        data.buttons.Set(PlayerButtons.Dash, _dash);
+        _dash = false;
+        data.buttons.Set(PlayerButtons.Roll, _roll);
+        _roll = false;
+        data.buttons.Set(PlayerButtons.Attack, _attack);
+        _attack = false;
+
+        input.Set(data);
     }
 
 

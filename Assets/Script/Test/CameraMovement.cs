@@ -23,7 +23,7 @@ public class CameraMovement : MonoBehaviour
             return;
         }
         // use Lerp to make smooth camera movement
-        Vector3 targetPos = new(followTarget.transform.position.x, followTarget.transform.position.y + 4f, transform.position.z);
+        Vector3 targetPos = new(followTarget.transform.position.x, followTarget.transform.position.y + 3.25f, transform.position.z);
         Camera.main.orthographicSize = isBossJumping ? 8f : 5f;
         if (isBossJumping)
         {

@@ -10,12 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4912852860526097924}
   - component: {fileID: 1484665006427564116}
-  - component: {fileID: 2718543591932407067}
   - component: {fileID: 1109775710726176081}
   - component: {fileID: 9104419367477116040}
   - component: {fileID: 6254815450817389630}
   - component: {fileID: 7808417316755668882}
   - component: {fileID: 9061576151643852141}
+  - component: {fileID: 997327397798841522}
+  - component: {fileID: 582059640041285958}
+  - component: {fileID: 6184585668885343494}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -32,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 2289889640464717279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.016, y: -4.55, z: 0}
+  m_LocalPosition: {x: -2.016, y: -3.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: -1716259091
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 13e82afa8fde64f20954d01fccda5410, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,41 +93,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2718543591932407067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2289889640464717279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d30ef67d9a1425ba8d6f6262df5dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundCheck: {fileID: 7145708231715459678}
-  durationIndicator: {fileID: 802157656497188601, guid: 60a6e474c53ca4698968354bc3a37510, type: 3}
-  buffIndicator: {fileID: 6013223204714709835, guid: 967fa7831ae6f4cdc8902d7e36e13cc4, type: 3}
-  healthBar: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  isGrounded: 0
-  isRollCoolDown: 0
-  isParryCoolDown: 0
-  isParrying: 0
-  isInvincible: 0
-  moveSpeed: 3
-  attackSpeed: 1
-  maxHealth: 100
-  currentHealth: 0
-  jumpPower: 10
-  characterClass: 0
-  maxJumpCount: 2
-  currentJumpCount: 0
 --- !u!50 &1109775710726176081
 Rigidbody2D:
   serializedVersion: 4
@@ -138,11 +105,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fd57aabf907367d48838d401eccd0dd2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -162,7 +129,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 2289889640464717279}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fd57aabf907367d48838d401eccd0dd2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -185,8 +152,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.05028987, y: 0.72731876}
-  m_Size: {x: 0.85189533, y: 1.3171682}
+  m_Offset: {x: -0.0626, y: -0.1089}
+  m_Size: {x: 1.442, y: 2.522}
   m_Direction: 0
 --- !u!95 &6254815450817389630
 Animator:
@@ -221,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e690b5fb1084f5ab1c86457af401d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SyncScale: 0
+  SyncScale: 1
   SyncParent: 1
   _interpolationTarget: {fileID: 0}
   UsePreciseRotation: 0
@@ -230,7 +197,7 @@ MonoBehaviour:
     UseEnergy: 1
     Position: 0.01
     Rotation: 0.01
-    Scale: 0.01
+    Scale: 100
 --- !u!114 &9061576151643852141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +216,76 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7808417316755668882}
+  - {fileID: 997327397798841522}
+  - {fileID: 582059640041285958}
+  - {fileID: 6184585668885343494}
+--- !u!114 &997327397798841522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289889640464717279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dae125d62933624babf756af9d95357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &582059640041285958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289889640464717279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fb2ce64520f462bbb1e8b437b8ee3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterClass: 0
+  _maxHealth: 0
+  _currentHealth: 0
+  durationIndicator: {fileID: 0}
+  buffIndicator: {fileID: 0}
+  healthBar: {fileID: 0}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  speed: 0
+  attackSpeed: 0
+  _jumpForce: 10
+  _DoubleJumpForce: 8
+  _maxVelocity: 8
+  _dashDuration: 0.5
+  _dashDistance: 3
+  fallMultiplier: 3.3
+  lowJumpMultiplier: 2
+  _groundHorizontalDragVector: {x: 0.1, y: 1}
+  _airHorizontalDragVector: {x: 0.98, y: 1}
+  _horizontalSpeedReduceVector: {x: 0.95, y: 1}
+  _verticalSpeedReduceVector: {x: 1, y: 0.95}
+  IsGrounded: 0
+  Velocity: {x: 0, y: 0, z: 0}
+  GroundcheckPosition: {x: 0, y: -1, z: 0}
+--- !u!114 &6184585668885343494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289889640464717279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 6254815450817389630}
+  TotalWords: 0
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 000000002b1a167c7940695528a981077af3fe2e22ff2dfda6dcfb1298ae24641c8df28b0e9e23138abdf5fc20e23b685928a8ce
+  TriggerHashes: 0000000028a981070d286c40
 --- !u!1 &7145708231715459678
 GameObject:
   m_ObjectHideFlags: 0
