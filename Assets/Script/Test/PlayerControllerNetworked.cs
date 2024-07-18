@@ -32,8 +32,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public float attackSpeed;
     public Items.Weapon weapon;
 
-    [SerializeField] float _jumpForce = 10f;
-    [SerializeField] float _DoubleJumpForce = 8f;
+    //[SerializeField] float _jumpForce = 10f; 
+    [SerializeField] float _jumpHeight = 10f;
+    [SerializeField] float _timeToApex = 0.5f;
+    //[SerializeField] float _DoubleJumpForce = 8f;
+    [SerializeField] float _DoubleJumpHeight = 8f;
     [SerializeField] float _maxVelocity = 8f;
 
     [SerializeField] float _dashDuration = 0.5f; // ?�� ???? ?��?
@@ -249,7 +252,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
                 CoyoteTimeCD = true;
 
             }
-            void advanced_jump(float jumpHeight, float timeToApex)
+            void advanced_jump(float jumpHeight, float timeToApex = 0.5f)
             {
                 float gravity = (2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
                 float initialJumpVelocity = Mathf.Sqrt(2 * gravity * jumpHeight);
@@ -262,7 +265,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 if (!hasDoubleJumped)
                 {
-                    _jump(_DoubleJumpForce);
+                    advanced_jump(_DoubleJumpHeight, _timeToApex);
                     hasDoubleJumped = true;
                 }
 
@@ -272,7 +275,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             if (IsGrounded || CalculateCoyoteTime())
             {
                 //_jump(_jumpForce);
-                advanced_jump(10, 0.5f);
+                advanced_jump(_jumpHeight, _timeToApex);
             }
 
 
