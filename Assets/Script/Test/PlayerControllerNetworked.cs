@@ -157,6 +157,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
         Jump(_input.pressed.IsSet(PlayerButtons.Jump));
         BetterJumpLogic(_input.pressed.IsSet(PlayerButtons.Jump));
         Roll(_input.pressed.IsSet(PlayerButtons.Roll));
+        if (_input.pressed.IsSet(PlayerButtons.Roll))
+        {
+            Debug.Log("LeftShift");
+        }
         // Run attack coroutine of weapon script directly
         if (_input.pressed.IsSet(PlayerButtons.Attack))
         {
