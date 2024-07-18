@@ -36,8 +36,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [SerializeField] float _DoubleJumpForce = 8f;
     [SerializeField] float _maxVelocity = 8f;
 
-    [SerializeField] float _dashDuration = 0.5f; // ?–è ???? ?©£?
-    [SerializeField] float _dashDistance = 3.0f; // ?–è ???
+    [SerializeField] float _dashDuration = 0.5f; // ?ï¿½ï¿½ ???? ?ï¿½ï¿½?
+    [SerializeField] float _dashDistance = 3.0f; // ?ï¿½ï¿½ ???
 
     [Space]
 
@@ -90,6 +90,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
     void Start()
     {
+        if (HasInputAuthority)
+        {
+            // Set camera follow target
+            Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
+        }
         // Set default values
         characterClass = 0;
         UpdateCharacterClass(characterClass);
@@ -310,7 +315,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
                 _rollBufferTime = Runner.SimulationTime;
             }
 
-            if (IsGrounded && (dash) && !_isDashing) // IsGrounded?? ?¡À???? ???? ????? ?????? ??????? ????
+            if (IsGrounded && (dash) && !_isDashing) // IsGrounded?? ?ï¿½ï¿½???? ???? ????? ?????? ??????? ????
             {
                 StartCoroutine("DashCoroutine");
             }
@@ -331,7 +336,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
         yield return new WaitForSeconds(_dashDuration);
 
-        _rb.Rigidbody.velocity = Vector2.zero; // ?–è ?? ??? ????
+        _rb.Rigidbody.velocity = Vector2.zero; // ?ï¿½ï¿½ ?? ??? ????
         _isDashing = false;
     }
 }

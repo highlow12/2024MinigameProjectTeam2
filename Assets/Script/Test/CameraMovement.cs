@@ -7,7 +7,7 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    public NetworkObject followTarget;
+    public GameObject followTarget;
     public float cameraSpeed;
     public float groundWidth;
     public bool isBossJumping = false;
