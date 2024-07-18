@@ -6,12 +6,12 @@ public class MainMenuStatue : MonoBehaviour
 {
     Camera main;
     SpriteRenderer spriteRenderer;
+    List<GameObject> childrens = new List<GameObject>();
 
-    float moveSpeed = -3f;
+    public float moveSpeed = -3f;
+    public int durability = 1;
     public Sprite nornalSprite;
     public Sprite brokenSprite;
-
-    int count; // 오브젝트가 맵 바깥으로 나간 횟수 (MainMenuForegroundController에서 제어)
 
     // Start is called before the first frame update
     void Start()
@@ -19,19 +19,27 @@ public class MainMenuStatue : MonoBehaviour
         main = Camera.main;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = nornalSprite;
+
+        foreach (Transform tf in GetComponentsInChildren<Transform>())
+        {
+            if (tf.gameObject.name == name) continue;
+            Debug.Log(tf.gameObject.name);
+            childrens.Add(tf.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (moveSpeed == 0) return;
         Vector3 pos = transform.position;
         Vector3 _pos = main.WorldToViewportPoint(pos);
 
         float dX = moveSpeed * Time.deltaTime;
 
-        if (_pos.x < -1)
+        if (_pos.x < -0.5)
         {
-            transform.position = new Vector3(11 + dX, pos.y, pos.z);
+            transform.position = new Vector3(12 + dX, pos.y, pos.z);
             AddCount();
         }
         else
@@ -42,9 +50,14 @@ public class MainMenuStatue : MonoBehaviour
 
     void AddCount()
     {
-        count++;
-        if (count > 1) {
-            spriteRenderer.sprite = brokenSprite;
+        durability--;
+        if (durability < 1)
+        {
+            if (brokenSprite) spriteRenderer.sprite = brokenSprite;
+            foreach (GameObject child in childrens)
+            {
+                child.SetActive(false);
+            }
         }
     }
 }
