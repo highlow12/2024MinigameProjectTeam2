@@ -52,7 +52,7 @@ public class MainMenuGate : MonoBehaviour
         canMove = true;
         while (true)
         {
-            x += 0.005f;
+            x += 0.0085f;
             sr.material.SetFloat("_Delta", x);
             yield return new WaitForSeconds(0.01f);
 

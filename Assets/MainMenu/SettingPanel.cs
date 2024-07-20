@@ -50,6 +50,8 @@ public class SettingPanel : MonoBehaviour
         master.onValueChanged.AddListener(OnMasterValueChanged);
         background.onValueChanged.AddListener(OnBackgroundValueChanged);
         effect.onValueChanged.AddListener(OnEffectValueChanged);
+
+        gameObject.SetActive(false);
     }
 
     void OnMasterValueChanged(float value) {
@@ -87,6 +89,6 @@ public class SettingPanel : MonoBehaviour
 
     public void ActiveToggle()
     {
-        panel.gameObject.SetActive(!panel.gameObject.activeInHierarchy);
+        panel.gameObject.SetActive(!panel.gameObject.activeSelf);
     }
 }
