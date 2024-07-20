@@ -254,12 +254,12 @@ MonoBehaviour:
     m_Bits: 64
   speed: 0
   attackSpeed: 0
-  _jumpHeight: 10
-  _timeToApex: 0.5
-  _DoubleJumpHeight: 8
+  _jumpHeight: 2
+  _timeToApex: 0.2
+  _DoubleJumpHeight: 2
   _maxVelocity: 8
-  _dashDuration: 0.5
-  _dashDistance: 3
+  _dashDuration: 0.1
+  _dashDistance: 10
   fallMultiplier: 3.3
   lowJumpMultiplier: 2
   _groundHorizontalDragVector: {x: 0.1, y: 1}

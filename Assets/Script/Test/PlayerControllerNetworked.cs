@@ -334,7 +334,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     private IEnumerator DashCoroutine()
     {
         _isDashing = true;
-
+        
         Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // ????????? ???? ??? ???? (??????)
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _dashDistance / _dashDuration;
 
