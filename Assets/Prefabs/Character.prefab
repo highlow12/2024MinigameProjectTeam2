@@ -195,7 +195,7 @@ MonoBehaviour:
   UseRenderSleepThresholds: 1
   RenderThresholds:
     UseEnergy: 1
-    Position: 0.01
+    Position: 100
     Rotation: 0.01
     Scale: 100
 --- !u!114 &9061576151643852141
@@ -254,8 +254,9 @@ MonoBehaviour:
     m_Bits: 64
   speed: 0
   attackSpeed: 0
-  _jumpForce: 10
-  _DoubleJumpForce: 8
+  _jumpHeight: 10
+  _timeToApex: 0.5
+  _DoubleJumpHeight: 8
   _maxVelocity: 8
   _dashDuration: 0.5
   _dashDistance: 3

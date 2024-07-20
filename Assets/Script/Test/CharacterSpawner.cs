@@ -32,9 +32,10 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
         //Fusion 런처를 생성하고 사용자 입력을 제공할 것임을 알립니다.
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
-
         gameObject.AddComponent<RunnerSimulatePhysics2D>();
-
+        // client side prediction을 사용하도록 설정합니다.
+        var physicsConfig = GetComponent<RunnerSimulatePhysics2D>();
+        physicsConfig.ClientPhysicsSimulation = ClientPhysicsSimulation.SyncTransforms;
 
         // 현재 씬에서 네트워크 씬 정보를 생성합니다.
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);

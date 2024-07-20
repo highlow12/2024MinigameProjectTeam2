@@ -68,7 +68,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e81d0fb61339f48a5914212b2c59474d, type: 2}
+  m_Motion: {fileID: 7400000, guid: f596161b7e3f345489fd961d6a9089fc, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -291,7 +291,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: df621474338ce4d4c85068ed828e09f5, type: 2}
+  m_Motion: {fileID: 7400000, guid: e43a734c2dfc64a3f9dc98468401e057, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -332,7 +332,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 88f0123bd15ac47fea86bab5cfbc9795, type: 2}
+  m_Motion: {fileID: 7400000, guid: 645d7c1d6152d4564a736182c59c35e1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -359,7 +359,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6e50f0ea6eb824706a7d8e32b2c473b1, type: 2}
+  m_Motion: {fileID: 7400000, guid: acde2fd8e2c794c6a84ebe9a016f6507, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -454,7 +454,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2ea46ca082aea423bb9a1be41e95bb31, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4792f7e4387064e2186be94c75f0a0e0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -482,7 +482,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 51aa566890c65466fa612a54f934256b, type: 2}
+  m_Motion: {fileID: 7400000, guid: f30b6cf316bc2491492f331ba656a547, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

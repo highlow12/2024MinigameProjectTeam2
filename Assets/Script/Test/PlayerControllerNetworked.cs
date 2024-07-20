@@ -245,13 +245,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             // Run jump animation
             _anim.SetTrigger("Jump");
-            void _jump(float __jumpForce)
-            {
-                _rb.Rigidbody.velocity *= Vector2.right; //Reset y Velocity
-                _rb.Rigidbody.AddForce(Vector2.up * __jumpForce, ForceMode2D.Impulse);
-                CoyoteTimeCD = true;
+            // Deprecated jump function
+            // void _jump(float __jumpForce)
+            // {
+            //     _rb.Rigidbody.velocity *= Vector2.right; //Reset y Velocity
+            //     _rb.Rigidbody.AddForce(Vector2.up * __jumpForce, ForceMode2D.Impulse);
+            //     CoyoteTimeCD = true;
 
-            }
+            // }
             void advanced_jump(float jumpHeight, float timeToApex = 0.5f)
             {
                 float gravity = (2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
