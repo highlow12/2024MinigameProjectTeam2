@@ -26,6 +26,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     #region
     [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private LayerMask _enemyLayer;
 
     [Space]
     public float speed;
@@ -321,7 +322,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
             if (IsGrounded && (dash) && !_isDashing) // IsGrounded?? ?��???? ???? ????? ?????? ??????? ????
             {
-                StartCoroutine("DashCoroutine");
+                StartCoroutine(DashCoroutine());
             }
         }
     }
@@ -334,11 +335,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
     private IEnumerator DashCoroutine()
     {
         _isDashing = true;
-        
+
         Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // ????????? ???? ??? ???? (??????)
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _dashDistance / _dashDuration;
-
+        _collider.excludeLayers = _enemyLayer;
         yield return new WaitForSeconds(_dashDuration);
+        _collider.excludeLayers = 0;
 
         _rb.Rigidbody.velocity = Vector2.zero; // ?�� ?? ??? ????
         _isDashing = false;

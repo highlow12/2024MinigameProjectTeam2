@@ -252,6 +252,9 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
   speed: 0
   attackSpeed: 0
   _jumpHeight: 2

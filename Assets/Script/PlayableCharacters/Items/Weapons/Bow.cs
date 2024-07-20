@@ -4,9 +4,8 @@ using Items;
 
 public class Bow : Weapon
 {
-    public Bow()
+    public Bow(float attackSpeed)
     {
-        attackSpeed = 1.0f;
         projectileSpeed = 10.0f;
         range = 20.0f;
         damage = 50;
