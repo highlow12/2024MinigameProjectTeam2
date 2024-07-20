@@ -28,7 +28,7 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
     }
     async void StartGame(GameMode mode)
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
         //Fusion 런처를 생성하고 사용자 입력을 제공할 것임을 알립니다.
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
