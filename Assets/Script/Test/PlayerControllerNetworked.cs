@@ -21,7 +21,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     Animator _anim;
     public Dictionary<string, float> skillList;
     public DurationIndicator durationIndicator;
-    public BuffIndicator buffIndicator;
     public Image healthBar;
 
     #region
@@ -88,9 +87,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _collider = GetComponent<Collider2D>();
         _anim = GetComponent<Animator>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
-        buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<BuffIndicator>();
         healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
-
     }
     void Start()
     {

@@ -60,3 +60,6 @@ TagManager:
   - name: ScriptableObjectsLayer
     uniqueID: 2578708205
     locked: 0
+  - name: UILayer
+    uniqueID: 3132585145
+    locked: 0
