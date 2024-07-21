@@ -97,7 +97,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
         }
         // Set default values
-        characterClass = 0;
+        characterClass = 1;
         UpdateCharacterClass(characterClass);
     }
     // Networked animation

@@ -14,6 +14,7 @@ TagManager:
   - Wall
   - BuffIndicator
   - Boss
+  - Ground
   layers:
   - Default
   - TransparentFX

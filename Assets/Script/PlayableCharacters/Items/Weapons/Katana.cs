@@ -11,7 +11,7 @@ public class Katana : Weapon
         attackState = 0;
         prevAttack = 0f;
         range = 2.0f;
-        damage = 60;
+        damage = 60.0f;
         isRangeObjectSpawned = false;
         rangeObject = Resources.Load<GameObject>("KatanaRange");
     }
@@ -34,8 +34,7 @@ public class Katana : Weapon
                 attackState = 0;
             }
             attackState++;
-            // 애니메이션 배속
-            anim.speed = 0.5f * attackSpeed;
+            anim.SetFloat("AttackAnimSpeed", 0.5f * attackSpeed);
             anim.SetInteger("AttackState", attackState);
             prevAttack = Time.time;
             anim.SetFloat("PrevAttack", prevAttack);

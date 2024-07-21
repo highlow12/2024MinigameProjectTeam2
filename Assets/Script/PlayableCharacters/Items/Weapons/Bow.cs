@@ -9,7 +9,7 @@ public class Bow : Weapon
     {
         this.attackSpeed = attackSpeed;
         projectileSpeed = 10.0f;
-        range = 20.0f;
+        range = 3.0f;
         damage = 50;
     }
 
@@ -32,6 +32,15 @@ public class Bow : Weapon
             prevAttack = Time.time;
             anim.SetFloat("PrevAttack", prevAttack);
             anim.SetTrigger("Attack");
+            var projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            Vector3 scale = character.localScale;
+            // character's scale must be 1 or -1
+            projectile.transform.position = character.position + new Vector3(scale.x * 1.5f, 0, 0);
+            projectile.transform.localScale = scale;
+            Arrow arrow = projectile.GetComponent<Arrow>();
+            arrow.projectileSpeed = projectileSpeed;
+            arrow.damage = damage;
+            arrow.range = range;
             anim.SetBool("Combo", true);
             yield return new WaitForSeconds(0.1f);
             isAttackCooldown = true;

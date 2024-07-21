@@ -7,7 +7,7 @@ public class Archer : CharacterClass
     public Archer()
     {
         maxHealth = 100.0f;
-        attackSpeed = 1.0f;
+        attackSpeed = 1.3f;
         moveSpeed = 2.3f;
         weapon = new Bow(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("ArcherAnimator");

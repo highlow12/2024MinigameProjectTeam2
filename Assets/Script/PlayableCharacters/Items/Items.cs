@@ -10,7 +10,7 @@ namespace Items
         public float prevAttack;
         public float range;
         public float projectileSpeed;
-        public int damage;
+        public float damage;
         public int defense;
         public int healingAmount;
         public GameObject rangeObject;
