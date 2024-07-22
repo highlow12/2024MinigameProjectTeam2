@@ -319,6 +319,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
             }
         }
     }
+    // It will be called by animation event
+    // projectile fire
+    public void FireProjectile()
+    {
+        StartCoroutine(weapon.FireProjectile(_anim, gameObject.transform));
+    }
 
     private bool CalculateRollBuffer()
     {

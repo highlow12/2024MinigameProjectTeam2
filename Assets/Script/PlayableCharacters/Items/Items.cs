@@ -21,5 +21,10 @@ namespace Items
             Debug.Log("Attacking");
             yield return new WaitForSeconds(attackSpeed);
         }
+        public virtual IEnumerator FireProjectile(Animator anim, Transform character)
+        {
+            Debug.Log("Firing projectile");
+            yield return new WaitForSeconds(attackSpeed);
+        }
     }
 }
