@@ -43,6 +43,7 @@ public class Arrow : PoolAble
             currentPos.y = 0.0f;
             if (Vector3.Distance(firePos, currentPos) > range)
             {
+                isFired = false;
                 ReleaseObject();
             }
         }
@@ -68,10 +69,12 @@ public class Arrow : PoolAble
         if (other.gameObject.CompareTag("Boss"))
         {
             other.gameObject.GetComponent<BossMonsterNetworked>().CurrentHealth -= damage;
+            isFired = false;
             ReleaseObject();
         }
         else if (other.gameObject.CompareTag("Ground"))
         {
+            isFired = false;
             ReleaseObject();
         }
     }

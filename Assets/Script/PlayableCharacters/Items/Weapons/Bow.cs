@@ -8,8 +8,8 @@ public class Bow : Weapon
     public Bow(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
-        projectileSpeed = 10.0f;
-        range = 3.0f;
+        projectileSpeed = 4.0f;
+        range = 10.0f;
         damage = 50;
     }
 

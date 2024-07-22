@@ -89,7 +89,12 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     void Update()
     {
-
+        // Debug.Log($"{Runner.TicksExecuted} ticks executed");
+        // Debug.Log($"{Runner.TickRate} ticks per second");
+        // Debug.Log($"{Runner.LatestServerTick} latest server tick");
+        // Debug.Log($"{Time.fixedDeltaTime} fixed delta time");
+        // Debug.Log($"{Time.deltaTime} delta time");
+        // Debug.Log($"{Runner.DeltaTime} Runner delta time");
     }
 
     // Networked boss behaviour
@@ -156,7 +161,8 @@ public class BossMonsterNetworked : NetworkBehaviour
             transform.position = Vector2.Lerp(transform.position, targetPos, 0.01f);
 
             distance = transform.position.x - FollowTarget.transform.position.x;
-            yield return null;
+            // wait for the next tick
+            yield return new WaitForSecondsRealtime(1.0f / 64);
         }
         _animator.SetInteger("walkState", 0);
         yield return null;
@@ -214,7 +220,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         if (attackCooldown > 0)
         {
-            attackCooldown -= Time.deltaTime;
+            attackCooldown -= Time.fixedDeltaTime;
         }
         if (bossCondition.HasFlag(Condition.RequireDurationUpdate))
         {
@@ -223,7 +229,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         }
         if (bossCondition.HasFlag(Condition.IsPlayerInFar))
         {
-            conditionDuration += Time.deltaTime;
+            conditionDuration += Time.fixedDeltaTime;
             if (conditionDuration >= 5.0f)
             {
                 bossCondition |= Condition.RequireDurationUpdate;

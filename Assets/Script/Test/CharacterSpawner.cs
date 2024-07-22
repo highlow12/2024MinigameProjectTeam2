@@ -19,6 +19,13 @@ public class CharacterSpawner : MonoBehaviour, INetworkRunnerCallbacks
     bool _dash = false;
     bool _roll = false;
     bool _attack = false;
+
+    private void Awake()
+    {
+        // Fix the target frame rate to 64 (tick rate of the server)
+        Application.targetFrameRate = 64;
+    }
+
     private void Update()
     {
         _jump = _jump || Input.GetKeyDown(KeyCode.Space);

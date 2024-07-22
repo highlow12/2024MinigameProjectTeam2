@@ -249,7 +249,6 @@ MonoBehaviour:
   _maxHealth: 0
   _currentHealth: 0
   durationIndicator: {fileID: 0}
-  buffIndicator: {fileID: 0}
   healthBar: {fileID: 0}
   _groundLayer:
     serializedVersion: 2
@@ -287,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 6254815450817389630}
-  TotalWords: 4
+  TotalWords: 5
   ApplyTiming: 2
   SyncSettings: 79
   StateHashes: 000000002b1a167c7940695528a981077af3fe2e22ff2dfda6dcfb1298ae24641c8df28b0e9e23138abdf5fc20e23b685928a8ce
@@ -299,7 +298,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2289889640464717279}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 255325ffd004e47ab9a9663cf0b93930, type: 3}
   m_Name: 
