@@ -1,81 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class Arrow : PoolAble
+public class Arrow : NetworkBehaviour
 {
-    public float projectileSpeed = 0.0f;
-    public float damage;
-    public float range;
+
     private bool isFired = false;
     private Vector3 firePos;
+    Base _base;
     Rigidbody2D _rb;
     Animator _anim;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _anim = GetComponent<Animator>();
+        _anim = gameObject.GetComponentInParent<Animator>();
+        _base = gameObject.GetComponentInParent<Base>();
     }
 
     void Start()
     {
-
     }
 
     void Update()
     {
-        // Release on sync by fusion after initial release
-        if (projectileSpeed == 0.0f && gameObject.activeSelf)
-        {
-            gameObject.SetActive(false);
-        }
-        if (projectileSpeed != 0.0f && !isFired)
+        if (_base.projectileSpeed != 0.0f && !isFired)
         {
             isFired = true;
-            firePos = transform.position;
+            _anim.SetInteger("ShotType", _base.shotType);
+            _anim.SetTrigger("Shot");
+            firePos = transform.localPosition;
             firePos.y = 0.0f;
+            if (transform.parent.localScale.x < 0)
+            {
+                _rb.velocity = Vector2.left * _base.projectileSpeed;
+            }
+            else
+            {
+                _rb.velocity = Vector2.right * _base.projectileSpeed;
+            }
+
         }
         if (isFired)
         {
             _anim.SetFloat("Velocity", _rb.velocity.magnitude);
-            Vector3 currentPos = transform.position;
+            Vector3 currentPos = transform.localPosition;
             currentPos.y = 0.0f;
-            if (Vector3.Distance(firePos, currentPos) > range)
+            if (Vector3.Distance(firePos, currentPos) > _base.range)
             {
                 isFired = false;
-                ReleaseObject();
+                _base.ReleaseObject();
             }
         }
-        if (transform.localScale.x < 0)
-        {
-            _rb.AddForce(Vector2.left * projectileSpeed, ForceMode2D.Impulse);
-        }
-        else
-        {
-            _rb.AddForce(Vector2.right * projectileSpeed, ForceMode2D.Impulse);
-        }
-
 
 
     }
     // Need to implement damage logic in boss script
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (projectileSpeed == 0.0f)
+        if (_base.projectileSpeed == 0.0f)
         {
             return;
         }
         if (other.gameObject.CompareTag("Boss"))
         {
-            other.gameObject.GetComponent<BossMonsterNetworked>().CurrentHealth -= damage;
+            other.gameObject.GetComponent<BossMonsterNetworked>().CurrentHealth -= _base.damage;
             isFired = false;
-            ReleaseObject();
+            _base.ReleaseObject();
         }
         else if (other.gameObject.CompareTag("Ground"))
         {
             isFired = false;
-            ReleaseObject();
+            _base.ReleaseObject();
         }
     }
 }

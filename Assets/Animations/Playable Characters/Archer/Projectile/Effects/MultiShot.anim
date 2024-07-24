@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack3
+  m_Name: MultiShot
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,19 +21,15 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: af00b105df12d4cad9df6b1175f622b3, type: 3}
-    - time: 0.1
-      value: {fileID: 21300000, guid: 95da495b18fed4003b98fc045e54c180, type: 3}
-    - time: 0.2
-      value: {fileID: 21300000, guid: 01ec0f9c1edc54497bc8dc2811454104, type: 3}
-    - time: 0.3
-      value: {fileID: 21300000, guid: 70c88cd1be1ac4c40988642b915550c2, type: 3}
-    - time: 0.4
-      value: {fileID: 21300000, guid: 82678c4a0359849cabf2876e641900bb, type: 3}
+      value: {fileID: 21300000, guid: de8f94bdab2d44f2497fd0930b199afb, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 138b5993317a24243a87a9e90e2a4b7c, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: c4ba612079b244dcb9db6f5bd6314b21, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: 1f84d94e6ecaf4581a444a64f0e0d135, type: 3}
+      value: {fileID: 21300000, guid: ce3e41162dabe44dfa273d8f5da768f4, type: 3}
     attribute: m_Sprite
-    path: 
+    path: Effect
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -45,7 +41,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 0
+      path: 2982974660
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -54,12 +50,10 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: af00b105df12d4cad9df6b1175f622b3, type: 3}
-    - {fileID: 21300000, guid: 95da495b18fed4003b98fc045e54c180, type: 3}
-    - {fileID: 21300000, guid: 01ec0f9c1edc54497bc8dc2811454104, type: 3}
-    - {fileID: 21300000, guid: 70c88cd1be1ac4c40988642b915550c2, type: 3}
-    - {fileID: 21300000, guid: 82678c4a0359849cabf2876e641900bb, type: 3}
-    - {fileID: 21300000, guid: 1f84d94e6ecaf4581a444a64f0e0d135, type: 3}
+    - {fileID: 21300000, guid: de8f94bdab2d44f2497fd0930b199afb, type: 3}
+    - {fileID: 21300000, guid: 138b5993317a24243a87a9e90e2a4b7c, type: 3}
+    - {fileID: 21300000, guid: c4ba612079b244dcb9db6f5bd6314b21, type: 3}
+    - {fileID: 21300000, guid: ce3e41162dabe44dfa273d8f5da768f4, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -84,11 +78,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.3
-    functionName: FireProjectile
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

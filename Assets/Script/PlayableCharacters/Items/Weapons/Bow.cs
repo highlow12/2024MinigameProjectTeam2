@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Items;
+using Unity.VisualScripting;
 
 public class Bow : Weapon
 {
@@ -17,7 +18,7 @@ public class Bow : Weapon
     public Bow(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
-        projectileSpeed = 4.0f;
+        projectileSpeed = 30.0f;
         range = 10.0f;
         damage = 50;
     }
@@ -91,13 +92,17 @@ public class Bow : Weapon
         }
         else
         {
-            var projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            GameObject projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            Base arrow = projectile.GetComponent<Base>();
+            GameObject projectileObject = arrow.projectile;
             Vector3 scale = character.localScale;
             // character's scale must be 1 or -1
             projectile.transform.position = character.position + new Vector3(scale.x * 1.5f, 0, 0);
             projectile.transform.localScale = scale;
-            projectile.transform.rotation = Quaternion.Euler(0, 0, 0);
-            Arrow arrow = projectile.GetComponent<Arrow>();
+            projectileObject.transform.localPosition = new Vector3(0, 0, 0);
+            projectileObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            arrow.isReady = true;
+            arrow.shotType = 0;
             arrow.projectileSpeed = projectileSpeed;
             arrow.damage = damage;
             arrow.range = range;
@@ -113,15 +118,26 @@ public class Bow : Weapon
         }
         for (int i = 0; i < 3; i++)
         {
-            var projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            GameObject projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            Base arrow = projectile.GetComponent<Base>();
+            GameObject projectileObject = arrow.projectile;
             Vector3 scale = character.localScale;
             Vector3 newRotationVector = multiShotArrows[i].rotation;
             newRotationVector.z *= scale.x;
             Quaternion newRotation = Quaternion.Euler(newRotationVector);
             projectile.transform.position = character.position + new Vector3(scale.x * multiShotArrows[i].position.x, multiShotArrows[i].position.y, 0);
             projectile.transform.localScale = scale;
-            projectile.transform.rotation = newRotation;
-            Arrow arrow = projectile.GetComponent<Arrow>();
+            projectileObject.transform.localPosition = new Vector3(0, 0, 0);
+            projectileObject.transform.rotation = newRotation;
+            arrow.isReady = true;
+            if (i == 0)
+            {
+                arrow.shotType = 1;
+            }
+            else
+            {
+                arrow.shotType = -1;
+            }
             arrow.projectileSpeed = projectileSpeed;
             arrow.damage = damage;
             arrow.range = range;
