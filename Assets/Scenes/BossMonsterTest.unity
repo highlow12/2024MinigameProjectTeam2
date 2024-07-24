@@ -1127,7 +1127,11 @@ MonoBehaviour:
   - ObjectName: ArcherProjectile
     Prefab: {fileID: 4640631990290271056, guid: 74f272c9289054a1abb4d51df7f9b5db, type: 3}
     ObjectParent: {fileID: 194623955}
-    Count: 3
+    Count: 5
+  - ObjectName: ArcherProjectileEffect
+    Prefab: {fileID: 2275247545874265340, guid: a579d2c6bd56b47c382948b60727fb5f, type: 3}
+    ObjectParent: {fileID: 400750486}
+    Count: 5
 --- !u!1 &764449433
 GameObject:
   m_ObjectHideFlags: 0

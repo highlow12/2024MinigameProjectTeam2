@@ -28,17 +28,18 @@ public class Arrow : NetworkBehaviour
         if (_base.projectileSpeed != 0.0f && !isFired)
         {
             isFired = true;
-            _anim.SetInteger("ShotType", _base.shotType);
-            _anim.SetTrigger("Shot");
             firePos = transform.localPosition;
             firePos.y = 0.0f;
             if (transform.parent.localScale.x < 0)
             {
-                _rb.velocity = Vector2.left * _base.projectileSpeed;
+                // calculate with trigonometry in 2D
+                float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
+                _rb.velocity = new Vector2(-1 * _base.projectileSpeed, -1 * yVelocity);
             }
             else
             {
-                _rb.velocity = Vector2.right * _base.projectileSpeed;
+                float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
+                _rb.velocity = new Vector2(_base.projectileSpeed, yVelocity);
             }
 
         }
@@ -56,7 +57,6 @@ public class Arrow : NetworkBehaviour
 
 
     }
-    // Need to implement damage logic in boss script
     void OnTriggerEnter2D(Collider2D other)
     {
         if (_base.projectileSpeed == 0.0f)
@@ -65,9 +65,7 @@ public class Arrow : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("Boss"))
         {
-            other.gameObject.GetComponent<BossMonsterNetworked>().CurrentHealth -= _base.damage;
             isFired = false;
-            _base.ReleaseObject();
         }
         else if (other.gameObject.CompareTag("Ground"))
         {

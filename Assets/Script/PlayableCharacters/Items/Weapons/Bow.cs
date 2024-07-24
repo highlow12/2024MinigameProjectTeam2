@@ -18,7 +18,7 @@ public class Bow : Weapon
     public Bow(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
-        projectileSpeed = 30.0f;
+        projectileSpeed = 15.0f;
         range = 10.0f;
         damage = 50;
     }
@@ -93,16 +93,19 @@ public class Bow : Weapon
         else
         {
             GameObject projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            GameObject projectileEffect = ObjectPoolManager.Instance.GetGo("ArcherProjectileEffect");
             Base arrow = projectile.GetComponent<Base>();
             GameObject projectileObject = arrow.projectile;
             Vector3 scale = character.localScale;
             // character's scale must be 1 or -1
             projectile.transform.position = character.position + new Vector3(scale.x * 1.5f, 0, 0);
             projectile.transform.localScale = scale;
+            projectileEffect.transform.position = character.position + new Vector3(scale.x * 1.5f + (scale.x * -1.2f), -0.1f, 0);
+            projectileEffect.transform.localScale = scale;
+            projectileEffect.GetComponent<Animator>().SetInteger("ShotType", 1);
             projectileObject.transform.localPosition = new Vector3(0, 0, 0);
             projectileObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             arrow.isReady = true;
-            arrow.shotType = 0;
             arrow.projectileSpeed = projectileSpeed;
             arrow.damage = damage;
             arrow.range = range;
@@ -132,11 +135,11 @@ public class Bow : Weapon
             arrow.isReady = true;
             if (i == 0)
             {
-                arrow.shotType = 1;
-            }
-            else
-            {
-                arrow.shotType = -1;
+                GameObject projectileEffect = ObjectPoolManager.Instance.GetGo("ArcherProjectileEffect");
+                projectileEffect.transform.position = character.position + new Vector3(scale.x * 1.5f + (scale.x * -1.2f), -0.1f, 0);
+                projectileEffect.transform.localScale = scale;
+                projectileEffect.GetComponent<Animator>().SetInteger("ShotType", 2);
+
             }
             arrow.projectileSpeed = projectileSpeed;
             arrow.damage = damage;
