@@ -807,8 +807,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400750485}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.308376, y: -0.14611757, z: 0.033923607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1437,7 +1437,11 @@ MonoBehaviour:
   - ObjectName: ArcherProjectile
     Prefab: {fileID: 4640631990290271056, guid: 74f272c9289054a1abb4d51df7f9b5db, type: 3}
     ObjectParent: {fileID: 194623955}
-    Count: 3
+    Count: 5
+  - ObjectName: ArcherProjectileEffect
+    Prefab: {fileID: 2275247545874265340, guid: a579d2c6bd56b47c382948b60727fb5f, type: 3}
+    ObjectParent: {fileID: 400750486}
+    Count: 5
 --- !u!1 &661875030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,11 +1517,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661875030}
   m_CullTransparentMesh: 1
-    Count: 5
-  - ObjectName: ArcherProjectileEffect
-    Prefab: {fileID: 2275247545874265340, guid: a579d2c6bd56b47c382948b60727fb5f, type: 3}
-    ObjectParent: {fileID: 400750486}
-    Count: 5
 --- !u!1 &764449433
 GameObject:
   m_ObjectHideFlags: 0
