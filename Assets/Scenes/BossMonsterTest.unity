@@ -1513,6 +1513,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661875030}
   m_CullTransparentMesh: 1
+    Count: 5
+  - ObjectName: ArcherProjectileEffect
+    Prefab: {fileID: 2275247545874265340, guid: a579d2c6bd56b47c382948b60727fb5f, type: 3}
+    ObjectParent: {fileID: 400750486}
+    Count: 5
 --- !u!1 &764449433
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,10 +73,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         attackRange = transform.GetChild(0).GetComponent<Collider2D>();
         attackRangeIndicator = transform.GetChild(1).gameObject;
-        // StartCoroutine(SetTarget());
-        // StartCoroutine(Attack());
-        // StartCoroutine(Move());
-
     }
 
     void Start()
@@ -337,6 +333,16 @@ public class BossMonsterNetworked : NetworkBehaviour
 
         }
 
+    }
+    // TriggerEvent for player attack
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("CharacterProjectile"))
+        {
+            Base projectile = other.transform.parent.gameObject.GetComponent<Base>();
+            CurrentHealth -= projectile.damage;
+            projectile.ReleaseObject();
+        }
     }
 
 }

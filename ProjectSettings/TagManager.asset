@@ -15,6 +15,7 @@ TagManager:
   - BuffIndicator
   - Boss
   - Ground
+  - CharacterProjectile
   layers:
   - Default
   - TransparentFX
@@ -60,6 +61,9 @@ TagManager:
     locked: 0
   - name: ScriptableObjectsLayer
     uniqueID: 2578708205
+    locked: 0
+  - name: EffectLayer
+    uniqueID: 1109532175
     locked: 0
   - name: UILayer
     uniqueID: 3132585145
