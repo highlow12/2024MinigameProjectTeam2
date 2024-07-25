@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public class Base : PoolAble
@@ -13,6 +14,7 @@ public class Base : PoolAble
 
     void Start()
     {
+        Object.RequestStateAuthority();
         // Release on sync by fusion after initial release
         if (projectileSpeed == 0.0f)
         {
