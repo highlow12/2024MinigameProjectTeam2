@@ -15,6 +15,7 @@ TagManager:
   - BuffIndicator
   - Boss
   - Ground
+  - CharacterProjectile
   layers:
   - Default
   - TransparentFX
