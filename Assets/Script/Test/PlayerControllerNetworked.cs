@@ -17,6 +17,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     // Local Variables
     NetworkRigidbody2D _rb;
     PlayerInputConsumer _input;
+    TestBuffIndicator buffIndicator;
+    PlayerBuffs buffs;
     Collider2D _collider;
     Animator _anim;
     public Dictionary<string, float> skillList;
@@ -95,6 +97,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
+            buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
+            buffs = gameObject.GetComponent<PlayerBuffs>();
+            buffIndicator.playerBuffs = buffs;
+            buffs.buffIndicator = buffIndicator;
         }
         // Set default values
         characterClass = 1;

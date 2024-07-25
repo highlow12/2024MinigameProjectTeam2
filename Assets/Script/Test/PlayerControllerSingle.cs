@@ -12,7 +12,7 @@ public class PlayerControllerSingle : MonoBehaviour
     public GameObject groundCheck;
     public Dictionary<string, float> skillList;
     public DurationIndicator durationIndicator;
-    public BuffIndicator buffIndicator;
+    // public BuffIndicator buffIndicator;
     public Image healthBar;
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
@@ -36,7 +36,7 @@ public class PlayerControllerSingle : MonoBehaviour
         _anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
-        buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<BuffIndicator>();
+        // buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<BuffIndicator>();
         healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
         UpdateCharacterClass(characterClass);
     }
@@ -204,9 +204,9 @@ public class PlayerControllerSingle : MonoBehaviour
             {
                 _anim.SetTrigger("Hurt"); // 피격 애니메이션
                 // 디버프 추가 테스트
-                buffIndicator.AddBuff(DeBuffTypes.Burn); // 화상 디버프 추가
-                buffIndicator.AddBuff(DeBuffTypes.Blind); // 실명 디버프 추가
-                buffIndicator.AddBuff(DeBuffTypes.Undead); // 언데드 디버프 추가
+                // buffIndicator.AddBuff(DeBuffTypes.Burn); // 화상 디버프 추가
+                // buffIndicator.AddBuff(DeBuffTypes.Blind); // 실명 디버프 추가
+                // buffIndicator.AddBuff(DeBuffTypes.Undead); // 언데드 디버프 추가
                 currentHealth -= col.gameObject.GetComponent<BossAttack>().damage; // 데미지
             }
 

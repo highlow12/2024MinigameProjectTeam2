@@ -11,13 +11,14 @@ public class PlayerBuffs : NetworkBehaviour
     public GameObject buffPrefab;
     public TestBuffIndicator buffIndicator;
     
-    public GameObject[] buffObjects = new GameObject[6];
+    public TestBuff[] buffObjects = new TestBuff[6];
     [Networked, Capacity(6)] public NetworkArray<Buff> buffs { get; }
         = MakeInitializer(new Buff[] {});
 
     public float iconHalfSize;
 
-    public List<int> emptyIndexes {
+    public List<int> emptyIndexes
+    {
         get
         {
             List<int> temp = new List<int>();
@@ -29,11 +30,32 @@ public class PlayerBuffs : NetworkBehaviour
         }
     }
 
-    public int Length {
+    public int Length
+    {
         get
         {
             return buffs.Length - emptyIndexes.Count();
         }
+    }
+
+    public int GetIndex(int type)
+    {
+        try
+        {
+            int index = buffs
+                .Select((x, i) => new { buff = x, index = i })
+                .Where(x => x.buff.type == type)
+                .First().index;
+            return index;
+        }
+        catch (InvalidOperationException)
+        {
+            return -1;
+        }
+    }
+    public int GetIndex(BuffTypes type)
+    {
+        return GetIndex(type);
     }
 
     void Awake()
@@ -44,9 +66,6 @@ public class PlayerBuffs : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
-        buffIndicator.playerBuffs = this;
-        Test();
     }
 
     public override void FixedUpdateNetwork()
@@ -65,25 +84,27 @@ public class PlayerBuffs : NetworkBehaviour
         Buff a = new Buff
         {
             type = (int)BuffTypes.Burn,
+            duration = 10f,
+            stacks = 100,
+            startTime = Time.time
+        };
+        Buff b = new Buff
+        {
+            type = (int)BuffTypes.Blind,
             duration = 5f,
-            stacks = 10,
+            stacks = 100,
             startTime = Time.time
         };
         
         AddBuff(a);
+        AddBuff(b);
     }
     
     public void AddBuff(Buff buff)
     {
-        try
+        int index = GetIndex(buff.type);
+        if (index >= 0)
         {
-            int index = buffs
-                .Select((x, i) => new { buff = x, index = i })
-                .Where(x => x.buff.type == buff.type)
-                .First().index;
-            
-            Debug.Log("Exists");
-
             Buff cur = buffs[index];
             if (cur.stacks == 0)
             {
@@ -91,59 +112,63 @@ public class PlayerBuffs : NetworkBehaviour
             }
             else
             {
-                cur.stacks += 100;
+                cur.stacks += 1;
             }
 
+            buffObjects[index].buff = cur;
             buffs.Set(index, cur);
             buffIndicator.reqUpdated = true;
         }
-        catch (InvalidOperationException)
+        else
         {
-            Debug.Log("ADD");
+            int _index = emptyIndexes.First();
             GameObject obj = Instantiate(buffPrefab, buffIndicator.transform);
             TestBuff nD = obj.GetComponent<TestBuff>();
             nD.indicator = buffIndicator;
             nD.buff = buff;
-            buffObjects[emptyIndexes.First()] = obj;
-            buffs.Set(emptyIndexes.First(), buff);
+            buffObjects[_index] = nD;
+            buffs.Set(_index, buff);
             buffIndicator.reqUpdated = true;
         }
     }
 
+    public Buff GetBuff(BuffTypes type)
+    {
+        int index = GetIndex(type);
+        if (index == -1) return default;
+        else return buffs[index];
+    }
+
     public void SetBuff(Buff buff)
     {
-        try
+        int index = GetIndex(buff.type);
+        if (index >= 0) 
         {
-            int index = buffs
-                .Select((x, i) => new { buff = x, index = i })
-                .Where(x => x.buff.type == buff.type)
-                .First().index;
-
             buffs.Set(index, buff);
+            buffObjects[index].buff = buff;
         }
-        catch (InvalidOperationException)
+        else 
         {
-            buffs.Set(emptyIndexes.First(), buff);
+            int _index = emptyIndexes.First();
+            GameObject obj = Instantiate(buffPrefab, buffIndicator.transform);
+            TestBuff nD = obj.GetComponent<TestBuff>();
+            nD.indicator = buffIndicator;
+            nD.buff = buff;
+            buffObjects[_index] = nD;
+            buffs.Set(_index, buff);
         }
     }
 
     public void RemoveBuff(int buffType)
     {
-        try
-        {
-            int index = buffs
-                .Select((x, i) => new { buff = x, index = i })
-                .Where(x => x.buff.type == buffType)
-                .First().index;
-
-            Destroy(buffObjects[index]);
-            buffs.Set(index, default);
-        }
-        catch (InvalidOperationException) {}
+        int index = GetIndex(buffType);
+        if (index == -1) return;
+        Destroy(buffObjects[index]);
+        buffs.Set(index, default);
     }
 
     public void RemoveBuff(BuffTypes buffType)
     {
-        RemoveBuff((int)buffType);
+        RemoveBuff(buffType);
     }
 }

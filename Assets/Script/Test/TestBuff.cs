@@ -35,13 +35,9 @@ public class TestBuff : MonoBehaviour
 
     void Start()
     {
-        if (buff.type == (int)BuffTypes.Burn) info = new BurnDebuff();
-        else if (buff.type == (int)BuffTypes.Blind) info = new BlindDebuff();
-        else if (buff.type == (int)BuffTypes.Undead) info = new UndeadDebuff();
-
+        info = BuffIcons.GetInfo(buff.type);
         activated.sprite = info.icon;
         deActivated.sprite = info.icon;
-
         UpdateLabel();
     }
 
@@ -75,9 +71,9 @@ public class TestBuff : MonoBehaviour
             if (buff.stacks > 1)
             {
                 buff.stacks--;
-                UpdateLabel();
                 buff.startTime = now;
                 indicator.playerBuffs.SetBuff(buff);
+                UpdateLabel();
             }
             else
             {
