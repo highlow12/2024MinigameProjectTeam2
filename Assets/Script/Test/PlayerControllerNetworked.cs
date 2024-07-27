@@ -101,6 +101,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffs = gameObject.GetComponent<PlayerBuffs>();
             buffIndicator.playerBuffs = buffs;
             buffs.buffIndicator = buffIndicator;
+            buffs.Test();
         }
         // Set default values
         characterClass = 1;

@@ -125,7 +125,7 @@ public class TestBuffIndicator : MonoBehaviour
 
     public void Test()
     {
-        playerBuffs.Test();
+        playerBuffs.Test2();
     }
 
     void FixedUpdate()

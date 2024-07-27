@@ -5,6 +5,7 @@ using Fusion;
 using System;
 using System.Linq;
 using Unity.VisualScripting;
+using ExitGames.Client.Photon.StructWrapping;
 
 public class PlayerBuffs : NetworkBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerBuffs : NetworkBehaviour
     public TestBuffIndicator buffIndicator;
     
     public TestBuff[] buffObjects = new TestBuff[6];
+    [Networked] bool reqUpdate { get; set; } = false;
     [Networked, Capacity(6)] public NetworkArray<Buff> buffs { get; }
         = MakeInitializer(new Buff[] {});
 
@@ -53,9 +55,10 @@ public class PlayerBuffs : NetworkBehaviour
             return -1;
         }
     }
+
     public int GetIndex(BuffTypes type)
     {
-        return GetIndex(type);
+        return GetIndex((int)type);
     }
 
     void Awake()
@@ -70,13 +73,33 @@ public class PlayerBuffs : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (!buffs[0].Equals(default))
+        if (!reqUpdate) return;
+        for (int i = 0; i < buffs.Length; i++)
         {
-            if (HasInputAuthority)
+            Debug.Log($"[{i}] {buffs[i].type} {buffObjects[i]} {buffs[i].type == 0}");
+            if (buffs[i].type == 0)
             {
+                if (buffObjects[i] != null) {
+                    Destroy(buffObjects[i].gameObject);
+                }
+            }
+            else if (buffObjects[i] == null)
+            {
+                GameObject obj = Instantiate(buffPrefab, buffIndicator.transform);
+                TestBuff nD = obj.GetComponent<TestBuff>();
+                nD.indicator = buffIndicator;
+                buffObjects[i] = nD;
+                buffObjects[i].buff = buffs[i];
+                buffObjects[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                buffObjects[i].buff = buffs[i];
                 
             }
         }
+        buffIndicator.reqUpdated = true;
+        RPC_UpdateDone();
     }
 
     public void Test()
@@ -85,24 +108,30 @@ public class PlayerBuffs : NetworkBehaviour
         {
             type = (int)BuffTypes.Burn,
             duration = 10f,
-            stacks = 100,
+            stacks = 3,
             startTime = Time.time
         };
         Buff b = new Buff
         {
             type = (int)BuffTypes.Blind,
             duration = 5f,
-            stacks = 100,
+            stacks = 3,
             startTime = Time.time
         };
         
-        AddBuff(a);
-        AddBuff(b);
+        RPC_SetBuff(0, a);
+        RPC_SetBuff(1, b);
+        // SetBuff(b);
+    }
+
+    public void Test2()
+    {
+        AddBuff(BuffTypes.Burn);
     }
     
-    public void AddBuff(Buff buff)
+    public void AddBuff(BuffTypes type)
     {
-        int index = GetIndex(buff.type);
+        int index = GetIndex((int)type);
         if (index >= 0)
         {
             Buff cur = buffs[index];
@@ -116,19 +145,7 @@ public class PlayerBuffs : NetworkBehaviour
             }
 
             buffObjects[index].buff = cur;
-            buffs.Set(index, cur);
-            buffIndicator.reqUpdated = true;
-        }
-        else
-        {
-            int _index = emptyIndexes.First();
-            GameObject obj = Instantiate(buffPrefab, buffIndicator.transform);
-            TestBuff nD = obj.GetComponent<TestBuff>();
-            nD.indicator = buffIndicator;
-            nD.buff = buff;
-            buffObjects[_index] = nD;
-            buffs.Set(_index, buff);
-            buffIndicator.reqUpdated = true;
+            RPC_SetBuff(index, cur);
         }
     }
 
@@ -142,33 +159,33 @@ public class PlayerBuffs : NetworkBehaviour
     public void SetBuff(Buff buff)
     {
         int index = GetIndex(buff.type);
-        if (index >= 0) 
-        {
-            buffs.Set(index, buff);
-            buffObjects[index].buff = buff;
-        }
-        else 
-        {
-            int _index = emptyIndexes.First();
-            GameObject obj = Instantiate(buffPrefab, buffIndicator.transform);
-            TestBuff nD = obj.GetComponent<TestBuff>();
-            nD.indicator = buffIndicator;
-            nD.buff = buff;
-            buffObjects[_index] = nD;
-            buffs.Set(_index, buff);
-        }
+        if (index == -1) index = emptyIndexes.First();
+        Debug.Log($"SetBuff [{index}] = {buff.type}");
+        RPC_SetBuff(index, buff);
     }
 
     public void RemoveBuff(int buffType)
     {
         int index = GetIndex(buffType);
         if (index == -1) return;
-        Destroy(buffObjects[index]);
-        buffs.Set(index, default);
+        RPC_SetBuff(index, default);
     }
 
     public void RemoveBuff(BuffTypes buffType)
     {
-        RemoveBuff(buffType);
+        RemoveBuff((int)buffType);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, TickAligned = false)]
+    public void RPC_SetBuff(int index, Buff buff)
+    {
+        buffs.Set(index, buff);
+        reqUpdate = true;
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_UpdateDone()
+    {
+        reqUpdate = false;
     }
 }
