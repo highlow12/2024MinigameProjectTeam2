@@ -102,6 +102,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffIndicator.playerBuffs = buffs;
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
+            PlayerInfosProvider.Instance.Rpc_SetNickName(Runner.LocalPlayer);
         }
         // Set default values
         characterClass = 1;

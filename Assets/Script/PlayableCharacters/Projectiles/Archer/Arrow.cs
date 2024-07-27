@@ -21,7 +21,8 @@ public class Arrow : NetworkBehaviour
 
     void Start()
     {
-        Object.RequestStateAuthority();
+        Spawned();
+        // Object.RequestStateAuthority();
     }
 
     void Update()

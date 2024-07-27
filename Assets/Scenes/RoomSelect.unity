@@ -851,7 +851,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 379572068}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1230985756}
+        m_TargetAssemblyTypeName: MatchMaking, Assembly-CSharp
+        m_MethodName: STARTGAME_host
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &379572068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,6 +1714,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223178851}
   m_CullTransparentMesh: 1
+--- !u!1 &1230985755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1230985757}
+  - component: {fileID: 1230985756}
+  m_Layer: 0
+  m_Name: MatchMakingSingleton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1230985756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230985755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0072c13c3d262c940aab773492c1475e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nickName: 
+  sceneName: BossMonsterTest.unity
+  sessionName: {fileID: 749021897}
+  nickNameField: {fileID: 36887167}
+  bossPrefab:
+    RawGuidValue: 9625a083ef45a4796bde0e5001796d93
+  playerInfosProviderPrefab:
+    RawGuidValue: 8a6a31030ada14344b476381fef0bc77
+  characterPrefab:
+    RawGuidValue: 94a93e4facce74972b406a8c717ba14b
+  debugPanel: {fileID: 0}
+--- !u!4 &1230985757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230985755}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 953, y: 536, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1293865643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,7 +1972,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1398788152}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1230985756}
+        m_TargetAssemblyTypeName: MatchMaking, Assembly-CSharp
+        m_MethodName: STARTGAME_client
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1398788152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2588,3 +2667,4 @@ SceneRoots:
   - {fileID: 1588103692}
   - {fileID: 888123786}
   - {fileID: 309501353}
+  - {fileID: 1230985757}

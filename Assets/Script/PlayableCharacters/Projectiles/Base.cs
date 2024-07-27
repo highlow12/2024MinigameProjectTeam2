@@ -14,7 +14,9 @@ public class Base : PoolAble
 
     void Start()
     {
-        Object.RequestStateAuthority();
+        Spawned();
+
+        // Object.RequestStateAuthority();
         // Release on sync by fusion after initial release
         if (projectileSpeed == 0.0f)
         {
