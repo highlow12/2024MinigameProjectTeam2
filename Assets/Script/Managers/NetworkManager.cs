@@ -19,6 +19,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     [SerializeField] private InputManager inputManager;
     [SerializeField] private NetworkPrefabRef bossPrefab;
     [SerializeField] private NetworkPrefabRef playerInfosProviderPrefab;
+    [SerializeField] private NetworkPrefabRef objectPoolNetworkedPrefab;
     [SerializeField] private NetworkPrefabRef characterPrefab;
     [SerializeField] private GameObject otherStatusPrefab;
     [SerializeField] private GameObject debugPanel;
@@ -53,7 +54,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             GameMode = mode,
             SessionName = sessionName,
             Scene = scene,
-            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
         });
     }
 
@@ -69,6 +70,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 spawnPosition = new(0, -4.6f, 0);
                 networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
                 runner.Spawn(playerInfosProviderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
                 _spawnedCharacters.Add(newPlayerRef, networkCharacterObject);
                 // debugPanel.SetActive(true);
@@ -164,7 +166,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         //throw new NotImplementedException();
     }
 
-    public void OnSceneLoadDone(NetworkRunner runner)
+    void INetworkRunnerCallbacks.OnSceneLoadDone(NetworkRunner runner)
     {
         //throw new NotImplementedException();
     }
