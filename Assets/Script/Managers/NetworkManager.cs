@@ -9,6 +9,7 @@ using Fusion.Addons.Physics;
 
 using System;
 using System.Linq;
+using ExitGames.Client.Photon.StructWrapping;
 
 public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 {
@@ -19,6 +20,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef bossPrefab;
     [SerializeField] private NetworkPrefabRef playerInfosProviderPrefab;
     [SerializeField] private NetworkPrefabRef characterPrefab;
+    [SerializeField] private GameObject otherStatusPrefab;
     [SerializeField] private GameObject debugPanel;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new();
 
@@ -72,24 +74,30 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 // debugPanel.SetActive(true);
             }
 
-
             spawnPosition = new(player.RawEncoded % runner.Config.Simulation.PlayerCount * 1, 1, 0);
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
-
-            // if (player == runner.LocalPlayer)
-            // {
-            //     CameraMovement cameraMovement = Camera.main.GetComponent<CameraMovement>();
-            //     cameraMovement.followTarget = networkCharacterObject;
-            // }
-            // Keep track of the player avatars for easy access
+            runner.SetPlayerObject(player, networkCharacterObject);
             _spawnedCharacters.Add(player, networkCharacterObject);
-
+        }
+            
+        runner.TryGetPlayerObject(player, out NetworkObject playerObj);
+        PlayerControllerNetworked controller = playerObj.GetComponent<PlayerControllerNetworked>();
+        controller.player = player;
+        if (runner.LocalPlayer != player)
+        {
+            Canvas canvas = FindAnyObjectByType<Canvas>();
+            GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
+            OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
+            controller.otherStatusPanel = osp;
+            other.SetActive(true);
         }
     }
+
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
         {
+            Destroy(networkObject.GetComponent<PlayerControllerNetworked>().otherStatusPanel.gameObject);
             runner.Despawn(networkObject);
             _spawnedCharacters.Remove(player);
         }

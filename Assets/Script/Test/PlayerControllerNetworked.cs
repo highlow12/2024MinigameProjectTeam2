@@ -13,6 +13,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public int characterClass { get; set; }
     [Networked] public float maxHealth { get; set; }
     [Networked] public float currentHealth { get; set; }
+    public PlayerRef player;
 
     // Local Variables
     NetworkRigidbody2D _rb;
@@ -24,6 +25,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public Dictionary<string, float> skillList;
     public DurationIndicator durationIndicator;
     public Image healthBar;
+    public OtherStatusPanel otherStatusPanel;
 
     #region
     [SerializeField] private LayerMask _groundLayer;
@@ -93,6 +95,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
     void Start()
     {
+        characterClass = 1;
+        UpdateCharacterClass(characterClass);
+
         if (HasInputAuthority)
         {
             // Set camera follow target
@@ -104,9 +109,13 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffs.Test();
             PlayerInfosProvider.Instance.Rpc_SetNickName(Runner.LocalPlayer);
         }
-        // Set default values
-        characterClass = 1;
-        UpdateCharacterClass(characterClass);
+        else
+        {
+            if (!otherStatusPanel) return;
+            otherStatusPanel.SetClass(characterClass);
+            // otherStatusPanel.SetName(PlayerInfosProvider.Instance.PlayerInfos[player.PlayerId].nickName.ToString());
+            otherStatusPanel.SetName($"[{player.PlayerId}] who");
+        }
     }
     // Networked animation
     public override void Render()

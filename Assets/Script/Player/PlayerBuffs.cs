@@ -82,6 +82,7 @@ public class PlayerBuffs : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         if (!reqUpdate) return;
+        if (!buffIndicator) return;
         for (int i = 0; i < buffs.Length; i++)
         {
             // Debug.Log($"[{i}] {buffs[i].type} {buffObjects[i]} {buffs[i].type == 0}");

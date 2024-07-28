@@ -1,6 +1,29 @@
 using System.Collections.Generic;
+using System.Linq;
 using Items;
 using UnityEngine;
+
+public enum CharacterClassEnum
+{
+    Knight,
+    Archer,
+    Tank,
+}
+
+public class ClassIcons
+{
+    static public List<Sprite> classIcons = new();
+    static public Sprite GetIcon(CharacterClassEnum type)
+    {
+        if (classIcons.Count == 0)
+        {
+            classIcons = Resources.LoadAll<Sprite>("Icons/Classes").ToList();
+        }
+
+        Debug.Log(type.ToString());
+        return classIcons.Find(x => x.name == type.ToString());
+    }
+}
 
 public abstract class CharacterClass
 {
@@ -10,12 +33,6 @@ public abstract class CharacterClass
     public Weapon weapon;
     public RuntimeAnimatorController characterAnimator;
     public Dictionary<string, float> skillList = new(); // skillName, coolDown
-    public enum CharacterClassEnum
-    {
-        Knight,
-        Archer,
-        Tank,
-    }
 
     public static void ChangeClass(int characterClass, GameObject player)
     {
