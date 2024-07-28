@@ -1745,7 +1745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sessionName: {fileID: 749021897}
   nickNameField: {fileID: 36887167}
-  networkManager: {fileID: 0}
+  networkManager: {fileID: 1622849452}
 --- !u!4 &1230985757
 Transform:
   m_ObjectHideFlags: 0
