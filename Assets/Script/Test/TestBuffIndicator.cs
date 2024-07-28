@@ -132,7 +132,7 @@ public class TestBuffIndicator : MonoBehaviour
     {
         if (!playerBuffs) return;
         // 새로운 버프에 걸릴 경우에만 위치 업데이트가 필요하다.
-        if (!reqUpdated || playerBuffs.Length < 1) return;
+        if (!reqUpdated) return;
         int cur = 0;
 
         foreach (TestBuff buff in playerBuffs.buffObjects)

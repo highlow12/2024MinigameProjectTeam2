@@ -19,26 +19,34 @@ public class PlayerBuffs : NetworkBehaviour
 
     public float iconHalfSize;
 
-    public List<int> emptyIndexes
-    {
-        get
+    // public List<int> emptyIndexes
+    // {
+    //     get
+    //     {
+    //         List<int> temp = new List<int>();
+    //         for (int i = 0; i < buffs.Length; i++)
+    //         {
+    //             if (buffs[i].type == 0) temp.Add(i);
+    //         }
+    //         return temp;
+    //     }
+    // }
+
+    private int _index = 0;
+    public int index {
+        get 
         {
-            List<int> temp = new List<int>();
-            for (int i = 0; i < buffs.Length; i++)
-            {
-                if (buffs[i].type == 0) temp.Add(i);
-            }
-            return temp;
+            return _index++ % buffs.Length;
         }
     }
 
-    public int Length
-    {
-        get
-        {
-            return buffs.Length - emptyIndexes.Count();
-        }
-    }
+    // public int Length
+    // {
+    //     get
+    //     {
+    //         return buffs.Length - emptyIndexes.Count();
+    //     }
+    // }
 
     public int GetIndex(int type)
     {
@@ -76,7 +84,7 @@ public class PlayerBuffs : NetworkBehaviour
         if (!reqUpdate) return;
         for (int i = 0; i < buffs.Length; i++)
         {
-            Debug.Log($"[{i}] {buffs[i].type} {buffObjects[i]} {buffs[i].type == 0}");
+            // Debug.Log($"[{i}] {buffs[i].type} {buffObjects[i]} {buffs[i].type == 0}");
             if (buffs[i].type == 0)
             {
                 if (buffObjects[i] != null) {
@@ -99,6 +107,7 @@ public class PlayerBuffs : NetworkBehaviour
             }
         }
         buffIndicator.reqUpdated = true;
+        reqUpdate = false;
         RPC_UpdateDone();
     }
 
@@ -119,9 +128,10 @@ public class PlayerBuffs : NetworkBehaviour
             startTime = Time.time
         };
         
-        RPC_SetBuff(0, a);
-        RPC_SetBuff(1, b);
-        // SetBuff(b);
+        // RPC_SetBuff(0, a);
+        // RPC_SetBuff(1, b);
+        SetBuff(a);
+        SetBuff(b);
     }
 
     public void Test2()
@@ -159,7 +169,7 @@ public class PlayerBuffs : NetworkBehaviour
     public void SetBuff(Buff buff)
     {
         int index = GetIndex(buff.type);
-        if (index == -1) index = emptyIndexes.First();
+        if (index == -1) index = this.index;
         Debug.Log($"SetBuff [{index}] = {buff.type}");
         RPC_SetBuff(index, buff);
     }
