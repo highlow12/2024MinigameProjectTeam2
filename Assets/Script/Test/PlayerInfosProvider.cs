@@ -29,7 +29,7 @@ public class PlayerInfosProvider : NetworkBehaviour
         PlayerInfoStruct playerInfo = new()
         {
             // Access the nickName from the match making singleton object
-            nickName = Runner.gameObject.GetComponent<MatchMaking>().nickName,
+            nickName = Runner.gameObject.GetComponent<NetworkManager>().nickName,
             playerRef = player
         };
         PlayerInfos.Set(Runner.ActivePlayers.Count() - 1, playerInfo);
