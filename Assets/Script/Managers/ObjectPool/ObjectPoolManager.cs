@@ -34,6 +34,7 @@ public class ObjectPoolManager : MonoBehaviour
     private readonly Dictionary<string, IObjectPool<GameObject>> objectPoolDic = new();
     // 오브젝트풀에서 오브젝트를 새로 생성할때 사용할 딕셔너리
     private Dictionary<string, GameObject> goDic = new();
+    private Dictionary<string, GameObject> goRoot = new();
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class ObjectPoolManager : MonoBehaviour
             }
 
             goDic.Add(objectInfos[idx].ObjectName, objectInfos[idx].Prefab);
+            goRoot.Add(objectInfos[idx].ObjectName, objectInfos[idx].ObjectParent.gameObject);
             objectPoolDic.Add(objectInfos[idx].ObjectName, pool);
 
             // 미리 오브젝트 생성 해놓기
@@ -87,7 +89,7 @@ public class ObjectPoolManager : MonoBehaviour
     // 생성
     private GameObject CreatePooledItem()
     {
-        GameObject poolGo = Instantiate(goDic[objectName], objectParent);
+        GameObject poolGo = Instantiate(goDic[objectName], goRoot[objectName].transform);
         poolGo.GetComponent<PoolAble>().Pool = objectPoolDic[objectName];
         return poolGo;
     }

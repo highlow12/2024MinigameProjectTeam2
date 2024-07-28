@@ -70,7 +70,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 spawnPosition = new(0, -4.6f, 0);
                 networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
                 runner.Spawn(playerInfosProviderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
+                // runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
                 _spawnedCharacters.Add(newPlayerRef, networkCharacterObject);
                 // debugPanel.SetActive(true);
@@ -81,7 +81,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             runner.SetPlayerObject(player, networkCharacterObject);
             _spawnedCharacters.Add(player, networkCharacterObject);
         }
-            
+
         runner.TryGetPlayerObject(player, out NetworkObject playerObj);
         PlayerControllerNetworked controller = playerObj.GetComponent<PlayerControllerNetworked>();
         controller.player = player;
