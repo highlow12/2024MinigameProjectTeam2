@@ -111,10 +111,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
         else
         {
-            if (!otherStatusPanel) return;
-            otherStatusPanel.SetClass(characterClass);
-            // otherStatusPanel.SetName(PlayerInfosProvider.Instance.PlayerInfos[player.PlayerId].nickName.ToString());
-            otherStatusPanel.SetName($"[{player.PlayerId}] who");
+            // if (!otherStatusPanel) return;
+            // otherStatusPanel.SetClass(characterClass);
+            // // otherStatusPanel.SetName(PlayerInfosProvider.Instance.PlayerInfos[player.PlayerId].nickName.ToString());
+            // otherStatusPanel.SetName($"[{player.PlayerId}] who");
         }
     }
     // Networked animation
@@ -167,7 +167,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         InputTask();
-
+        otherStatusPanel.SetHP(currentHealth, maxHealth);
         Velocity = _rb.Rigidbody.velocity;
     }
 

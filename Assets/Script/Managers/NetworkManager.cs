@@ -19,7 +19,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     [SerializeField] private InputManager inputManager;
     [SerializeField] private NetworkPrefabRef bossPrefab;
     [SerializeField] private NetworkPrefabRef playerInfosProviderPrefab;
-    [SerializeField] private NetworkPrefabRef objectPoolNetworkedPrefab;
+    // [SerializeField] private NetworkPrefabRef objectPoolNetworkedPrefab;
     [SerializeField] private NetworkPrefabRef characterPrefab;
     [SerializeField] private GameObject otherStatusPrefab;
     [SerializeField] private GameObject debugPanel;
@@ -85,14 +85,14 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         runner.TryGetPlayerObject(player, out NetworkObject playerObj);
         PlayerControllerNetworked controller = playerObj.GetComponent<PlayerControllerNetworked>();
         controller.player = player;
-        if (runner.LocalPlayer != player)
-        {
-            Canvas canvas = FindAnyObjectByType<Canvas>();
-            GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
-            OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
-            controller.otherStatusPanel = osp;
-            other.SetActive(true);
-        }
+        Canvas canvas = FindAnyObjectByType<Canvas>();
+        // Instantiate 대신 Runner.Spawn으로 만들어서 NetworkObject로 동기화 해야 할 듯
+        GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
+        OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
+        osp.player = playerObj;
+        osp.playerRef = player;
+        controller.otherStatusPanel = osp;
+        other.SetActive(true);
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
