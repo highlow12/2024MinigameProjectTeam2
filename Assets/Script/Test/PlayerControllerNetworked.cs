@@ -106,7 +106,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
-            RPC_SetClass(Random.Range(0, 2));
+            RPC_SetClass(0);
         }
         else
         {
@@ -396,7 +396,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         Debug.Log("Updated!!!!!!!!!");
         UpdateCharacterClass(classTypeInt);
     }
-    
+
     private void ClassChanged()
     {
         if (!otherStatusPanel)

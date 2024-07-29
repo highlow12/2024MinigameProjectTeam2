@@ -39,7 +39,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
 
     // Networked variables
-    [Networked] public float CurrentHealth { get; set; }
+    [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossScale { get; set; }
     [Networked] public NetworkObject FollowTarget { get; set; }
     [Networked] public BossState CurrentState { get; set; }
@@ -298,7 +298,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     private void UpdateAttribute()
     {
-        healthBar.fillAmount = CurrentHealth / maxHealth;
+        // healthBar.fillAmount = CurrentHealth / maxHealth;
     }
     private void UpdateCondition()
     {
@@ -341,6 +341,14 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         CurrentHealth -= attack.damage;
 
+    }
+
+    public void UpdateHealthBarCallback()
+    {
+        if (healthBar != null)
+        {
+            healthBar.fillAmount = CurrentHealth / maxHealth;
+        }
     }
 
     // TriggerEvent for player attack
