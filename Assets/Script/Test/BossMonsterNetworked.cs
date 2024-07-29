@@ -334,20 +334,29 @@ public class BossMonsterNetworked : NetworkBehaviour
         }
 
     }
-    // TriggerEvent for player attack
-    void OnTriggerEnter2D(Collider2D other)
+
+    // RPCs
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void Rpc_OnBossHit(Attack.AttackData attack)
     {
-        if (other.gameObject.CompareTag("CharacterProjectile"))
-        {
-            Base projectile = other.transform.parent.gameObject.GetComponent<Base>();
-            CurrentHealth -= projectile.damage;
-            projectile.ReleaseObject();
-        }
-        else if (other.gameObject.CompareTag("MeleeAttack"))
-        {
-            Attack melee = other.gameObject.GetComponent<Attack>();
-            CurrentHealth -= melee.damage;
-        }
+        CurrentHealth -= attack.damage;
+
     }
+
+    // TriggerEvent for player attack
+    // void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.gameObject.CompareTag("CharacterProjectile"))
+    //     {
+    //         Base projectile = other.transform.parent.gameObject.GetComponent<Base>();
+    //         CurrentHealth -= projectile.damage;
+    //         projectile.ReleaseObject();
+    //     }
+    //     else if (other.gameObject.CompareTag("MeleeAttack"))
+    //     {
+    //         Attack melee = other.gameObject.GetComponent<Attack>();
+    //         CurrentHealth -= melee.damage;
+    //     }
+    // }
 
 }

@@ -106,7 +106,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
-            RPC_SetClass(Random.Range(0, 1));
+            RPC_SetClass(Random.Range(0, 2));
         }
         else
         {
@@ -117,6 +117,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             otherStatusPanel = osp;
             osp.player = this;
             other.SetActive(true);
+
+            UpdateCharacterClass(characterClass);
         }
     }
     // Networked animation
