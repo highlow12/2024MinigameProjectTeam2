@@ -371,6 +371,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     private void NickNameChanged()
     {
+        if (!otherStatusPanel)
         {
             Debug.Log("sans");
         }
@@ -388,6 +389,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_UpdateClass(int classTypeInt)
     {
         Debug.Log("Updated!!!!!!!!!");
         UpdateCharacterClass(classTypeInt);
