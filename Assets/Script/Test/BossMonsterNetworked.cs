@@ -343,6 +343,11 @@ public class BossMonsterNetworked : NetworkBehaviour
             CurrentHealth -= projectile.damage;
             projectile.ReleaseObject();
         }
+        else if (other.gameObject.CompareTag("MeleeAttack"))
+        {
+            Attack melee = other.gameObject.GetComponent<Attack>();
+            CurrentHealth -= melee.damage;
+        }
     }
 
 }
