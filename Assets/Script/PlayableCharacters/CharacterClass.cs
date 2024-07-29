@@ -20,7 +20,6 @@ public class ClassIcons
             classIcons = Resources.LoadAll<Sprite>("Icons/Classes").ToList();
         }
 
-        Debug.Log(type.ToString());
         return classIcons.Find(x => x.name == type.ToString());
     }
 }

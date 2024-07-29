@@ -10,10 +10,11 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
-    [Networked] public int characterClass { get; set; }
-    [Networked] public float maxHealth { get; set; }
-    [Networked] public float currentHealth { get; set; }
-    public PlayerRef player;
+    [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> nickName { get; set; }
+    [Networked, OnChangedRender(nameof(ClassChanged))] public int characterClass { get; set; }
+    [Networked] public float maxHealth { get; set; } = 100;
+    [Networked] public float currentHealth { get; set; } = 50;
+    [Networked] public PlayerRef player { get; set; }
 
     // Local Variables
     NetworkRigidbody2D _rb;
@@ -95,9 +96,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
     void Start()
     {
-        characterClass = 1;
-        UpdateCharacterClass(characterClass);
-
         if (HasInputAuthority)
         {
             // Set camera follow target
@@ -107,14 +105,18 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffIndicator.playerBuffs = buffs;
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
-            PlayerInfosProvider.Instance.Rpc_SetNickName(Runner.LocalPlayer);
+            RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
+            RPC_SetClass(Random.Range(0, 1));
         }
         else
         {
-            // if (!otherStatusPanel) return;
-            // otherStatusPanel.SetClass(characterClass);
-            // // otherStatusPanel.SetName(PlayerInfosProvider.Instance.PlayerInfos[player.PlayerId].nickName.ToString());
-            // otherStatusPanel.SetName($"[{player.PlayerId}] who");
+            Canvas canvas = FindAnyObjectByType<Canvas>();
+            GameObject otherStatusPrefab = Runner.gameObject.GetComponent<NetworkManager>().otherStatusPrefab;
+            GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
+            OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
+            otherStatusPanel = osp;
+            osp.player = this;
+            other.SetActive(true);
         }
     }
     // Networked animation
@@ -167,7 +169,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         InputTask();
-        otherStatusPanel.SetHP(currentHealth, maxHealth);
         Velocity = _rb.Rigidbody.velocity;
     }
 
@@ -360,5 +361,58 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
         _rb.Rigidbody.velocity = Vector2.zero; // ?�� ?? ??? ????
         _isDashing = false;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_SetNickName(string nick)
+    {
+        nickName = nick;
+    }
+
+    private void NickNameChanged()
+    {
+        {
+            Debug.Log("sans");
+        }
+        else
+        {
+            otherStatusPanel.SetName($"[{player.AsIndex}] {nickName}");
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_SetClass(int classTypeInt)
+    {
+        characterClass = classTypeInt;
+        RPC_UpdateClass(classTypeInt);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    {
+        Debug.Log("Updated!!!!!!!!!");
+        UpdateCharacterClass(classTypeInt);
+    }
+    
+    private void ClassChanged()
+    {
+        if (!otherStatusPanel)
+        {
+
+        }
+        else
+        {
+            UpdateCharacterClass(characterClass);
+            otherStatusPanel.SetClass(characterClass);
+        }
+    }
+
+    public void OtherPanelUpdate()
+    {
+        if (otherStatusPanel)
+        {
+            otherStatusPanel.SetClass(characterClass);
+            otherStatusPanel.SetName($"{nickName}");
+            otherStatusPanel.SetHP(currentHealth, maxHealth);
+        }
     }
 }
