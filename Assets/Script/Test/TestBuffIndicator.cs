@@ -105,21 +105,35 @@ public class BuffIcons
 
 public class TestBuffIndicator : MonoBehaviour
 {
+    public bool onOther = false;
     public PlayerBuffs playerBuffs;
     public TestBuffTooltip tooltip;
     public bool reqUpdated = false;
     public bool invert = false;
 
+    float size = 32;
+    float margin = 4;
+
+    public void Start()
+    {
+        size = onOther ? 12 : 16;
+        margin = onOther ? 2 : 4;
+        tooltip = FindAnyObjectByType<TestBuffTooltip>();
+    }
+
     public void ShowTooltip(Buff buff)
     {
+        Debug.Log(tooltip);
+        if (!tooltip) return;
         tooltip.buff = buff;
         // 버프 인디케이터 툴팁 위치 변경
-        tooltip.deltaPos = new Vector2(0, playerBuffs.iconHalfSize + 10);
+        tooltip.deltaPos = new Vector2(0, size + 10);
         tooltip.gameObject.SetActive(true);
     }
 
     public void HideTooltip()
     {
+        if (!tooltip) return;
         tooltip.gameObject.SetActive(false);
     }
 
@@ -139,8 +153,9 @@ public class TestBuffIndicator : MonoBehaviour
         {
             if (!buff) continue;
             float x = 0;
-            if (cur > 0) x = cur * ((2 * playerBuffs.iconHalfSize) + 4);
+            if (cur > 0) x = cur * ((2 * size) + margin);
             if (invert) x *= -1;
+            buff.onOther = onOther;
             buff.gameObject.transform.localPosition = new Vector3(x, 0, transform.position.z);
             buff.gameObject.SetActive(true);
             buff.UpdateLabel();

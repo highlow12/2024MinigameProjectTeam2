@@ -17,4 +17,5 @@ public class MatchMaking : MonoBehaviour
 
     public void STARTGAME_host() { networkManager.StartGame(GameMode.Host, sessionName.text, nickNameField.text); }
     public void STARTGAME_client() { networkManager.StartGame(GameMode.Client, sessionName.text, nickNameField.text); }
+    public void STARTGAME_auto() { networkManager.StartGame(GameMode.AutoHostOrClient, sessionName.text, nickNameField.text); }
 }

@@ -14,7 +14,7 @@ public class PlayerBuffs : NetworkBehaviour
     
     public TestBuff[] buffObjects = new TestBuff[6];
     [Networked] bool reqUpdate { get; set; } = false;
-    [Networked, Capacity(6)] public NetworkArray<Buff> buffs { get; }
+    [Networked, Capacity(6), OnChangedRender(nameof(UIUpdate))] public NetworkArray<Buff> buffs { get; }
         = MakeInitializer(new Buff[] {});
 
     public float iconHalfSize;
@@ -77,11 +77,11 @@ public class PlayerBuffs : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
+        UIUpdate();
     }
 
-    public override void FixedUpdateNetwork()
+    public void UIUpdate()
     {
-        if (!reqUpdate) return;
         if (!buffIndicator) return;
         for (int i = 0; i < buffs.Length; i++)
         {
@@ -108,8 +108,6 @@ public class PlayerBuffs : NetworkBehaviour
             }
         }
         buffIndicator.reqUpdated = true;
-        reqUpdate = false;
-        RPC_UpdateDone();
     }
 
     public void Test()
@@ -129,8 +127,6 @@ public class PlayerBuffs : NetworkBehaviour
             startTime = Time.time
         };
         
-        // RPC_SetBuff(0, a);
-        // RPC_SetBuff(1, b);
         SetBuff(a);
         SetBuff(b);
     }
@@ -191,12 +187,5 @@ public class PlayerBuffs : NetworkBehaviour
     public void RPC_SetBuff(int index, Buff buff)
     {
         buffs.Set(index, buff);
-        reqUpdate = true;
-    }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_UpdateDone()
-    {
-        reqUpdate = false;
     }
 }
