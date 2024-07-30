@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
-public class Base : PoolAble
+public class Base : NetworkBehaviour
 {
     public int shotType;
     public GameObject projectile;
@@ -18,9 +18,9 @@ public class Base : PoolAble
 
         // Object.RequestStateAuthority();
         // Release on sync by fusion after initial release
-        if (projectileSpeed == 0.0f)
-        {
-            gameObject.SetActive(false);
-        }
+        // if (projectileSpeed == 0.0f)
+        // {
+        //     gameObject.SetActive(false);
+        // }
     }
 }

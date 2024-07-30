@@ -1,22 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class ArrowEffect : PoolAble
+public class ArrowEffect : NetworkBehaviour
 {
-    private bool isInit = false;
 
-    void Start()
+    void Despawn()
     {
-        if (!isInit)
-        {
-            isInit = true;
-            gameObject.SetActive(false);
-        }
+        NetworkRunner runner = GameObject.FindAnyObjectByType<NetworkManager>().Runner;
+        runner.Despawn(GetComponent<NetworkObject>());
     }
 
-    public void Release()
-    {
-        ReleaseObject();
-    }
 }

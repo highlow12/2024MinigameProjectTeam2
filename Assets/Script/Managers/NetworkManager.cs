@@ -9,7 +9,6 @@ using Fusion.Addons.Physics;
 
 using System;
 using System.Linq;
-using ExitGames.Client.Photon.StructWrapping;
 
 public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 {
@@ -19,6 +18,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     [SerializeField] private InputManager inputManager;
     [SerializeField] private NetworkPrefabRef bossPrefab;
     [SerializeField] private NetworkPrefabRef playerInfosProviderPrefab;
+    [SerializeField] private NetworkPrefabRef dynamicObjectProviderPrefab;
     // [SerializeField] private NetworkPrefabRef objectPoolNetworkedPrefab;
     [SerializeField] private NetworkPrefabRef characterPrefab;
     [SerializeField] public GameObject otherStatusPrefab;
@@ -71,6 +71,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
                 runner.Spawn(playerInfosProviderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 // runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
+                runner.Spawn(dynamicObjectProviderPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
                 _spawnedCharacters.Add(newPlayerRef, networkCharacterObject);
                 // debugPanel.SetActive(true);

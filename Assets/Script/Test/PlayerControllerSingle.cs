@@ -188,7 +188,7 @@ public class PlayerControllerSingle : MonoBehaviour
 
     void UpdateCharacterClass(int characterClass)
     {
-        CharacterClass.ChangeClass(characterClass, gameObject);
+        // CharacterClass.ChangeClass(characterClass, gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D col)

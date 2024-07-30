@@ -2747,6 +2747,8 @@ MonoBehaviour:
     RawGuidValue: 9625a083ef45a4796bde0e5001796d93
   playerInfosProviderPrefab:
     RawGuidValue: 8a6a31030ada14344b476381fef0bc77
+  dynamicObjectProviderPrefab:
+    RawGuidValue: 33b983312742e4883a1388024865b710
   characterPrefab:
     RawGuidValue: 94a93e4facce74972b406a8c717ba14b
   otherStatusPrefab: {fileID: 3282849189720032364, guid: 8b1daacbaee2c4e5db94819019bcf93e, type: 3}

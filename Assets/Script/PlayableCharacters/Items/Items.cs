@@ -14,6 +14,7 @@ namespace Items
         public int defense;
         public int healingAmount;
         public GameObject rangeObject;
+        public DynamicObjectProvider dynamicObjectProvider;
         public bool isRangeObjectSpawned = false;
 
         public virtual IEnumerator Attack(Animator anim, Transform character)

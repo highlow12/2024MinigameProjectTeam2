@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using Items;
-using Unity.VisualScripting;
+using Fusion;
 
 public class Bow : Weapon
 {
+
     [System.Serializable]
     private class MultiShotArrowProperties
     {
@@ -66,9 +67,8 @@ public class Bow : Weapon
             anim.SetFloat("PrevAttack", prevAttack);
             anim.SetTrigger("Attack");
             anim.SetBool("Combo", true);
-            yield return new WaitForSeconds(0.1f);
             isAttackCooldown = true;
-            yield return new WaitForSeconds(1.0f / attackSpeed - 0.1f);
+            yield return new WaitForSeconds(1.0f / attackSpeed);
             isAttackCooldown = false;
             yield return new WaitForSeconds(0.3f);
             if (Time.time - prevAttack > 1.0f / attackSpeed + 0.3f)
@@ -92,8 +92,9 @@ public class Bow : Weapon
         }
         else
         {
-            GameObject projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
-            GameObject projectileEffect = ObjectPoolManager.Instance.GetGo("ArcherProjectileEffect");
+            NetworkRunner runner = GameObject.FindAnyObjectByType<NetworkManager>().Runner;
+            NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
+            NetworkObject projectileEffect = runner.Spawn(dynamicObjectProvider.arrowEffectPrefab, Vector3.zero, Quaternion.identity, null);
             Base arrow = projectile.GetComponent<Base>();
             GameObject projectileObject = arrow.projectile;
             Vector3 scale = character.localScale;
@@ -121,7 +122,8 @@ public class Bow : Weapon
         }
         for (int i = 0; i < 3; i++)
         {
-            GameObject projectile = ObjectPoolManager.Instance.GetGo("ArcherProjectile");
+            NetworkRunner runner = GameObject.FindAnyObjectByType<NetworkManager>().Runner;
+            NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
             Base arrow = projectile.GetComponent<Base>();
             GameObject projectileObject = arrow.projectile;
             Vector3 scale = character.localScale;
@@ -135,7 +137,7 @@ public class Bow : Weapon
             arrow.isReady = true;
             if (i == 0)
             {
-                GameObject projectileEffect = ObjectPoolManager.Instance.GetGo("ArcherProjectileEffect");
+                NetworkObject projectileEffect = runner.Spawn(dynamicObjectProvider.arrowEffectPrefab, Vector3.zero, Quaternion.identity, null);
                 projectileEffect.transform.position = character.position + new Vector3(scale.x * 1.5f + (scale.x * -1.2f), -0.1f, 0);
                 projectileEffect.transform.localScale = scale;
                 projectileEffect.GetComponent<Animator>().SetInteger("ShotType", 2);

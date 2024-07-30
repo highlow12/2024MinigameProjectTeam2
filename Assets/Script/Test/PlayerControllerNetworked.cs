@@ -27,6 +27,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public DurationIndicator durationIndicator;
     public Image healthBar;
     public OtherStatusPanel otherStatusPanel;
+    public DynamicObjectProvider dynamicObjectProvider;
 
     #region
     [SerializeField] private LayerMask _groundLayer;
@@ -93,6 +94,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
         buffs = gameObject.GetComponent<PlayerBuffs>();
+        dynamicObjectProvider = GameObject.FindGameObjectWithTag("DynamicObjectProvider").GetComponent<DynamicObjectProvider>();
     }
 
     void Start()
@@ -106,7 +108,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
-            RPC_SetClass(0);
+            RPC_SetClass(1);
         }
         else
         {

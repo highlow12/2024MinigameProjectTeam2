@@ -53,7 +53,7 @@ public class Arrow : NetworkBehaviour
             if (Vector3.Distance(firePos, currentPos) > _base.range)
             {
                 isFired = false;
-                _base.ReleaseObject();
+                Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
             }
         }
 
@@ -67,12 +67,17 @@ public class Arrow : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("Boss"))
         {
-            isFired = false;
+            Attack.AttackData attackData = new()
+            {
+                damage = _base.damage
+            };
+            BossMonsterNetworked boss = other.gameObject.GetComponent<BossMonsterNetworked>();
+            boss.Rpc_OnBossHit(attackData);
+            Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
         }
         else if (other.gameObject.CompareTag("Ground"))
         {
-            isFired = false;
-            _base.ReleaseObject();
+            Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
         }
     }
 }
