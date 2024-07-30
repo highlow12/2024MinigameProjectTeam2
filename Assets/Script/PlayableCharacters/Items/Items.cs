@@ -1,4 +1,5 @@
 using System.Collections;
+using Fusion;
 using UnityEngine;
 
 namespace Items
@@ -14,6 +15,7 @@ namespace Items
         public int defense;
         public int healingAmount;
         public GameObject rangeObject;
+        public PlayerControllerNetworked controller;
         public DynamicObjectProvider dynamicObjectProvider;
         public bool isRangeObjectSpawned = false;
 
@@ -26,6 +28,12 @@ namespace Items
         {
             Debug.Log("Firing projectile");
             yield return new WaitForSeconds(attackSpeed);
+        }
+
+        public virtual void FireProjectileAlt(int state, Transform character)
+        {
+            Debug.Log("Firing projectile with alt method");
+            return;
         }
     }
 }

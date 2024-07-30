@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using Items;
 using Fusion;
+using System.Linq;
 
 public class Bow : Weapon
 {
-
     [System.Serializable]
     private class MultiShotArrowProperties
     {
@@ -15,6 +15,7 @@ public class Bow : Weapon
 
     private bool isAttackCooldown = false;
     private MultiShotArrowProperties[] multiShotArrows = new MultiShotArrowProperties[3];
+
     // initialize bow properties
     public Bow(float attackSpeed)
     {
@@ -23,6 +24,7 @@ public class Bow : Weapon
         range = 10.0f;
         damage = 50;
     }
+
     // initialize multi shot arrow properties
     private void InitMultiShotArrows()
     {
@@ -44,6 +46,7 @@ public class Bow : Weapon
             rotation = new Vector3(0, 0, -26.0f)
         };
     }
+
     public override IEnumerator Attack(Animator anim, Transform character)
     {
         if (multiShotArrows[0] == null)
@@ -84,6 +87,19 @@ public class Bow : Weapon
         }
     }
 
+    public override void FireProjectileAlt(int state, Transform character)
+    {
+        if (state == 2)
+        {
+            MultiShot(character);
+        }
+        else
+        {
+            controller.RPC_SpawnProjectile(dynamicObjectProvider.arrowPrefab, new Vector3(0, 1.5f), Vector3.zero);
+            // RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
+        }
+    }
+
     public override IEnumerator FireProjectile(Animator anim, Transform character)
     {
         if (anim.GetInteger("AttackState") == 2)
@@ -92,24 +108,8 @@ public class Bow : Weapon
         }
         else
         {
-            NetworkRunner runner = GameObject.FindAnyObjectByType<NetworkManager>().Runner;
-            NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
-            NetworkObject projectileEffect = runner.Spawn(dynamicObjectProvider.arrowEffectPrefab, Vector3.zero, Quaternion.identity, null);
-            Base arrow = projectile.GetComponent<Base>();
-            GameObject projectileObject = arrow.projectile;
-            Vector3 scale = character.localScale;
-            // character's scale must be 1 or -1
-            projectile.transform.position = character.position + new Vector3(scale.x * 1.5f, 0, 0);
-            projectile.transform.localScale = scale;
-            projectileEffect.transform.position = character.position + new Vector3(scale.x * 1.5f + (scale.x * -1.2f), -0.1f, 0);
-            projectileEffect.transform.localScale = scale;
-            projectileEffect.GetComponent<Animator>().SetInteger("ShotType", 1);
-            projectileObject.transform.localPosition = new Vector3(0, 0, 0);
-            projectileObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-            arrow.isReady = true;
-            arrow.projectileSpeed = projectileSpeed;
-            arrow.damage = damage;
-            arrow.range = range;
+            RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero);
+            RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
             yield return null;
         }
     }
@@ -122,32 +122,58 @@ public class Bow : Weapon
         }
         for (int i = 0; i < 3; i++)
         {
-            NetworkRunner runner = GameObject.FindAnyObjectByType<NetworkManager>().Runner;
-            NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
-            Base arrow = projectile.GetComponent<Base>();
-            GameObject projectileObject = arrow.projectile;
-            Vector3 scale = character.localScale;
-            Vector3 newRotationVector = multiShotArrows[i].rotation;
-            newRotationVector.z *= scale.x;
-            Quaternion newRotation = Quaternion.Euler(newRotationVector);
-            projectile.transform.position = character.position + new Vector3(scale.x * multiShotArrows[i].position.x, multiShotArrows[i].position.y, 0);
-            projectile.transform.localScale = scale;
-            projectileObject.transform.localPosition = new Vector3(0, 0, 0);
-            projectileObject.transform.rotation = newRotation;
-            arrow.isReady = true;
+            controller.RPC_SpawnProjectile(
+                dynamicObjectProvider.arrowPrefab,
+                new Vector3(multiShotArrows[i].position.x, multiShotArrows[i].position.y),
+                multiShotArrows[i].rotation
+            );
+
             if (i == 0)
             {
-                NetworkObject projectileEffect = runner.Spawn(dynamicObjectProvider.arrowEffectPrefab, Vector3.zero, Quaternion.identity, null);
-                projectileEffect.transform.position = character.position + new Vector3(scale.x * 1.5f + (scale.x * -1.2f), -0.1f, 0);
-                projectileEffect.transform.localScale = scale;
-                projectileEffect.GetComponent<Animator>().SetInteger("ShotType", 2);
-
+                // RPC_SpawnEffect(2, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
             }
-            arrow.projectileSpeed = projectileSpeed;
-            arrow.damage = damage;
-            arrow.range = range;
         }
         yield return null;
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_SpawnProjectile(Transform transform, Vector3 _pos, Vector3 rotation)
+    {
+        NetworkRunner runner = NetworkRunner.Instances.First();
+        
+        Vector3 pos = transform.position;
+        Vector3 scale = transform.localScale;
+        
+        NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
+        // projectile.transform.position = pos + new Vector3(scale.x * 1.5f, 0, 0);
+        projectile.transform.position = pos + new Vector3(scale.x * _pos.x, scale.y * _pos.y);
+        projectile.transform.localScale = scale;
+
+        Base arrow = projectile.GetComponent<Base>();
+        arrow.isReady = true;
+        arrow.projectileSpeed = projectileSpeed;
+        arrow.damage = damage;
+        arrow.range = range;
+
+        GameObject projectileObject = arrow.projectile;
+        projectileObject.transform.localPosition = new Vector3(0, 0, 0);
+        projectileObject.transform.rotation = Quaternion.Euler(rotation);
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_SpawnEffect(int shotType, Transform transform, Vector3 _pos, Vector3 rotation)
+    {
+        NetworkRunner runner = NetworkRunner.Instances.First();
+
+        Vector3 pos = transform.position;
+        Vector3 scale = transform.localScale;
+
+        NetworkObject projectileEffect = runner.Spawn(dynamicObjectProvider.arrowEffectPrefab, Vector3.zero, Quaternion.identity, null);
+        projectileEffect.transform.localPosition = new Vector3(0, 0, 0);
+        projectileEffect.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y, 0);
+        projectileEffect.transform.localScale = scale;
+        projectileEffect.transform.rotation = Quaternion.Euler(rotation);
+        projectileEffect.GetComponent<Animator>().SetInteger("ShotType", shotType);
     }
 
 }

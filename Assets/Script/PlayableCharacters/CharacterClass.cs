@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fusion;
 using Items;
 using UnityEngine;
 
@@ -40,20 +41,20 @@ public abstract class CharacterClass
         {
             case (int)CharacterClassEnum.Knight:
                 var Knight = new Knight();
-                ChangeStats(Knight, characterClass, player);
+                ChangeStats(Knight, player);
                 break;
             case (int)CharacterClassEnum.Archer:
                 var archer = new Archer();
-                ChangeStats(archer, characterClass, player);
+                ChangeStats(archer, player);
                 break;
             case (int)CharacterClassEnum.Tank:
                 var tank = new Tank();
-                ChangeStats(tank, characterClass, player);
+                ChangeStats(tank, player);
                 break;
         }
     }
 
-    static void ChangeStats(CharacterClass classObj, int classEnum, GameObject player)
+    static void ChangeStats(CharacterClass classObj, GameObject player)
     {
         var controller = player.GetComponent<PlayerControllerNetworked>();
         if (controller.weapon != null && controller.weapon.rangeObject != null && controller.weapon.isRangeObjectSpawned)
@@ -64,11 +65,19 @@ public abstract class CharacterClass
         controller.speed = classObj.moveSpeed;
         controller.attackSpeed = classObj.attackSpeed;
         controller.maxHealth = classObj.maxHealth;
-        controller.characterClass = classEnum;
         controller.weapon = classObj.weapon;
+        controller.weapon.controller = controller;
         controller.weapon.dynamicObjectProvider = controller.dynamicObjectProvider;
         controller.currentHealth = classObj.maxHealth;
         controller.skillList = classObj.skillList;
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;
     }
+
+    // abstract public void Attack();
+    
+    // [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    // abstract public void RPC_CreateEffect();
+
+    // [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    // abstract public void RPC_CreateProjectile();
 }

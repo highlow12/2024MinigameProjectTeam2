@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using Fusion.Addons.Physics;
 using UnityEngine;
 
 public class Arrow : NetworkBehaviour
@@ -9,58 +10,54 @@ public class Arrow : NetworkBehaviour
     private bool isFired = false;
     private Vector3 firePos;
     Base _base;
-    Rigidbody2D _rb;
+    NetworkRigidbody2D _rb;
     Animator _anim;
 
     void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<NetworkRigidbody2D>();
         _anim = gameObject.GetComponentInParent<Animator>();
         _base = gameObject.GetComponentInParent<Base>();
     }
 
-    void Start()
+    public override void FixedUpdateNetwork()
     {
-        Spawned();
-        // Object.RequestStateAuthority();
-    }
+        if (!HasStateAuthority) return;
+        // if (_base.projectileSpeed != 0.0f && !isFired)
+        // {
+        //     isFired = true;
+        //     firePos = transform.localPosition;
+        //     firePos.y = 0.0f;
+        //     if (transform.parent.localScale.x < 0)
+        //     {
+        //         // calculate with trigonometry in 2D
+        //         float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
+        //         _rb.Rigidbody.velocity = new Vector2(-1 * _base.projectileSpeed, -1 * yVelocity);
+        //     }
+        //     else
+        //     {
+        //         float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
+        //         _rb.Rigidbody.velocity = new Vector2(_base.projectileSpeed, yVelocity);
+        //     }
 
-    void Update()
-    {
-        if (_base.projectileSpeed != 0.0f && !isFired)
-        {
-            isFired = true;
-            firePos = transform.localPosition;
-            firePos.y = 0.0f;
-            if (transform.parent.localScale.x < 0)
-            {
-                // calculate with trigonometry in 2D
-                float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
-                _rb.velocity = new Vector2(-1 * _base.projectileSpeed, -1 * yVelocity);
-            }
-            else
-            {
-                float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
-                _rb.velocity = new Vector2(_base.projectileSpeed, yVelocity);
-            }
-
-        }
-        if (isFired)
-        {
-            _anim.SetFloat("Velocity", _rb.velocity.magnitude);
-            Vector3 currentPos = transform.localPosition;
-            currentPos.y = 0.0f;
-            if (Vector3.Distance(firePos, currentPos) > _base.range)
-            {
-                isFired = false;
-                Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
-            }
-        }
+        // }
+        // if (isFired)
+        // {
+        //     _anim.SetFloat("Velocity", _rb.Rigidbody.velocity.magnitude);
+        //     Vector3 currentPos = transform.localPosition;
+        //     currentPos.y = 0.0f;
+        //     if (Vector3.Distance(firePos, currentPos) > _base.range)
+        //     {
+        //         isFired = false;
+        //         Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
+        //     }
+        // }
 
 
     }
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (!HasStateAuthority) return;
         if (_base.projectileSpeed == 0.0f)
         {
             return;
