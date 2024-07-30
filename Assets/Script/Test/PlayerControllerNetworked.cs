@@ -94,7 +94,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
         buffs = gameObject.GetComponent<PlayerBuffs>();
-        dynamicObjectProvider = GameObject.FindGameObjectWithTag("DynamicObjectProvider").GetComponent<DynamicObjectProvider>();
     }
 
     void Start()

@@ -81,6 +81,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
             PlayerControllerNetworked controller = networkCharacterObject.GetComponent<PlayerControllerNetworked>();
             controller.player = player;
+            controller.dynamicObjectProvider = GameObject.FindGameObjectWithTag("DynamicObjectProvider").GetComponent<DynamicObjectProvider>();
             runner.SetPlayerObject(player, networkCharacterObject);
             _spawnedCharacters.Add(player, networkCharacterObject);
         }
