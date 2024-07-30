@@ -415,27 +415,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SpawnProjectile(NetworkPrefabRef prefab, Vector3 _pos, Vector3 rotation)
-    {
-        Vector3 pos = transform.position;
-        Vector3 scale = transform.localScale;
-        
-        NetworkObject projectile = Runner.Spawn(prefab, Vector3.zero, Quaternion.identity, null);
-        projectile.transform.position = pos + new Vector3(scale.x * _pos.x, scale.y * _pos.y);
-        projectile.transform.localScale = scale;
-
-        Base _weapon = projectile.GetComponent<Base>();
-        _weapon.isReady = true;
-        _weapon.projectileSpeed = weapon.projectileSpeed;
-        _weapon.damage = weapon.damage;
-        _weapon.range = weapon.range;
-
-        GameObject projectileObject = _weapon.projectile;
-        projectileObject.transform.localPosition = new Vector3(0, 0, 0);
-        projectileObject.transform.rotation = Quaternion.Euler(rotation);
-    }
-
     private void HPChanged()
     {
         if (otherStatusPanel)

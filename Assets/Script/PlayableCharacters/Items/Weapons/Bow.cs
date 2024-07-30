@@ -95,7 +95,7 @@ public class Bow : Weapon
         }
         else
         {
-            controller.RPC_SpawnProjectile(dynamicObjectProvider.arrowPrefab, new Vector3(0, 1.5f), Vector3.zero);
+            RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero);
             // RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
         }
     }
@@ -122,8 +122,8 @@ public class Bow : Weapon
         }
         for (int i = 0; i < 3; i++)
         {
-            controller.RPC_SpawnProjectile(
-                dynamicObjectProvider.arrowPrefab,
+            RPC_SpawnProjectile(
+                character,
                 new Vector3(multiShotArrows[i].position.x, multiShotArrows[i].position.y),
                 multiShotArrows[i].rotation
             );
