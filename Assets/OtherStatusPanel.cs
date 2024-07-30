@@ -10,15 +10,8 @@ public class OtherStatusPanel : MonoBehaviour
     [SerializeField] Image classIcon;
     [SerializeField] TMP_Text className;
     [SerializeField] Image hpForeground;
+    public TestBuffIndicator buffIndicator;
     public PlayerControllerNetworked player;
-
-    private void Update()
-    {
-        if (player)
-        {
-            player.OtherPanelUpdate();
-        }
-    }
 
     public void SetClass(int classTypeInt)
     {
@@ -33,6 +26,7 @@ public class OtherStatusPanel : MonoBehaviour
 
     public void SetHP(float hp, float maxHP)
     {
+        Debug.Log($"{hp} / {maxHP} = {hp / maxHP}");
         hpForeground.fillAmount = hp / maxHP;
     }
 }

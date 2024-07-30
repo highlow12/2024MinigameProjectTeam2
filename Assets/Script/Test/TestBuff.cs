@@ -9,6 +9,7 @@ public class TestBuff : MonoBehaviour
     public TestBuffIndicator indicator;
     public Buff buff;
     public BasicBuff info;
+    public bool onOther = false;
 
     Image activated;
     Image deActivated;
@@ -43,9 +44,15 @@ public class TestBuff : MonoBehaviour
 
     public void UpdateLabel()
     {
-        if (stacksLabel == null) return; // if not initialized
-        stacksLabel.gameObject.SetActive(buff.stacks != 0);
-        stacksLabel.text = buff.stacks.ToString();
+        if (stacksLabel == null) return;
+        if (onOther)
+        {
+            stacksLabel.gameObject.SetActive(false);
+        } else
+        {
+            stacksLabel.gameObject.SetActive(buff.stacks != 0);
+            stacksLabel.text = buff.stacks.ToString();
+        }
     }
 
     public void OnPointerEnter()
@@ -64,6 +71,7 @@ public class TestBuff : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (onOther) return;
         if (info == null) return;
         float now = Time.time;
         if ((now - buff.startTime) > buff.duration)

@@ -13,7 +13,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> nickName { get; set; }
     [Networked, OnChangedRender(nameof(ClassChanged))] public int characterClass { get; set; }
     [Networked] public float maxHealth { get; set; } = 100;
-    [Networked] public float currentHealth { get; set; } = 50;
+    [Networked, OnChangedRender(nameof(HPChanged))] public float currentHealth { get; set; } = 100;
     [Networked] public PlayerRef player { get; set; }
 
     // Local Variables
@@ -83,7 +83,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     Vector3 GroundcheckPosition;
     #endregion
 
-
     void Awake()
     {
         // Initialize local variables
@@ -93,7 +92,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _anim = GetComponent<Animator>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
+        buffs = gameObject.GetComponent<PlayerBuffs>();
     }
+
     void Start()
     {
         if (HasInputAuthority)
@@ -101,7 +102,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
-            buffs = gameObject.GetComponent<PlayerBuffs>();
             buffIndicator.playerBuffs = buffs;
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
@@ -116,22 +116,29 @@ public class PlayerControllerNetworked : NetworkBehaviour
             OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
             otherStatusPanel = osp;
             osp.player = this;
+            osp.buffIndicator.playerBuffs = buffs;
+            buffs.buffIndicator = osp.buffIndicator;
+
             other.SetActive(true);
 
+            OtherPanelUpdate();
             UpdateCharacterClass(characterClass);
         }
     }
+
     // Networked animation
     public override void Render()
     {
         base.Render();
     }
+
     // Character class change function
     void UpdateCharacterClass(int characterClass)
     {
         Debug.Log("Set character class: " + characterClass);
         CharacterClass.ChangeClass(characterClass, gameObject);
     }
+
     // Test function to check if player is grounded
     // void OnDrawGizmos()
     // {
@@ -399,14 +406,18 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     private void ClassChanged()
     {
-        if (!otherStatusPanel)
-        {
-
-        }
-        else
+        if (otherStatusPanel)
         {
             UpdateCharacterClass(characterClass);
             otherStatusPanel.SetClass(characterClass);
+        }
+    }
+
+    private void HPChanged()
+    {
+        if (otherStatusPanel)
+        {
+            otherStatusPanel.SetHP(currentHealth, maxHealth);
         }
     }
 
