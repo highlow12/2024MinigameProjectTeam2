@@ -19,7 +19,7 @@ namespace Items
         public DynamicObjectProvider dynamicObjectProvider;
         public bool isRangeObjectSpawned = false;
 
-        public virtual IEnumerator Attack(Animator anim, Transform character)
+        public virtual IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
         {
             Debug.Log("Attacking");
             yield return new WaitForSeconds(attackSpeed);

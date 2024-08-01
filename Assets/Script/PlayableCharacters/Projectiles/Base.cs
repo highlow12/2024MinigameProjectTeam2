@@ -10,7 +10,6 @@ public class Base : NetworkBehaviour
     public float projectileSpeed = 0.0f;
     public float damage;
     public float range;
-    public bool isReady;
 
     void Start()
     {

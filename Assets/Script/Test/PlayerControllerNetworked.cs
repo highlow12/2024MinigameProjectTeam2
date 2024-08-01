@@ -23,6 +23,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     PlayerBuffs buffs;
     Collider2D _collider;
     Animator _anim;
+    NetworkMecanimAnimator _mecanim;
     public Dictionary<string, float> skillList;
     public DurationIndicator durationIndicator;
     public Image healthBar;
@@ -91,6 +92,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _input = gameObject.GetComponent<PlayerInputConsumer>();
         _collider = GetComponent<Collider2D>();
         _anim = GetComponent<Animator>();
+        _mecanim = GetComponent<NetworkMecanimAnimator>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
         buffs = gameObject.GetComponent<PlayerBuffs>();
@@ -102,7 +104,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
-            dynamicObjectProvider = GameObject.FindGameObjectWithTag("DynamicObjectProvider").GetComponent<DynamicObjectProvider>();
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
             buffIndicator.playerBuffs = buffs;
             buffs.buffIndicator = buffIndicator;
@@ -195,7 +196,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         // Run attack coroutine of weapon script directly
         if (_input.pressed.IsSet(PlayerButtons.Attack))
         {
-            StartCoroutine(weapon.Attack(_anim, gameObject.transform));
+            StartCoroutine(weapon.Attack(_anim, _mecanim, gameObject.transform));
         }
 
     }
@@ -267,7 +268,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (jump || CalculateJumpBuffer())
         {
             // Run jump animation
-            _anim.SetTrigger("Jump");
+            _mecanim.SetTrigger("Jump");
             // Deprecated jump function
             // void _jump(float __jumpForce)
             // {

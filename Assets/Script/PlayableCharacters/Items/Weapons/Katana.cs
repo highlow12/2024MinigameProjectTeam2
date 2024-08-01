@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Items;
+using Fusion;
 
 public class Katana : Weapon
 {
@@ -16,7 +17,7 @@ public class Katana : Weapon
         rangeObject = Resources.Load<GameObject>("KatanaRange");
     }
 
-    public override IEnumerator Attack(Animator anim, Transform character)
+    public override IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
     {
         if (!isRangeObjectSpawned)
         {
@@ -38,7 +39,7 @@ public class Katana : Weapon
             anim.SetInteger("AttackState", attackState);
             prevAttack = Time.time;
             anim.SetFloat("PrevAttack", prevAttack);
-            anim.SetTrigger("Attack");
+            mecanim.SetTrigger("Attack");
             anim.SetBool("Combo", true);
             rangeObject.GetComponent<Collider2D>().enabled = true;
             yield return new WaitForSeconds(0.1f);

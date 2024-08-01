@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Fusion;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum BuffTypes
@@ -40,7 +39,8 @@ public class BasicBuff
     public float[] effects;
 }
 
-public class BurnDebuff: BasicBuff {
+public class BurnDebuff : BasicBuff
+{
     public BurnDebuff()
     {
         type = BuffTypes.Burn;
@@ -53,7 +53,8 @@ public class BurnDebuff: BasicBuff {
     }
 }
 
-public class BlindDebuff: BasicBuff {
+public class BlindDebuff : BasicBuff
+{
     public BlindDebuff()
     {
         type = BuffTypes.Blind;
@@ -65,7 +66,8 @@ public class BlindDebuff: BasicBuff {
     }
 }
 
-public class UndeadDebuff: BasicBuff {
+public class UndeadDebuff : BasicBuff
+{
     public UndeadDebuff()
     {
         type = BuffTypes.Undead;

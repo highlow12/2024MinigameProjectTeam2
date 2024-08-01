@@ -4,18 +4,18 @@ using UnityEngine;
 using Fusion;
 using System;
 using System.Linq;
-using Unity.VisualScripting;
 using ExitGames.Client.Photon.StructWrapping;
 
 public class PlayerBuffs : NetworkBehaviour
 {
     public GameObject buffPrefab;
     public TestBuffIndicator buffIndicator;
-    
+
     public TestBuff[] buffObjects = new TestBuff[6];
     [Networked] bool reqUpdate { get; set; } = false;
-    [Networked, Capacity(6), OnChangedRender(nameof(UIUpdate))] public NetworkArray<Buff> buffs { get; }
-        = MakeInitializer(new Buff[] {});
+    [Networked, Capacity(6), OnChangedRender(nameof(UIUpdate))]
+    public NetworkArray<Buff> buffs { get; }
+        = MakeInitializer(new Buff[] { });
 
     public float iconHalfSize;
 
@@ -33,8 +33,9 @@ public class PlayerBuffs : NetworkBehaviour
     // }
 
     private int _index = 0;
-    public int index {
-        get 
+    public int index
+    {
+        get
         {
             return _index++ % buffs.Length;
         }
@@ -88,7 +89,8 @@ public class PlayerBuffs : NetworkBehaviour
             // Debug.Log($"[{i}] {buffs[i].type} {buffObjects[i]} {buffs[i].type == 0}");
             if (buffs[i].type == 0)
             {
-                if (buffObjects[i] != null) {
+                if (buffObjects[i] != null)
+                {
                     Destroy(buffObjects[i].gameObject);
                 }
             }
@@ -104,7 +106,7 @@ public class PlayerBuffs : NetworkBehaviour
             else
             {
                 buffObjects[i].buff = buffs[i];
-                
+
             }
         }
         buffIndicator.reqUpdated = true;
@@ -126,7 +128,7 @@ public class PlayerBuffs : NetworkBehaviour
             stacks = 3,
             startTime = Time.time
         };
-        
+
         SetBuff(a);
         SetBuff(b);
     }
@@ -135,7 +137,7 @@ public class PlayerBuffs : NetworkBehaviour
     {
         AddBuff(BuffTypes.Burn);
     }
-    
+
     public void AddBuff(BuffTypes type)
     {
         int index = GetIndex((int)type);

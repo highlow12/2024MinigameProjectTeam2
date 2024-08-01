@@ -23,35 +23,35 @@ public class Arrow : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         if (!HasStateAuthority) return;
-        // if (_base.projectileSpeed != 0.0f && !isFired)
-        // {
-        //     isFired = true;
-        //     firePos = transform.localPosition;
-        //     firePos.y = 0.0f;
-        //     if (transform.parent.localScale.x < 0)
-        //     {
-        //         // calculate with trigonometry in 2D
-        //         float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
-        //         _rb.Rigidbody.velocity = new Vector2(-1 * _base.projectileSpeed, -1 * yVelocity);
-        //     }
-        //     else
-        //     {
-        //         float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
-        //         _rb.Rigidbody.velocity = new Vector2(_base.projectileSpeed, yVelocity);
-        //     }
+        if (_base.projectileSpeed != 0.0f && !isFired)
+        {
+            isFired = true;
+            firePos = transform.localPosition;
+            firePos.y = 0.0f;
+            if (transform.parent.localScale.x < 0)
+            {
+                // calculate with trigonometry in 2D
+                float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
+                _rb.Rigidbody.velocity = new Vector2(-1 * _base.projectileSpeed, -1 * yVelocity);
+            }
+            else
+            {
+                float yVelocity = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * _base.projectileSpeed;
+                _rb.Rigidbody.velocity = new Vector2(_base.projectileSpeed, yVelocity);
+            }
 
-        // }
-        // if (isFired)
-        // {
-        //     _anim.SetFloat("Velocity", _rb.Rigidbody.velocity.magnitude);
-        //     Vector3 currentPos = transform.localPosition;
-        //     currentPos.y = 0.0f;
-        //     if (Vector3.Distance(firePos, currentPos) > _base.range)
-        //     {
-        //         isFired = false;
-        //         Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
-        //     }
-        // }
+        }
+        if (isFired)
+        {
+            _anim.SetFloat("Velocity", _rb.Rigidbody.velocity.magnitude);
+            Vector3 currentPos = transform.localPosition;
+            currentPos.y = 0.0f;
+            if (Vector3.Distance(firePos, currentPos) > _base.range)
+            {
+                isFired = false;
+                Runner.Despawn(transform.parent.GetComponent<NetworkObject>());
+            }
+        }
 
 
     }

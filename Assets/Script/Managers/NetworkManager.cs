@@ -81,6 +81,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
             PlayerControllerNetworked controller = networkCharacterObject.GetComponent<PlayerControllerNetworked>();
             controller.player = player;
+            controller.dynamicObjectProvider = GameObject.FindGameObjectWithTag("DynamicObjectProvider").GetComponent<DynamicObjectProvider>();
             runner.SetPlayerObject(player, networkCharacterObject);
             _spawnedCharacters.Add(player, networkCharacterObject);
         }
@@ -184,12 +185,12 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
     #endregion
 }

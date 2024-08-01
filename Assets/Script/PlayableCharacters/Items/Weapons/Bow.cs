@@ -11,6 +11,8 @@ public class Bow : Weapon
     {
         public Vector3 position;
         public Vector3 rotation;
+        public float range;
+        public float damage;
     }
 
     private bool isAttackCooldown = false;
@@ -20,9 +22,9 @@ public class Bow : Weapon
     public Bow(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
-        projectileSpeed = 15.0f;
-        range = 10.0f;
-        damage = 50;
+        projectileSpeed = 30.0f;
+        range = 20.0f;
+        damage = 50.0f;
     }
 
     // initialize multi shot arrow properties
@@ -31,23 +33,29 @@ public class Bow : Weapon
         multiShotArrows[0] = new MultiShotArrowProperties
         {
             position = new Vector3(1.4f, 0.57f, 0),
-            rotation = new Vector3(0, 0, -10.0f)
+            rotation = new Vector3(0, 0, -10.0f),
+            damage = 25.0f,
+            range = 10.0f
         };
 
         multiShotArrows[1] = new MultiShotArrowProperties
         {
             position = new Vector3(1.3f, 0.1f, 0),
-            rotation = new Vector3(0, 0, -20.0f)
+            rotation = new Vector3(0, 0, -20.0f),
+            damage = 25.0f,
+            range = 10.0f
         };
 
         multiShotArrows[2] = new MultiShotArrowProperties
         {
             position = new Vector3(0.9f, -0.25f, 0),
-            rotation = new Vector3(0, 0, -26.0f)
+            rotation = new Vector3(0, 0, -26.0f),
+            damage = 25.0f,
+            range = 10.0f
         };
     }
 
-    public override IEnumerator Attack(Animator anim, Transform character)
+    public override IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
     {
         if (multiShotArrows[0] == null)
         {
@@ -68,7 +76,7 @@ public class Bow : Weapon
             anim.SetInteger("AttackState", attackState);
             prevAttack = Time.time;
             anim.SetFloat("PrevAttack", prevAttack);
-            anim.SetTrigger("Attack");
+            mecanim.SetTrigger("Attack");
             anim.SetBool("Combo", true);
             isAttackCooldown = true;
             yield return new WaitForSeconds(1.0f / attackSpeed);
@@ -95,8 +103,8 @@ public class Bow : Weapon
         }
         else
         {
-            RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero);
-            // RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
+            RPC_SpawnProjectile(character, new Vector3(0.3f, -0.1f), Vector3.zero, damage, range);
+            RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
         }
     }
 
@@ -104,17 +112,18 @@ public class Bow : Weapon
     {
         if (anim.GetInteger("AttackState") == 2)
         {
-            yield return MultiShot(character);
+            MultiShot(character);
+            yield return null;
         }
         else
         {
-            RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero);
+            RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero, damage, range);
             RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
             yield return null;
         }
     }
 
-    public IEnumerator MultiShot(Transform character)
+    public void MultiShot(Transform character)
     {
         if (multiShotArrows[0] == null)
         {
@@ -124,39 +133,40 @@ public class Bow : Weapon
         {
             RPC_SpawnProjectile(
                 character,
-                new Vector3(multiShotArrows[i].position.x, multiShotArrows[i].position.y),
-                multiShotArrows[i].rotation
+                multiShotArrows[i].position,
+                multiShotArrows[i].rotation,
+                multiShotArrows[i].damage,
+                multiShotArrows[i].range
             );
 
             if (i == 0)
             {
-                // RPC_SpawnEffect(2, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
+                RPC_SpawnEffect(2, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
             }
         }
-        yield return null;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SpawnProjectile(Transform transform, Vector3 _pos, Vector3 rotation)
+    private void RPC_SpawnProjectile(Transform transform, Vector3 _pos, Vector3 rotation, float damage, float range)
     {
         NetworkRunner runner = NetworkRunner.Instances.First();
-        
+
         Vector3 pos = transform.position;
         Vector3 scale = transform.localScale;
-        
+
         NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
         // projectile.transform.position = pos + new Vector3(scale.x * 1.5f, 0, 0);
-        projectile.transform.position = pos + new Vector3(scale.x * _pos.x, scale.y * _pos.y);
+        projectile.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y);
         projectile.transform.localScale = scale;
 
         Base arrow = projectile.GetComponent<Base>();
-        arrow.isReady = true;
         arrow.projectileSpeed = projectileSpeed;
         arrow.damage = damage;
         arrow.range = range;
 
         GameObject projectileObject = arrow.projectile;
         projectileObject.transform.localPosition = new Vector3(0, 0, 0);
+        rotation.z *= scale.x;
         projectileObject.transform.rotation = Quaternion.Euler(rotation);
     }
 

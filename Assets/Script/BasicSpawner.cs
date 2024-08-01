@@ -4,7 +4,6 @@ using Fusion;
 using Fusion.Sockets;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
 using UnityEngine.UIElements;
 using Fusion.Addons.Physics;
 
@@ -92,8 +91,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     async void StartGame(GameMode mode)
     {
-        
-        
+
+
         // Create the Fusion runner and let it know that we will be providing user input
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
