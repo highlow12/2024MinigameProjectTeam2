@@ -183,7 +183,7 @@ public class Bow : Weapon
         projectileEffect.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y, 0);
         projectileEffect.transform.localScale = scale;
         projectileEffect.transform.rotation = Quaternion.Euler(rotation);
-        projectileEffect.GetComponent<Animator>().SetInteger("ShotType", shotType);
+        projectileEffect.GetComponent<ArrowEffect>().ShotType = shotType;
     }
 
 }

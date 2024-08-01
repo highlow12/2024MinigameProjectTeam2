@@ -77,7 +77,6 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     void Start()
     {
-        transform.localScale = new Vector3(BossScale, BossScale, 1);
         CurrentHealth = maxHealth;
         CurrentState = BossState.Idle;
         StartCoroutine(SetTargetRecursive());
@@ -96,7 +95,11 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Networked boss behaviour
     public override void FixedUpdateNetwork()
     {
-        BossBehaviour();
+        transform.localScale = new Vector3(BossScale, Math.Abs(BossScale), 1);
+        if (HasStateAuthority)
+        {
+            BossBehaviour();
+        }
     }
     // Networked animation
     public override void Render()
@@ -141,13 +144,11 @@ public class BossMonsterNetworked : NetworkBehaviour
         Vector3 scale = transform.localScale;
         if (distance > 0)
         {
-            scale.x = BossScale;
-            transform.localScale = scale;
+            BossScale = Mathf.Abs(BossScale);
         }
         else
         {
-            scale.x = -BossScale;
-            transform.localScale = scale;
+            BossScale = -Mathf.Abs(BossScale);
         }
         _animator.SetInteger("walkState", 1);
         while (Math.Abs(distance) > 3.0f)

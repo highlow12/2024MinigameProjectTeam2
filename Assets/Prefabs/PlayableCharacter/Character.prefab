@@ -196,9 +196,9 @@ MonoBehaviour:
   UseRenderSleepThresholds: 1
   RenderThresholds:
     UseEnergy: 1
-    Position: 100
+    Position: 0.01
     Rotation: 0.01
-    Scale: 100
+    Scale: 0.01
 --- !u!114 &9061576151643852141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,11 +245,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fb2ce64520f462bbb1e8b437b8ee3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nickName:
+    _length: 0
+    _data:
+      Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   _characterClass: 0
   _maxHealth: 0
   _currentHealth: 0
   durationIndicator: {fileID: 0}
   healthBar: {fileID: 0}
+  otherStatusPanel: {fileID: 0}
+  dynamicObjectProvider: {fileID: 0}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -394,7 +394,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    private void RPC_SetClass(int classTypeInt)
+    public void RPC_SetClass(int classTypeInt)
     {
         characterClass = classTypeInt;
         RPC_UpdateClass(classTypeInt);
