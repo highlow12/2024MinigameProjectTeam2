@@ -60,8 +60,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public CameraMovement cameraMovement;
     public Image healthBar;
     public DurationIndicator durationIndicator;
-    public Collider2D attackRange;
-    public GameObject attackRangeIndicator;
+    public BossAttack bossAttack;
 
 
     void Awake()
@@ -71,8 +70,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
         healthBar = GameObject.FindGameObjectWithTag("BossHealthUI").GetComponent<Image>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
-        attackRange = transform.GetChild(0).GetComponent<Collider2D>();
-        attackRangeIndicator = transform.GetChild(1).gameObject;
     }
 
     void Start()
@@ -96,6 +93,9 @@ public class BossMonsterNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         transform.localScale = new Vector3(BossScale, Math.Abs(BossScale), 1);
+        // Debug.Log(BossAttackTimer.ElapsedTicks(Runner));
+        // Debug.Log($"Timer expired: {BossAttackTimer.Expired(Runner)}");
+        // Debug.Log($"Timer is default: {Equals(BossAttackTimer, default(CustomTickTimer))}");
         if (HasStateAuthority)
         {
             if (CurrentHealth <= 0)
@@ -144,52 +144,47 @@ public class BossMonsterNetworked : NetworkBehaviour
             yield return new WaitForSecondsRealtime(1.0f);
             StartCoroutine(Move());
         }
-        float distance = transform.position.x - FollowTarget.transform.position.x;
-        // BossScale is used to flip the boss sprite in FixedUpdateNetwork
-        if (distance > 0)
-        {
-            BossScale = Mathf.Abs(BossScale);
-        }
         else
         {
-            BossScale = -Mathf.Abs(BossScale);
-        }
-        _animator.SetInteger("walkState", 1);
-        // Move the boss to the player until the distance is less than 2.5f
-        while (Math.Abs(distance) > 2.5f)
-        {
-            Vector3 targetPos = FollowTarget.transform.position;
-            targetPos.y = transform.position.y;
-            transform.position = Vector2.Lerp(transform.position, targetPos, 0.01f);
+            float distance = transform.position.x - FollowTarget.transform.position.x;
+            // BossScale is used to flip the boss sprite in FixedUpdateNetwork
+            if (distance > 0)
+            {
+                BossScale = Mathf.Abs(BossScale);
+            }
+            else
+            {
+                BossScale = -Mathf.Abs(BossScale);
+            }
+            _animator.SetInteger("walkState", 1);
+            // Move the boss to the player until the distance is less than 2.5f
+            while (Math.Abs(distance) > 2.5f)
+            {
+                Vector3 targetPos = FollowTarget.transform.position;
+                targetPos.y = transform.position.y;
+                transform.position = Vector2.Lerp(transform.position, targetPos, 0.01f);
 
-            distance = transform.position.x - FollowTarget.transform.position.x;
-            // wait for the next tick
-            yield return new WaitForSecondsRealtime(1.0f / 64);
+                distance = transform.position.x - FollowTarget.transform.position.x;
+                // wait for the next tick
+                yield return new WaitForSecondsRealtime(1.0f / 64);
+            }
+            _animator.SetInteger("walkState", 0);
+            yield return null;
         }
-        _animator.SetInteger("walkState", 0);
-        yield return null;
     }
     public IEnumerator Attack()
     {
         _animator.SetTrigger("doAttack");
-        attackRangeIndicator.SetActive(true);
-        float omenLength = 0.4f;
-        float attackLength = 0.3f;
-        durationIndicator.CreateDurationIndicator(omenLength, "OmenDuration");
-        var omenTimer = CustomTickTimer.CreateFromSeconds(Runner, omenLength);
-        while (!omenTimer.Expired(Runner))
-        {
-            yield return new WaitForFixedUpdate();
-        }
+        float attackLength = 1.2f;
         // attack logic by animation event required
-        attackRange.enabled = true;
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
             yield return new WaitForFixedUpdate();
         }
-        attackRange.enabled = false;
-        attackRangeIndicator.SetActive(false);
+        bossAttack.damage = 0.0f;
         yield return null;
     }
 
@@ -258,6 +253,24 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             conditionDuration = 0.0f;
         }
+        if (!bossCondition.HasFlag(Condition.IsPlayerInAttackRange) && attackType != AttackType.JumpDash && CurrentState != BossState.Move)
+        {
+            CurrentState = BossState.Move;
+        }
+        if (bossCondition.HasFlag(Condition.IsPlayerInAttackRange) && CurrentState != BossState.Attack)
+        {
+            CurrentState = BossState.Attack;
+        }
+        // If attack timer is default and boss is in attack state,
+        // not attacking, and set new attack timer
+        if (Equals(BossAttackTimer, default(CustomTickTimer)))
+        {
+            if (CurrentState == BossState.Attack && isAttacking == true)
+            {
+                Debug.Log("Set timer");
+                BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
+            }
+        }
         UpdateAttribute();
         UpdateCondition();
         switch (CurrentState)
@@ -294,7 +307,6 @@ public class BossMonsterNetworked : NetworkBehaviour
                         if (!bossCondition.HasFlag(Condition.IsPlayerInAttackRange))
                         {
                             Debug.Log("Player is not in attack range");
-                            BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
                             CurrentState = BossState.Move;
                             isAttacking = false;
                             return;
@@ -315,16 +327,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             case BossState.Die:
                 break;
         }
-        // If attack timer is default and boss is in attack state,
-        // not attacking, and set new attack timer
-        if (Equals(BossAttackTimer, default(CustomTickTimer)))
-        {
-            if (CurrentState == BossState.Attack && isAttacking == false)
-            {
-                Debug.Log("Set timer");
-                BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
-            }
-        }
+
     }
 
     private float GetDistance(Vector3 target)
@@ -386,6 +389,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             healthBar.fillAmount = CurrentHealth / maxHealth;
         }
     }
+
 
     public void bossDead()
     {

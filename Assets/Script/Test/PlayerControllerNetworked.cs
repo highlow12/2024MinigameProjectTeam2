@@ -184,6 +184,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
         InputTask();
         Velocity = _rb.Rigidbody.velocity;
         CurrentServerTick = (int)Runner.Tick;
+        if (!HasInputAuthority)
+        {
+            OtherPanelHPUpdate();
+        }
         // RPC_GetTickDeltaBetweenClients(nickName);
     }
 
@@ -388,7 +392,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         if (!otherStatusPanel)
         {
-            Debug.Log("sans");
+            return;
         }
         else
         {
@@ -406,21 +410,20 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_UpdateClass(int classTypeInt)
     {
-        Debug.Log("Updated!!!!!!!!!");
         UpdateCharacterClass(classTypeInt);
     }
-
+    // 클라이언트 플레이어의 체력 감소가 적용되지 않는 오류가 있음.
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_OnPlayerHit(BossAttack.AttackData attackData)
+    {
+        currentHealth -= attackData.damage;
+        healthBar.fillAmount = currentHealth / maxHealth;
+    }
 
     // TEST RPC FUNCTION
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_GetTickDeltaBetweenClients(NetworkString<_16> nick)
     {
-        // if (nick == nickName)
-        // {
-        //     // Debug.Log(Runner.LocalRenderTime * Runner.TickRate);
-        //     return;
-        // }
-
         Debug.Log($"{nick} - Tick delta:  {(float)Runner.LocalRenderTime * Runner.TickRate - CurrentServerTick}");
     }
 
@@ -447,6 +450,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             otherStatusPanel.SetClass(characterClass);
             otherStatusPanel.SetName($"{nickName}");
+            otherStatusPanel.SetHP(currentHealth, maxHealth);
+        }
+    }
+
+    public void OtherPanelHPUpdate()
+    {
+        if (otherStatusPanel)
+        {
             otherStatusPanel.SetHP(currentHealth, maxHealth);
         }
     }
