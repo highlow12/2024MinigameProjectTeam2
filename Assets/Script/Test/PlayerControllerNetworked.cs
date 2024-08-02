@@ -184,7 +184,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         InputTask();
         Velocity = _rb.Rigidbody.velocity;
         CurrentServerTick = (int)Runner.Tick;
-        RPC_GetTickDeltaBetweenClients();
+        // RPC_GetTickDeltaBetweenClients(nickName);
     }
 
     void InputTask()
@@ -413,10 +413,15 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     // TEST RPC FUNCTION
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_GetTickDeltaBetweenClients()
+    public void RPC_GetTickDeltaBetweenClients(NetworkString<_16> nick)
     {
+        // if (nick == nickName)
+        // {
+        //     // Debug.Log(Runner.LocalRenderTime * Runner.TickRate);
+        //     return;
+        // }
 
-        Debug.Log($"Tick delta:  {(int)Runner.Tick - CurrentServerTick}");
+        Debug.Log($"{nick} - Tick delta:  {(float)Runner.LocalRenderTime * Runner.TickRate - CurrentServerTick}");
     }
 
     private void ClassChanged()

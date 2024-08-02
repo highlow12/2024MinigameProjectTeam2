@@ -39,7 +39,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
 
     // Networked variables
-    [Networked] public CustomTickTimer BossBehaviourTimer { get; set; }
+    [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossScale { get; set; }
     [Networked] public NetworkObject FollowTarget { get; set; }
@@ -145,7 +145,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             StartCoroutine(Move());
         }
         float distance = transform.position.x - FollowTarget.transform.position.x;
-        Vector3 scale = transform.localScale;
+        // BossScale is used to flip the boss sprite in FixedUpdateNetwork
         if (distance > 0)
         {
             BossScale = Mathf.Abs(BossScale);
@@ -155,7 +155,8 @@ public class BossMonsterNetworked : NetworkBehaviour
             BossScale = -Mathf.Abs(BossScale);
         }
         _animator.SetInteger("walkState", 1);
-        while (Math.Abs(distance) > 3.0f)
+        // Move the boss to the player until the distance is less than 2.5f
+        while (Math.Abs(distance) > 2.5f)
         {
             Vector3 targetPos = FollowTarget.transform.position;
             targetPos.y = transform.position.y;
@@ -228,11 +229,15 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Behaviour Tree
     void BossBehaviour()
     {
-        if (BossBehaviourTimer.Expired(Runner))
+        // If attack timer is expired, set it as default
+        // If attack timer is default, boss attack can be triggered
+        // RequireDurationUpdate is set when the condition requires duration update
+        // Example: If player is in far for 5 seconds, set attack type as JumpDash
+        // And force set the state as Attack
+        if (BossAttackTimer.Expired(Runner))
         {
             Debug.Log("Set timer as default");
-            BossBehaviourTimer = default;
-            // BossBehaviourTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
+            BossAttackTimer = default;
         }
         if (bossCondition.HasFlag(Condition.RequireDurationUpdate))
         {
@@ -273,18 +278,23 @@ public class BossMonsterNetworked : NetworkBehaviour
                 }
                 break;
             case BossState.Attack:
-                if (!Equals(BossBehaviourTimer, default(CustomTickTimer)))
+                // Check if attack timer is default
+                if (!Equals(BossAttackTimer, default(CustomTickTimer)))
                 {
                     return;
                 }
                 isAttacking = true;
                 switch (attackType)
                 {
+                    // Attack controller makes sure that the attack is executed once
+                    // If end of the attack is reached, isAttacking is set as false
                     case AttackType.Melee:
+                        // If player is not in attack range, cancel the attack
+                        // and set state as Move
                         if (!bossCondition.HasFlag(Condition.IsPlayerInAttackRange))
                         {
                             Debug.Log("Player is not in attack range");
-                            BossBehaviourTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
+                            BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
                             CurrentState = BossState.Move;
                             isAttacking = false;
                             return;
@@ -305,12 +315,14 @@ public class BossMonsterNetworked : NetworkBehaviour
             case BossState.Die:
                 break;
         }
-        if (Equals(BossBehaviourTimer, default(CustomTickTimer)))
+        // If attack timer is default and boss is in attack state,
+        // not attacking, and set new attack timer
+        if (Equals(BossAttackTimer, default(CustomTickTimer)))
         {
             if (CurrentState == BossState.Attack && isAttacking == false)
             {
                 Debug.Log("Set timer");
-                BossBehaviourTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
+                BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
             }
         }
     }
