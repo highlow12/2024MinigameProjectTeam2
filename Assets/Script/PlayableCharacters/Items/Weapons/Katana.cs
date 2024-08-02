@@ -39,7 +39,7 @@ public class Katana : Weapon
             anim.SetInteger("AttackState", attackState);
             prevAttack = Time.time;
             anim.SetFloat("PrevAttack", prevAttack);
-            mecanim.SetTrigger("Attack");
+            mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
             rangeObject.GetComponent<Collider2D>().enabled = true;
             yield return new WaitForSeconds(0.1f);

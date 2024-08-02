@@ -15,6 +15,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public float maxHealth { get; set; } = 100;
     [Networked, OnChangedRender(nameof(HPChanged))] public float currentHealth { get; set; } = 100;
     [Networked] public PlayerRef player { get; set; }
+    [Networked] public int CurrentServerTick { get; set; }
 
     // Local Variables
     NetworkRigidbody2D _rb;
@@ -182,6 +183,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         InputTask();
         Velocity = _rb.Rigidbody.velocity;
+        CurrentServerTick = (int)Runner.Tick;
+        RPC_GetTickDeltaBetweenClients();
     }
 
     void InputTask()
@@ -268,7 +271,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (jump || CalculateJumpBuffer())
         {
             // Run jump animation
-            _mecanim.SetTrigger("Jump");
+            _mecanim.SetTrigger("Jump", true);
             // Deprecated jump function
             // void _jump(float __jumpForce)
             // {
@@ -405,6 +408,15 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         Debug.Log("Updated!!!!!!!!!");
         UpdateCharacterClass(classTypeInt);
+    }
+
+
+    // TEST RPC FUNCTION
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_GetTickDeltaBetweenClients()
+    {
+
+        Debug.Log($"Tick delta:  {(int)Runner.Tick - CurrentServerTick}");
     }
 
     private void ClassChanged()

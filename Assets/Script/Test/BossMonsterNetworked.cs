@@ -39,6 +39,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
 
     // Networked variables
+    [Networked] public CustomTickTimer BossBehaviourTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossScale { get; set; }
     [Networked] public NetworkObject FollowTarget { get; set; }
@@ -47,7 +48,6 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public AttackType attackType { get; set; }
     [Networked] public float conditionDuration { get; set; }
     [Networked] public float currentDistance { get; set; }
-    [Networked] public float attackCooldown { get; set; }
     [Networked] public bool isAttacking { get; set; }
     [Networked] public bool isMoving { get; set; }
 
@@ -175,9 +175,18 @@ public class BossMonsterNetworked : NetworkBehaviour
         float omenLength = 0.4f;
         float attackLength = 0.3f;
         durationIndicator.CreateDurationIndicator(omenLength, "OmenDuration");
-        yield return new WaitForSecondsRealtime(omenLength);
+        var omenTimer = CustomTickTimer.CreateFromSeconds(Runner, omenLength);
+        while (!omenTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        // attack logic by animation event required
         attackRange.enabled = true;
-        yield return new WaitForSecondsRealtime(attackLength);
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
         attackRange.enabled = false;
         attackRangeIndicator.SetActive(false);
         yield return null;
@@ -219,9 +228,11 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Behaviour Tree
     void BossBehaviour()
     {
-        if (attackCooldown > 0)
+        if (BossBehaviourTimer.Expired(Runner))
         {
-            attackCooldown -= Time.fixedDeltaTime;
+            Debug.Log("Set timer as default");
+            BossBehaviourTimer = default;
+            // BossBehaviourTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
         }
         if (bossCondition.HasFlag(Condition.RequireDurationUpdate))
         {
@@ -262,18 +273,18 @@ public class BossMonsterNetworked : NetworkBehaviour
                 }
                 break;
             case BossState.Attack:
-                if (attackCooldown > 0)
+                if (!Equals(BossBehaviourTimer, default(CustomTickTimer)))
                 {
                     return;
                 }
-                attackCooldown = Random.Range(2.0f, 3.5f);
                 isAttacking = true;
                 switch (attackType)
                 {
                     case AttackType.Melee:
                         if (!bossCondition.HasFlag(Condition.IsPlayerInAttackRange))
                         {
-                            attackCooldown = 0;
+                            Debug.Log("Player is not in attack range");
+                            BossBehaviourTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
                             CurrentState = BossState.Move;
                             isAttacking = false;
                             return;
@@ -293,6 +304,14 @@ public class BossMonsterNetworked : NetworkBehaviour
                 break;
             case BossState.Die:
                 break;
+        }
+        if (Equals(BossBehaviourTimer, default(CustomTickTimer)))
+        {
+            if (CurrentState == BossState.Attack && isAttacking == false)
+            {
+                Debug.Log("Set timer");
+                BossBehaviourTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
+            }
         }
     }
 

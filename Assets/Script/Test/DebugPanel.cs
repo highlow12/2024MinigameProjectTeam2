@@ -27,7 +27,6 @@ public class DebugPanel : MonoBehaviour
                         "Condition: " + bossScript.bossCondition + "\n" +
                         "Condition Duration: " + bossScript.conditionDuration + "\n" +
                         "Current Distance: " + bossScript.currentDistance + "\n" +
-                        "Attack Cooldown: " + bossScript.attackCooldown + "\n" +
                         "Is Attacking: " + bossScript.isAttacking + "\n" +
                         "Is Moving: " + bossScript.isMoving + "\n" +
                         "Max Health: " + bossScript.maxHealth + "\n" +

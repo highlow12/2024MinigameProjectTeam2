@@ -76,7 +76,7 @@ public class Bow : Weapon
             anim.SetInteger("AttackState", attackState);
             prevAttack = Time.time;
             anim.SetFloat("PrevAttack", prevAttack);
-            mecanim.SetTrigger("Attack");
+            mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
             isAttackCooldown = true;
             yield return new WaitForSeconds(1.0f / attackSpeed);
