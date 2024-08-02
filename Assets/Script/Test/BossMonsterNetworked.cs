@@ -98,6 +98,10 @@ public class BossMonsterNetworked : NetworkBehaviour
         transform.localScale = new Vector3(BossScale, Math.Abs(BossScale), 1);
         if (HasStateAuthority)
         {
+            if (CurrentHealth <= 0)
+            {
+                bossDead();
+            }
             BossBehaviour();
         }
     }
@@ -352,6 +356,10 @@ public class BossMonsterNetworked : NetworkBehaviour
         }
     }
 
+    public void bossDead()
+    {
+        //pass
+    }
     // TriggerEvent for player attack
     // void OnTriggerEnter2D(Collider2D other)
     // {
