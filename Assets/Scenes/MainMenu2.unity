@@ -10685,6 +10685,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1861496345}
   - component: {fileID: 1861496344}
+  - component: {fileID: 1861496346}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -10729,6 +10730,21 @@ Transform:
   - {fileID: 1281154614}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1861496346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861496343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b16a9a48f2f2954f9526e3951b728cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  door: {fileID: 1746187956}
+  player: {fileID: 165775389}
+  SceneName: RoomSelect
 --- !u!1 &1901763152
 GameObject:
   m_ObjectHideFlags: 0
