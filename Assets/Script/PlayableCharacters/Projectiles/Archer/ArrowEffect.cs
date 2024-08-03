@@ -15,9 +15,22 @@ public class ArrowEffect : NetworkBehaviour
         _networkAnimator = GetComponent<NetworkMecanimAnimator>();
     }
 
-    public override void Render()
+    // public override void FixedUpdateNetwork()
+    // {
+    //     if (IsProxy == true)
+    //     {
+    //         return;
+    //     }
+    //     if (Runner.IsForward == false)
+    //     {
+    //         return;
+    //     }
+
+
+    // }
+
+    public void SetShotType()
     {
-        if (!HasStateAuthority) return;
         _networkAnimator.Animator.SetInteger("ShotType", ShotType);
     }
 

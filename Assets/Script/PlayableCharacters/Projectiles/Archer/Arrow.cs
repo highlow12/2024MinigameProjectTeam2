@@ -11,12 +11,10 @@ public class Arrow : NetworkBehaviour
     private Vector3 firePos;
     Base _base;
     NetworkRigidbody2D _rb;
-    Animator _anim;
 
     void Awake()
     {
         _rb = GetComponent<NetworkRigidbody2D>();
-        _anim = gameObject.GetComponentInParent<Animator>();
         _base = gameObject.GetComponentInParent<Base>();
     }
 
@@ -43,7 +41,6 @@ public class Arrow : NetworkBehaviour
         }
         if (isFired)
         {
-            _anim.SetFloat("Velocity", _rb.Rigidbody.velocity.magnitude);
             Vector3 currentPos = transform.localPosition;
             currentPos.y = 0.0f;
             if (Vector3.Distance(firePos, currentPos) > _base.range)
@@ -55,6 +52,9 @@ public class Arrow : NetworkBehaviour
 
 
     }
+
+
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!HasStateAuthority) return;

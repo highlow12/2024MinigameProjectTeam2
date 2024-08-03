@@ -199,11 +199,8 @@ public class Bow : Weapon
         Vector3 pos = transform.position;
         Vector3 scale = transform.localScale;
 
-        NetworkObject projectileEffect = runner.Spawn(arrowEffectPrefab, new Vector3(0, 0, -999), Quaternion.identity, null);
-        projectileEffect.transform.localPosition = new Vector3(0, 0, 0);
-        projectileEffect.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y, 0);
+        NetworkObject projectileEffect = runner.Spawn(arrowEffectPrefab, pos + new Vector3(scale.x * _pos.x, _pos.y, 0), Quaternion.Euler(rotation), null);
         projectileEffect.transform.localScale = scale;
-        projectileEffect.transform.rotation = Quaternion.Euler(rotation);
         projectileEffect.GetComponent<ArrowEffect>().ShotType = shotType;
     }
 
