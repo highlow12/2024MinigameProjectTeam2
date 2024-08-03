@@ -29,7 +29,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public DurationIndicator durationIndicator;
     public Image healthBar;
     public OtherStatusPanel otherStatusPanel;
-    public DynamicObjectProvider dynamicObjectProvider;
 
     #region
     [SerializeField] private LayerMask _groundLayer;

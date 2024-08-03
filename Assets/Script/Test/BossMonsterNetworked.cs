@@ -6,6 +6,7 @@ using Fusion.Addons.Physics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class BossMonsterNetworked : NetworkBehaviour
@@ -61,6 +62,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public Image healthBar;
     public DurationIndicator durationIndicator;
     public BossAttack bossAttack;
+    public TextMeshProUGUI bossHealthText;
 
 
     void Awake()
@@ -70,6 +72,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
         healthBar = GameObject.FindGameObjectWithTag("BossHealthUI").GetComponent<Image>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
+        bossHealthText = GameObject.FindGameObjectWithTag("BossHealthText").GetComponent<TextMeshProUGUI>();
     }
 
     void Start()
@@ -387,6 +390,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (healthBar != null)
         {
             healthBar.fillAmount = CurrentHealth / maxHealth;
+            bossHealthText.text = $"{CurrentHealth} / {maxHealth}";
         }
     }
 

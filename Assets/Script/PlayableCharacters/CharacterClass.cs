@@ -32,7 +32,6 @@ public abstract class CharacterClass
     public float moveSpeed;
     public Weapon weapon;
     public RuntimeAnimatorController characterAnimator;
-    public DynamicObjectProvider dynamicObjectProvider;
     public Dictionary<string, float> skillList = new(); // skillName, coolDown
 
     public static void ChangeClass(int characterClass, GameObject player)
@@ -67,14 +66,13 @@ public abstract class CharacterClass
         controller.maxHealth = classObj.maxHealth;
         controller.weapon = classObj.weapon;
         controller.weapon.controller = controller;
-        controller.weapon.dynamicObjectProvider = controller.dynamicObjectProvider;
         controller.currentHealth = classObj.maxHealth;
         controller.skillList = classObj.skillList;
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;
     }
 
     // abstract public void Attack();
-    
+
     // [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     // abstract public void RPC_CreateEffect();
 

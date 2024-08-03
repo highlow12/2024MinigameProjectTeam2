@@ -15,6 +15,9 @@ public class Bow : Weapon
         public float damage;
     }
 
+    public NetworkObject arrowPrefab;
+    public NetworkObject arrowEffectPrefab;
+
     private bool isAttackCooldown = false;
     private MultiShotArrowProperties[] multiShotArrows = new MultiShotArrowProperties[3];
 
@@ -97,6 +100,15 @@ public class Bow : Weapon
 
     public override void FireProjectileAlt(int state, Transform character)
     {
+        if (arrowPrefab == null || arrowEffectPrefab == null)
+        {
+            // arrow prefab id: 7
+            // arrow effect prefab id: 6
+
+            arrowPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(7), false);
+            arrowEffectPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(6), false);
+
+        }
         if (state == 2)
         {
             MultiShot(character);
@@ -150,11 +162,16 @@ public class Bow : Weapon
     private void RPC_SpawnProjectile(Transform transform, Vector3 _pos, Vector3 rotation, float damage, float range)
     {
         NetworkRunner runner = NetworkRunner.Instances.First();
+        // Check if this is the client
+        if (runner.IsClient)
+        {
+            return;
+        }
 
         Vector3 pos = transform.position;
         Vector3 scale = transform.localScale;
 
-        NetworkObject projectile = runner.Spawn(dynamicObjectProvider.arrowPrefab, Vector3.zero, Quaternion.identity, null);
+        NetworkObject projectile = runner.Spawn(arrowPrefab, new Vector3(0, 0, -999), Quaternion.identity, null);
         // projectile.transform.position = pos + new Vector3(scale.x * 1.5f, 0, 0);
         projectile.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y);
         projectile.transform.localScale = scale;
@@ -174,11 +191,15 @@ public class Bow : Weapon
     private void RPC_SpawnEffect(int shotType, Transform transform, Vector3 _pos, Vector3 rotation)
     {
         NetworkRunner runner = NetworkRunner.Instances.First();
-
+        // Check if this is the client
+        if (runner.IsClient)
+        {
+            return;
+        }
         Vector3 pos = transform.position;
         Vector3 scale = transform.localScale;
 
-        NetworkObject projectileEffect = runner.Spawn(dynamicObjectProvider.arrowEffectPrefab, Vector3.zero, Quaternion.identity, null);
+        NetworkObject projectileEffect = runner.Spawn(arrowEffectPrefab, new Vector3(0, 0, -999), Quaternion.identity, null);
         projectileEffect.transform.localPosition = new Vector3(0, 0, 0);
         projectileEffect.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y, 0);
         projectileEffect.transform.localScale = scale;

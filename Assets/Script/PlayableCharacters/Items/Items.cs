@@ -16,7 +16,6 @@ namespace Items
         public int healingAmount;
         public GameObject rangeObject;
         public PlayerControllerNetworked controller;
-        public DynamicObjectProvider dynamicObjectProvider;
         public bool isRangeObjectSpawned = false;
 
         public virtual IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)

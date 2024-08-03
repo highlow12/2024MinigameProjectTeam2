@@ -6,19 +6,19 @@ using Fusion;
 public class ArrowEffect : NetworkBehaviour
 {
 
-    public int ShotType;
-    public Animator _anim;
+    [Networked]
+    public int ShotType { get; set; }
+    public NetworkMecanimAnimator _networkAnimator;
 
-    public override void Spawned()
+    void Awake()
     {
-        base.Spawned();
-        _anim = GetComponent<Animator>();
+        _networkAnimator = GetComponent<NetworkMecanimAnimator>();
     }
 
-    public override void FixedUpdateNetwork()
+    public override void Render()
     {
         if (!HasStateAuthority) return;
-        _anim.SetInteger("ShotType", ShotType);
+        _networkAnimator.Animator.SetInteger("ShotType", ShotType);
     }
 
 

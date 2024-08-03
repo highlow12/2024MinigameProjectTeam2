@@ -17,6 +17,8 @@ TagManager:
   - Ground
   - CharacterProjectile
   - DynamicObjectProvider
+  - CharacterManaUI
+  - BossHealthText
   layers:
   - Default
   - TransparentFX
