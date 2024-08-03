@@ -29,7 +29,7 @@ public class ArrowEffect : NetworkBehaviour
 
     // }
 
-    public void SetShotType()
+    public void SetShotTypeParameter()
     {
         _networkAnimator.Animator.SetInteger("ShotType", ShotType);
     }
