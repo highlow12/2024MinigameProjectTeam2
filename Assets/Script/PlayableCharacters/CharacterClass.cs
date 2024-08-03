@@ -63,10 +63,10 @@ public abstract class CharacterClass
         }
         controller.speed = classObj.moveSpeed;
         controller.attackSpeed = classObj.attackSpeed;
-        controller.maxHealth = classObj.maxHealth;
+        controller.MaxHealth = classObj.maxHealth;
         controller.weapon = classObj.weapon;
         controller.weapon.controller = controller;
-        controller.currentHealth = classObj.maxHealth;
+        controller.CurrentHealth = classObj.maxHealth;
         controller.skillList = classObj.skillList;
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;
     }

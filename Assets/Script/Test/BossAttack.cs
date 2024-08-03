@@ -40,7 +40,7 @@ public class BossAttack : MonoBehaviour
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();
             if (player)
             {
-                if (playersHit.Contains(player.player))
+                if (playersHit.Contains(player.Player))
                 {
                     return;
                 }
@@ -49,7 +49,7 @@ public class BossAttack : MonoBehaviour
                     damage = damage
                 };
                 player.RPC_OnPlayerHit(attackData);
-                playersHit.Add(player.player);
+                playersHit.Add(player.Player);
             }
         }
     }

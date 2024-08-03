@@ -10,11 +10,11 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
-    [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> nickName { get; set; }
-    [Networked, OnChangedRender(nameof(ClassChanged))] public int characterClass { get; set; }
-    [Networked] public float maxHealth { get; set; } = 100;
-    [Networked, OnChangedRender(nameof(HPChanged))] public float currentHealth { get; set; } = 100;
-    [Networked] public PlayerRef player { get; set; }
+    [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> NickName { get; set; }
+    [Networked, OnChangedRender(nameof(ClassChanged))] public int CharacterClass { get; set; }
+    [Networked] public float MaxHealth { get; set; } = 100;
+    [Networked, OnChangedRender(nameof(HPChanged))] public float CurrentHealth { get; set; } = 100;
+    [Networked] public PlayerRef Player { get; set; }
     [Networked] public int CurrentServerTick { get; set; }
 
     // Local Variables
@@ -94,7 +94,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _anim = GetComponent<Animator>();
         _mecanim = GetComponent<NetworkMecanimAnimator>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
-        healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
         buffs = gameObject.GetComponent<PlayerBuffs>();
     }
 
@@ -102,6 +101,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         if (HasInputAuthority)
         {
+            healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
@@ -125,7 +125,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             other.SetActive(true);
 
             OtherPanelUpdate();
-            UpdateCharacterClass(characterClass);
+            UpdateCharacterClass(CharacterClass);
         }
     }
 
@@ -139,7 +139,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     void UpdateCharacterClass(int characterClass)
     {
         Debug.Log("Set character class: " + characterClass);
-        CharacterClass.ChangeClass(characterClass, gameObject);
+        global::CharacterClass.ChangeClass(characterClass, gameObject);
     }
 
     // Test function to check if player is grounded
@@ -384,7 +384,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RPC_SetNickName(string nick)
     {
-        nickName = nick;
+        NickName = nick;
     }
 
     private void NickNameChanged()
@@ -395,14 +395,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
         else
         {
-            otherStatusPanel.SetName($"[{player.AsIndex}] {nickName}");
+            otherStatusPanel.SetName($"[{Player.AsIndex}] {NickName}");
         }
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_SetClass(int classTypeInt)
     {
-        characterClass = classTypeInt;
+        CharacterClass = classTypeInt;
         RPC_UpdateClass(classTypeInt);
     }
 
@@ -411,12 +411,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         UpdateCharacterClass(classTypeInt);
     }
-    // 클라이언트 플레이어의 체력 감소가 적용되지 않는 오류가 있음.
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_OnPlayerHit(BossAttack.AttackData attackData)
     {
-        currentHealth -= attackData.damage;
-        healthBar.fillAmount = currentHealth / maxHealth;
+        CurrentHealth -= attackData.damage;
     }
 
     // TEST RPC FUNCTION
@@ -428,10 +427,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     private void ClassChanged()
     {
-        UpdateCharacterClass(characterClass);
+        UpdateCharacterClass(CharacterClass);
         if (otherStatusPanel)
         {
-            otherStatusPanel.SetClass(characterClass);
+            otherStatusPanel.SetClass(CharacterClass);
         }
     }
 
@@ -439,7 +438,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         if (otherStatusPanel)
         {
-            otherStatusPanel.SetHP(currentHealth, maxHealth);
+            otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
+        }
+        if (healthBar)
+        {
+            healthBar.fillAmount = CurrentHealth / MaxHealth;
         }
     }
 
@@ -447,9 +450,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         if (otherStatusPanel)
         {
-            otherStatusPanel.SetClass(characterClass);
-            otherStatusPanel.SetName($"{nickName}");
-            otherStatusPanel.SetHP(currentHealth, maxHealth);
+            otherStatusPanel.SetClass(CharacterClass);
+            otherStatusPanel.SetName($"{NickName}");
+            otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
     }
 
@@ -457,7 +460,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         if (otherStatusPanel)
         {
-            otherStatusPanel.SetHP(currentHealth, maxHealth);
+            otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
     }
 }
