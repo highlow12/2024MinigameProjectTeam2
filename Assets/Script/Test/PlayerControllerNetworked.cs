@@ -109,7 +109,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
-            RPC_SetClass(1);
+            RPC_SetClass(0);
         }
         else
         {
