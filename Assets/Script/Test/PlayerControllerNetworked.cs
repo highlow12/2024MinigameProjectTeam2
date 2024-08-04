@@ -47,7 +47,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [SerializeField] float _maxVelocity = 8f;
 
     [SerializeField] float _dashDuration = 0.5f; // ?�� ???? ?��?
-    [SerializeField] float _dashDistance = 3.0f; // ?�� ???
+    [SerializeField] float _dashDistance = 6.0f; // ?�� ???
 
     [Space]
 
@@ -218,6 +218,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             _anim.SetInteger("RunState", 0);
         }
+        if (_rb.Rigidbody.velocity.y < 0)
+        {
+            _anim.SetBool("Falling", true);
+        }
+        else
+        {
+            _anim.SetBool("Falling", false);
+        }
         // Ground check
         DetectGroundAndWalls();
         if (input < 0)
@@ -349,7 +357,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
                 _rollBufferTime = Runner.SimulationTime;
             }
 
-            if (IsGrounded && (dash) && !_isDashing) // IsGrounded?? ?��???? ???? ????? ?????? ??????? ????
+            if (IsGrounded && dash && !_isDashing) // IsGrounded?? ?��???? ???? ????? ?????? ??????? ????
             {
                 StartCoroutine(DashCoroutine());
             }
@@ -370,14 +378,15 @@ public class PlayerControllerNetworked : NetworkBehaviour
     private IEnumerator DashCoroutine()
     {
         _isDashing = true;
+        _anim.SetTrigger("Roll");
 
-        Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // ????????? ???? ??? ???? (??????)
+        Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // -1 or 1
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _dashDistance / _dashDuration;
         _collider.excludeLayers = _enemyLayer;
         yield return new WaitForSeconds(_dashDuration);
         _collider.excludeLayers = 0;
 
-        _rb.Rigidbody.velocity = Vector2.zero; // ?�� ?? ??? ????
+        _rb.Rigidbody.velocity = Vector2.zero; // reset velocity
         _isDashing = false;
     }
 
