@@ -6,29 +6,21 @@ using Fusion;
 public class Katana : Weapon
 {
     private bool isAttackCooldown = false;
-    public Katana()
+    public Katana(float attackSpeed)
     {
-        attackSpeed = 2.0f;
-        attackState = 0;
-        prevAttack = 0f;
+        this.attackSpeed = attackSpeed;
         range = 2.0f;
         damage = 60.0f;
-        isRangeObjectSpawned = false;
-        rangeObject = Resources.Load<GameObject>("KatanaRange");
     }
 
     public override IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
     {
-        if (!isRangeObjectSpawned)
-        {
-            rangeObject = GameObject.Instantiate(rangeObject, character);
-            rangeObject.GetComponent<Attack>().damage = damage;
-            isRangeObjectSpawned = true;
-        }
         if (!isAttackCooldown)
         {
             // 0.5f = animation length
             // 0.3f = combo delay
+
+            PlayerAttack playerAttack = rangeObject.GetComponent<PlayerAttack>();
 
             if (attackState == 3)
             {
@@ -41,9 +33,9 @@ public class Katana : Weapon
             anim.SetFloat("PrevAttack", prevAttack);
             mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
-            rangeObject.GetComponent<Collider2D>().enabled = true;
+            playerAttack.isHit = false;
+            playerAttack.damage = damage;
             yield return new WaitForSeconds(0.1f);
-            rangeObject.GetComponent<Collider2D>().enabled = false;
             isAttackCooldown = true;
             yield return new WaitForSeconds(1.0f / attackSpeed - 0.1f);
             isAttackCooldown = false;

@@ -64,7 +64,7 @@ public class Arrow : NetworkBehaviour
         }
         if (other.gameObject.CompareTag("Boss"))
         {
-            Attack.AttackData attackData = new()
+            PlayerAttack.AttackData attackData = new()
             {
                 damage = _base.damage
             };

@@ -56,16 +56,12 @@ public abstract class CharacterClass
     static void ChangeStats(CharacterClass classObj, GameObject player)
     {
         var controller = player.GetComponent<PlayerControllerNetworked>();
-        if (controller.weapon != null && controller.weapon.rangeObject != null && controller.weapon.isRangeObjectSpawned)
-        {
-            Debug.Log(controller.weapon.rangeObject);
-            GameObject.DestroyImmediate(controller.weapon.rangeObject, true);
-        }
         controller.speed = classObj.moveSpeed;
         controller.attackSpeed = classObj.attackSpeed;
         controller.MaxHealth = classObj.maxHealth;
         controller.weapon = classObj.weapon;
         controller.weapon.controller = controller;
+        controller.weapon.rangeObject = controller.rangeObject;
         controller.CurrentHealth = classObj.maxHealth;
         controller.skillList = classObj.skillList;
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;

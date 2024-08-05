@@ -101,7 +101,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         // Debug.Log($"Timer is default: {Equals(BossAttackTimer, default(CustomTickTimer))}");
         if (HasStateAuthority)
         {
-            
+
             BossBehaviour();
         }
     }
@@ -376,7 +376,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     // RPCs
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void Rpc_OnBossHit(Attack.AttackData attack)
+    public void Rpc_OnBossHit(PlayerAttack.AttackData attack)
     {
         CurrentHealth -= attack.damage;
         if (Runner.IsSceneAuthority && CurrentHealth <= 0)

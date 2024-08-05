@@ -21,6 +21,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
 
     // Local Variables
+    [Space]
+    public GameObject rangeObject;
+    [Space]
     NetworkRigidbody2D _rb;
     PlayerInputConsumer _input;
     TestBuffIndicator buffIndicator;
