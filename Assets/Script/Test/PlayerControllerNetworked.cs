@@ -16,6 +16,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked, OnChangedRender(nameof(HPChanged))] public float CurrentHealth { get; set; } = 100;
     [Networked] public PlayerRef Player { get; set; }
     [Networked] public int CurrentServerTick { get; set; }
+    [Networked] public CustomTickTimer DurationTickTimer { get; set; }
+    // It will be implemented in the CharacterClass.cs as a skillList's value
+    [Networked] public CustomTickTimer SkillTickTimer { get; set; }
 
     // Local Variables
     NetworkRigidbody2D _rb;
@@ -46,8 +49,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [SerializeField] float _DoubleJumpHeight = 8f;
     [SerializeField] float _maxVelocity = 8f;
 
-    [SerializeField] float _dashDuration = 0.5f; // ?�� ???? ?��?
-    [SerializeField] float _dashDistance = 6.0f; // ?�� ???
+    [SerializeField] float _rollDuration = 0.5f; // ?�� ???? ?��?
+    [SerializeField] float _rollDistance = 6.0f; // ?�� ???
 
     [Space]
 
@@ -64,7 +67,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Space]
     [SerializeField]
     bool IsGrounded = false;
-    bool _isDashing = false;
+    bool _isRolling = false;
 
     float _jumpBufferThreshold = .2f;
     float _jumpBufferTime;
@@ -208,7 +211,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
     void UpdateMovement(float input)
     {
-        if (_isDashing) return;
+        if (_isRolling) return;
         // Run animation
         if (input != 0)
         {
@@ -352,14 +355,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         if (dash || CalculateRollBuffer())
         {
-            if (_isDashing || !IsGrounded && dash)
+            if (_isRolling || !IsGrounded && dash)
             {
                 _rollBufferTime = Runner.SimulationTime;
             }
 
-            if (IsGrounded && dash && !_isDashing) // IsGrounded?? ?��???? ???? ????? ?????? ??????? ????
+            if (IsGrounded && dash && !_isRolling) // if player is grounded and dash button is pressed and player is not rolling
             {
-                StartCoroutine(DashCoroutine());
+                if (Equals(SkillTickTimer, default(CustomTickTimer)) || SkillTickTimer.Expired(Runner))
+                {
+                    SkillTickTimer = CustomTickTimer.CreateFromSeconds(Runner, skillList["Roll"]);
+                    StartCoroutine(RollCoroutine());
+                }
+                else
+                {
+                    var remainingTime = (Runner.TickRate * skillList["Roll"] - SkillTickTimer.ElapsedTicks(Runner)) / 64;
+                    Debug.Log($"Skill is on cooldown. Remaining time: {remainingTime}");
+                }
             }
         }
     }
@@ -375,19 +387,24 @@ public class PlayerControllerNetworked : NetworkBehaviour
         return (Runner.SimulationTime <= _rollBufferTime + _rollBufferThreshold) && IsGrounded;
     }
 
-    private IEnumerator DashCoroutine()
+    private IEnumerator RollCoroutine()
     {
-        _isDashing = true;
+        DurationTickTimer = CustomTickTimer.CreateFromSeconds(Runner, _rollDuration);
+        _isRolling = true;
         _anim.SetTrigger("Roll");
 
         Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // -1 or 1
-        _rb.Rigidbody.velocity = dashDirection * Vector2.right * _dashDistance / _dashDuration;
+        _rb.Rigidbody.velocity = dashDirection * Vector2.right * _rollDistance / _rollDuration;
         _collider.excludeLayers = _enemyLayer;
-        yield return new WaitForSeconds(_dashDuration);
+        while (!DurationTickTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
         _collider.excludeLayers = 0;
 
-        _rb.Rigidbody.velocity = Vector2.zero; // reset velocity
-        _isDashing = false;
+        _rb.Rigidbody.velocity = new Vector2(0, _rb.Rigidbody.velocity.y); // reset velocity except y
+        _isRolling = false;
+        yield return new WaitForFixedUpdate();
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
