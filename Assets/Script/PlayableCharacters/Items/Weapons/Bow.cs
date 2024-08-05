@@ -171,9 +171,7 @@ public class Bow : Weapon
         Vector3 pos = transform.position;
         Vector3 scale = transform.localScale;
 
-        NetworkObject projectile = runner.Spawn(arrowPrefab, new Vector3(0, 0, -999), Quaternion.identity, null);
-        // projectile.transform.position = pos + new Vector3(scale.x * 1.5f, 0, 0);
-        projectile.transform.position = pos + new Vector3(scale.x * _pos.x, _pos.y);
+        NetworkObject projectile = runner.Spawn(arrowPrefab, pos + new Vector3(scale.x * _pos.x, _pos.y), Quaternion.identity, null);
         projectile.transform.localScale = scale;
 
         Base arrow = projectile.GetComponent<Base>();
