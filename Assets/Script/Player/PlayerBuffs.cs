@@ -11,26 +11,12 @@ public class PlayerBuffs : NetworkBehaviour
     public GameObject buffPrefab;
     public TestBuffIndicator buffIndicator;
 
+    [Networked] CustomTickTimer timer { get; set; }
     public TestBuff[] buffObjects = new TestBuff[6];
     [Networked] bool reqUpdate { get; set; } = false;
     [Networked, Capacity(6), OnChangedRender(nameof(UIUpdate))]
     public NetworkArray<Buff> buffs { get; }
         = MakeInitializer(new Buff[] { });
-
-    public float iconHalfSize;
-
-    // public List<int> emptyIndexes
-    // {
-    //     get
-    //     {
-    //         List<int> temp = new List<int>();
-    //         for (int i = 0; i < buffs.Length; i++)
-    //         {
-    //             if (buffs[i].type == 0) temp.Add(i);
-    //         }
-    //         return temp;
-    //     }
-    // }
 
     private int _index = 0;
     public int index
@@ -40,14 +26,6 @@ public class PlayerBuffs : NetworkBehaviour
             return _index++ % buffs.Length;
         }
     }
-
-    // public int Length
-    // {
-    //     get
-    //     {
-    //         return buffs.Length - emptyIndexes.Count();
-    //     }
-    // }
 
     public int GetIndex(int type)
     {
@@ -70,18 +48,27 @@ public class PlayerBuffs : NetworkBehaviour
         return GetIndex((int)type);
     }
 
-    void Awake()
-    {
-        iconHalfSize = buffPrefab.gameObject.GetComponent<RectTransform>().sizeDelta.x / 2;
-    }
-
     public override void Spawned()
     {
         base.Spawned();
         UIUpdate();
+
+        if (Runner.IsServer)
+        {
+            timer = CustomTickTimer.CreateFromSeconds(Runner, 1);
+        }
     }
 
-    public void UIUpdate()
+    public override void FixedUpdateNetwork()
+    {
+        if (timer.Expired(Runner))
+        {
+            timer = CustomTickTimer.CreateFromSeconds(Runner, 1f);
+            Debug.Log("Timer");
+        }
+    }
+
+    private void UIUpdate()
     {
         if (!buffIndicator) return;
         for (int i = 0; i < buffs.Length; i++)
@@ -186,7 +173,7 @@ public class PlayerBuffs : NetworkBehaviour
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, TickAligned = false)]
-    public void RPC_SetBuff(int index, Buff buff)
+    private void RPC_SetBuff(int index, Buff buff)
     {
         buffs.Set(index, buff);
     }
