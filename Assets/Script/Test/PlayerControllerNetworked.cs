@@ -391,7 +391,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         DurationTickTimer = CustomTickTimer.CreateFromSeconds(Runner, _rollDuration);
         _isRolling = true;
-        _anim.SetTrigger("Roll");
+        _mecanim.SetTrigger("Roll", true);
 
         Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // -1 or 1
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _rollDistance / _rollDuration;
