@@ -101,10 +101,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         // Debug.Log($"Timer is default: {Equals(BossAttackTimer, default(CustomTickTimer))}");
         if (HasStateAuthority)
         {
-            if (CurrentHealth <= 0)
-            {
-                bossDead();
-            }
+            
             BossBehaviour();
         }
     }
@@ -382,6 +379,11 @@ public class BossMonsterNetworked : NetworkBehaviour
     public void Rpc_OnBossHit(Attack.AttackData attack)
     {
         CurrentHealth -= attack.damage;
+        if (Runner.IsSceneAuthority && CurrentHealth <= 0)
+        {
+            Debug.Log("dead");
+            bossDead();
+        }
 
     }
 
@@ -397,7 +399,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     public void bossDead()
     {
-        //pass
+        Runner.LoadScene(SceneRef.FromIndex(0));
     }
     // TriggerEvent for player attack
     // void OnTriggerEnter2D(Collider2D other)
