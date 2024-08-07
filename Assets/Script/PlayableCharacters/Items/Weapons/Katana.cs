@@ -2,10 +2,12 @@ using System.Collections;
 using UnityEngine;
 using Items;
 using Fusion;
+using System.Linq;
 
 public class Katana : Weapon
 {
     private bool isAttackCooldown = false;
+    private CustomTickTimer attackTimer;
     public Katana(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
@@ -19,7 +21,7 @@ public class Katana : Weapon
         {
             // 0.5f = animation length
             // 0.3f = combo delay
-
+            NetworkRunner runner = NetworkRunner.Instances.First();
             PlayerAttack playerAttack = rangeObject.GetComponent<PlayerAttack>();
 
             if (attackState == 3)
@@ -35,12 +37,19 @@ public class Katana : Weapon
             anim.SetBool("Combo", true);
             playerAttack.isHit = false;
             playerAttack.damage = damage;
-            yield return new WaitForSeconds(0.1f);
             isAttackCooldown = true;
-            yield return new WaitForSeconds(1.0f / attackSpeed - 0.1f);
+            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed);
+            while (attackTimer.Expired(runner) == false)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             isAttackCooldown = false;
-            yield return new WaitForSeconds(0.3f);
-            if (Time.time - prevAttack > 1.0f / attackSpeed + 0.3f)
+            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
+            while (attackTimer.Expired(runner) == false)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            if (Time.time - prevAttack >= 1.0f / attackSpeed + 0.3f)
             {
                 anim.SetInteger("AttackState", 0);
                 anim.SetBool("Combo", false);

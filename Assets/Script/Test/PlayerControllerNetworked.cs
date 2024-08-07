@@ -224,7 +224,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             _anim.SetInteger("RunState", 0);
         }
-        if (_rb.Rigidbody.velocity.y < 0)
+        if (_rb.Rigidbody.velocity.y < -3)
         {
             _anim.SetBool("Falling", true);
         }

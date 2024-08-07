@@ -267,7 +267,7 @@ MonoBehaviour:
   speed: 0
   attackSpeed: 0
   _jumpHeight: 2
-  _timeToApex: 0.2
+  _timeToApex: 0.4
   _DoubleJumpHeight: 2
   _maxVelocity: 8
   _rollDuration: 0.5
@@ -320,7 +320,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  iconHalfSize: 0
 --- !u!1 &7145708231715459678
 GameObject:
   m_ObjectHideFlags: 0

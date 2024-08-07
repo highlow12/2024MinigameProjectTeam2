@@ -19,6 +19,7 @@ public class Bow : Weapon
     public NetworkObject arrowEffectPrefab;
 
     private bool isAttackCooldown = false;
+    private CustomTickTimer attackTimer;
     private MultiShotArrowProperties[] multiShotArrows = new MultiShotArrowProperties[3];
 
     // initialize bow properties
@@ -68,6 +69,7 @@ public class Bow : Weapon
         {
             // 0.5f = animation length
             // 0.3f = combo delay
+            NetworkRunner runner = NetworkRunner.Instances.First();
 
             if (attackState == 3)
             {
@@ -82,10 +84,18 @@ public class Bow : Weapon
             mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
             isAttackCooldown = true;
-            yield return new WaitForSeconds(1.0f / attackSpeed);
+            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed);
+            while (attackTimer.Expired(runner) == false)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             isAttackCooldown = false;
-            yield return new WaitForSeconds(0.3f);
-            if (Time.time - prevAttack > 1.0f / attackSpeed + 0.3f)
+            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
+            while (attackTimer.Expired(runner) == false)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            if (Time.time - prevAttack >= 1.0f / attackSpeed + 0.3f)
             {
                 anim.SetInteger("AttackState", 0);
                 anim.SetBool("Combo", false);
