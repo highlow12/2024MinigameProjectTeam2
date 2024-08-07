@@ -6,6 +6,7 @@ using System.Linq;
 
 public class Katana : Weapon
 {
+    private float cooldownMultiplier = 1.0f;
     private bool isAttackCooldown = false;
     private CustomTickTimer attackTimer;
     public Katana(float attackSpeed)
@@ -24,9 +25,19 @@ public class Katana : Weapon
             NetworkRunner runner = NetworkRunner.Instances.First();
             PlayerAttack playerAttack = rangeObject.GetComponent<PlayerAttack>();
 
+
             if (attackState == 3)
             {
                 attackState = 0;
+            }
+            if (attackState == 2)
+            {
+                // 3rd attack has 2x length
+                cooldownMultiplier = 2.0f;
+            }
+            else
+            {
+                cooldownMultiplier = 1.0f;
             }
             attackState++;
             anim.SetFloat("AttackAnimSpeed", 0.5f * attackSpeed);
@@ -38,7 +49,7 @@ public class Katana : Weapon
             playerAttack.isHit = false;
             playerAttack.damage = damage * damageMultiplier;
             isAttackCooldown = true;
-            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed);
+            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed * cooldownMultiplier);
             while (attackTimer.Expired(runner) == false)
             {
                 yield return new WaitForFixedUpdate();
