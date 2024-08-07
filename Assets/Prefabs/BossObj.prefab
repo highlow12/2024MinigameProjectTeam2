@@ -1602,6 +1602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CurrentHealth: 0
   _BossScale: 2
+  _BossSpeed: 5
   _FollowTarget: {fileID: 0}
   _CurrentState: 0
   _bossCondition: 0

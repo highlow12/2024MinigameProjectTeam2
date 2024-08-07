@@ -62,6 +62,7 @@ public abstract class CharacterClass
         controller.weapon = classObj.weapon;
         controller.weapon.controller = controller;
         controller.weapon.rangeObject = controller.rangeObject;
+        controller.weapon.skillObject = controller.SkillObject;
         controller.CurrentHealth = classObj.maxHealth;
         controller.skillList = classObj.skillList;
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;

@@ -19,6 +19,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer DurationTickTimer { get; set; }
     // It will be implemented in the CharacterClass.cs as a skillList's value
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
+    [Networked] public CustomTickTimer HealthRegenTickTimer { get; set; }
+    [Networked] public NetworkObject SkillObject { get; set; }
 
     // Local Variables
     [Space]
@@ -42,7 +44,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     [Space]
     public float speed;
+    public float speedMultiplier = 1;
     public float attackSpeed;
+    public float attackSpeedMultiplier = 1;
+    public float damageMultiplier = 1;
     public Items.Weapon weapon;
 
     //[SerializeField] float _jumpForce = 10f; 
@@ -189,6 +194,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
         InputTask();
         Velocity = _rb.Rigidbody.velocity;
         CurrentServerTick = (int)Runner.Tick;
+        if (weapon != null)
+        {
+            weapon.attackSpeed = attackSpeed * attackSpeedMultiplier;
+            weapon.damageMultiplier = damageMultiplier;
+        }
         if (!HasInputAuthority)
         {
             OtherPanelHPUpdate();
@@ -210,6 +220,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             StartCoroutine(weapon.Attack(_anim, _mecanim, gameObject.transform));
         }
+        // Run skill of weapon script directly
+        if (_input.pressed.IsSet(PlayerButtons.Skill))
+        {
+            StartCoroutine(weapon.Skill(gameObject.transform));
+        }
 
     }
     void UpdateMovement(float input)
@@ -224,7 +239,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             _anim.SetInteger("RunState", 0);
         }
-        if (_rb.Rigidbody.velocity.y < 0)
+        if (_rb.Rigidbody.velocity.y < -3)
         {
             _anim.SetBool("Falling", true);
         }
@@ -242,7 +257,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 _rb.Rigidbody.velocity *= Vector2.up;
             }
-            _rb.Rigidbody.AddForce(speed * Vector2.left, ForceMode2D.Impulse);
+            _rb.Rigidbody.velocity = new Vector2(-1 * speed * speedMultiplier, _rb.Rigidbody.velocity.y);
+            // _rb.Rigidbody.AddForce(speed * Vector2.left, ForceMode2D.Impulse);
         }
         else if (input > 0)
         {
@@ -252,7 +268,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 _rb.Rigidbody.velocity *= Vector2.up;
             }
-            _rb.Rigidbody.AddForce(speed * Vector2.right, ForceMode2D.Impulse);
+            _rb.Rigidbody.velocity = new Vector2(speed * speedMultiplier, _rb.Rigidbody.velocity.y);
+            // _rb.Rigidbody.AddForce(speed * Vector2.right, ForceMode2D.Impulse);
         }
         else
         {
@@ -279,7 +296,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
             _rb.Rigidbody.velocity *= _verticalSpeedReduceVector;
         }
     }
-
 
     private void Jump(bool jump)
     {
@@ -385,6 +401,20 @@ public class PlayerControllerNetworked : NetworkBehaviour
         weapon.FireProjectileAlt(_anim.GetInteger("AttackState"), gameObject.transform);
     }
 
+    // It will be called by animation event
+    // apply rush
+    public void ApplyRush()
+    {
+        weapon.ApplyRush(transform);
+    }
+
+    // It will be called by animation event
+    // apply jump after rush
+    public void ApplyJump()
+    {
+        weapon.ApplyJump();
+    }
+
     private bool CalculateRollBuffer()
     {
         return (Runner.SimulationTime <= _rollBufferTime + _rollBufferThreshold) && IsGrounded;
@@ -446,6 +476,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         CurrentHealth -= attackData.damage;
     }
+
+    // RPC function to apply aura buffs
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_OnPlayerInSupporterAura(Aura.AuraBuffs auraBuffs)
+    {
+        // Set multiplier values
+        attackSpeedMultiplier = auraBuffs.attackSpeedMultiplier;
+        speedMultiplier = auraBuffs.moveSpeedMultiplier;
+        damageMultiplier = auraBuffs.damageMultiplier;
+        // Apply health regen
+        if (Equals(HealthRegenTickTimer, default(CustomTickTimer)) || HealthRegenTickTimer.Expired(Runner))
+        {
+            HealthRegenTickTimer = CustomTickTimer.CreateFromSeconds(Runner, auraBuffs.healthRegenDuration);
+            CurrentHealth += auraBuffs.healthRegen;
+        }
+    }
+
 
     // TEST RPC FUNCTION
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]

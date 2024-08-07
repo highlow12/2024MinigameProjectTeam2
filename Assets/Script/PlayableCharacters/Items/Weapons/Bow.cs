@@ -19,6 +19,7 @@ public class Bow : Weapon
     public NetworkObject arrowEffectPrefab;
 
     private bool isAttackCooldown = false;
+    private CustomTickTimer attackTimer;
     private MultiShotArrowProperties[] multiShotArrows = new MultiShotArrowProperties[3];
 
     // initialize bow properties
@@ -68,6 +69,7 @@ public class Bow : Weapon
         {
             // 0.5f = animation length
             // 0.3f = combo delay
+            NetworkRunner runner = NetworkRunner.Instances.First();
 
             if (attackState == 3)
             {
@@ -77,19 +79,30 @@ public class Bow : Weapon
             // 애니메이션 배속
             anim.SetFloat("AttackAnimSpeed", 0.5f * attackSpeed);
             anim.SetInteger("AttackState", attackState);
-            prevAttack = Time.time;
+            prevAttack = (int)runner.Tick;
             anim.SetFloat("PrevAttack", prevAttack);
             mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
             isAttackCooldown = true;
-            yield return new WaitForSeconds(1.0f / attackSpeed);
-            isAttackCooldown = false;
-            yield return new WaitForSeconds(0.3f);
-            if (Time.time - prevAttack > 1.0f / attackSpeed + 0.3f)
+            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed);
+            while (attackTimer.Expired(runner) == false)
             {
-                anim.SetInteger("AttackState", 0);
-                anim.SetBool("Combo", false);
-                attackState = 0;
+                yield return new WaitForFixedUpdate();
+            }
+            isAttackCooldown = false;
+            if (attackState < 3)
+            {
+                attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
+                while (attackTimer.Expired(runner) == false)
+                {
+                    yield return new WaitForFixedUpdate();
+                }
+                if (((int)runner.Tick - prevAttack) / runner.TickRate >= 1.0f / attackSpeed + (0.3f - 3.0f / runner.TickRate))
+                {
+                    anim.SetInteger("AttackState", 0);
+                    anim.SetBool("Combo", false);
+                    attackState = 0;
+                }
             }
         }
         else
@@ -176,7 +189,7 @@ public class Bow : Weapon
 
         Base arrow = projectile.GetComponent<Base>();
         arrow.projectileSpeed = projectileSpeed;
-        arrow.damage = damage;
+        arrow.damage = damage * damageMultiplier;
         arrow.range = range;
 
         GameObject projectileObject = arrow.projectile;
