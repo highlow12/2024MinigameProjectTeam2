@@ -36,7 +36,7 @@ public class Katana : Weapon
             mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
             playerAttack.isHit = false;
-            playerAttack.damage = damage;
+            playerAttack.damage = damage * damageMultiplier;
             isAttackCooldown = true;
             attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed);
             while (attackTimer.Expired(runner) == false)

@@ -189,7 +189,7 @@ public class Bow : Weapon
 
         Base arrow = projectile.GetComponent<Base>();
         arrow.projectileSpeed = projectileSpeed;
-        arrow.damage = damage;
+        arrow.damage = damage * damageMultiplier;
         arrow.range = range;
 
         GameObject projectileObject = arrow.projectile;

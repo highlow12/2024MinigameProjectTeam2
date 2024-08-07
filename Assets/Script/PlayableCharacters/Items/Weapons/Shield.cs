@@ -9,6 +9,7 @@ public class Shield : Weapon
 {
     private float cooldownMultiplier = 1.0f;
     private bool isAttackCooldown = false;
+    private bool isSkillCooldown = false;
     private CustomTickTimer attackTimer;
     private NetworkRigidbody2D _rb;
 
@@ -63,7 +64,7 @@ public class Shield : Weapon
             mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
             playerAttack.isHit = false;
-            playerAttack.damage = damage;
+            playerAttack.damage = damage * damageMultiplier;
             isAttackCooldown = true;
             // Cooldown Timer
             attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed * cooldownMultiplier);
@@ -170,6 +171,18 @@ public class Shield : Weapon
             yield return new WaitForFixedUpdate();
         }
     }
+
+    public override IEnumerator Skill(Transform character)
+    {
+        skillObject.GetComponent<Aura>().ToggleSkill();
+        yield return new WaitForFixedUpdate();
+    }
+
+    // [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    // public void RPC_EnableObject()
+    // {
+    //     isSkillEnabled = !isSkillEnabled;
+    // }
 
 
 }
