@@ -31,7 +31,7 @@ public class Katana : Weapon
             attackState++;
             anim.SetFloat("AttackAnimSpeed", 0.5f * attackSpeed);
             anim.SetInteger("AttackState", attackState);
-            prevAttack = Time.time;
+            prevAttack = (int)runner.Tick;
             anim.SetFloat("PrevAttack", prevAttack);
             mecanim.SetTrigger("Attack", true);
             anim.SetBool("Combo", true);
@@ -44,16 +44,21 @@ public class Katana : Weapon
                 yield return new WaitForFixedUpdate();
             }
             isAttackCooldown = false;
-            attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
-            while (attackTimer.Expired(runner) == false)
+            if (attackState < 3)
             {
-                yield return new WaitForFixedUpdate();
-            }
-            if (Time.time - prevAttack >= 1.0f / attackSpeed + 0.3f)
-            {
-                anim.SetInteger("AttackState", 0);
-                anim.SetBool("Combo", false);
-                attackState = 0;
+                attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
+                while (attackTimer.Expired(runner) == false)
+                {
+                    yield return new WaitForFixedUpdate();
+                }
+                // 3틱 차이까지는 허용
+                // 테스트 결과 1~2틱 정도 오차가 자주 발생하였음
+                if (((int)runner.Tick - prevAttack) / runner.TickRate >= 1.0f / attackSpeed + (0.3f - 3.0f / runner.TickRate))
+                {
+                    anim.SetInteger("AttackState", 0);
+                    anim.SetBool("Combo", false);
+                    attackState = 0;
+                }
             }
         }
         else

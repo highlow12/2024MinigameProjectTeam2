@@ -33,5 +33,15 @@ namespace Items
             Debug.Log("Firing projectile with alt method");
             return;
         }
+        public virtual void ApplyRush(Transform character)
+        {
+            Debug.Log("Applying rush");
+            return;
+        }
+        public virtual void ApplyJump()
+        {
+            Debug.Log("Applying jump");
+            return;
+        }
     }
 }

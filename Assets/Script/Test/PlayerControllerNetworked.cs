@@ -242,7 +242,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 _rb.Rigidbody.velocity *= Vector2.up;
             }
-            _rb.Rigidbody.AddForce(speed * Vector2.left, ForceMode2D.Impulse);
+            _rb.Rigidbody.velocity = new Vector2(-1 * speed, _rb.Rigidbody.velocity.y);
+            // _rb.Rigidbody.AddForce(speed * Vector2.left, ForceMode2D.Impulse);
         }
         else if (input > 0)
         {
@@ -252,7 +253,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 _rb.Rigidbody.velocity *= Vector2.up;
             }
-            _rb.Rigidbody.AddForce(speed * Vector2.right, ForceMode2D.Impulse);
+            _rb.Rigidbody.velocity = new Vector2(speed, _rb.Rigidbody.velocity.y);
+            // _rb.Rigidbody.AddForce(speed * Vector2.right, ForceMode2D.Impulse);
         }
         else
         {
@@ -383,6 +385,20 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public void FireProjectile()
     {
         weapon.FireProjectileAlt(_anim.GetInteger("AttackState"), gameObject.transform);
+    }
+
+    // It will be called by animation event
+    // apply rush
+    public void ApplyRush()
+    {
+        weapon.ApplyRush(transform);
+    }
+
+    // It will be called by animation event
+    // apply jump after rush
+    public void ApplyJump()
+    {
+        weapon.ApplyJump();
     }
 
     private bool CalculateRollBuffer()
