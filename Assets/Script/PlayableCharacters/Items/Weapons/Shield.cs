@@ -3,7 +3,6 @@ using Items;
 using System.Collections;
 using Fusion;
 using System.Linq;
-using ExitGames.Client.Photon.StructWrapping;
 using Fusion.Addons.Physics;
 
 public class Shield : Weapon
@@ -48,6 +47,7 @@ public class Shield : Weapon
             }
             if (attackState == 2)
             {
+                // 3rd attack has 2x length
                 cooldownMultiplier = 2.0f;
             }
             else
@@ -104,7 +104,7 @@ public class Shield : Weapon
         NetworkRunner runner = NetworkRunner.Instances.First();
         CustomTickTimer timer;
         float rushSpeed = 0.0f;
-
+        // check if rigidbody is null
         if (_rb == null)
         {
             _rb = controller.GetComponent<NetworkRigidbody2D>();
@@ -114,7 +114,7 @@ public class Shield : Weapon
         {
             yield break;
         }
-
+        // different rush speed based on attack state
         switch (attackState)
         {
             case 1:
@@ -155,12 +155,13 @@ public class Shield : Weapon
         NetworkRunner runner = NetworkRunner.Instances.First();
         CustomTickTimer timer;
 
+        // check if rigidbody is null 
         if (_rb == null)
         {
             _rb = controller.GetComponent<NetworkRigidbody2D>();
         }
 
-        // add force for 10 ticks
+        // add force for 5 ticks
         timer = CustomTickTimer.CreateFromTicks(runner, 5);
         while (timer.Expired(runner) == false)
         {
