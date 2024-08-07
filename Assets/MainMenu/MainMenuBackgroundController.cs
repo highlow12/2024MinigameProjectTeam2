@@ -58,7 +58,7 @@ public class MainMenuBackgroundController : MonoBehaviour
             Vector3 pos = bamboo.transform.position;
             Vector3 _pos = main.WorldToViewportPoint(pos);
 
-            float dX = moveSpeed * Time.deltaTime * (pos.z / 9);
+            float dX = moveSpeed * Time.deltaTime * ((10 - pos.z) / 9);
             
             if (_pos.x < -2.5)
             {

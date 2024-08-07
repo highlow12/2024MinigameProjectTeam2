@@ -8,11 +8,11 @@ public class MainMenuSceneChage : MonoBehaviour
     [SerializeField] Transform door;
     [SerializeField] Transform player;
     [SerializeField] string SceneName;
-    public int offset = 2;
+    public float offset = 0;
     void Update()
     {
         var d = door.position - player.position;
-        if (d.x < -offset)
+        if (d.x < offset)
         {
             SceneManager.LoadScene(SceneName);
         }
