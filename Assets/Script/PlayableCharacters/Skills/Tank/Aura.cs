@@ -10,6 +10,7 @@ public class Aura : NetworkBehaviour
 
     [SerializeField] PlayerControllerNetworked player;
 
+    // This struct is used to send the aura buffs to the player
     [System.Serializable]
     public struct AuraBuffs : INetworkStruct
     {
@@ -31,6 +32,7 @@ public class Aura : NetworkBehaviour
     {
         if (player)
         {
+            // If the skill is enabled, play the animation
             GetComponent<Animator>().SetBool("Enabled", IsSkillEnabled);
         }
     }
@@ -42,6 +44,7 @@ public class Aura : NetworkBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        // If the skill is not enabled, return
         if (IsSkillEnabled == false)
         {
             return;
@@ -66,6 +69,7 @@ public class Aura : NetworkBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
+        // If the skill is not enabled, return
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();

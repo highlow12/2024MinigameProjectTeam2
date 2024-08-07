@@ -477,12 +477,15 @@ public class PlayerControllerNetworked : NetworkBehaviour
         CurrentHealth -= attackData.damage;
     }
 
+    // RPC function to apply aura buffs
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_OnPlayerInSupporterAura(Aura.AuraBuffs auraBuffs)
     {
+        // Set multiplier values
         attackSpeedMultiplier = auraBuffs.attackSpeedMultiplier;
         speedMultiplier = auraBuffs.moveSpeedMultiplier;
         damageMultiplier = auraBuffs.damageMultiplier;
+        // Apply health regen
         if (Equals(HealthRegenTickTimer, default(CustomTickTimer)) || HealthRegenTickTimer.Expired(Runner))
         {
             HealthRegenTickTimer = CustomTickTimer.CreateFromSeconds(Runner, auraBuffs.healthRegenDuration);

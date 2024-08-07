@@ -174,15 +174,9 @@ public class Shield : Weapon
 
     public override IEnumerator Skill(Transform character)
     {
+        // Toggle skill by calling ToggleSkill method from Aura script
         skillObject.GetComponent<Aura>().ToggleSkill();
         yield return new WaitForFixedUpdate();
     }
-
-    // [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    // public void RPC_EnableObject()
-    // {
-    //     isSkillEnabled = !isSkillEnabled;
-    // }
-
 
 }
