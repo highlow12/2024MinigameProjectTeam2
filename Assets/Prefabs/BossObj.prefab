@@ -137,6 +137,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 8950816641055053271}
+  - {fileID: 4294356501193422640}
 --- !u!95 &3794618718520663410
 Animator:
   serializedVersion: 5
@@ -421,6 +422,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 9218219778187637897}
+  - {fileID: 4638432835002336498}
 --- !u!95 &7841197125480743984
 Animator:
   serializedVersion: 5
