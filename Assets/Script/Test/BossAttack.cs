@@ -40,6 +40,13 @@ public class BossAttack : MonoBehaviour
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();
             if (player)
             {
+                if (player.CharacterClass == (int)CharacterClassEnum.Tank)
+                {
+                    if (player.weapon.isdraw)
+                    {
+                        return;
+                    }
+                }
                 if (playersHit.Contains(player.Player))
                 {
                     return;

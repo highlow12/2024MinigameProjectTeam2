@@ -18,10 +18,16 @@ namespace Items
         public GameObject rangeObject;
         public NetworkObject skillObject;
         public PlayerControllerNetworked controller;
+        public bool isdraw = false;
 
         public virtual IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
         {
             Debug.Log("Attacking");
+            yield return new WaitForSeconds(attackSpeed);
+        }
+        public virtual IEnumerator DrawWeapon(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
+        {
+            Debug.Log("DrawWeapon");
             yield return new WaitForSeconds(attackSpeed);
         }
         public virtual IEnumerator FireProjectile(Animator anim, Transform character)

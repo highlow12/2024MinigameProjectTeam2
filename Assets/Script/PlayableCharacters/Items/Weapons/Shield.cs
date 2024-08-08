@@ -179,4 +179,11 @@ public class Shield : Weapon
         yield return new WaitForFixedUpdate();
     }
 
+    public override IEnumerator DrawWeapon(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
+    {
+        isdraw = true;
+        yield return new WaitForSeconds(attackSpeed);
+        isdraw = false;
+    }
+
 }
