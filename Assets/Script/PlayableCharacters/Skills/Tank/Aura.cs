@@ -63,6 +63,14 @@ public class Aura : NetworkBehaviour
                     healthRegenDuration = 0.5f
                 };
                 player.RPC_OnPlayerInSupporterAura(auraBuffs);
+                // Buff auraBuff = new()
+                // {
+                //     type = (int)BuffTypes.Pray,
+                //     stacks = 1,
+                //     duration = auraBuffs.healthRegenDuration,
+                //     startTime = Time.time
+                // };
+                // player.buffs.SetBuff(auraBuff);
             }
         }
     }

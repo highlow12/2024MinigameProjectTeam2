@@ -26,10 +26,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Space]
     public GameObject rangeObject;
     [Space]
+    public PlayerBuffs buffs;
     NetworkRigidbody2D _rb;
     PlayerInputConsumer _input;
     TestBuffIndicator buffIndicator;
-    PlayerBuffs buffs;
     Collider2D _collider;
     Animator _anim;
     NetworkMecanimAnimator _mecanim;
