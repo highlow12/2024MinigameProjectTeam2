@@ -23,7 +23,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
     [Networked] public CustomTickTimer HealthRegenTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
-    [Networked, Capacity(12), OnChangedRender(nameof(ApplyMultipliers))] public NetworkArray<CharacterStatMultiplier> CharacterStatMultipliers { get; } = MakeInitializer(new CharacterStatMultiplier[] { });
+
+    [Networked]
+    [Capacity(12)]
+    [OnChangedRender(nameof(ApplyMultipliers))]
+    public NetworkArray<CharacterStatMultiplier> CharacterStatMultipliers { get; }
+        = MakeInitializer(new CharacterStatMultiplier[] { });
 
     // Local Variables
     [Space]
