@@ -21,6 +21,15 @@ public class Aura : NetworkBehaviour
         public float healthRegenDuration;
     }
 
+    AuraBuffs auraBuffs = new()
+    {
+        attackSpeedMultiplier = 1.2f,
+        moveSpeedMultiplier = 1.15f,
+        damageMultiplier = 1.3f,
+        healthRegen = 1f,
+        healthRegenDuration = 0.5f
+    };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,12 +37,16 @@ public class Aura : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public override void FixedUpdateNetwork()
     {
         if (player)
         {
-            // If the skill is enabled, play the animation
+            // If the skill is enabled, play the animation and apply the aura buffs to the caster
             GetComponent<Animator>().SetBool("Enabled", IsSkillEnabled);
+            if (IsSkillEnabled && HasStateAuthority)
+            {
+                player.RPC_OnPlayerInSupporterAura(auraBuffs);
+            }
         }
     }
 
@@ -54,14 +67,6 @@ public class Aura : NetworkBehaviour
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();
             if (player)
             {
-                AuraBuffs auraBuffs = new()
-                {
-                    attackSpeedMultiplier = 1.2f,
-                    moveSpeedMultiplier = 1.15f,
-                    damageMultiplier = 1.3f,
-                    healthRegen = 1f,
-                    healthRegenDuration = 0.5f
-                };
                 player.RPC_OnPlayerInSupporterAura(auraBuffs);
                 // Buff auraBuff = new()
                 // {
@@ -83,14 +88,6 @@ public class Aura : NetworkBehaviour
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();
             if (player)
             {
-                AuraBuffs auraBuffs = new()
-                {
-                    attackSpeedMultiplier = 1.0f,
-                    moveSpeedMultiplier = 1.0f,
-                    damageMultiplier = 1.0f,
-                    healthRegen = 0f
-                };
-                player.RPC_OnPlayerInSupporterAura(auraBuffs);
             }
         }
     }

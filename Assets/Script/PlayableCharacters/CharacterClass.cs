@@ -25,6 +25,15 @@ public class ClassIcons
     }
 }
 
+[System.Serializable]
+public struct CharacterStatMultiplier : INetworkStruct
+{
+    public NetworkString<_16> name;
+    public float value;
+    public Buff buff;
+}
+
+
 public abstract class CharacterClass
 {
     public float maxHealth;

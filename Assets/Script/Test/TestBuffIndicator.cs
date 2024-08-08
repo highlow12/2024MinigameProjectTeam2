@@ -9,7 +9,7 @@ public enum BuffTypes
     Burn = 1,
     Blind = 2,
     Undead = 3,
-    Pray = 4,
+    Aura = 4,
 }
 
 public enum BuffEffects
@@ -79,12 +79,12 @@ public class UndeadDebuff : BasicBuff
     }
 }
 
-public class PrayBuff : BasicBuff
+public class AuraBuff : BasicBuff
 {
-    public PrayBuff()
+    public AuraBuff()
     {
-        type = BuffTypes.Pray;
-        name = "프레이";
+        type = BuffTypes.Aura;
+        name = "아우라";
         description = "아우라 안에 있으면 공격 속도, 이동 속도, 가하는 데미지가 상승하고 체력을 주기적으로 회복합니다.";
 
         effects = new float[4];
@@ -113,7 +113,7 @@ public class BuffIcons
         if (type == BuffTypes.Burn) return new BurnDebuff();
         else if (type == BuffTypes.Blind) return new BlindDebuff();
         else if (type == BuffTypes.Undead) return new UndeadDebuff();
-        else if (type == BuffTypes.Pray) return new PrayBuff();
+        else if (type == BuffTypes.Aura) return new AuraBuff();
         else return new BasicBuff();
     }
 
@@ -125,6 +125,7 @@ public class BuffIcons
 
 public class TestBuffIndicator : MonoBehaviour
 {
+    public PlayerControllerNetworked player;
     public bool onOther = false;
     public PlayerBuffs playerBuffs;
     public TestBuffTooltip tooltip;

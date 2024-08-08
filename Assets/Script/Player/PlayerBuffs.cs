@@ -171,8 +171,8 @@ public class PlayerBuffs : NetworkBehaviour
     {
         RemoveBuff((int)buffType);
     }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, TickAligned = false)]
+    // error occurs here
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All, TickAligned = false)]
     private void RPC_SetBuff(int index, Buff buff)
     {
         buffs.Set(index, buff);

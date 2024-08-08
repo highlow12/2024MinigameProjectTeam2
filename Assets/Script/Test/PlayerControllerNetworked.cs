@@ -2,7 +2,9 @@ using Fusion;
 using Fusion.Addons.Physics;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 
@@ -21,6 +23,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
     [Networked] public CustomTickTimer HealthRegenTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
+    [Networked, Capacity(12), OnChangedRender(nameof(ApplyMultipliers))] public NetworkArray<CharacterStatMultiplier> CharacterStatMultipliers { get; } = MakeInitializer(new CharacterStatMultiplier[] { });
 
     // Local Variables
     [Space]
@@ -99,6 +102,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     void Awake()
     {
         // Initialize local variables
+        TestBuffIndicator buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
+
         _rb = gameObject.GetComponent<NetworkRigidbody2D>();
         _input = gameObject.GetComponent<PlayerInputConsumer>();
         _collider = GetComponent<Collider2D>();
@@ -117,6 +122,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
             buffIndicator.playerBuffs = buffs;
+            buffIndicator.player = this;
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
@@ -481,10 +487,46 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_OnPlayerInSupporterAura(Aura.AuraBuffs auraBuffs)
     {
-        // Set multiplier values
-        attackSpeedMultiplier = auraBuffs.attackSpeedMultiplier;
-        speedMultiplier = auraBuffs.moveSpeedMultiplier;
-        damageMultiplier = auraBuffs.damageMultiplier;
+        Buff auraBuff = new()
+        {
+            type = (int)BuffTypes.Aura,
+            stacks = 0,
+            startTime = Time.time,
+            duration = 0.5f,
+        };
+        // Debug.Log($"Aura buff is exist: {!Equals(buffs.GetBuff(BuffTypes.Aura), default(Buff))}");
+        if (Equals(buffs.GetBuff(BuffTypes.Aura), default(Buff)))
+        {
+            buffs.SetBuff(auraBuff);
+        }
+        else
+        {
+            buffs.AddBuff(BuffTypes.Aura);
+        }
+        Buff buff = buffs.GetBuff(BuffTypes.Aura);
+        CharacterStatMultiplier attackSppedMultiplier = new()
+        {
+            name = "AttackSpeed",
+            value = auraBuffs.attackSpeedMultiplier,
+            buff = buff
+        };
+        CharacterStatMultiplier speedMultiplier = new()
+        {
+            name = "Speed",
+            value = auraBuffs.moveSpeedMultiplier,
+            buff = buff
+        };
+        CharacterStatMultiplier damageMultiplier = new()
+        {
+            name = "Damage",
+            value = auraBuffs.damageMultiplier,
+            buff = buff
+        };
+        // Debug.Log($"Indexs: {GetMultiplierIndex("AttackSpeed", buff)} {GetMultiplierIndex("Speed", buff)} {GetMultiplierIndex("Damage", buff)}");
+        CharacterStatMultipliers.Set(GetMultiplierIndex("AttackSpeed", buff), attackSppedMultiplier);
+        CharacterStatMultipliers.Set(GetMultiplierIndex("Speed", buff), speedMultiplier);
+        CharacterStatMultipliers.Set(GetMultiplierIndex("Damage", buff), damageMultiplier);
+
         // Apply health regen
         if (Equals(HealthRegenTickTimer, default(CustomTickTimer)) || HealthRegenTickTimer.Expired(Runner))
         {
@@ -493,6 +535,85 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
     }
 
+    private int GetMultiplierIndex(string name, Buff buff)
+    {
+        try
+        {
+            int index = CharacterStatMultipliers
+                .Select((x, i) => new { multiplier = x, index = i })
+                .Where(x => x.multiplier.name == name && Equals(x.multiplier.buff.type, buff.type))
+                .First().index;
+            return index;
+        }
+        catch
+        {
+            int index;
+            for (index = 0; index < CharacterStatMultipliers.Length; index++)
+            {
+                if (Equals(CharacterStatMultipliers.Get(index), default(CharacterStatMultiplier)))
+                {
+                    break;
+                }
+            }
+            return index;
+        }
+    }
+
+    public void ApplyMultipliers()
+    {
+        var attackSpeedMultipliers = new List<CharacterStatMultiplier>();
+        var speedMultipliers = new List<CharacterStatMultiplier>();
+        var damageMultipliers = new List<CharacterStatMultiplier>();
+
+        for (int i = 0; i < CharacterStatMultipliers.Length; i++)
+        {
+            var multiplier = CharacterStatMultipliers.Get(i);
+            if (Equals(multiplier, default(CharacterStatMultiplier)))
+            {
+                continue;
+            }
+            if (multiplier.name == "AttackSpeed")
+            {
+                attackSpeedMultipliers.Add(multiplier);
+            }
+            else if (multiplier.name == "Speed")
+            {
+                speedMultipliers.Add(multiplier);
+            }
+            else if (multiplier.name == "Damage")
+            {
+                damageMultipliers.Add(multiplier);
+            }
+        }
+
+        attackSpeedMultiplier = attackSpeedMultipliers.Count > 0 ?
+            attackSpeedMultipliers.Select(x => x.value)
+                .Aggregate((x, y) => x * y) : 1;
+        speedMultiplier = speedMultipliers.Count > 0 ?
+            speedMultipliers.Select(x => x.value)
+                .Aggregate((x, y) => x * y) : 1;
+        damageMultiplier = damageMultipliers.Count > 0 ?
+            damageMultipliers.Select(x => x.value)
+                .Aggregate((x, y) => x * y) : 1;
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_RemoveMultipliers(Buff buff)
+    {
+        for (int i = 0; i < CharacterStatMultipliers.Length; i++)
+        {
+            var multiplier = CharacterStatMultipliers.Get(i);
+            if (Equals(multiplier, default(CharacterStatMultiplier)))
+            {
+                continue;
+            }
+            if (multiplier.buff.type == buff.type)
+            {
+                CharacterStatMultipliers.Set(i, default);
+            }
+        }
+    }
 
     // TEST RPC FUNCTION
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]

@@ -14,7 +14,7 @@ public class TestBuff : MonoBehaviour
     Image activated;
     Image deActivated;
     TMP_Text stacksLabel;
-    
+
     void Awake()
     {
         Transform[] childrensTransforms = GetComponentsInChildren<Transform>();
@@ -48,7 +48,8 @@ public class TestBuff : MonoBehaviour
         if (onOther)
         {
             stacksLabel.gameObject.SetActive(false);
-        } else
+        }
+        else
         {
             stacksLabel.gameObject.SetActive(buff.stacks != 0);
             stacksLabel.text = buff.stacks.ToString();
@@ -86,6 +87,8 @@ public class TestBuff : MonoBehaviour
             else
             {
                 // call parent script
+                // Error occurs here
+                indicator.player.RPC_RemoveMultipliers(buff);
                 if (indicator) indicator.playerBuffs.RemoveBuff(buff.type);
                 else gameObject.SetActive(false);
             }
