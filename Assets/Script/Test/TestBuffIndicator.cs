@@ -118,7 +118,7 @@ public class TestBuffIndicator : MonoBehaviour
 
     public void Start()
     {
-        size = onOther ? 12 : 16;
+        size = onOther ? 24 : 32;
         margin = onOther ? 2 : 4;
         tooltip = FindAnyObjectByType<TestBuffTooltip>();
     }
