@@ -625,6 +625,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1537365637}
+    - target: {fileID: 1351838671979317003, guid: b8c1aaca76804104f95a2953d28ae312, type: 3}
+      propertyPath: DiveFeedback
+      value: 
+      objectReference: {fileID: 796859222}
     - target: {fileID: 3388111727920421112, guid: b8c1aaca76804104f95a2953d28ae312, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.059288997
