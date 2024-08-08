@@ -21,14 +21,27 @@ using UnityEngine;
  */
 public class BossSkill : MonoBehaviour
 {
-    public Transform boss;
+    Rigidbody2D rb;
+
     public Transform target;
-    public void performDiveAttack() { }
-    public void slashForward() { }
-    public void slashBackward() { }
-    public void slashBothDir() { }
-    public void slashWithEnerge() { }
-    public void chargeAttack() { }
+    public void performDiveAttack() 
+    { 
+    }
+    public void slashForward() 
+    { 
+    }
+    public void slashBackward() 
+    { 
+    }
+    public void slashBothDir() 
+    {
+    }
+    public void slashWithEnerge() 
+    {
+    }
+    public void chargeAttack() 
+    {
+    }
 
 
     private void OnGUI()
@@ -38,34 +51,38 @@ public class BossSkill : MonoBehaviour
         
         if (GUI.Button(new Rect(20, 40, 190, 20), "Fly_Attack"))
         {
-            //Application.LoadLevel(1);
+            performDiveAttack();
         }
 
         // 두번 째 버튼 만들기
-        if (GUI.Button(new Rect(20, 70, 190, 20), "DolJin"))
+        if (GUI.Button(new Rect(20, 70, 190, 20), "Cut_with_Gi"))
         {
-            //Application.LoadLevel(2);
+            slashForward();
         }
 
         if (GUI.Button(new Rect(20, 100, 190, 20), "Cut_Forward"))
         {
-            //Application.LoadLevel(2);
+            slashBackward();
         }
 
         if (GUI.Button(new Rect(20, 130, 190, 20), "Cut_Backward"))
         {
-            //Application.LoadLevel(2);
+            slashBothDir();
         }
 
         if (GUI.Button(new Rect(20, 160, 190, 20), "Cut_Forward_and_Backward"))
         {
-            //Application.LoadLevel(2);
+            slashWithEnerge();
         }
 
-        if (GUI.Button(new Rect(20, 190, 190, 20), "Cut_with_Gi"))
+        if (GUI.Button(new Rect(20, 190, 190, 20), "DolJin"))
         {
-            //Application.LoadLevel(2);
+            chargeAttack();
         }
 
+    }
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
     }
 }
