@@ -9,6 +9,7 @@ enum PlayerButtons
     Dash = 1,
     Roll = 2,
     Attack = 3,
+    Skill = 4,
 }
 public struct PlayerInputData : INetworkInput
 {

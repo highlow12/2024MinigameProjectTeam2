@@ -9,7 +9,7 @@ public class Knight : CharacterClass
     {
         maxHealth = 100.0f;
         attackSpeed = 2.0f;
-        moveSpeed = 1.5f;
+        moveSpeed = 12f;
         weapon = new Katana(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("KnightAnimator");
         skillList.Add("Parry", 5.25f);

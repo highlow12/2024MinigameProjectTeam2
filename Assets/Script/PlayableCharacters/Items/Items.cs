@@ -6,6 +6,7 @@ namespace Items
 {
     public abstract class Weapon
     {
+        public float damageMultiplier;
         public float attackSpeed;
         public int attackState;
         public float prevAttack;
@@ -15,6 +16,7 @@ namespace Items
         public int defense;
         public int healingAmount;
         public GameObject rangeObject;
+        public NetworkObject skillObject;
         public PlayerControllerNetworked controller;
 
         public virtual IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
@@ -31,6 +33,23 @@ namespace Items
         public virtual void FireProjectileAlt(int state, Transform character)
         {
             Debug.Log("Firing projectile with alt method");
+            return;
+        }
+
+        public virtual IEnumerator Skill(Transform character)
+        {
+            Debug.Log("Using skill");
+            yield return new WaitForFixedUpdate();
+        }
+
+        public virtual void ApplyRush(Transform character)
+        {
+            Debug.Log("Applying rush");
+            return;
+        }
+        public virtual void ApplyJump()
+        {
+            Debug.Log("Applying jump");
             return;
         }
     }

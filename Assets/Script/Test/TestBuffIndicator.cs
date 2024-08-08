@@ -8,7 +8,8 @@ public enum BuffTypes
 {
     Burn = 1,
     Blind = 2,
-    Undead = 3
+    Undead = 3,
+    Pray = 4,
 }
 
 public enum BuffEffects
@@ -78,6 +79,22 @@ public class UndeadDebuff : BasicBuff
     }
 }
 
+public class PrayBuff : BasicBuff
+{
+    public PrayBuff()
+    {
+        type = BuffTypes.Pray;
+        name = "프레이";
+        description = "아우라 안에 있으면 공격 속도, 이동 속도, 가하는 데미지가 상승하고 체력을 주기적으로 회복합니다.";
+
+        effects = new float[4];
+        effects[(int)BuffEffects.atkboost] = 1.3f;
+        effects[(int)BuffEffects.atkspeed] = 1.2f;
+        effects[(int)BuffEffects.movspeed] = 1.15f;
+    }
+}
+
+
 public class BuffIcons
 {
     static public List<Sprite> EffectImages = new();
@@ -96,6 +113,7 @@ public class BuffIcons
         if (type == BuffTypes.Burn) return new BurnDebuff();
         else if (type == BuffTypes.Blind) return new BlindDebuff();
         else if (type == BuffTypes.Undead) return new UndeadDebuff();
+        else if (type == BuffTypes.Pray) return new PrayBuff();
         else return new BasicBuff();
     }
 

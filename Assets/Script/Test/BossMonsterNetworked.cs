@@ -43,6 +43,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossScale { get; set; }
+    [Networked] public float BossSpeed { get; set; }
     [Networked] public NetworkObject FollowTarget { get; set; }
     [Networked] public BossState CurrentState { get; set; }
     [Networked] public Condition bossCondition { get; set; }
@@ -160,14 +161,22 @@ public class BossMonsterNetworked : NetworkBehaviour
             // Move the boss to the player until the distance is less than 2.5f
             while (Math.Abs(distance) > 2.5f)
             {
-                Vector3 targetPos = FollowTarget.transform.position;
-                targetPos.y = transform.position.y;
-                transform.position = Vector2.Lerp(transform.position, targetPos, 0.01f);
-
+                // Vector3 targetPos = FollowTarget.transform.position;
+                // targetPos.y = transform.position.y;
+                // transform.position = Vector2.Lerp(transform.position, targetPos, 0.025f);
+                if (distance > 0)
+                {
+                    _rb.Rigidbody.velocity = new Vector2(-1 * BossSpeed, _rb.Rigidbody.velocity.y);
+                }
+                else
+                {
+                    _rb.Rigidbody.velocity = new Vector2(BossSpeed, _rb.Rigidbody.velocity.y);
+                }
                 distance = transform.position.x - FollowTarget.transform.position.x;
                 // wait for the next tick
-                yield return new WaitForSecondsRealtime(1.0f / 64);
+                yield return new WaitForFixedUpdate();
             }
+            _rb.Rigidbody.velocity = Vector2.zero;
             _animator.SetInteger("walkState", 0);
             yield return null;
         }
