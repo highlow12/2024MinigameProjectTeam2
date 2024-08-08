@@ -8,6 +8,7 @@ using ExitGames.Client.Photon.StructWrapping;
 
 public class PlayerBuffs : NetworkBehaviour
 {
+    PlayerControllerNetworked player;
     public GameObject buffPrefab;
     public TestBuffIndicator buffIndicator;
 
@@ -46,6 +47,11 @@ public class PlayerBuffs : NetworkBehaviour
     public int GetIndex(BuffTypes type)
     {
         return GetIndex((int)type);
+    }
+
+    void Awake()
+    {
+        player = GetComponent<PlayerControllerNetworked>();
     }
 
     public override void Spawned()
@@ -164,6 +170,7 @@ public class PlayerBuffs : NetworkBehaviour
     {
         int index = GetIndex(buffType);
         if (index == -1) return;
+        player.RPC_RemoveMultipliers(buffs[index]);
         RPC_SetBuff(index, default);
     }
 
@@ -171,8 +178,8 @@ public class PlayerBuffs : NetworkBehaviour
     {
         RemoveBuff((int)buffType);
     }
-    // error occurs here
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All, TickAligned = false)]
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RPC_SetBuff(int index, Buff buff)
     {
         buffs.Set(index, buff);

@@ -495,13 +495,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
             duration = 0.5f,
         };
         // Debug.Log($"Aura buff is exist: {!Equals(buffs.GetBuff(BuffTypes.Aura), default(Buff))}");
-        if (Equals(buffs.GetBuff(BuffTypes.Aura), default(Buff)))
+        Buff _ = buffs.GetBuff(BuffTypes.Aura);
+        if (_.type == 0)
         {
             buffs.SetBuff(auraBuff);
         }
         else
         {
-            buffs.AddBuff(BuffTypes.Aura);
+            buffs.SetBuff(auraBuff);
         }
         Buff buff = buffs.GetBuff(BuffTypes.Aura);
         CharacterStatMultiplier attackSppedMultiplier = new()
@@ -598,7 +599,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     }
 
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_RemoveMultipliers(Buff buff)
     {
         for (int i = 0; i < CharacterStatMultipliers.Length; i++)

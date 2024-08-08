@@ -86,9 +86,6 @@ public class TestBuff : MonoBehaviour
             }
             else
             {
-                // call parent script
-                // Error occurs here
-                indicator.player.RPC_RemoveMultipliers(buff);
                 if (indicator) indicator.playerBuffs.RemoveBuff(buff.type);
                 else gameObject.SetActive(false);
             }
