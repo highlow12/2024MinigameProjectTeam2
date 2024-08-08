@@ -1,6 +1,9 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 /*
  *### 보스 패턴
  *- 1페이즈
@@ -24,24 +27,58 @@ public class BossSkill : MonoBehaviour
     Rigidbody2D rb;
 
     public Transform target;
-    public void performDiveAttack() 
-    { 
-    }
-    public void slashForward() 
-    { 
-    }
-    public void slashBackward() 
-    { 
-    }
-    public void slashBothDir() 
+    public Transform DiveFeedback;
+    public IEnumerator performDiveAttack() 
     {
+        int StayWaitSeconds = 1;
+        var gravityScale = rb.gravityScale;
+
+        transform.position += new Vector3(0, 100, 0);
+
+        yield return new WaitForFixedUpdate();
+
+        rb.velocity = Vector3.zero;
+        rb.gravityScale = 0;
+        transform.position = new(target.position.x + Random.onUnitSphere.x,transform.position.y, transform.position.z);
+
+        yield return new WaitForSeconds(StayWaitSeconds);
+
+        
+        
+        RaycastHit2D[] hitsArray;
+        hitsArray = Physics2D.RaycastAll(transform.position, Vector3.down,10000);
+
+        foreach (var hit in hitsArray) 
+        {
+            if (hit.transform.CompareTag("Ground"))
+            {
+                DiveFeedback.position = (Vector3)hit.point + (Vector3.up * 0.5f);
+                Debug.Log((Vector3)hit.point + (Vector3.up * 0.5f));
+                DiveFeedback.gameObject.SetActive(true);
+            }
+        }
+
+        yield return new WaitForSeconds(StayWaitSeconds);
+
+        rb.gravityScale = gravityScale;
+        rb.velocity = Vector3.down * 100;
+        DiveFeedback.gameObject.SetActive(false);
     }
-    public void slashWithEnerge() 
+    public IEnumerator slashForward() 
+    { 
+    yield return new WaitForFixedUpdate();}
+    public IEnumerator slashBackward() 
+    { 
+    yield return new WaitForFixedUpdate();}
+    public IEnumerator slashBothDir() 
     {
-    }
-    public void chargeAttack() 
+    yield return new WaitForFixedUpdate();}
+    public IEnumerator slashWithEnerge() 
     {
-    }
+    yield return new WaitForFixedUpdate();}
+    public IEnumerator chargeAttack() 
+    {
+    yield return new WaitForFixedUpdate();}
 
 
     private void OnGUI()
@@ -51,33 +88,34 @@ public class BossSkill : MonoBehaviour
         
         if (GUI.Button(new Rect(20, 40, 190, 20), "Fly_Attack"))
         {
-            performDiveAttack();
+            StopCoroutine("performDiveAttack");
+            StartCoroutine( "performDiveAttack");
         }
 
         // 두번 째 버튼 만들기
         if (GUI.Button(new Rect(20, 70, 190, 20), "Cut_with_Gi"))
         {
-            slashForward();
+            StartCoroutine("slashForward");
         }
 
         if (GUI.Button(new Rect(20, 100, 190, 20), "Cut_Forward"))
         {
-            slashBackward();
+            StartCoroutine("slashBackward");
         }
 
         if (GUI.Button(new Rect(20, 130, 190, 20), "Cut_Backward"))
         {
-            slashBothDir();
+            StartCoroutine("slashBothDir");
         }
 
         if (GUI.Button(new Rect(20, 160, 190, 20), "Cut_Forward_and_Backward"))
         {
-            slashWithEnerge();
+            StartCoroutine("slashWithEnerge");
         }
 
         if (GUI.Button(new Rect(20, 190, 190, 20), "DolJin"))
         {
-            chargeAttack();
+            StartCoroutine("chargeAttack");
         }
 
     }
