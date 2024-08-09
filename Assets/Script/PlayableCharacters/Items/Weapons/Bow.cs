@@ -89,7 +89,7 @@ public class Bow : Weapon
                 yield return new WaitForFixedUpdate();
             }
             isAttackCooldown = false;
-            if (attackState < 3)
+            if (controller.AttackState < 3)
             {
                 attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
                 while (attackTimer.Expired(runner) == false)
@@ -114,10 +114,10 @@ public class Bow : Weapon
     {
         if (arrowPrefab == null || arrowEffectPrefab == null)
         {
-            // arrow prefab id: 10
-            // arrow effect prefab id: 9
-            arrowPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(10), false);
-            arrowEffectPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(9), false);
+            // arrow prefab id: 9
+            // arrow effect prefab id: 8
+            arrowPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(9), false);
+            arrowEffectPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(8), false);
 
         }
         if (state == 2)
