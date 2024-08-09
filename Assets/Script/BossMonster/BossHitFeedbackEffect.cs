@@ -7,10 +7,11 @@ public class BossHitFeedbackEffect : NetworkBehaviour
 {
     [Networked] public NetworkBool IsCallable { get; set; } = true;
     [Networked] public CustomTickTimer AnimationTimer { get; set; }
-    [Networked, OnChangedRender(nameof(PlayEffect))] public float CallTime { get; set; }
+    [Networked] public float CallTime { get; set; }
     [Networked] public Vector3 CallPositon { get; set; }
-    public int attackType;
-    public int effectType;
+    [Networked] public int AttackType { get; set; }
+    [Networked] public int EffectType { get; set; }
+    [Networked] public int ParentScale { get; set; }
     NetworkMecanimAnimator _mecanim;
 
     void Awake()
@@ -23,13 +24,18 @@ public class BossHitFeedbackEffect : NetworkBehaviour
         if (!Equals(AnimationTimer, default(CustomTickTimer)) && AnimationTimer.Expired(Runner))
         {
             IsCallable = true;
-            attackType = 0;
-            effectType = 0;
+            AttackType = 0;
+            EffectType = 0;
             Debug.Log("SetAsDefault");
             AnimationTimer = default;
         }
-        _mecanim.Animator.SetInteger("AttackType", attackType);
-        _mecanim.Animator.SetInteger("EffectType", effectType);
+        if (ParentScale != (transform.parent.localScale.x > 0 ? 1 : -1))
+        {
+            ParentScale = transform.parent.localScale.x > 0 ? 1 : -1;
+            transform.localPosition = new Vector3(-transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+        }
+        _mecanim.Animator.SetInteger("AttackType", AttackType);
+        _mecanim.Animator.SetInteger("EffectType", EffectType);
     }
 
     public void PlayEffect()
@@ -38,6 +44,7 @@ public class BossHitFeedbackEffect : NetworkBehaviour
         {
             IsCallable = false;
             transform.position = CallPositon;
+            ParentScale = transform.parent.localScale.x > 0 ? 1 : -1;
             AnimationTimer = CustomTickTimer.CreateFromSeconds(Runner, 0.5f);
         }
     }
