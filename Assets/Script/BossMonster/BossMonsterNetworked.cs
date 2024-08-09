@@ -434,7 +434,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                             isAttacking = false;
                             return;
                         }
-
+                        // todo : random sword attack
                         StartCoroutine(AttackController(Attack()));
                         Debug.Log("Do Melee Attack");
                         break;
