@@ -30,15 +30,17 @@ public class BossSkill : MonoBehaviour
     public Transform DiveFeedback;
     public IEnumerator performDiveAttack() 
     {
-        int StayWaitSeconds = 1;
+        float upspeed = 100;
+        float StayWaitSeconds = 1;
         var gravityScale = rb.gravityScale;
 
-        transform.position += new Vector3(0, 100, 0);
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.up * upspeed;
 
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(StayWaitSeconds/10);
 
         rb.velocity = Vector3.zero;
-        rb.gravityScale = 0;
+        
         transform.position = new(target.position.x + Random.onUnitSphere.x,transform.position.y, transform.position.z);
 
         yield return new WaitForSeconds(StayWaitSeconds);
