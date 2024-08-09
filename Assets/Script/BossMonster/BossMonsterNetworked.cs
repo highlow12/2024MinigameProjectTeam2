@@ -276,19 +276,13 @@ public class BossMonsterNetworked : NetworkBehaviour
     public IEnumerator JumpAttack()
     {
         _animator.SetTrigger("doJumpAttack");
-        Debug.Log("JUmp Start");
+        
         float attackLength = 2.2f;
-        float jumpLength = 1; 
+        
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = 10.0f;
-        /*var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, jumpLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            //if(_animator.)
-            yield return new WaitForFixedUpdate();
-        }
-        //_rb.Rigidbody.MovePosition(new(FollowTarget.transform.position.x, transform.position.y));*/
+        
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength );
         while (!attackLengthTimer.Expired(Runner))
         {
@@ -311,6 +305,26 @@ public class BossMonsterNetworked : NetworkBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
+    public IEnumerator chargeAttack()
+    {
+        _animator.SetTrigger("doChargeAttack");
+
+        float attackLength = 2.2f;
+        
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
+        
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            //if(_animator.)
+            yield return new WaitForFixedUpdate();
+        }
+        bossAttack.damage = 0.0f;
+        yield return null;
+    }
+    /*
     public IEnumerator JumpDashAttack()
     {
         float jumpVelocity = 15.0f;
@@ -328,7 +342,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         cameraMovement.isBossJumping = false;
         yield return null;
     }
-
+    */
 
     // Coroutine callers
     IEnumerator AttackController(IEnumerator attack)
