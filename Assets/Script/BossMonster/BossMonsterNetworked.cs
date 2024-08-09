@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Mathematics;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
 public class BossMonsterNetworked : NetworkBehaviour
@@ -218,7 +219,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
         BossScale *= -1;
         _animator.SetTrigger("doAttack2");
-
+        attackLength = 1f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
 
@@ -235,7 +236,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         BossScale *= -1;
         _animator.SetTrigger("doAttack2");
-        float attackLength = 1.2f;
+        float attackLength = 1f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = 10.0f;
@@ -272,7 +273,44 @@ public class BossMonsterNetworked : NetworkBehaviour
         yield return null;
     }
 
-
+    public IEnumerator JumpAttack()
+    {
+        _animator.SetTrigger("doJumpAttack");
+        Debug.Log("JUmp Start");
+        float attackLength = 2.2f;
+        float jumpLength = 1; 
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
+        /*var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, jumpLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            //if(_animator.)
+            yield return new WaitForFixedUpdate();
+        }
+        //_rb.Rigidbody.MovePosition(new(FollowTarget.transform.position.x, transform.position.y));*/
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength );
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            //if(_animator.)
+            yield return new WaitForFixedUpdate();
+        }
+        bossAttack.damage = 0.0f;
+        yield return null;
+    }
+    public void jumpTP()
+    {
+        
+        StartCoroutine(IjumpTP());
+    }
+    public IEnumerator IjumpTP()
+    {
+        for (int i = 0; i < 3; i++) 
+        {
+            _rb.Teleport(new Vector2(FollowTarget.transform.position.x,transform.position.y));
+            yield return new WaitForFixedUpdate();
+        }
+    }
     public IEnumerator JumpDashAttack()
     {
         float jumpVelocity = 15.0f;
@@ -397,11 +435,12 @@ public class BossMonsterNetworked : NetworkBehaviour
                             return;
                         }
 
-                        StartCoroutine(AttackController(AttackWithEnergy()));
+                        StartCoroutine(AttackController(Attack()));
                         Debug.Log("Do Melee Attack");
                         break;
                     case AttackType.JumpDash:
-                        StartCoroutine(AttackController(JumpDashAttack()));
+                        
+                        StartCoroutine(AttackController(JumpAttack()));
                         Debug.Log("Do Jump Dash Attack");
                         break;
                 }
