@@ -449,7 +449,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                             isAttacking = false;
                             return;
                         }
-                        int attacktype = Random.Range(0, 3);
+                        int attacktype = Random.Range(0, 4);
 
                         switch (attacktype)
                         {
