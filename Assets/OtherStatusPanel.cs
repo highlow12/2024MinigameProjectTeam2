@@ -13,6 +13,19 @@ public class OtherStatusPanel : MonoBehaviour
     public TestBuffIndicator buffIndicator;
     public PlayerControllerNetworked player;
 
+    public void Start()
+    {
+        float[] yPoses = {60f, -60f};
+        OtherStatusPanel[] panels = FindObjectsOfType<OtherStatusPanel>();
+        
+        for (int i = 0; i < panels.Length; i++)
+        {
+            Transform rt = panels[i].GetComponent<Transform>();
+            Vector3 pos = new (rt.localPosition.x, yPoses[i], rt.localPosition.z);
+            rt.localPosition = pos;
+        }
+    }
+
     public void SetClass(int classTypeInt)
     {
         CharacterClassEnum classType = (CharacterClassEnum)classTypeInt;
@@ -26,7 +39,7 @@ public class OtherStatusPanel : MonoBehaviour
 
     public void SetHP(float hp, float maxHP)
     {
-        Debug.Log($"{hp} / {maxHP} = {hp / maxHP}");
+        // Debug.Log($"{hp} / {maxHP} = {hp / maxHP}");
         hpForeground.fillAmount = hp / maxHP;
     }
 }

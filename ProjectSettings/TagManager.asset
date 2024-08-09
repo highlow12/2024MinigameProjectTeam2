@@ -19,6 +19,8 @@ TagManager:
   - DynamicObjectProvider
   - CharacterManaUI
   - BossHealthText
+  - LobbyUICanvas
+  - InGameUICanvas
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Fusion;
+using Fusion.StatsInternal;
 using UnityEngine;
 
 public enum BuffTypes
@@ -137,7 +138,7 @@ public class TestBuffIndicator : MonoBehaviour
 
     public void Start()
     {
-        size = onOther ? 24 : 32;
+        size = onOther ? 12 : 32;
         margin = onOther ? 2 : 4;
         tooltip = FindAnyObjectByType<TestBuffTooltip>();
     }
@@ -174,10 +175,16 @@ public class TestBuffIndicator : MonoBehaviour
         {
             if (!buff) continue;
             float x = 0;
+            float y = 0;
             if (cur > 0) x = cur * ((2 * size) + margin);
+            if (onOther) y = - size - margin;
             if (invert) x *= -1;
+
+            RectTransform rt = buff.gameObject.GetComponent<RectTransform>();
+            rt.SetSizeDelta(size * 2, size * 2);
+
             buff.onOther = onOther;
-            buff.gameObject.transform.localPosition = new Vector3(x, 0, transform.position.z);
+            buff.gameObject.transform.localPosition = new Vector3(x, y, transform.position.z);
             buff.gameObject.SetActive(true);
             buff.UpdateLabel();
             cur++;
