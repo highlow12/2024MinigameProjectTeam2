@@ -11,8 +11,19 @@ public class Tank : CharacterClass
         moveSpeed = 10f;
         weapon = new Shield(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("TankAnimator");
-        skillList.Add("Parry", 5.25f);
-        skillList.Add("Roll", 5.0f);
+        var roll = new SkillStruct
+        {
+            coolDown = 5.0f,
+            coolDownTimer = default
+        };
+        var aura = new SkillStruct
+        {
+            coolDown = 30.0f,
+            coolDownTimer = default,
+            duration = 10.0f
+        };
+        SkillList.Add("Roll", roll);
+        SkillList.Add("Aura", aura);
     }
 
 }
