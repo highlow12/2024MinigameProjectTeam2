@@ -75,7 +75,7 @@ public class Shield : Weapon
                 yield return new WaitForFixedUpdate();
             }
             isAttackCooldown = false;
-            if (attackState < 3)
+            if (controller.AttackState < 3)
             {
                 attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
                 while (attackTimer.Expired(runner) == false)
@@ -118,7 +118,7 @@ public class Shield : Weapon
             yield break;
         }
         // different rush speed based on attack state
-        switch (attackState)
+        switch (controller.AttackState)
         {
             case 1:
                 rushSpeed = 0.3f;

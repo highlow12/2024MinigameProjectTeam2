@@ -56,7 +56,7 @@ public class Katana : Weapon
                 yield return new WaitForFixedUpdate();
             }
             isAttackCooldown = false;
-            if (attackState < 3)
+            if (controller.AttackState < 3)
             {
                 attackTimer = CustomTickTimer.CreateFromSeconds(runner, 0.3f);
                 while (attackTimer.Expired(runner) == false)
