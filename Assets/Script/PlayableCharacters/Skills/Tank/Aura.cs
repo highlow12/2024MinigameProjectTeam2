@@ -9,6 +9,7 @@ public class Aura : NetworkBehaviour
     [Networked] public NetworkBool IsSkillEnabled { get; set; } = false;
 
     [SerializeField] PlayerControllerNetworked player;
+    NetworkMecanimAnimator _mecanim;
 
     // This struct is used to send the aura buffs to the player
     [System.Serializable]
@@ -30,19 +31,27 @@ public class Aura : NetworkBehaviour
         healthRegenDuration = 0.5f
     };
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        _mecanim = GetComponent<NetworkMecanimAnimator>();
     }
+
+    public override void Render()
+    {
+        if (player)
+        {
+            // If the skill is enabled, play the animation and apply the aura buffs to the caster
+            _mecanim.Animator.SetBool("Enabled", IsSkillEnabled);
+
+        }
+    }
+
 
     // Update is called once per frame
     public override void FixedUpdateNetwork()
     {
         if (player)
         {
-            // If the skill is enabled, play the animation and apply the aura buffs to the caster
-            GetComponent<Animator>().SetBool("Enabled", IsSkillEnabled);
             if (IsSkillEnabled && HasStateAuthority)
             {
                 player.RPC_OnPlayerInSupporterAura(auraBuffs);
