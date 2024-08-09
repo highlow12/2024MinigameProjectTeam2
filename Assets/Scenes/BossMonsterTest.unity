@@ -4907,7 +4907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2098245363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5010,6 +5010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa02cc5d098fe4ae99021818288bc9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: {fileID: 517854284}
+  readyButton: {fileID: 1064440809}
   statuses:
   - {fileID: 1597596016}
   - {fileID: 432312322}

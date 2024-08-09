@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
+    [Networked] public bool isLeader { get; set; } = false;
     [Networked, OnChangedRender(nameof(ReadyStatusChanged))] public bool isReady { get; set; } = false;
     [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> NickName { get; set; }
     [Networked, OnChangedRender(nameof(ClassChanged))] public int CharacterClass { get; set; }
@@ -147,7 +148,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
         else
         {
-            Canvas canvas = FindAnyObjectByType<Canvas>();
+            Canvas canvas = GameObject.FindGameObjectWithTag("InGameUICanvas").GetComponent<Canvas>();
             GameObject otherStatusPrefab = Runner.gameObject.GetComponent<NetworkManager>().otherStatusPrefab;
             GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
             OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
@@ -160,11 +161,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
             OtherPanelUpdate();
             UpdateCharacterClass(CharacterClass);
-
-            NickNameChanged();
-            ClassChanged();
-            ReadyStatusChanged();
         }
+
+        UpdateLobbyUI();
     }
 
     // Networked animation
@@ -660,12 +659,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
     private void ClassChanged()
     {
         UpdateCharacterClass(CharacterClass);
+        if (lobbyUI) lobbyUI.SetClass(Player, CharacterClass);
         if (otherStatusPanel)
         {
             otherStatusPanel.SetClass(CharacterClass);
         }
-
-        if (lobbyUI) lobbyUI.SetClass(Player, CharacterClass);
     }
 
     private void HPChanged()
@@ -703,9 +701,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (lobbyUI) lobbyUI.SetReady(Player, isReady);
     }
 
+    public void UpdateLobbyUI()
+    {
+        NickNameChanged();
+        ClassChanged();
+        ReadyStatusChanged();
+        if (lobbyUI) lobbyUI.UpdateLeader();
+    }
+
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_SetReadyStatus(bool _isReady)
     {
         isReady = _isReady;
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_AllReadyAndStart()
+    {
+        FindAnyObjectByType<LobbyUIController>().gameObject.SetActive(false);
     }
 }

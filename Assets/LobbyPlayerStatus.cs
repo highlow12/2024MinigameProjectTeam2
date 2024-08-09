@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class LobbyPlayerStatus : MonoBehaviour
 {
-    bool isLeader = false;
-    bool isReady = false;
+    [SerializeField] bool isLeader = false;
+    [SerializeField] bool isReady = false;
     [Space]
     [SerializeField] TMP_Text nickName;
     [SerializeField] TMP_Text className;
@@ -23,6 +23,14 @@ public class LobbyPlayerStatus : MonoBehaviour
 
     void Start()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
+        Debug.Log("callasdssadsda");
+        isLeader = false;
+        isReady = false;
         nickName.text = "빈 자리";
         className.text = "플레이어를 기다리는 중입니다...";
         classImage.sprite = null;

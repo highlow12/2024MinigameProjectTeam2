@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 627047926f4db4b6793bb32532765ccb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   TotalWords: 2
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 00000000958341e27e40c91fca848c1c892abf1f006d2d98b09c92c63506f19cf774303e8f57f8054d2539a71967ff72db153ed0f01babeab87955ad4a4aa27302285c34dc7aa50494185b43
+  StateHashes: 00000000958341e27e40c91f3506f19cf774303e8f57f8054d2539a71967ff72db153ed0f01babeab87955ad4a4aa27302285c34dc7aa50494185b43
   TriggerHashes: 00000000
 --- !u!114 &2113716834816236522
 MonoBehaviour:
@@ -164,8 +164,9 @@ MonoBehaviour:
     _value: 1
   _CallTime: 0
   _CallPositon: {x: 0, y: 0, z: 0}
-  attackType: 0
-  effectType: 0
+  _AttackType: 0
+  _EffectType: 0
+  _ParentScale: 0
 --- !u!114 &3428121792499556760
 MonoBehaviour:
   m_ObjectHideFlags: 0

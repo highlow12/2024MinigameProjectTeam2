@@ -79,6 +79,11 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
             PlayerControllerNetworked controller = networkCharacterObject.GetComponent<PlayerControllerNetworked>();
             controller.Player = player;
+            if (player == runner.LocalPlayer) 
+            {
+                controller.isLeader = true;
+                controller.isReady = true;
+            };
             runner.SetPlayerObject(player, networkCharacterObject);
             _spawnedCharacters.Add(player, networkCharacterObject);
         }
@@ -92,6 +97,8 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             runner.Despawn(networkObject);
             _spawnedCharacters.Remove(player);
         }
+
+        FindAnyObjectByType<LobbyUIController>().Reset();
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
