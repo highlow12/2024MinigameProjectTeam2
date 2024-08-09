@@ -38,6 +38,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         Melee = 1 << 0,
         JumpDash = 1 << 1,
+        ChargeAttack = 1 << 2,
     }
 
 
@@ -448,14 +449,49 @@ public class BossMonsterNetworked : NetworkBehaviour
                             isAttacking = false;
                             return;
                         }
-                        // todo : random sword attack
+                        int attacktype = Random.Range(0, 3);
+
+                        switch (attacktype)
+                        {
+                            case (0):
+                                StartCoroutine(AttackController(Attack()));
+                                Debug.Log("Do Melee Attack");
+                                break;
+
+                            case (1):
+                                StartCoroutine(AttackController(backAttack()));
+                                Debug.Log("Do Melee Attack2");
+                                break; 
+
+                            case (2):
+                                StartCoroutine(AttackController(bothAttack()));
+                                Debug.Log("Do bothAttack");
+                                break;
+
+                            case (3):
+                                StartCoroutine(AttackController(AttackWithEnergy()));
+                                Debug.Log("Do AttackWithEnergy");
+                                break;
+                        }
+
                         StartCoroutine(AttackController(Attack()));
                         Debug.Log("Do Melee Attack");
                         break;
                     case AttackType.JumpDash:
-                        
-                        StartCoroutine(AttackController(JumpAttack()));
-                        Debug.Log("Do Jump Dash Attack");
+                        int attacktype1 = Random.Range(0, 1);
+
+                        switch (attacktype1)
+                        {
+                            case (0):
+                                StartCoroutine(AttackController(JumpAttack()));
+                                Debug.Log("Do Jump Dash Attack");
+                                break;
+
+                            case (1):
+                                StartCoroutine(AttackController(chargeAttack()));
+                                Debug.Log("Do chargeAttack");
+                                break;
+                        }
                         break;
                 }
                 CurrentState = BossState.Idle;
