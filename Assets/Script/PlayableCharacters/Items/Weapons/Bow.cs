@@ -115,10 +115,9 @@ public class Bow : Weapon
         if (arrowPrefab == null || arrowEffectPrefab == null)
         {
             // arrow prefab id: 9
-            // arrow effect prefab id: 8
-
+            // arrow effect prefab id: 10
             arrowPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(9), false);
-            arrowEffectPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(8), false);
+            arrowEffectPrefab = NetworkRunner.Instances.First().Prefabs.Load(NetworkPrefabId.FromIndex(10), false);
 
         }
         if (state == 2)
