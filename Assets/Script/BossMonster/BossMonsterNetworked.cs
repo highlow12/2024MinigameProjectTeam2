@@ -202,6 +202,23 @@ public class BossMonsterNetworked : NetworkBehaviour
         bossAttack.damage = 0.0f;
         yield return null;
     }
+    public IEnumerator backAttack()
+    {
+        BossScale *= -1;
+        _animator.SetTrigger("doAttack2");
+        float attackLength = 1.2f;
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        bossAttack.damage = 0.0f;
+        BossScale *= -1;
+        yield return null;
+    }
 
     public IEnumerator JumpDashAttack()
     {
