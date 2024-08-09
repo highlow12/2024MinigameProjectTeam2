@@ -48,6 +48,7 @@ public class LobbyUIController : MonoBehaviour
                 {
                     __.GetComponent<PlayerControllerNetworked>().RPC_AllReadyAndStart();
                 }
+                runner.SessionInfo.IsOpen = false;
             }
         }
         else if (runner.TryGetPlayerObject(runner.LocalPlayer, out NetworkObject player))
