@@ -7,6 +7,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Mathematics;
 
 
 public class BossMonsterNetworked : NetworkBehaviour
@@ -247,6 +248,29 @@ public class BossMonsterNetworked : NetworkBehaviour
         BossScale *= -1;
         yield return null;
     }
+    public IEnumerator AttackWithEnergy()
+    {
+        _animator.SetTrigger("doAttack");
+        float attackLength = 1.2f;
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
+        Runner.Spawn(bossSwordEffect,
+            transform.position + (Vector3)Vector2.up, quaternion.Euler(0,0,0),
+            Object.InputAuthority, (runner, o) =>
+            {
+                // Initialize the Ball before synchronizing it
+                o.GetComponent<BossSwordEnergy>().Init();
+            }
+        );
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        bossAttack.damage = 0.0f;
+        yield return null;
+    }
 
 
     public IEnumerator JumpDashAttack()
@@ -373,7 +397,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                             return;
                         }
 
-                        StartCoroutine(AttackController(bothAttack()));
+                        StartCoroutine(AttackController(AttackWithEnergy()));
                         Debug.Log("Do Melee Attack");
                         break;
                     case AttackType.JumpDash:

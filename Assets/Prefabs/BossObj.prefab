@@ -1629,6 +1629,7 @@ MonoBehaviour:
   bossAttack: {fileID: 3738774551853245099}
   bossHealthText: {fileID: 0}
   BossHitFeedbackEffects: []
+  bossSwordEffect: {fileID: 3392484300069629984, guid: b1d5833ae75d0ee4ab20766621307a07, type: 3}
 --- !u!114 &5910259068244404599
 MonoBehaviour:
   m_ObjectHideFlags: 0
