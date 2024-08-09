@@ -64,7 +64,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public BossAttack bossAttack;
     public TextMeshProUGUI bossHealthText;
     public List<BossHitFeedbackEffect> BossHitFeedbackEffects = new();
-
+    public NetworkObject bossSwordEffect;
     void Awake()
     {
         _rb = GetComponent<NetworkRigidbody2D>();
