@@ -214,13 +214,13 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
-        
+
         BossScale *= -1;
         _animator.SetTrigger("doAttack2");
-        
+
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        
+
         attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
@@ -454,7 +454,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 oldestEffect.effectType = Random.Range(1, 4);
                 oldestEffect.IsCallable = false;
                 oldestEffect.CallTime = Time.time;
-                oldestEffect.callPositon = attack.hitPosition;
+                oldestEffect.CallPositon = attack.hitPosition;
                 break;
             }
 

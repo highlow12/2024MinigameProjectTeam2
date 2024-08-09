@@ -70,19 +70,18 @@ public class Bow : Weapon
             // 0.5f = animation length
             // 0.3f = combo delay
             NetworkRunner runner = NetworkRunner.Instances.First();
-
-            if (attackState == 3)
+            if (controller.AttackState == 3)
             {
-                attackState = 0;
+                controller.AttackState = 0;
             }
-            attackState++;
+            controller.AttackState++;
             // 애니메이션 배속
-            anim.SetFloat("AttackAnimSpeed", 0.5f * attackSpeed);
-            anim.SetInteger("AttackState", attackState);
+            controller.AttackAnimSpeed = 0.5f * attackSpeed;
+            controller.AttackState = controller.AttackState;
             prevAttack = (int)runner.Tick;
-            anim.SetFloat("PrevAttack", prevAttack);
-            mecanim.SetTrigger("Attack", true);
-            anim.SetBool("Combo", true);
+            controller.PrevAttack = prevAttack;
+            controller.Attack = true;
+            controller.Combo = true;
             isAttackCooldown = true;
             attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed);
             while (attackTimer.Expired(runner) == false)
@@ -99,8 +98,8 @@ public class Bow : Weapon
                 }
                 if (((int)runner.Tick - prevAttack) / runner.TickRate >= 1.0f / attackSpeed + (0.3f - 3.0f / runner.TickRate))
                 {
-                    anim.SetInteger("AttackState", 0);
-                    anim.SetBool("Combo", false);
+                    controller.AttackState = 0;
+                    controller.Combo = false;
                     attackState = 0;
                 }
             }
@@ -135,7 +134,7 @@ public class Bow : Weapon
 
     public override IEnumerator FireProjectile(Animator anim, Transform character)
     {
-        if (anim.GetInteger("AttackState") == 2)
+        if (controller.AttackState == 2)
         {
             MultiShot(character);
             yield return null;

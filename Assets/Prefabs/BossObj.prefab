@@ -1959,6 +1959,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitFeedbackEffect2
       objectReference: {fileID: 0}
+    - target: {fileID: 3428121792499556760, guid: 4ea2c1bec5a8649599655cc29a17fcc2, type: 3}
+      propertyPath: SyncParent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4649963267116246916, guid: 4ea2c1bec5a8649599655cc29a17fcc2, type: 3}
       propertyPath: SortKey
       value: 3642744922
@@ -2035,6 +2039,10 @@ PrefabInstance:
     - target: {fileID: 3100302827235392951, guid: 4ea2c1bec5a8649599655cc29a17fcc2, type: 3}
       propertyPath: m_Name
       value: HitFeedbackEffect3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3428121792499556760, guid: 4ea2c1bec5a8649599655cc29a17fcc2, type: 3}
+      propertyPath: SyncParent
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4649963267116246916, guid: 4ea2c1bec5a8649599655cc29a17fcc2, type: 3}
       propertyPath: SortKey

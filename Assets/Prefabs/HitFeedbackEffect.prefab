@@ -163,7 +163,7 @@ MonoBehaviour:
   _IsCallable:
     _value: 1
   _CallTime: 0
-  callPositon: {x: 0, y: 0, z: 0}
+  _CallPositon: {x: 0, y: 0, z: 0}
   attackType: 0
   effectType: 0
 --- !u!114 &3428121792499556760
@@ -179,6 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SyncScale: 1
-  SyncParent: 0
+  SyncParent: 1
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0

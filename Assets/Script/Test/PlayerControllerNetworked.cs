@@ -24,6 +24,17 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
     [Networked] public CustomTickTimer HealthRegenTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
+    // Animator parameters
+    [Networked] public int RunState { get; set; }
+    [Networked] public bool Grounded { get; set; }
+    [Networked] public bool Falling { get; set; }
+    [Networked] public int AttackState { get; set; }
+    [Networked] public float AttackAnimSpeed { get; set; }
+    [Networked] public float PrevAttack { get; set; }
+    [Networked] public bool Combo { get; set; }
+    [Networked] public bool Attack { get; set; }
+    [Networked] public bool P_Jump { get; set; }
+    [Networked] public bool P_Roll { get; set; }
 
     [Networked]
     [Capacity(12)]
@@ -112,7 +123,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _rb = gameObject.GetComponent<NetworkRigidbody2D>();
         _input = gameObject.GetComponent<PlayerInputConsumer>();
         _collider = GetComponent<Collider2D>();
-        _anim = GetComponent<Animator>();
         _mecanim = GetComponent<NetworkMecanimAnimator>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         buffs = gameObject.GetComponent<PlayerBuffs>();
@@ -160,6 +170,28 @@ public class PlayerControllerNetworked : NetworkBehaviour
     // Networked animation
     public override void Render()
     {
+        _mecanim.Animator.SetBool("Grounded", Grounded);
+        _mecanim.Animator.SetBool("Falling", Falling);
+        _mecanim.Animator.SetInteger("RunState", RunState);
+        _mecanim.Animator.SetInteger("AttackState", AttackState);
+        _mecanim.Animator.SetFloat("AttackAnimSpeed", AttackAnimSpeed);
+        _mecanim.Animator.SetFloat("prevAttack", PrevAttack);
+        _mecanim.Animator.SetBool("Combo", Combo);
+        _mecanim.Animator.SetBool("Attack", Attack);
+        _mecanim.Animator.SetBool("Jump", P_Jump);
+        _mecanim.Animator.SetBool("Roll", P_Roll);
+        if (Attack)
+        {
+            Attack = false;
+        }
+        if (P_Jump)
+        {
+            P_Jump = false;
+        }
+        if (P_Roll)
+        {
+            P_Roll = false;
+        }
         base.Render();
     }
 
@@ -184,7 +216,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         IsGrounded = default;
         IsGrounded = (bool)Runner.GetPhysicsScene2D().OverlapBox((Vector2)transform.position + (Vector2)GroundcheckPosition, Vector2.one * .85f, 0, _groundLayer);
         // Jump animation and run animation depends on this value
-        _anim.SetBool("Grounded", IsGrounded);
+        Grounded = IsGrounded;
         if (IsGrounded)
         {
             CoyoteTimeCD = false;
@@ -235,7 +267,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         // Run attack coroutine of weapon script directly
         if (_input.pressed.IsSet(PlayerButtons.Attack))
         {
-            StartCoroutine(weapon.Attack(_anim, _mecanim, gameObject.transform));
+            StartCoroutine(weapon.Attack(_mecanim.Animator, _mecanim, gameObject.transform));
         }
         // Run skill of weapon script directly
         if (_input.pressed.IsSet(PlayerButtons.Skill))
@@ -250,19 +282,19 @@ public class PlayerControllerNetworked : NetworkBehaviour
         // Run animation
         if (input != 0)
         {
-            _anim.SetInteger("RunState", 1);
+            RunState = 1;
         }
         else
         {
-            _anim.SetInteger("RunState", 0);
+            RunState = 0;
         }
         if (_rb.Rigidbody.velocity.y < -3)
         {
-            _anim.SetBool("Falling", true);
+            Falling = true;
         }
         else
         {
-            _anim.SetBool("Falling", false);
+            Falling = false;
         }
         // Ground check
         DetectGroundAndWalls();
@@ -321,7 +353,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (jump || CalculateJumpBuffer())
         {
             // Run jump animation
-            _mecanim.SetTrigger("Jump", true);
+            P_Jump = true;
             // Deprecated jump function
             // void _jump(float __jumpForce)
             // {
@@ -415,7 +447,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     // projectile fire
     public void FireProjectile()
     {
-        weapon.FireProjectileAlt(_anim.GetInteger("AttackState"), gameObject.transform);
+        weapon.FireProjectileAlt(_mecanim.Animator.GetInteger("AttackState"), gameObject.transform);
     }
 
     // It will be called by animation event
@@ -441,8 +473,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     {
         DurationTickTimer = CustomTickTimer.CreateFromSeconds(Runner, _rollDuration);
         _isRolling = true;
-        _mecanim.SetTrigger("Roll", true);
-
+        P_Roll = true;
         Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // -1 or 1
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _rollDistance / _rollDuration;
         _collider.excludeLayers = _enemyLayer;

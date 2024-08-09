@@ -42,11 +42,12 @@ public class Shield : Weapon
 
             PlayerAttack playerAttack = rangeObject.GetComponent<PlayerAttack>();
 
-            if (attackState == 3)
+
+            if (controller.AttackState == 3)
             {
-                attackState = 0;
+                controller.AttackState = 0;
             }
-            if (attackState == 2)
+            if (controller.AttackState == 2)
             {
                 // 3rd attack has 2x length
                 cooldownMultiplier = 2.0f;
@@ -55,14 +56,14 @@ public class Shield : Weapon
             {
                 cooldownMultiplier = 1.0f;
             }
-            attackState++;
-
-            anim.SetFloat("AttackAnimSpeed", 0.5f * attackSpeed);
-            anim.SetInteger("AttackState", attackState);
+            controller.AttackState++;
+            // 애니메이션 배속
+            controller.AttackAnimSpeed = 0.5f * attackSpeed;
+            controller.AttackState = controller.AttackState;
             prevAttack = (int)runner.Tick;
-            anim.SetFloat("PrevAttack", prevAttack);
-            mecanim.SetTrigger("Attack", true);
-            anim.SetBool("Combo", true);
+            controller.PrevAttack = prevAttack;
+            controller.Attack = true;
+            controller.Combo = true;
             playerAttack.isHit = false;
             playerAttack.damage = damage * damageMultiplier;
             playerAttack.attackType = PlayerAttack.AttackType.ProjectileOrShield;
@@ -83,8 +84,8 @@ public class Shield : Weapon
                 }
                 if (((int)runner.Tick - prevAttack) / runner.TickRate >= 1.0f / attackSpeed + (0.3f - 3.0f / runner.TickRate))
                 {
-                    anim.SetInteger("AttackState", 0);
-                    anim.SetBool("Combo", false);
+                    controller.AttackState = 0;
+                    controller.Combo = false;
                     attackState = 0;
                 }
             }
