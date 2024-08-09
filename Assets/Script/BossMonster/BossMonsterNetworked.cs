@@ -53,7 +53,6 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public bool isAttacking { get; set; }
     [Networked] public bool isMoving { get; set; }
 
-
     // Local variables
     NetworkRigidbody2D _rb;
     Animator _animator;
@@ -64,7 +63,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public DurationIndicator durationIndicator;
     public BossAttack bossAttack;
     public TextMeshProUGUI bossHealthText;
-
+    public List<BossHitFeedbackEffect> BossHitFeedbackEffects = new();
 
     void Awake()
     {
@@ -80,6 +79,13 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         CurrentHealth = maxHealth;
         CurrentState = BossState.Idle;
+        var objects = GameObject.FindGameObjectsWithTag("BossHitFeedbackEffect");
+        Debug.Log(objects.Length);
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log($"Set {i}th object");
+            BossHitFeedbackEffects.Add(objects[i].GetComponent<BossHitFeedbackEffect>());
+        }
         StartCoroutine(SetTargetRecursive());
     }
 
@@ -388,10 +394,30 @@ public class BossMonsterNetworked : NetworkBehaviour
     public void Rpc_OnBossHit(PlayerAttack.AttackData attack)
     {
         CurrentHealth -= attack.damage;
+        // call effect
+        var oldestEffect = BossHitFeedbackEffects[0];
+        foreach (var effect in BossHitFeedbackEffects)
+        {
+            if (effect.CallTime <= oldestEffect.CallTime)
+            {
+                oldestEffect = effect;
+            }
+            if (effect.IsCallable || (BossHitFeedbackEffects.IndexOf(effect) == BossHitFeedbackEffects.Count - 1))
+            {
+                oldestEffect.attackType = (int)attack.attackType;
+                oldestEffect.effectType = Random.Range(1, 4);
+                oldestEffect.IsCallable = false;
+                oldestEffect.CallTime = Time.time;
+                oldestEffect.callPositon = attack.hitPosition;
+                break;
+            }
+
+        }
+
         if (Runner.IsSceneAuthority && CurrentHealth <= 0)
         {
             Debug.Log("dead");
-            bossDead();
+            // bossDead();
         }
 
     }

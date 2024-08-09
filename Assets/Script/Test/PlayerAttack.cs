@@ -4,9 +4,14 @@ using UnityEngine;
 using Fusion;
 
 public class PlayerAttack : MonoBehaviour
-
 {
-
+    // Enum for attack types
+    public enum AttackType
+    {
+        Katana = 1,
+        ProjectileOrShield = 2,
+    }
+    public AttackType attackType;
     public float damage;
     public bool isHit;
     // Start is called before the first frame update
@@ -25,6 +30,8 @@ public class PlayerAttack : MonoBehaviour
     public struct AttackData : INetworkStruct
     {
         public float damage;
+        public AttackType attackType;
+        public Vector3 hitPosition;
     }
 
     void OnTriggerStay2D(Collider2D other)
@@ -36,7 +43,9 @@ public class PlayerAttack : MonoBehaviour
             {
                 AttackData attackData = new()
                 {
-                    damage = damage
+                    attackType = attackType,
+                    damage = damage,
+                    hitPosition = other.ClosestPoint(transform.position)
                 };
                 boss.Rpc_OnBossHit(attackData);
                 isHit = true;

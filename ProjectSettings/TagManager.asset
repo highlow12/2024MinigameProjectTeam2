@@ -19,6 +19,7 @@ TagManager:
   - DynamicObjectProvider
   - CharacterManaUI
   - BossHealthText
+  - BossHitFeedbackEffect
   layers:
   - Default
   - TransparentFX

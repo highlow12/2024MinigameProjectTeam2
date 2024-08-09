@@ -65,6 +65,7 @@ public class Shield : Weapon
             anim.SetBool("Combo", true);
             playerAttack.isHit = false;
             playerAttack.damage = damage * damageMultiplier;
+            playerAttack.attackType = PlayerAttack.AttackType.ProjectileOrShield;
             isAttackCooldown = true;
             // Cooldown Timer
             attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed * cooldownMultiplier);

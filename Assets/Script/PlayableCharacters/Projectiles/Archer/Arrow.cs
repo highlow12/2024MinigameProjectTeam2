@@ -66,7 +66,9 @@ public class Arrow : NetworkBehaviour
         {
             PlayerAttack.AttackData attackData = new()
             {
-                damage = _base.damage
+                damage = _base.damage,
+                attackType = PlayerAttack.AttackType.ProjectileOrShield,
+                hitPosition = other.ClosestPoint(transform.position)
             };
             BossMonsterNetworked boss = other.gameObject.GetComponent<BossMonsterNetworked>();
             boss.Rpc_OnBossHit(attackData);
