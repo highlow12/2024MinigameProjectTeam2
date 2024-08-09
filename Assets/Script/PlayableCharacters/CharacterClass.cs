@@ -33,6 +33,14 @@ public struct CharacterStatMultiplier : INetworkStruct
     public Buff buff;
 }
 
+[System.Serializable]
+public struct SkillStruct : INetworkStruct
+{
+    public float coolDown;
+    public CustomTickTimer coolDownTimer;
+    public float duration;
+}
+
 
 public abstract class CharacterClass
 {
@@ -41,6 +49,7 @@ public abstract class CharacterClass
     public float moveSpeed;
     public Weapon weapon;
     public RuntimeAnimatorController characterAnimator;
+    public Dictionary<NetworkString<_16>, SkillStruct> SkillList = new();
     public Dictionary<string, float> skillList = new(); // skillName, coolDown
 
     public static void ChangeClass(int characterClass, GameObject player)
@@ -73,7 +82,12 @@ public abstract class CharacterClass
         controller.weapon.rangeObject = controller.rangeObject;
         controller.weapon.skillObject = controller.SkillObject;
         controller.CurrentHealth = classObj.maxHealth;
-        controller.skillList = classObj.skillList;
+        // Set skills
+        controller.SkillList.Clear();
+        foreach (var skill in classObj.SkillList)
+        {
+            controller.SkillList.Add(skill.Key, skill.Value);
+        }
         player.GetComponent<Animator>().runtimeAnimatorController = classObj.characterAnimator;
     }
 

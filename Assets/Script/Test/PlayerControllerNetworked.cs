@@ -22,6 +22,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public int CurrentServerTick { get; set; }
     [Networked] public CustomTickTimer DurationTickTimer { get; set; }
     // It will be implemented in the CharacterClass.cs as a skillList's value
+    [Networked]
+    [Capacity(10)]
+    public NetworkDictionary<NetworkString<_16>, SkillStruct> SkillList { get; }
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
     [Networked] public CustomTickTimer HealthRegenTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
@@ -54,7 +57,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     Collider2D _collider;
     Animator _anim;
     NetworkMecanimAnimator _mecanim;
-    public Dictionary<string, float> skillList;
     public DurationIndicator durationIndicator;
     public Image healthBar;
     public OtherStatusPanel otherStatusPanel;
@@ -263,16 +265,13 @@ public class PlayerControllerNetworked : NetworkBehaviour
         Jump(_input.pressed.IsSet(PlayerButtons.Jump));
         BetterJumpLogic(_input.pressed.IsSet(PlayerButtons.Jump));
         Roll(_input.pressed.IsSet(PlayerButtons.Roll));
+        Skill(_input.pressed.IsSet(PlayerButtons.Skill));
         // Run attack coroutine of weapon script directly
         if (_input.pressed.IsSet(PlayerButtons.Attack))
         {
             StartCoroutine(weapon.Attack(_mecanim.Animator, _mecanim, gameObject.transform));
         }
-        // Run skill of weapon script directly
-        if (_input.pressed.IsSet(PlayerButtons.Skill))
-        {
-            StartCoroutine(weapon.Skill(gameObject.transform));
-        }
+
 
     }
     void UpdateMovement(float input)
@@ -342,6 +341,36 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (Mathf.Abs(_rb.Rigidbody.velocity.y) > _maxVelocity * 2)
         {
             _rb.Rigidbody.velocity *= _verticalSpeedReduceVector;
+        }
+    }
+
+    private void Skill(bool skill)
+    {
+        // now it is only for tank's skill
+        if (skill)
+        {
+            if (CharacterClass != (int)CharacterClassEnum.Tank)
+            {
+                return;
+            }
+            if (weapon.skillObject.GetComponent<Aura>().IsSkillEnabled)
+            {
+                // disable skill if it is enabled
+                StartCoroutine(weapon.Skill(gameObject.transform));
+            }
+            SkillStruct skillStruct = SkillList.Get("Aura");
+            CustomTickTimer cooldownTimer = skillStruct.coolDownTimer;
+            if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
+            {
+                skillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, skillStruct.coolDown);
+                SkillList.Set("Aura", skillStruct);
+                StartCoroutine(weapon.Skill(gameObject.transform));
+            }
+            else
+            {
+                var remainingTime = (Runner.TickRate * skillStruct.coolDown - skillStruct.coolDownTimer.ElapsedTicks(Runner)) / 64;
+                Debug.Log($"Skill is on cooldown. Remaining time: {remainingTime}");
+            }
         }
     }
 
@@ -429,14 +458,17 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
             if (IsGrounded && dash && !_isRolling) // if player is grounded and dash button is pressed and player is not rolling
             {
-                if (Equals(SkillTickTimer, default(CustomTickTimer)) || SkillTickTimer.Expired(Runner))
+                SkillStruct rollSkillStruct = SkillList.Get("Roll");
+                CustomTickTimer cooldownTimer = rollSkillStruct.coolDownTimer;
+                if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
                 {
-                    SkillTickTimer = CustomTickTimer.CreateFromSeconds(Runner, skillList["Roll"]);
+                    rollSkillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, rollSkillStruct.coolDown);
+                    SkillList.Set("Roll", rollSkillStruct);
                     StartCoroutine(RollCoroutine());
                 }
                 else
                 {
-                    var remainingTime = (Runner.TickRate * skillList["Roll"] - SkillTickTimer.ElapsedTicks(Runner)) / 64;
+                    var remainingTime = (Runner.TickRate * rollSkillStruct.coolDown - rollSkillStruct.coolDownTimer.ElapsedTicks(Runner)) / 64;
                     Debug.Log($"Skill is on cooldown. Remaining time: {remainingTime}");
                 }
             }

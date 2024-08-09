@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Fusion;
 
 public class Archer : CharacterClass
 {
@@ -11,8 +13,12 @@ public class Archer : CharacterClass
         moveSpeed = 15f;
         weapon = new Bow(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("ArcherAnimator");
-        skillList.Add("Parry", 5.25f);
-        skillList.Add("Roll", 5.0f);
+        var roll = new SkillStruct
+        {
+            coolDown = 5.0f,
+            coolDownTimer = default
+        };
+        SkillList.Add("Roll", roll);
     }
 
 }

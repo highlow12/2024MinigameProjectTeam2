@@ -12,8 +12,12 @@ public class Knight : CharacterClass
         moveSpeed = 12f;
         weapon = new Katana(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("KnightAnimator");
-        skillList.Add("Parry", 5.25f);
-        skillList.Add("Roll", 5.0f);
+        var roll = new SkillStruct
+        {
+            coolDown = 5.0f,
+            coolDownTimer = default
+        };
+        SkillList.Add("Roll", roll);
     }
 
 }
