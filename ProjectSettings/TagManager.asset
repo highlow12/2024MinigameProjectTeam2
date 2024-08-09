@@ -21,6 +21,7 @@ TagManager:
   - BossHealthText
   - LobbyUICanvas
   - InGameUICanvas
+  - BossHitFeedbackEffect
   layers:
   - Default
   - TransparentFX

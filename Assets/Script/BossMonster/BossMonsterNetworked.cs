@@ -53,7 +53,6 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public bool isAttacking { get; set; }
     [Networked] public bool isMoving { get; set; }
 
-
     // Local variables
     NetworkRigidbody2D _rb;
     Animator _animator;
@@ -64,7 +63,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public DurationIndicator durationIndicator;
     public BossAttack bossAttack;
     public TextMeshProUGUI bossHealthText;
-
+    public List<BossHitFeedbackEffect> BossHitFeedbackEffects = new();
 
     void Awake()
     {
@@ -80,6 +79,13 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         CurrentHealth = maxHealth;
         CurrentState = BossState.Idle;
+        var objects = GameObject.FindGameObjectsWithTag("BossHitFeedbackEffect");
+        Debug.Log(objects.Length);
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log($"Set {i}th object");
+            BossHitFeedbackEffects.Add(objects[i].GetComponent<BossHitFeedbackEffect>());
+        }
         StartCoroutine(SetTargetRecursive());
     }
 
@@ -196,6 +202,52 @@ public class BossMonsterNetworked : NetworkBehaviour
         bossAttack.damage = 0.0f;
         yield return null;
     }
+    public IEnumerator bothAttack()
+    {
+        _animator.SetTrigger("doAttack");
+        float attackLength = 1.2f;
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        
+        BossScale *= -1;
+        _animator.SetTrigger("doAttack2");
+        
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        
+        attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        bossAttack.damage = 0.0f;
+        BossScale *= -1;
+        yield return null;
+    }
+    public IEnumerator backAttack()
+    {
+        BossScale *= -1;
+        _animator.SetTrigger("doAttack2");
+        float attackLength = 1.2f;
+        // attack logic by animation event required
+        bossAttack.playersHit = new List<PlayerRef>();
+        bossAttack.damage = 10.0f;
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
+        while (!attackLengthTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        bossAttack.damage = 0.0f;
+        BossScale *= -1;
+        yield return null;
+    }
+
 
     public IEnumerator JumpDashAttack()
     {
@@ -321,7 +373,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                             return;
                         }
 
-                        StartCoroutine(AttackController(Attack()));
+                        StartCoroutine(AttackController(bothAttack()));
                         Debug.Log("Do Melee Attack");
                         break;
                     case AttackType.JumpDash:
@@ -388,10 +440,30 @@ public class BossMonsterNetworked : NetworkBehaviour
     public void Rpc_OnBossHit(PlayerAttack.AttackData attack)
     {
         CurrentHealth -= attack.damage;
+        // call effect
+        var oldestEffect = BossHitFeedbackEffects[0];
+        foreach (var effect in BossHitFeedbackEffects)
+        {
+            if (effect.CallTime <= oldestEffect.CallTime)
+            {
+                oldestEffect = effect;
+            }
+            if (effect.IsCallable || (BossHitFeedbackEffects.IndexOf(effect) == BossHitFeedbackEffects.Count - 1))
+            {
+                oldestEffect.attackType = (int)attack.attackType;
+                oldestEffect.effectType = Random.Range(1, 4);
+                oldestEffect.IsCallable = false;
+                oldestEffect.CallTime = Time.time;
+                oldestEffect.callPositon = attack.hitPosition;
+                break;
+            }
+
+        }
+
         if (Runner.IsSceneAuthority && CurrentHealth <= 0)
         {
             Debug.Log("dead");
-            bossDead();
+            // bossDead();
         }
 
     }
