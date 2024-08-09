@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
+    [Networked, OnChangedRender(nameof(ReadyStatusChanged))] public bool isReady { get; set; } = false;
     [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> NickName { get; set; }
     [Networked, OnChangedRender(nameof(ClassChanged))] public int CharacterClass { get; set; }
     [Networked] public float MaxHealth { get; set; } = 100;
@@ -45,6 +46,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public DurationIndicator durationIndicator;
     public Image healthBar;
     public OtherStatusPanel otherStatusPanel;
+    public LobbyUIController lobbyUI;
 
     #region
     [SerializeField] private LayerMask _groundLayer;
@@ -107,8 +109,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     void Awake()
     {
         // Initialize local variables
-        TestBuffIndicator buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
-
         _rb = gameObject.GetComponent<NetworkRigidbody2D>();
         _input = gameObject.GetComponent<PlayerInputConsumer>();
         _collider = GetComponent<Collider2D>();
@@ -116,6 +116,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _mecanim = GetComponent<NetworkMecanimAnimator>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         buffs = gameObject.GetComponent<PlayerBuffs>();
+
+        lobbyUI = FindAnyObjectByType<LobbyUIController>();
     }
 
     void Start()
@@ -148,6 +150,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
             OtherPanelUpdate();
             UpdateCharacterClass(CharacterClass);
+
+            NickNameChanged();
+            ClassChanged();
+            ReadyStatusChanged();
         }
     }
 
@@ -459,14 +465,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
     private void NickNameChanged()
     {
-        if (!otherStatusPanel)
-        {
-            return;
-        }
-        else
-        {
-            otherStatusPanel.SetName($"[{Player.AsIndex}] {NickName}");
-        }
+        string _ = $"[{Player.AsIndex}] {NickName}";
+        if (otherStatusPanel) otherStatusPanel.SetName(_);
+
+        if (lobbyUI) lobbyUI.SetNick(Player, _);
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -631,6 +633,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             otherStatusPanel.SetClass(CharacterClass);
         }
+
+        if (lobbyUI) lobbyUI.SetClass(Player, CharacterClass);
     }
 
     private void HPChanged()
@@ -661,5 +665,16 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
+    }
+
+    void ReadyStatusChanged()
+    {
+        if (lobbyUI) lobbyUI.SetReady(Player, isReady);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetReadyStatus(bool _isReady)
+    {
+        isReady = _isReady;
     }
 }
