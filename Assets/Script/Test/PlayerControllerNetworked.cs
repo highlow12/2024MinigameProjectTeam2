@@ -21,7 +21,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public PlayerRef Player { get; set; }
     [Networked] public int CurrentServerTick { get; set; }
     [Networked] public CustomTickTimer DurationTickTimer { get; set; }
-    // It will be implemented in the CharacterClass.cs as a skillList's value
+
     [Networked]
     [Capacity(10)]
     public NetworkDictionary<NetworkString<_16>, SkillStruct> SkillList { get; }
@@ -241,9 +241,13 @@ public class PlayerControllerNetworked : NetworkBehaviour
     // Networked physics
     public override void FixedUpdateNetwork()
     {
+        CurrentServerTick = (int)Runner.Tick;
+        if (Runner.SessionInfo.IsOpen == true)
+        {
+            return;
+        }
         InputTask();
         Velocity = _rb.Rigidbody.velocity;
-        CurrentServerTick = (int)Runner.Tick;
         if (weapon != null)
         {
             weapon.attackSpeed = attackSpeed * attackSpeedMultiplier;

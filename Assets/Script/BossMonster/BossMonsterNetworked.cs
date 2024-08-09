@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Mathematics;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
 public class BossMonsterNetworked : NetworkBehaviour
@@ -111,7 +110,10 @@ public class BossMonsterNetworked : NetworkBehaviour
         // Debug.Log($"Timer is default: {Equals(BossAttackTimer, default(CustomTickTimer))}");
         if (HasStateAuthority)
         {
-
+            if (Runner.SessionInfo.IsOpen == true)
+            {
+                return;
+            }
             BossBehaviour();
         }
     }
@@ -258,7 +260,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = 10.0f;
         Runner.Spawn(bossSwordEffect,
-            transform.position + (Vector3)Vector2.up, quaternion.Euler(0,0,0),
+            transform.position + (Vector3)Vector2.up, quaternion.Euler(0, 0, 0),
             Object.InputAuthority, (runner, o) =>
             {
                 // Initialize the Ball before synchronizing it
@@ -277,14 +279,14 @@ public class BossMonsterNetworked : NetworkBehaviour
     public IEnumerator JumpAttack()
     {
         _animator.SetTrigger("doJumpAttack");
-        
+
         float attackLength = 2.2f;
-        
+
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = 10.0f;
-        
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength );
+
+        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
             //if(_animator.)
@@ -295,14 +297,14 @@ public class BossMonsterNetworked : NetworkBehaviour
     }
     public void jumpTP()
     {
-        
+
         StartCoroutine(IjumpTP());
     }
     public IEnumerator IjumpTP()
     {
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < 3; i++)
         {
-            _rb.Teleport(new Vector2(FollowTarget.transform.position.x,transform.position.y));
+            _rb.Teleport(new Vector2(FollowTarget.transform.position.x, transform.position.y));
             yield return new WaitForFixedUpdate();
         }
     }
@@ -311,11 +313,11 @@ public class BossMonsterNetworked : NetworkBehaviour
         _animator.SetTrigger("doChargeAttack");
 
         float attackLength = 2.2f;
-        
+
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = 10.0f;
-        
+
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
@@ -461,7 +463,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                             case (1):
                                 StartCoroutine(AttackController(backAttack()));
                                 Debug.Log("Do Melee Attack2");
-                                break; 
+                                break;
 
                             case (2):
                                 StartCoroutine(AttackController(bothAttack()));
