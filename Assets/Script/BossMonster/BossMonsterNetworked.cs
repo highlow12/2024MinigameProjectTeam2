@@ -450,8 +450,8 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
             if (effect.IsCallable || (BossHitFeedbackEffects.IndexOf(effect) == BossHitFeedbackEffects.Count - 1))
             {
-                oldestEffect.attackType = (int)attack.attackType;
-                oldestEffect.effectType = Random.Range(1, 4);
+                oldestEffect.AttackType = (int)attack.attackType;
+                oldestEffect.EffectType = Random.Range(1, 4);
                 oldestEffect.IsCallable = false;
                 oldestEffect.CallTime = Time.time;
                 oldestEffect.CallPositon = attack.hitPosition;
@@ -459,7 +459,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
 
         }
-
+        oldestEffect.PlayEffect();
         if (Runner.IsSceneAuthority && CurrentHealth <= 0)
         {
             Debug.Log("dead");
