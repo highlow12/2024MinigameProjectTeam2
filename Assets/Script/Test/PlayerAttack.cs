@@ -27,7 +27,7 @@ public class PlayerAttack : MonoBehaviour
         public float damage;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Boss"))
         {
