@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: -6380511968365147759}
   - component: {fileID: -3817756549026474803}
   - component: {fileID: 8740523829036008396}
+  - component: {fileID: 4156249001038596498}
+  - component: {fileID: 7786501679325705055}
   m_Layer: 7
   m_Name: BossSwordEnergy
   m_TagString: Untagged
@@ -32,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 2, z: 1}
+  m_LocalScale: {x: 0.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3388857549225458252}
@@ -74,14 +76,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 7.0017095, y: 4}
+    newSize: {x: 7.0017095, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &3392484300069629984
 MonoBehaviour:
@@ -102,6 +104,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -6380511968365147759}
   - {fileID: -3817756549026474803}
+  - {fileID: 7786501679325705055}
 --- !u!50 &3501479346817233048
 Rigidbody2D:
   serializedVersion: 4
@@ -142,6 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  speed: 5
+  lifeSeconds: 3
 --- !u!114 &-3817756549026474803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,17 +210,56 @@ SpriteRenderer:
   m_SortingLayerID: -1716259091
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: baf47dd8a516c4390826afac04092134, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.0017095, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4156249001038596498
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804445463067156447}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ac0174763d81a42dcaad85fa40017a44, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7786501679325705055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804445463067156447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 4156249001038596498}
+  TotalWords: 0
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 00000000359a0af29a1a2d61
+  TriggerHashes: 00000000
 --- !u!1 &3471016454108479080
 GameObject:
   m_ObjectHideFlags: 0
