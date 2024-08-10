@@ -8,7 +8,7 @@ public class Archer : CharacterClass
 {
     public Archer()
     {
-        maxHealth = 100.0f;
+        maxHealth = 800.0f;
         attackSpeed = 1.3f;
         moveSpeed = 15f;
         weapon = new Bow(attackSpeed);

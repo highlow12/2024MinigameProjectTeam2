@@ -19,7 +19,7 @@ public class Aura : NetworkBehaviour
         public float moveSpeedMultiplier;
         public float damageMultiplier;
         public float healthRegen;
-        public float healthRegenDuration;
+        public float healthRegenInterval;
     }
 
     AuraBuffs auraBuffs = new()
@@ -28,7 +28,7 @@ public class Aura : NetworkBehaviour
         moveSpeedMultiplier = 1.15f,
         damageMultiplier = 1.3f,
         healthRegen = 1f,
-        healthRegenDuration = 0.5f
+        healthRegenInterval = 0.5f
     };
 
     void Awake()

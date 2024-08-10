@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Items
         public float range;
         public float projectileSpeed;
         public float damage;
+        public List<float> damages = new();
         public int defense;
         public int healingAmount;
         public GameObject rangeObject;

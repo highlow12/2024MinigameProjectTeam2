@@ -7,7 +7,7 @@ public class Knight : CharacterClass
 
     public Knight()
     {
-        maxHealth = 100.0f;
+        maxHealth = 1000.0f;
         attackSpeed = 2.0f;
         moveSpeed = 12f;
         weapon = new Katana(attackSpeed);

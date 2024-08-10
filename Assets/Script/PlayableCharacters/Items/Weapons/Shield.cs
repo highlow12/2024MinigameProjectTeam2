@@ -1,6 +1,7 @@
 using UnityEngine;
 using Items;
 using System.Collections;
+using System.Collections.Generic;
 using Fusion;
 using System.Linq;
 using Fusion.Addons.Physics;
@@ -17,9 +18,7 @@ public class Shield : Weapon
     {
         this.attackSpeed = attackSpeed;
         range = 2.0f;
-        damage = 30.0f;
-        defense = 100;
-        healingAmount = 50;
+        damages = new List<float> { 100.0f, 200.0f, 150.0f };
     }
 
     public override IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
@@ -65,7 +64,7 @@ public class Shield : Weapon
             controller.Attack = true;
             controller.Combo = true;
             playerAttack.isHit = false;
-            playerAttack.damage = damage * damageMultiplier;
+            playerAttack.damage = damages[controller.AttackState - 1] * damageMultiplier;
             playerAttack.attackType = PlayerAttack.AttackType.ProjectileOrShield;
             isAttackCooldown = true;
             // Cooldown Timer

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Items;
 using Fusion;
@@ -28,7 +29,7 @@ public class Bow : Weapon
         this.attackSpeed = attackSpeed;
         projectileSpeed = 30.0f;
         range = 20.0f;
-        damage = 50.0f;
+        damages = new List<float> { 120.0f, 80.0f, 450.0f };
     }
 
     // initialize multi shot arrow properties
@@ -38,7 +39,6 @@ public class Bow : Weapon
         {
             position = new Vector3(1.4f, 0.57f, 0),
             rotation = new Vector3(0, 0, -10.0f),
-            damage = 25.0f,
             range = 10.0f
         };
 
@@ -46,7 +46,6 @@ public class Bow : Weapon
         {
             position = new Vector3(1.3f, 0.1f, 0),
             rotation = new Vector3(0, 0, -20.0f),
-            damage = 25.0f,
             range = 10.0f
         };
 
@@ -54,7 +53,6 @@ public class Bow : Weapon
         {
             position = new Vector3(0.9f, -0.25f, 0),
             rotation = new Vector3(0, 0, -26.0f),
-            damage = 25.0f,
             range = 10.0f
         };
     }
@@ -187,7 +185,7 @@ public class Bow : Weapon
 
         Base arrow = projectile.GetComponent<Base>();
         arrow.projectileSpeed = projectileSpeed;
-        arrow.damage = damage * damageMultiplier;
+        arrow.damage = damages[controller.AttackState - 1] * damageMultiplier;
         arrow.range = range;
 
         GameObject projectileObject = arrow.projectile;

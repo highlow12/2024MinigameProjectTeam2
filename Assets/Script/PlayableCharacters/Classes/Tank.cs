@@ -6,7 +6,7 @@ public class Tank : CharacterClass
 {
     public Tank()
     {
-        maxHealth = 130.0f;
+        maxHealth = 1200.0f;
         attackSpeed = 1.6f;
         moveSpeed = 10f;
         weapon = new Shield(attackSpeed);

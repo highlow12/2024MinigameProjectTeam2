@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Items;
 using Fusion;
@@ -12,8 +13,7 @@ public class Katana : Weapon
     public Katana(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
-        range = 2.0f;
-        damage = 60.0f;
+        damages = new List<float> { 100.0f, 200.0f, 300.0f };
     }
 
     public override IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
@@ -47,7 +47,7 @@ public class Katana : Weapon
             controller.Attack = true;
             controller.Combo = true;
             playerAttack.isHit = false;
-            playerAttack.damage = damage * damageMultiplier;
+            playerAttack.damage = damages[controller.AttackState - 1] * damageMultiplier;
             playerAttack.attackType = PlayerAttack.AttackType.Katana;
             isAttackCooldown = true;
             attackTimer = CustomTickTimer.CreateFromSeconds(runner, 1.0f / attackSpeed * cooldownMultiplier);

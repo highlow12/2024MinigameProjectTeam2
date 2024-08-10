@@ -45,7 +45,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossScale { get; set; }
-    [Networked] public float BossSpeed { get; set; }
+    [Networked] public float BossSpeed { get; set; } = 5.0f;
     [Networked] public NetworkObject FollowTarget { get; set; }
     [Networked] public BossState CurrentState { get; set; }
     [Networked] public Condition bossCondition { get; set; }
@@ -58,7 +58,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Local variables
     NetworkRigidbody2D _rb;
     Animator _animator;
-    public readonly float maxHealth = 1000.0f;
+    public readonly float maxHealth = 30000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
     public Image healthBar;
@@ -126,7 +126,14 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Player targeting coroutine
     IEnumerator SetTargetRecursive()
     {
-        yield return new WaitForSecondsRealtime(1.0f);
+        if (FollowTarget != null)
+        {
+            CustomTickTimer timer = CustomTickTimer.CreateFromSeconds(Runner, 10.0f);
+            while (!timer.Expired(Runner))
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
         var players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length > 0)
         {
@@ -198,7 +205,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         float attackLength = 1.2f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 10.0f;
+        bossAttack.damage = 50.0f;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
@@ -213,7 +220,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         float attackLength = 1.2f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 10.0f;
+        bossAttack.damage = 50.0f;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
@@ -242,7 +249,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         float attackLength = 1f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 10.0f;
+        bossAttack.damage = 50.0f;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))
         {
@@ -258,7 +265,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         float attackLength = 1.2f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 10.0f;
+        bossAttack.damage = 200.0f;
         Runner.Spawn(bossSwordEffect,
             transform.position + (Vector3)Vector2.up, quaternion.Euler(0, 0, 0),
             Object.InputAuthority, (runner, o) =>
@@ -284,7 +291,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 10.0f;
+        bossAttack.damage = 200.0f;
 
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
         while (!attackLengthTimer.Expired(Runner))

@@ -26,7 +26,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Capacity(10)]
     public NetworkDictionary<NetworkString<_16>, SkillStruct> SkillList { get; }
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
-    [Networked] public CustomTickTimer HealthRegenTickTimer { get; set; }
+    [Networked] public CustomTickTimer HealthRegenIntervalTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
     // Animator parameters
     [Networked] public int RunState { get; set; }
@@ -601,9 +601,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
         CharacterStatMultipliers.Set(GetMultiplierIndex("Damage", buff), damageMultiplier);
 
         // Apply health regen
-        if (Equals(HealthRegenTickTimer, default(CustomTickTimer)) || HealthRegenTickTimer.Expired(Runner))
+        if (Equals(HealthRegenIntervalTickTimer, default(CustomTickTimer)) || HealthRegenIntervalTickTimer.Expired(Runner))
         {
-            HealthRegenTickTimer = CustomTickTimer.CreateFromSeconds(Runner, auraBuffs.healthRegenDuration);
+            HealthRegenIntervalTickTimer = CustomTickTimer.CreateFromSeconds(Runner, auraBuffs.healthRegenInterval);
             CurrentHealth += auraBuffs.healthRegen;
         }
     }
