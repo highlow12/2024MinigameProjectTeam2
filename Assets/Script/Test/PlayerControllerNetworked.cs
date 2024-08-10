@@ -171,10 +171,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
     // Networked animation
     public override void Render()
     {
-        if (!HasStateAuthority)
-        {
-            return;
-        }
         _mecanim.Animator.SetBool("Grounded", Grounded);
         _mecanim.Animator.SetBool("Falling", Falling);
         _mecanim.Animator.SetInteger("RunState", RunState);
