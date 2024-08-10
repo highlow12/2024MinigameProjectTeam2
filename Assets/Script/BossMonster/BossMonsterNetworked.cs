@@ -67,6 +67,9 @@ public class BossMonsterNetworked : NetworkBehaviour
     public TextMeshProUGUI bossHealthText;
     public List<BossHitFeedbackEffect> BossHitFeedbackEffects = new();
     public NetworkObject bossSwordEffect;
+
+    public AudioClip[] audioClips;
+    private AudioSource Audio;
     void Awake()
     {
         _rb = GetComponent<NetworkRigidbody2D>();
@@ -75,6 +78,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         healthBar = GameObject.FindGameObjectWithTag("BossHealthUI").GetComponent<Image>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
         bossHealthText = GameObject.FindGameObjectWithTag("BossHealthText").GetComponent<TextMeshProUGUI>();
+        Audio = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -564,6 +568,18 @@ public class BossMonsterNetworked : NetworkBehaviour
     public void Rpc_OnBossHit(PlayerAttack.AttackData attack)
     {
         CurrentHealth -= attack.damage;
+        //play sound
+        switch (attack.attackType) 
+        {
+            case PlayerAttack.AttackType.Katana:
+
+                Audio.PlayOneShot(audioClips[0]);
+                break;
+            case PlayerAttack.AttackType.ProjectileOrShield:
+                Audio.PlayOneShot(audioClips[1]);
+                break;
+        }
+
         // call effect
         var oldestEffect = BossHitFeedbackEffects[0];
         foreach (var effect in BossHitFeedbackEffects)
