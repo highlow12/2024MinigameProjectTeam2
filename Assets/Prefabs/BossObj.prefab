@@ -1721,8 +1721,8 @@ MonoBehaviour:
   BossHitFeedbackEffects: []
   bossSwordEffect: {fileID: 3392484300069629984, guid: b1d5833ae75d0ee4ab20766621307a07, type: 3}
   audioClips:
-  - {fileID: 8300000, guid: 6ab44957304cc3347b1ccfe39b73ed13, type: 3}
-  - {fileID: 8300000, guid: 8d9000abb89d59340a7a8cc2c5c0cbcf, type: 3}
+  - {fileID: 8300000, guid: aaf68617f80fd734d95f6fc8c90b88b9, type: 3}
+  - {fileID: 8300000, guid: 133cecb013443874db92cb9bad567e0f, type: 3}
 --- !u!114 &5910259068244404599
 MonoBehaviour:
   m_ObjectHideFlags: 0
