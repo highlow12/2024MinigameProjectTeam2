@@ -185,11 +185,18 @@ public class TestBuffIndicator : MonoBehaviour
 
             buff.onOther = onOther;
             buff.gameObject.transform.localPosition = new Vector3(x, y, transform.position.z);
-            buff.gameObject.SetActive(true);
+            
             buff.UpdateLabel();
             cur++;
+            buff.gameObject.SetActive(true);
         }
 
         reqUpdated = false;
+    }
+
+    public float GetCurrentTime()
+    {
+        if (!player) return Time.time;
+        return player.Runner.RemoteRenderTime;
     }
 }

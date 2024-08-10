@@ -74,7 +74,7 @@ public class TestBuff : MonoBehaviour
     {
         if (onOther) return;
         if (info == null) return;
-        float now = Time.time;
+        float now = indicator.GetCurrentTime();
         if ((now - buff.startTime) > buff.duration)
         {
             if (buff.stacks > 1)

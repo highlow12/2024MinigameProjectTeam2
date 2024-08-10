@@ -16,7 +16,7 @@ public class LobbyUIController : MonoBehaviour
     public List<LobbyPlayerStatus> statuses = new List<LobbyPlayerStatus>();
     bool[] readys;
 
-    void Start()
+    void OnEnable()
     {
         btnTxt = readyButton.gameObject.GetComponentInChildren<TMP_Text>();
 

@@ -526,7 +526,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RPC_SetNickName(string nick)
     {
-        NickName = nick;
+        if (nick == string.Empty)
+        {
+            NickName = $"플레이어 {Player.AsIndex}";
+        }
+        else
+        {
+            NickName = nick;
+        }
     }
 
     private void NickNameChanged()
@@ -564,12 +571,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             type = (int)BuffTypes.Aura,
             stacks = 0,
-            startTime = Time.time,
-            duration = 0.5f,
+            startTime = Runner.RemoteRenderTime,
+            duration = 2f,
         };
         // Debug.Log($"Aura buff is exist: {!Equals(buffs.GetBuff(BuffTypes.Aura), default(Buff))}");
-        buffs.SetBuff(auraBuff);
         Buff buff = buffs.GetBuff(BuffTypes.Aura);
+        if (buff.type == 0) buffs.SetBuff(auraBuff);
         CharacterStatMultiplier attackSppedMultiplier = new()
         {
             name = "AttackSpeed",
