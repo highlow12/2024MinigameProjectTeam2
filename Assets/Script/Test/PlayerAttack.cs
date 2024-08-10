@@ -10,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
     {
         Katana = 1,
         ProjectileOrShield = 2,
+        
     }
     public AttackType attackType;
     public float damage;
