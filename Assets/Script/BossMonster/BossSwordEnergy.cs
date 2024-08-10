@@ -1,9 +1,11 @@
 using Fusion;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BossSwordEnergy : NetworkBehaviour
 {
     [Networked] private TickTimer life { get; set; }
+    public List<PlayerRef> playersHit = new();
     public int damage = 10;
     public float speed = 5;
     public float lifeSeconds = 3;
@@ -35,13 +37,17 @@ public class BossSwordEnergy : NetworkBehaviour
                         return;
                     }
                 }
-                
+                if (playersHit.Contains(player.Player))
+                {
+                    return;
+                }
                 BossAttack.AttackData attackData = new()
                 {
                     damage = damage
                 };
                 player.RPC_OnPlayerHit(attackData);
-                
+                playersHit.Add(player.Player);
+
             }
         }
     }

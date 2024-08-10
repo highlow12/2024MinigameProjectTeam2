@@ -268,14 +268,14 @@ public class BossMonsterNetworked : NetworkBehaviour
         _animator.SetTrigger("doAttack");
         float attackLength = 1.2f;
         // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 200.0f;
         Runner.Spawn(bossSwordEffect,
-            transform.position + (Vector3)Vector2.up, quaternion.Euler(0, 0, 0),
+            transform.position + ((Vector3)Vector2.up * 2), quaternion.Euler(0, 0, 0),
             Object.InputAuthority, (runner, o) =>
             {
                 // Initialize the Ball before synchronizing it
-                o.GetComponent<BossSwordEnergy>().Init();
+                var script = o.GetComponent<BossSwordEnergy>();
+                script.Init();
+                script.damage = 200;
             }
         );
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
@@ -569,7 +569,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         CurrentHealth -= attack.damage;
         //play sound
-        switch (attack.attackType) 
+        switch (attack.attackType)
         {
             case PlayerAttack.AttackType.Katana:
 
