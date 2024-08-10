@@ -13,7 +13,7 @@ public class HandleSettings : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        
     }
 
 

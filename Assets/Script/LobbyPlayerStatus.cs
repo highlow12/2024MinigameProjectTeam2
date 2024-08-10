@@ -28,7 +28,6 @@ public class LobbyPlayerStatus : MonoBehaviour
 
     public void Reset()
     {
-        Debug.Log("callasdssadsda");
         isLeader = false;
         isReady = false;
         nickName.text = "빈 자리";

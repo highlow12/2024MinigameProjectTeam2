@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fusion;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractiveUI : MonoBehaviour
 {
@@ -13,24 +14,27 @@ public class InteractiveUI : MonoBehaviour
     void Start()
     {
         _runner = NetworkRunner.Instances.First();
-
     }
 
     void Update()
     {
-        if (_localPlayerObject == null)
-        {
-            _runner.TryGetPlayerObject(_runner.LocalPlayer, out _localPlayerObject);
-        }
-        else if (localPlayerController == null)
+        if (_localPlayerObject) return;
+        if (_runner.TryGetPlayerObject(_runner.LocalPlayer, out _localPlayerObject))
         {
             localPlayerController = _localPlayerObject.GetComponent<PlayerControllerNetworked>();
         }
+    }
+
+    public void OnBackButtonClicked()
+    {
+        if (!_runner) return;
+        _runner.Disconnect(_runner.LocalPlayer);
+        Destroy(_runner.gameObject);
+        SceneManager.LoadScene("RoomSelect");
     }
 
     public void OnClassButtonClicked(int classTypeInt)
     {
         localPlayerController.RPC_SetClass(classTypeInt);
     }
-
 }
