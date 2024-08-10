@@ -27,7 +27,7 @@ public class Aura : NetworkBehaviour
         attackSpeedMultiplier = 1.2f,
         moveSpeedMultiplier = 1.15f,
         damageMultiplier = 1.3f,
-        healthRegen = 1f,
+        healthRegen = 20f,
         healthRegenInterval = 0.5f
     };
 

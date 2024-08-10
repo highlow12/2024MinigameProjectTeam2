@@ -58,7 +58,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Local variables
     NetworkRigidbody2D _rb;
     Animator _animator;
-    public readonly float maxHealth = 30000.0f;
+    public readonly float maxHealth = 70000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
     public Image healthBar;
@@ -128,7 +128,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         if (FollowTarget != null)
         {
-            CustomTickTimer timer = CustomTickTimer.CreateFromSeconds(Runner, 10.0f);
+            CustomTickTimer timer = CustomTickTimer.CreateFromSeconds(Runner, 5.0f);
             while (!timer.Expired(Runner))
             {
                 yield return new WaitForFixedUpdate();
