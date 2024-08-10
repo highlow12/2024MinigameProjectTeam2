@@ -13,6 +13,16 @@ public class InputManager : SimulationBehaviour
 
     private void Awake()
     {
+        var obj = FindObjectsOfType<InputManager>();
+        int instID = gameObject.GetInstanceID();
+        if (obj.Length > 1)
+        {
+            foreach (InputManager _ in obj)
+            {
+                if (instID != _.gameObject.GetInstanceID()) Destroy(_.gameObject);
+            }
+        }
+
         DontDestroyOnLoad(this);
     }
 
