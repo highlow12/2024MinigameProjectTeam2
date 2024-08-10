@@ -291,9 +291,9 @@ MonoBehaviour:
   attackSpeed: 0
   attackSpeedMultiplier: 1
   damageMultiplier: 1
-  _jumpHeight: 2
+  _jumpHeight: 10
   _timeToApex: 0.4
-  _DoubleJumpHeight: 2
+  _DoubleJumpHeight: 10
   _maxVelocity: 8
   _rollDuration: 0.5
   _rollDistance: 6

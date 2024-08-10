@@ -396,11 +396,13 @@ public class PlayerControllerNetworked : NetworkBehaviour
             // }
             void advanced_jump(float jumpHeight, float timeToApex = 0.5f)
             {
-                float gravity = (2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
+                /*float gravity = (2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
                 float initialJumpVelocity = Mathf.Sqrt(2 * gravity * jumpHeight);
 
                 _rb.Rigidbody.velocity = new Vector2(_rb.Rigidbody.velocity.x, initialJumpVelocity);
-                Physics.gravity = new Vector3(0, -gravity, 0);
+                Physics.gravity = new Vector3(0, -gravity, 0);*/
+
+                _rb.Rigidbody.velocity = new Vector2(_rb.Rigidbody.velocity.x, jumpHeight);
                 CoyoteTimeCD = true;
             }
             if (!IsGrounded && jump)
