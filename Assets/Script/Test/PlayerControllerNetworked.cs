@@ -176,7 +176,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _mecanim.Animator.SetInteger("RunState", RunState);
         _mecanim.Animator.SetInteger("AttackState", AttackState);
         _mecanim.Animator.SetFloat("AttackAnimSpeed", AttackAnimSpeed);
-        _mecanim.Animator.SetFloat("prevAttack", PrevAttack);
+        _mecanim.Animator.SetFloat("PrevAttack", PrevAttack);
         _mecanim.Animator.SetBool("Combo", Combo);
         _mecanim.Animator.SetBool("Attack", Attack);
         _mecanim.Animator.SetBool("Jump", P_Jump);

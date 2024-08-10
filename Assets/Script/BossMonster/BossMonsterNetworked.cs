@@ -170,7 +170,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
             _animator.SetInteger("walkState", 1);
             // Move the boss to the player until the distance is less than 2.5f
-            while (Math.Abs(distance) > 2.5f)
+            while (Math.Abs(distance) > 2.5f && isMoving)
             {
                 // Vector3 targetPos = FollowTarget.transform.position;
                 // targetPos.y = transform.position.y;
@@ -384,10 +384,13 @@ public class BossMonsterNetworked : NetworkBehaviour
             conditionDuration += Time.fixedDeltaTime;
             if (conditionDuration >= 5.0f)
             {
-                bossCondition |= Condition.RequireDurationUpdate;
                 attackType = AttackType.JumpDash;
                 CurrentState = BossState.Attack;
+                bossCondition |= Condition.RequireDurationUpdate;
+
+                isMoving = false;
             }
+
         }
         else
         {
@@ -481,7 +484,6 @@ public class BossMonsterNetworked : NetworkBehaviour
                         break;
                     case AttackType.JumpDash:
                         int attacktype1 = Random.Range(0, 1);
-
                         switch (attacktype1)
                         {
                             case (0):
