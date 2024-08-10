@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
-using System;
-using System.Linq;
-using ExitGames.Client.Photon.StructWrapping;
 
 public class PlayerBuffs : NetworkBehaviour
 {
@@ -30,18 +27,12 @@ public class PlayerBuffs : NetworkBehaviour
 
     public int GetIndex(int type)
     {
-        try
+        for (int i = 0; i < buffs.Length; i++)
         {
-            int index = buffs
-                .Select((x, i) => new { buff = x, index = i })
-                .Where(x => x.buff.type == type)
-                .First().index;
-            return index;
+            if (type == buffs[i].type) return i;
         }
-        catch (InvalidOperationException)
-        {
-            return -1;
-        }
+
+        return -1;
     }
 
     public int GetIndex(BuffTypes type)
@@ -70,7 +61,7 @@ public class PlayerBuffs : NetworkBehaviour
         if (timer.Expired(Runner))
         {
             timer = CustomTickTimer.CreateFromSeconds(Runner, 1f);
-            Debug.Log("Timer");
+            // Debug.Log("Timer");
         }
     }
 
@@ -107,28 +98,28 @@ public class PlayerBuffs : NetworkBehaviour
 
     public void Test()
     {
-        Buff a = new Buff
-        {
-            type = (int)BuffTypes.Burn,
-            duration = 10f,
-            stacks = 3,
-            startTime = Time.time
-        };
-        Buff b = new Buff
-        {
-            type = (int)BuffTypes.Blind,
-            duration = 5f,
-            stacks = 3,
-            startTime = Time.time
-        };
+        // Buff a = new Buff
+        // {
+        //     type = (int)BuffTypes.Burn,
+        //     duration = 10f,
+        //     stacks = 3,
+        //     startTime = Time.time
+        // };
+        // Buff b = new Buff
+        // {
+        //     type = (int)BuffTypes.Blind,
+        //     duration = 5f,
+        //     stacks = 3,
+        //     startTime = Time.time
+        // };
 
-        SetBuff(a);
-        SetBuff(b);
+        // SetBuff(a);
+        // SetBuff(b);
     }
 
     public void Test2()
     {
-        AddBuff(BuffTypes.Burn);
+        // AddBuff(BuffTypes.Burn);
     }
 
     public void AddBuff(BuffTypes type)
@@ -162,7 +153,7 @@ public class PlayerBuffs : NetworkBehaviour
     {
         int index = GetIndex(buff.type);
         if (index == -1) index = this.index;
-        Debug.Log($"SetBuff [{index}] = {buff.type}");
+        // Debug.Log($"SetBuff [{index}] = {buff.type}");
         RPC_SetBuff(index, buff);
     }
 
