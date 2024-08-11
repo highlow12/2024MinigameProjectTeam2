@@ -19,7 +19,7 @@ public class InteractiveUI : MonoBehaviour
     void Update()
     {
         if (_localPlayerObject) return;
-        if (_runner.TryGetPlayerObject(_runner.LocalPlayer, out _localPlayerObject))
+        if (_runner.TryGetPlayerObject(_runner.LocalPlayer, out _localPlayerObject) && localPlayerController == null)
         {
             localPlayerController = _localPlayerObject.GetComponent<PlayerControllerNetworked>();
         }

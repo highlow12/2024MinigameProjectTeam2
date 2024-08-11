@@ -404,7 +404,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (bossCondition.HasFlag(Condition.IsPlayerInFar))
         {
             conditionDuration += Time.fixedDeltaTime;
-            if (conditionDuration >= 3.0f)
+            if (conditionDuration >= 2.0f)
             {
                 attackType = AttackType.JumpDash;
                 CurrentState = BossState.Attack;
@@ -433,7 +433,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             if (CurrentState == BossState.Attack && isAttacking == true)
             {
                 Debug.Log("Set timer");
-                BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(2.0f, 3.5f));
+                BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(1.5f, 2.0f));
             }
         }
         UpdateAttribute();
@@ -619,7 +619,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         }
 
     }
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_PlaySond(PlayerAttack.AttackType a)
     {
         switch (a)
@@ -635,6 +635,15 @@ public class BossMonsterNetworked : NetworkBehaviour
                 break;
         }
     }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_ForceRetarget()
+    {
+        StopAllCoroutines();
+        FollowTarget = null;
+        StartCoroutine(SetTargetRecursive());
+    }
+
     public void UpdateHealthBarCallback()
     {
         if (healthBar != null)

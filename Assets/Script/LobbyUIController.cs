@@ -58,7 +58,7 @@ public class LobbyUIController : MonoBehaviour
             btnTxt.text = !controller.isReady ? "준비 취소" : "준비";
             controller.RPC_SetReadyStatus(!controller.isReady);
         }
-        BGMmanager.instance.playBossBGM();
+        //BGMmanager.instance.playBossBGM();
     }
 
     public void SetReady(PlayerRef player, bool _isReady)

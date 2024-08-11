@@ -596,13 +596,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             else
             {
                 PlayerLifes--;
-                // Game over
-                if (HasInputAuthority)
-                {
-                    CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
-                    camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
-                }
-                OtherPanelHPUpdate();
+                OtherPanelHpZero();
                 Runner.Despawn(GetComponent<NetworkObject>());
             }
 
@@ -786,6 +780,13 @@ public class PlayerControllerNetworked : NetworkBehaviour
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
     }
+    public void OtherPanelHpZero()
+    {
+        if (otherStatusPanel)
+        {
+            otherStatusPanel.SetHP(0, MaxHealth);
+        }
+    }
 
     void ReadyStatusChanged()
     {
@@ -809,7 +810,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_AllReadyAndStart()
     {
-        BGMmanager.instance.playBossBGM();
+        //BGMmanager.instance.playBossBGM();
         try
         {
             FindAnyObjectByType<LobbyUIController>().gameObject.SetActive(false);
