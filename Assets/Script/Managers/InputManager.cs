@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class InputManager : SimulationBehaviour
 {
+    public static InputManager Instance;
+
     bool _jump = false;
     bool _dash = false;
     bool _roll = false;
@@ -23,6 +25,7 @@ public class InputManager : SimulationBehaviour
             }
         }
 
+        Instance = this;
         DontDestroyOnLoad(this);
     }
 

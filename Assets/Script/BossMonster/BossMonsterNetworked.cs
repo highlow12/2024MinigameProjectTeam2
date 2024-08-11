@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Mathematics;
+using UnityEngine.SceneManagement;
 
 
 public class BossMonsterNetworked : NetworkBehaviour
@@ -122,6 +123,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             if (IsDead)
             {
                 CurrentState = BossState.Die;
+                RPC_Mission_Accomplished();
             }
             if (CurrentState != BossState.Die)
             {
@@ -674,4 +676,12 @@ public class BossMonsterNetworked : NetworkBehaviour
     //     }
     // }
 
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void RPC_Mission_Accomplished()
+    {
+        Runner.Disconnect(Runner.LocalPlayer);
+        Destroy(InputManager.Instance);
+        Destroy(Runner.gameObject);
+        SceneManager.LoadScene("Ending");
+    }
 }

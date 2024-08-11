@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossMonsterTest.unity
     guid: 727e42901661645289f48f7e644dc707
+  - enabled: 1
+    path: Assets/Scenes/Ending.unity
+    guid: ebb559fb306b940d1a525fe175642adb
   m_configObjects: {}
