@@ -596,13 +596,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             else
             {
                 PlayerLifes--;
-                // Game over
-                if (HasInputAuthority)
-                {
-                    CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
-                    camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
-                }
-                OtherPanelHPUpdate();
+                OtherPanelHpZero();
                 Runner.Despawn(GetComponent<NetworkObject>());
             }
 
@@ -784,6 +778,13 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (otherStatusPanel)
         {
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
+        }
+    }
+    public void OtherPanelHpZero()
+    {
+        if (otherStatusPanel)
+        {
+            otherStatusPanel.SetHP(0, MaxHealth);
         }
     }
 

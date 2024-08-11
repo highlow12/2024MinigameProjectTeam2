@@ -11,6 +11,8 @@ public class CameraMovement : MonoBehaviour
     public float cameraSpeed;
     public float groundWidth;
     public bool isBossJumping = false;
+    public bool isPlayerDead = false;
+    public bool isFollowBoss = false;
     void Start()
     {
     }
@@ -18,10 +20,24 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!isPlayerDead && followTarget)
+        {
+            var controller = followTarget.GetComponent<PlayerControllerNetworked>();
+            if (controller && controller.CurrentHealth <= 0)
+            {
+                isPlayerDead = true;
+            }
+        }
+        if (isPlayerDead && !isFollowBoss)
+        {
+            followTarget = GameObject.FindGameObjectWithTag("Boss");
+            isFollowBoss = true;
+        }
         if (!followTarget)
         {
             return;
         }
+
         // use Lerp to make smooth camera movement
         Vector3 targetPos = new(followTarget.transform.position.x, 0, transform.position.z);
         Camera.main.orthographicSize = isBossJumping ? 8f : 5f;
