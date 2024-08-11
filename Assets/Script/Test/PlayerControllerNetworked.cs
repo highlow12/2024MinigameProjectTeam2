@@ -763,6 +763,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_AllReadyAndStart()
     {
-        FindAnyObjectByType<LobbyUIController>().gameObject.SetActive(false);
+        BGMmanager.instance.playBossBGM();
+        try
+        {
+            FindAnyObjectByType<LobbyUIController>().gameObject.SetActive(false);
+        }
+        finally
+        {
+            
+        }
     }
 }

@@ -4,14 +4,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum VolumeKind
+{
+    Master,
+    Background,
+    SFX
+}
+
 public class VolumeComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
-
+    public VolumeKind kind;
     List<GameObject> elements = new List<GameObject>();
     Color32 ActiveColor = new Color32(124, 155, 123, 255);
     Color32 DefaultColor = new Color32(45, 65, 44, 255);
-    public int value = 5;
+    public float value = 5;
 
     void Awake()
     {
@@ -28,13 +34,18 @@ public class VolumeComponent : MonoBehaviour
                 trigger.triggers = triggers;
                 elements.Add(t.gameObject);
             }
-        }
-
-        SetVolume(value);
+        } 
     }
 
-    void SetVolume(int volume)
+    void Start()
     {
+        SetVolume(HandleSettings.Instance.GetVolume(kind));
+    }
+
+    public void SetVolume(float volume)
+    {
+        value = volume;
+        HandleSettings.Instance.SetVolume(kind, volume);
         for (int i = 0; i < elements.Count; i++)
         {
             if (i <= volume)

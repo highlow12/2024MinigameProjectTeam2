@@ -80,8 +80,6 @@ public class LobbyUIController : MonoBehaviour
                 btnTxt.text = "전투 시작";
             }
         }
-
-        BGMmanager.instance.playBossBGM();
     }
     
     public void SetClass(PlayerRef player, int classID)
