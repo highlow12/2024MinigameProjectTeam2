@@ -42,8 +42,18 @@ public class SFXManager : MonoBehaviour
 
     public void playSFX(AudioClip clip)
     {
-        var s = queue.Dequeue();
-        s.PlayOneShot(clip, vol);
-        queue.Enqueue(s);
+        if (queue.Count > 0)
+        {
+            var s = queue.Dequeue();
+            s.PlayOneShot(clip, vol);
+            queue.Enqueue(s);
+        }
+        else
+        {
+            foreach (AudioSource source in bgms)
+            {
+                queue.Enqueue(source);
+            }
+        }
     }
 }
