@@ -20,7 +20,7 @@ namespace Items
         public GameObject rangeObject;
         public NetworkObject skillObject;
         public PlayerControllerNetworked controller;
-        public bool isdraw = false;
+        public bool isDraw = false;
 
         public virtual IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
         {
@@ -32,11 +32,6 @@ namespace Items
             Debug.Log("DrawWeapon");
             yield return new WaitForSeconds(attackSpeed);
         }
-        public virtual IEnumerator FireProjectile(Animator anim, Transform character)
-        {
-            Debug.Log("Firing projectile");
-            yield return new WaitForSeconds(attackSpeed);
-        }
 
         public virtual void FireProjectileAlt(int state, Transform character)
         {
@@ -44,9 +39,15 @@ namespace Items
             return;
         }
 
-        public virtual IEnumerator Skill(Transform character)
+        public virtual IEnumerator Skill(Transform character, float duration)
         {
             Debug.Log("Using skill");
+            yield return new WaitForFixedUpdate();
+        }
+
+        public virtual IEnumerator Parry(Transform character)
+        {
+            Debug.Log("Parrying");
             yield return new WaitForFixedUpdate();
         }
 

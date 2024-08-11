@@ -22,8 +22,14 @@ public class Tank : CharacterClass
             coolDownTimer = default,
             duration = 10.0f
         };
+        var parry = new SkillStruct
+        {
+            coolDown = 3.0f,
+            coolDownTimer = default
+        };
         SkillList.Add("Roll", roll);
         SkillList.Add("Aura", aura);
+        SkillList.Add("Parry", parry);
     }
 
 }

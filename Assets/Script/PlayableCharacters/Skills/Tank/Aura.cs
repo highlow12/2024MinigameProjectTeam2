@@ -59,9 +59,20 @@ public class Aura : NetworkBehaviour
         }
     }
 
-    public void ToggleSkill()
+    public void EnableSkill(float duration)
     {
-        IsSkillEnabled = !IsSkillEnabled;
+        IsSkillEnabled = true;
+        StartCoroutine(DisableSkill(duration));
+    }
+
+    IEnumerator DisableSkill(float duration)
+    {
+        CustomTickTimer timer = CustomTickTimer.CreateFromSeconds(Runner, duration);
+        while (timer.Expired(Runner) == false)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        IsSkillEnabled = false;
     }
 
     void OnTriggerStay2D(Collider2D other)

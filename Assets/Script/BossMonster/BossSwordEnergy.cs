@@ -29,17 +29,18 @@ public class BossSwordEnergy : NetworkBehaviour
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();
             if (player)
             {
-                if (player.CharacterClass == (int)CharacterClassEnum.Tank)
-                {
-                    if (player.weapon.isdraw)
-                    {
-                        Runner.Despawn(Object);
-                        return;
-                    }
-                }
                 if (playersHit.Contains(player.Player))
                 {
                     return;
+                }
+                if (player.CharacterClass == (int)CharacterClassEnum.Tank)
+                {
+                    if (player.weapon.isDraw)
+                    {
+                        player.Skill();
+                        Runner.Despawn(Object);
+                        return;
+                    }
                 }
                 BossAttack.AttackData attackData = new()
                 {

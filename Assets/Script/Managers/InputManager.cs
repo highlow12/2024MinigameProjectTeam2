@@ -9,7 +9,7 @@ public class InputManager : SimulationBehaviour
     bool _dash = false;
     bool _roll = false;
     bool _attack = false;
-    bool _skill = false;
+    bool _parry = false;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class InputManager : SimulationBehaviour
         _dash = _dash || Input.GetKeyDown(KeyCode.C);
         _roll = _roll || Input.GetKeyDown(KeyCode.LeftShift);
         _attack = _attack || Input.GetKeyDown(KeyCode.Mouse0);
-        _skill = _skill || Input.GetKeyDown(KeyCode.R);
+        _parry = _parry || Input.GetKeyDown(KeyCode.R);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -66,8 +66,8 @@ public class InputManager : SimulationBehaviour
         _roll = false;
         data.buttons.Set(PlayerButtons.Attack, _attack);
         _attack = false;
-        data.buttons.Set(PlayerButtons.Skill, _skill);
-        _skill = false;
+        data.buttons.Set(PlayerButtons.Parry, _parry);
+        _parry = false;
 
         input.Set(data);
     }

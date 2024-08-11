@@ -39,6 +39,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public bool Attack { get; set; }
     [Networked] public bool P_Jump { get; set; }
     [Networked] public bool P_Roll { get; set; }
+    [Networked] public bool P_Parry { get; set; }
 
     [Networked]
     [Capacity(12)]
@@ -181,6 +182,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
         _mecanim.Animator.SetBool("Attack", Attack);
         _mecanim.Animator.SetBool("Jump", P_Jump);
         _mecanim.Animator.SetBool("Roll", P_Roll);
+        if (CharacterClass == (int)CharacterClassEnum.Tank)
+        {
+            _mecanim.Animator.SetBool("Parry", P_Parry);
+        }
         if (Attack)
         {
             Attack = false;
@@ -192,6 +197,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (P_Roll)
         {
             P_Roll = false;
+        }
+        if (P_Parry)
+        {
+            P_Parry = false;
         }
         base.Render();
     }
@@ -269,7 +278,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         Jump(_input.pressed.IsSet(PlayerButtons.Jump));
         BetterJumpLogic(_input.pressed.IsSet(PlayerButtons.Jump));
         Roll(_input.pressed.IsSet(PlayerButtons.Roll));
-        Skill(_input.pressed.IsSet(PlayerButtons.Skill));
+        Parry(_input.pressed.IsSet(PlayerButtons.Parry));
         // Run attack coroutine of weapon script directly
         if (_input.pressed.IsSet(PlayerButtons.Attack))
         {
@@ -348,27 +357,39 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
     }
 
-    private void Skill(bool skill)
+    public void Skill()
     {
         // now it is only for tank's skill
-        if (skill)
+        if (CharacterClass != (int)CharacterClassEnum.Tank)
         {
-            if (CharacterClass != (int)CharacterClassEnum.Tank)
-            {
-                return;
-            }
-            if (weapon.skillObject.GetComponent<Aura>().IsSkillEnabled)
-            {
-                // disable skill if it is enabled
-                StartCoroutine(weapon.Skill(gameObject.transform));
-            }
-            SkillStruct skillStruct = SkillList.Get("Aura");
+            return;
+        }
+        SkillStruct skillStruct = SkillList.Get("Aura");
+        CustomTickTimer cooldownTimer = skillStruct.coolDownTimer;
+        if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
+        {
+            skillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, skillStruct.coolDown);
+            SkillList.Set("Aura", skillStruct);
+            StartCoroutine(weapon.Skill(gameObject.transform, skillStruct.duration));
+        }
+        else
+        {
+            var remainingTime = (Runner.TickRate * skillStruct.coolDown - skillStruct.coolDownTimer.ElapsedTicks(Runner)) / 64;
+            Debug.Log($"Skill is on cooldown. Remaining time: {remainingTime}");
+        }
+    }
+
+    private void Parry(bool parry)
+    {
+        if (parry && CharacterClass == (int)CharacterClassEnum.Tank)
+        {
+            SkillStruct skillStruct = SkillList.Get("Parry");
             CustomTickTimer cooldownTimer = skillStruct.coolDownTimer;
             if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
             {
                 skillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, skillStruct.coolDown);
-                SkillList.Set("Aura", skillStruct);
-                StartCoroutine(weapon.Skill(gameObject.transform));
+                SkillList.Set("Parry", skillStruct);
+                StartCoroutine(weapon.Parry(gameObject.transform));
             }
             else
             {
@@ -579,6 +600,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         // Debug.Log($"Aura buff is exist: {!Equals(buffs.GetBuff(BuffTypes.Aura), default(Buff))}");
         Buff buff = buffs.GetBuff(BuffTypes.Aura);
         if (buff.type == 0) buffs.SetBuff(auraBuff);
+        buff = buffs.GetBuff(BuffTypes.Aura);
         CharacterStatMultiplier attackSppedMultiplier = new()
         {
             name = "AttackSpeed",
@@ -683,6 +705,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         for (int i = 0; i < CharacterStatMultipliers.Length; i++)
         {
             var multiplier = CharacterStatMultipliers.Get(i);
+            Debug.Log($"{multiplier.buff.type} {buff.type}");
             if (Equals(multiplier, default(CharacterStatMultiplier)))
             {
                 continue;
@@ -770,7 +793,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
         finally
         {
-            
+
         }
     }
 }

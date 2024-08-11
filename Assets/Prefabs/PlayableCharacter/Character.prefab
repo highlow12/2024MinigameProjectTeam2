@@ -273,6 +273,7 @@ MonoBehaviour:
   _Attack: 0
   _P_Jump: 0
   _P_Roll: 0
+  _P_Parry: 0
   _CharacterStatMultipliers: []
   rangeObject: {fileID: 2034205710801385902}
   buffs: {fileID: 0}
@@ -322,7 +323,7 @@ MonoBehaviour:
   TotalWords: 5
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000002b1a167c7940695528a981077af3fe2e22ff2dfda6dcfb1298ae24641c8df28b0e9e23138abdf5fc20e23b685928a8ce3270625b602a1d72f09d878ea2c7f8a7
+  StateHashes: 000000002b1a167c7940695528a981077af3fe2e22ff2dfda6dcfb1298ae24641c8df28b0e9e23138abdf5fc20e23b685928a8ce3270625b602a1d72f09d878ea2c7f8a762c60e1ee089429b
   TriggerHashes: 00000000
 --- !u!114 &1480438031989536432
 MonoBehaviour:

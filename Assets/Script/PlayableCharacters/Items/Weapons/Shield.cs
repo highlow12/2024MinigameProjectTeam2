@@ -173,18 +173,26 @@ public class Shield : Weapon
         }
     }
 
-    public override IEnumerator Skill(Transform character)
+    public override IEnumerator Skill(Transform character, float duration)
     {
         // Toggle skill by calling ToggleSkill method from Aura script
-        skillObject.GetComponent<Aura>().ToggleSkill();
+        skillObject.GetComponent<Aura>().EnableSkill(duration);
         yield return new WaitForFixedUpdate();
     }
 
-    public override IEnumerator DrawWeapon(Animator anim, NetworkMecanimAnimator mecanim, Transform character)
+    public override IEnumerator Parry(Transform character)
     {
-        isdraw = true;
-        yield return new WaitForSeconds(attackSpeed);
-        isdraw = false;
+        // Parry duration: 0.5s
+        isDraw = true;
+        controller.P_Parry = true;
+        CustomTickTimer timer = CustomTickTimer.CreateFromSeconds(NetworkRunner.Instances.First(), 0.5f);
+        while (timer.Expired(NetworkRunner.Instances.First()) == false)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        isDraw = false;
     }
+
+
 
 }

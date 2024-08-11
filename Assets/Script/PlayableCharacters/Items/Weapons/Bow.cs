@@ -129,20 +129,20 @@ public class Bow : Weapon
         }
     }
 
-    public override IEnumerator FireProjectile(Animator anim, Transform character)
-    {
-        if (controller.AttackState == 2)
-        {
-            MultiShot(character);
-            yield return null;
-        }
-        else
-        {
-            RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero, damage, range);
-            RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
-            yield return null;
-        }
-    }
+    // public override IEnumerator FireProjectile(Animator anim, Transform character)
+    // {
+    //     if (controller.AttackState == 2)
+    //     {
+    //         MultiShot(character);
+    //         yield return null;
+    //     }
+    //     else
+    //     {
+    //         RPC_SpawnProjectile(character, new Vector3(0, 1.5f), Vector3.zero, damage, range);
+    //         RPC_SpawnEffect(1, character, new Vector3(0.3f, -0.1f, 0), Vector3.zero);
+    //         yield return null;
+    //     }
+    // }
 
     public void MultiShot(Transform character)
     {
