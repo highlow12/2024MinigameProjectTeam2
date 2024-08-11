@@ -32,6 +32,7 @@ public class UIController : MonoBehaviour
         }
 
         dropdown.value = HandleSettings.Instance.resolutionIndex;
+        fullscreen.isOn = HandleSettings.Instance.fullscreen;
     }
 
     public void SetResolution()

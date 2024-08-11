@@ -153,6 +153,8 @@ public class HandleSettings : MonoBehaviour
 
     public void SetResolution(int index, int width, int height, bool fullscreen)
     {
+        if (width < 1280) width = 1280;
+        if (height < 720) height = 720;
         SetConf("resolutionIndex", index);
         SetConf("width", width);
         SetConf("height", height);
