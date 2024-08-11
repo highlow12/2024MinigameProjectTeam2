@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -86,7 +85,7 @@ public class HandleSettings : MonoBehaviour
         if (kind == VolumeKind.Master) masterVolume = value;
         else if (kind == VolumeKind.Background) backgroundVolume = value;
         else if (kind == VolumeKind.SFX) effectVolume = value;
-        
+
         SetConf(kind, value);
         BGMmanager.instance.SetVolume(masterVolume, backgroundVolume);
         SFXManager.instance.SetVolume(masterVolume, effectVolume);

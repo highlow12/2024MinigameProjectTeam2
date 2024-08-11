@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 public class BGMmanager : MonoBehaviour
@@ -9,8 +5,8 @@ public class BGMmanager : MonoBehaviour
     float volume = 0f;
     private static BGMmanager Instance = null;
     static public BGMmanager instance
-    { 
-        get 
+    {
+        get
         {
             if (Instance == null) { return null; }
             else { return Instance; }
@@ -27,7 +23,8 @@ public class BGMmanager : MonoBehaviour
             Instance = this;
             bgm = gameObject.AddComponent<AudioSource>();
         }
-        else {
+        else
+        {
             // Destroy(gameObject);
         }
     }
