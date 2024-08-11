@@ -87,7 +87,7 @@ public class AuraBuff : BasicBuff
         type = BuffTypes.Aura;
         name = "아우라";
         description = "아우라 안에 있으면 공격 속도, 이동 속도, 가하는 데미지가 상승하고 체력을 주기적으로 회복합니다.";
-
+        icon = BuffIcons.GetIcon(type);
         effects = new float[4];
         effects[(int)BuffEffects.atkboost] = 1.3f;
         effects[(int)BuffEffects.atkspeed] = 1.2f;
@@ -177,7 +177,7 @@ public class TestBuffIndicator : MonoBehaviour
             float x = 0;
             float y = 0;
             if (cur > 0) x = cur * ((2 * size) + margin);
-            if (onOther) y = - size - margin;
+            if (onOther) y = -size - margin;
             if (invert) x *= -1;
 
             RectTransform rt = buff.gameObject.GetComponent<RectTransform>();
@@ -185,7 +185,7 @@ public class TestBuffIndicator : MonoBehaviour
 
             buff.onOther = onOther;
             buff.gameObject.transform.localPosition = new Vector3(x, y, transform.position.z);
-            
+
             buff.UpdateLabel();
             cur++;
             buff.gameObject.SetActive(true);
