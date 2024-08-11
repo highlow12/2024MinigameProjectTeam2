@@ -42,6 +42,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
 
     // Networked variables
+    [Networked] public bool IsDead { get; set; }
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossScale { get; set; }
@@ -118,7 +119,14 @@ public class BossMonsterNetworked : NetworkBehaviour
             {
                 return;
             }
-            BossBehaviour();
+            if (IsDead)
+            {
+                CurrentState = BossState.Die;
+            }
+            if (CurrentState != BossState.Die)
+            {
+                BossBehaviour();
+            }
         }
         if (!BGMmanager.instance.isBossBGM())
         {
@@ -610,8 +618,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         oldestEffect.PlayEffect();
         if (Runner.IsSceneAuthority && CurrentHealth <= 0)
         {
-            Debug.Log("dead");
-            // bossDead();
+            BossDead();
         }
 
     }
@@ -652,9 +659,9 @@ public class BossMonsterNetworked : NetworkBehaviour
         SFXManager.instance.playSFX(audioClips[4]);
     }
 
-    public void bossDead()
+    public void BossDead()
     {
-        Runner.LoadScene(SceneRef.FromIndex(0));
+        IsDead = true;
     }
     // TriggerEvent for player attack
     // void OnTriggerEnter2D(Collider2D other)
