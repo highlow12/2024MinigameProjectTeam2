@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 5be02ecc3a11a4cb789a6ff4845e7899, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 6c9a43f2d2c9545deb244aae9c5a496d, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 9194794a8547d426c86b06c9357a9e85, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -4094,8 +4094,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.07857144, y: 0.2442857, z: 0}
-    m_Extent: {x: 1.2185714, y: 2.1385713, z: 0}
+    m_Center: {x: 0.078125, y: 0.24553573, z: 0}
+    m_Extent: {x: 1.2388391, y: 2.1651783, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -13090,7 +13090,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 21.923973, y: 21.560001}
+    oldSize: {x: 21.92, y: 21.5775}
     newSize: {x: 21.923973, y: 21.560001}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -13544,7 +13544,6 @@ MonoBehaviour:
   - {fileID: 373075823}
   - {fileID: 1203761843}
   clip: []
-  vol: 1
 --- !u!1 &1761978305
 GameObject:
   m_ObjectHideFlags: 0
@@ -14760,8 +14759,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.71188664, y: -0.3479147, z: 0}
-    m_Extent: {x: 8.023446, y: 8.419534, z: 0}
+    m_Center: {x: 0.70640635, y: -0.34249973, z: 0}
+    m_Extent: {x: 8.112968, y: 8.519688, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
