@@ -9,9 +9,9 @@ public class HandleSettings : MonoBehaviour
 {
     public static HandleSettings Instance;
 
-    public float masterVolume = 1;
-    public float backgroundVolume = 0.5f;
-    public float effectVolume = 0.5f;
+    public float masterVolume = 9;
+    public float backgroundVolume = 5;
+    public float effectVolume = 5;
 
     public int resolutionIndex = 0;
     public int width = 1280;
@@ -27,12 +27,12 @@ public class HandleSettings : MonoBehaviour
         return "";
     }
 
-    float LoadConf(VolumeKind kind, ref float _var, float defaultValue)
+    public float LoadConf(VolumeKind kind, ref float _var, float defaultValue)
     {
         return LoadConf(GetKey(kind), ref _var, defaultValue);
     }
 
-    float LoadConf(string key, ref float _var, float defaultValue)
+    public float LoadConf(string key, ref float _var, float defaultValue)
     {
         if (PlayerPrefs.HasKey(key))
         {
@@ -47,7 +47,7 @@ public class HandleSettings : MonoBehaviour
         return _var;
     }
 
-    int LoadConf(string key, ref int _var, int defaultValue)
+    public int LoadConf(string key, ref int _var, int defaultValue)
     {
         if (PlayerPrefs.HasKey(key))
         {
@@ -62,22 +62,18 @@ public class HandleSettings : MonoBehaviour
         return _var;
     }
 
-    bool LoadConf(string key, ref bool _var, bool defaultValue)
+    public bool LoadConf(string key, ref bool _var, bool defaultValue)
     {
+        Debug.Log($"BOBOBOBOBOBLLLL {PlayerPrefs.GetInt(key)}");
+        int _def = defaultValue ? 1 : 0;
         if (PlayerPrefs.HasKey(key))
         {
-            if (bool.TryParse(PlayerPrefs.GetString(key), out bool value))
-            {
-                _var = value;
-            }
-            else
-            {
-                _var = false;
-            }
+            _var = PlayerPrefs.GetInt(key) >= 1 ? true : false;
+
         }
         else
         {
-            PlayerPrefs.SetString(key, defaultValue.ToString());
+            PlayerPrefs.SetInt(key, _def);
         }
 
         return _var;
@@ -96,13 +92,14 @@ public class HandleSettings : MonoBehaviour
 
     bool SetConf(string key, bool value)
     {
-        PlayerPrefs.SetString(key, value.ToString());
+        Debug.Log($"{key} {value}");
+        PlayerPrefs.SetInt(key, value ? 1 : 0);
         return value;
     }
 
     int SetConf(string key, int value)
     {
-        PlayerPrefs.SetString(key, value.ToString());
+        PlayerPrefs.SetInt(key, value);
         return value;
     }
 
@@ -151,11 +148,17 @@ public class HandleSettings : MonoBehaviour
         SFXManager.instance.SetVolume(masterVolume, effectVolume);
     }
 
-    public void SetResolution(int index, int width, int height, bool fullscreen)
+    public void SetResolution(int _index, int _width, int _height, bool _fullscreen)
     {
-        if (width < 1280) width = 1280;
-        if (height < 720) height = 720;
-        SetConf("resolutionIndex", index);
+        if (_width < 1280) _width = 1280;
+        if (_height < 720) _height = 720;
+
+        resolutionIndex = _index;
+        width = _width;
+        height = _height;
+        fullscreen = _fullscreen;
+
+        SetConf("resolutionIndex", resolutionIndex);
         SetConf("width", width);
         SetConf("height", height);
         SetConf("fullscreen", fullscreen);

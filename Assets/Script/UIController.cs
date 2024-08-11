@@ -14,6 +14,8 @@ public class UIController : MonoBehaviour
     [SerializeField] Toggle fullscreen;
 
     Resolution[] resolutions;
+
+    bool firstInit = true;
     
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,11 @@ public class UIController : MonoBehaviour
 
     public void SetResolution()
     {
+        if (firstInit) 
+        {
+            firstInit = false;
+            return;
+        }
         Resolution res = resolutions[dropdown.value];
         HandleSettings.Instance.SetResolution(dropdown.value, res.width, res.height, fullscreen.isOn);
     }

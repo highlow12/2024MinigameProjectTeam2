@@ -15,6 +15,8 @@ public class MainUIController : MonoBehaviour
         {
             DontDestroyOnLoad(this);
         }
+
+        Application.targetFrameRate = 64;
     }
 
     public void Shutdown()

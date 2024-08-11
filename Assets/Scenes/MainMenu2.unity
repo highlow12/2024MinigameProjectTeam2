@@ -7702,6 +7702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8db07a3183d8445285346e5c592f357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handler: {fileID: 1437385556}
   pausePanel: {fileID: 3964606}
   settingPanel: {fileID: 2121230102}
   dropdown: {fileID: 184066742}
