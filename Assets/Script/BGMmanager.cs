@@ -6,6 +6,7 @@ using UnityEngine;
 
 public  class BGMmanager : MonoBehaviour
 {
+    public float vol = .3f;
     private static BGMmanager Instance = null;
     static public BGMmanager instance
     { 
@@ -45,6 +46,10 @@ public  class BGMmanager : MonoBehaviour
             bgm.clip = clip[0];
             bgm.Play();
         }
+    }
+    private void Update()
+    {
+        bgm.volume = vol;
     }
     public void playBossBGM()
     {
