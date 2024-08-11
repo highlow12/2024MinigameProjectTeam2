@@ -402,7 +402,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (bossCondition.HasFlag(Condition.IsPlayerInFar))
         {
             conditionDuration += Time.fixedDeltaTime;
-            if (conditionDuration >= 5.0f)
+            if (conditionDuration >= 3.0f)
             {
                 attackType = AttackType.JumpDash;
                 CurrentState = BossState.Attack;

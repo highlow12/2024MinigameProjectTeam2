@@ -45,6 +45,7 @@ public class BossAttack : MonoBehaviour
                 {
                     return;
                 }
+                playersHit.Add(player.Player);
                 if (player.CharacterClass == (int)CharacterClassEnum.Tank)
                 {
                     if (player.weapon.isDraw)
@@ -59,7 +60,6 @@ public class BossAttack : MonoBehaviour
                     damage = damage
                 };
                 player.RPC_OnPlayerHit(attackData);
-                playersHit.Add(player.Player);
             }
         }
     }

@@ -34,6 +34,7 @@ public class BossSwordEnergy : NetworkBehaviour
                 {
                     return;
                 }
+                playersHit.Add(player.Player);
                 if (player.CharacterClass == (int)CharacterClassEnum.Tank)
                 {
                     if (player.weapon.isDraw)
@@ -49,7 +50,6 @@ public class BossSwordEnergy : NetworkBehaviour
                     damage = damage
                 };
                 player.RPC_OnPlayerHit(attackData);
-                playersHit.Add(player.Player);
 
             }
         }

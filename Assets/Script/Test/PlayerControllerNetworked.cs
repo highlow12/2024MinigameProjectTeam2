@@ -602,7 +602,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
                     CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
                     camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
                 }
-                otherStatusPanel.gameObject.SetActive(false);
+                OtherPanelHPUpdate();
                 Runner.Despawn(GetComponent<NetworkObject>());
             }
 
