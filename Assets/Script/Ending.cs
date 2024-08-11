@@ -18,7 +18,7 @@ public class Ending : MonoBehaviour
         Skip();
     }
 
-    void Skip()
+    public void Skip()
     {
         SceneManager.LoadScene("MainMenu2");
     }
