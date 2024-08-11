@@ -13,7 +13,7 @@ public class Katana : Weapon
     public Katana(float attackSpeed)
     {
         this.attackSpeed = attackSpeed;
-        damages = new List<float> { 100.0f, 200.0f, 300.0f };
+        damages = new List<float> { 100.0f, 200.0f, 75.0f };
     }
 
     public override IEnumerator Attack(Animator anim, NetworkMecanimAnimator mecanim, Transform character)

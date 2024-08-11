@@ -9,7 +9,7 @@ public class Knight : CharacterClass
     {
         maxHealth = 1000.0f;
         attackSpeed = 2.0f;
-        moveSpeed = 12f;
+        moveSpeed = 8f;
         weapon = new Katana(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("KnightAnimator");
         var roll = new SkillStruct

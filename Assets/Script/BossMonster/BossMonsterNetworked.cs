@@ -227,7 +227,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
-        bossAttack.damage = 0.0f;
         yield return null;
     }
     public IEnumerator bothAttack()
@@ -254,7 +253,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
-        bossAttack.damage = 0.0f;
         BossScale *= -1;
         yield return null;
     }
@@ -271,7 +269,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
-        bossAttack.damage = 0.0f;
         BossScale *= -1;
         yield return null;
     }
@@ -289,7 +286,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 // Initialize the Ball before synchronizing it
                 var script = o.GetComponent<BossSwordEnergy>();
                 script.Init();
-                script.damage = 200;
+                script.damage = 100;
             }
         );
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
@@ -297,7 +294,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
-        bossAttack.damage = 0.0f;
         yield return null;
     }
 
@@ -349,7 +345,6 @@ public class BossMonsterNetworked : NetworkBehaviour
             //if(_animator.)
             yield return new WaitForFixedUpdate();
         }
-        bossAttack.damage = 0.0f;
         yield return null;
     }
     /*

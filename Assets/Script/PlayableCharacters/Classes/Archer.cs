@@ -10,7 +10,7 @@ public class Archer : CharacterClass
     {
         maxHealth = 800.0f;
         attackSpeed = 1.3f;
-        moveSpeed = 15f;
+        moveSpeed = 9f;
         weapon = new Bow(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("ArcherAnimator");
         var roll = new SkillStruct

@@ -8,7 +8,7 @@ public class Tank : CharacterClass
     {
         maxHealth = 1200.0f;
         attackSpeed = 1.6f;
-        moveSpeed = 10f;
+        moveSpeed = 7f;
         weapon = new Shield(attackSpeed);
         characterAnimator = Resources.Load<RuntimeAnimatorController>("TankAnimator");
         var roll = new SkillStruct
