@@ -573,10 +573,10 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             case PlayerAttack.AttackType.Katana:
 
-                Audio.PlayOneShot(audioClips[0]);
+                //Audio.PlayOneShot(audioClips[0]);
                 break;
             case PlayerAttack.AttackType.ProjectileOrShield:
-                Audio.PlayOneShot(audioClips[1]);
+                //Audio.PlayOneShot(audioClips[1]);
                 break;
         }
 
@@ -606,6 +606,20 @@ public class BossMonsterNetworked : NetworkBehaviour
             // bossDead();
         }
 
+    }
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void playSFX(PlayerAttack.AttackType a)
+    {
+        switch (a)
+        {
+            case PlayerAttack.AttackType.Katana:
+
+                SFXManager.instance.playSFX(audioClips[0]);
+                break;
+            case PlayerAttack.AttackType.ProjectileOrShield:
+                SFXManager.instance.playSFX(audioClips[1]);
+                break;
+        }
     }
 
     public void UpdateHealthBarCallback()
