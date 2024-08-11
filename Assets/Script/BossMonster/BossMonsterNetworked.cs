@@ -120,6 +120,10 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
             BossBehaviour();
         }
+        if (!BGMmanager.instance.isBossBGM())
+        {
+            BGMmanager.instance.playBossBGM();
+        }
     }
     // Networked animation
     public override void Render()
