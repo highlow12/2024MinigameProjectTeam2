@@ -14,7 +14,7 @@ public class Knight : CharacterClass
         characterAnimator = Resources.Load<RuntimeAnimatorController>("KnightAnimator");
         var roll = new SkillStruct
         {
-            coolDown = 5.0f,
+            coolDown = 0.0f,
             coolDownTimer = default
         };
         SkillList.Add("Roll", roll);

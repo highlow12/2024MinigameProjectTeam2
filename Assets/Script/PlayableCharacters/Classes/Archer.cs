@@ -15,7 +15,7 @@ public class Archer : CharacterClass
         characterAnimator = Resources.Load<RuntimeAnimatorController>("ArcherAnimator");
         var roll = new SkillStruct
         {
-            coolDown = 5.0f,
+            coolDown = 0.0f,
             coolDownTimer = default
         };
         SkillList.Add("Roll", roll);
