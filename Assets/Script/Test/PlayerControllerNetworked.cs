@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 
@@ -598,8 +597,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 PlayerLifes--;
                 // Game over
-                CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
-                camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
+                if (HasInputAuthority)
+                {
+                    CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
+                    camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
+                }
+                otherStatusPanel.gameObject.SetActive(false);
                 Runner.Despawn(GetComponent<NetworkObject>());
             }
 
