@@ -639,7 +639,18 @@ public class BossMonsterNetworked : NetworkBehaviour
             bossHealthText.text = $"{CurrentHealth} / {maxHealth}";
         }
     }
-
+    public void attackSound1()
+    {
+        SFXManager.instance.playSFX(audioClips[2]);
+    }
+    public void attackSound2()
+    {
+        SFXManager.instance.playSFX(audioClips[3]);
+    }
+    public void attackSound3()
+    {
+        SFXManager.instance.playSFX(audioClips[4]);
+    }
 
     public void bossDead()
     {

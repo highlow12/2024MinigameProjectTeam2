@@ -45,7 +45,7 @@ public class SFXManager : MonoBehaviour
         if (queue.Count > 0)
         {
             var s = queue.Dequeue();
-            s.PlayOneShot(clip, volume);
+            s.PlayOneShot(clip);
             queue.Enqueue(s);
         }
         else
