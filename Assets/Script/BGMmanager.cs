@@ -43,6 +43,7 @@ public class BGMmanager : MonoBehaviour
         if (index >= clip.Length) return;
         bgm.clip = clip[index];
         bgm.volume = volume;
+        bgm.loop = true;
         bgm.Play();
     }
 
