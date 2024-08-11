@@ -688,9 +688,9 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     void RPC_Mission_Accomplished()
     {
+        SceneManager.LoadScene("Ending");
         Runner.Disconnect(Runner.LocalPlayer);
         Destroy(InputManager.Instance);
         Destroy(Runner.gameObject);
-        SceneManager.LoadScene("Ending");
     }
 }
