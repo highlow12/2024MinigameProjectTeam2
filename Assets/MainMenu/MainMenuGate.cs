@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class MainMenuGate : MonoBehaviour
 {
+    [SerializeField] GameObject loading;
     SpriteRenderer sr;
     List<Light2D> childrens = new List<Light2D>();
     public GameObject trigger;
@@ -36,6 +37,7 @@ public class MainMenuGate : MonoBehaviour
 
     public void ShowGate()
     {
+        loading.SetActive(true);
         StartCoroutine("Dissolve");
     }
 
@@ -52,12 +54,14 @@ public class MainMenuGate : MonoBehaviour
         canMove = true;
         while (true)
         {
-            x += 0.0085f;
+            x += 0.0080f;
             sr.material.SetFloat("_Delta", x);
             yield return new WaitForSeconds(0.01f);
 
             if (x > 1f) break;
         }
+
+        loading.SetActive(false);
 
         foreach (Light2D children in childrens)
         {
