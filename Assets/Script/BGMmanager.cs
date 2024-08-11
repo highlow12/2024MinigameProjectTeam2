@@ -57,5 +57,8 @@ public  class BGMmanager : MonoBehaviour
         bgm.clip = clip[0];
         bgm.Play();
     }
-
+    public bool isBossBGM()
+    {
+        return bgm.clip == clip[1];
+    }
 }
