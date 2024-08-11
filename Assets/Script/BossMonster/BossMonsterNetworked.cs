@@ -271,9 +271,11 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         _animator.SetTrigger("doAttack");
         float attackLength = 1.2f;
+        Vector3 yOffset = ((Vector3)Vector2.up * 2);
+        Vector3 xOffset = BossScale > 0 ? Vector3.left : Vector3.right;
         // attack logic by animation event required
         Runner.Spawn(bossSwordEffect,
-            transform.position + ((Vector3)Vector2.up * 2), quaternion.Euler(0, 0, 0),
+            transform.position + yOffset + xOffset, quaternion.Euler(0, 0, 0),
             Object.InputAuthority, (runner, o) =>
             {
                 // Initialize the Ball before synchronizing it
