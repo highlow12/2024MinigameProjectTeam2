@@ -2032,6 +2032,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 6749446694940192562}
     m_Modifications:
     - target: {fileID: 730972918709224068, guid: 944c13e076e1c47f4b236051a76dc1ab, type: 3}
+      propertyPath: attackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d8d7ef7e3d6efa6419506f98434b71c9, type: 3}
+    - target: {fileID: 730972918709224068, guid: 944c13e076e1c47f4b236051a76dc1ab, type: 3}
       propertyPath: attackCollider
       value: 
       objectReference: {fileID: 9189332673229934179}

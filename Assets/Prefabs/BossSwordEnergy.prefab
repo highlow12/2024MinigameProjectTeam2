@@ -144,9 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889acb2631d27ee4cad6267e81865de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playersHit: []
   damage: 10
   speed: 5
   lifeSeconds: 3
+  attackClip: {fileID: 8300000, guid: d8d7ef7e3d6efa6419506f98434b71c9, type: 3}
 --- !u!114 &-3817756549026474803
 MonoBehaviour:
   m_ObjectHideFlags: 0

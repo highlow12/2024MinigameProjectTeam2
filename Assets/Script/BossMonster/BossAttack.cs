@@ -9,6 +9,7 @@ public class BossAttack : MonoBehaviour
     public float damage;
     public Collider2D attackCollider;
     public List<PlayerRef> playersHit = new();
+    public AudioClip attackClip;
     [System.Serializable]
     public struct AttackData : INetworkStruct
     {
@@ -49,6 +50,7 @@ public class BossAttack : MonoBehaviour
                     if (player.weapon.isDraw)
                     {
                         player.Skill();
+                        SFXManager.instance.playSFX(attackClip);
                         return;
                     }
                 }

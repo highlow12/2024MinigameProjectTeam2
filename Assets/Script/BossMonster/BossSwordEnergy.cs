@@ -9,6 +9,7 @@ public class BossSwordEnergy : NetworkBehaviour
     public int damage = 10;
     public float speed = 5;
     public float lifeSeconds = 3;
+    public AudioClip attackClip;
     public void Init()
     {
         life = TickTimer.CreateFromSeconds(Runner, lifeSeconds);
@@ -39,6 +40,7 @@ public class BossSwordEnergy : NetworkBehaviour
                     {
                         player.Skill();
                         Runner.Despawn(Object);
+                        SFXManager.instance.playSFX(attackClip);
                         return;
                     }
                 }
