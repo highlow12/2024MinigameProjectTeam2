@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
+    [Networked] public int PlayerLifes { get; set; } = 2;
     [Networked] public bool isLeader { get; set; } = false;
     [Networked, OnChangedRender(nameof(ReadyStatusChanged))] public bool isReady { get; set; } = false;
     [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> NickName { get; set; }
@@ -584,6 +585,25 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public void RPC_OnPlayerHit(BossAttack.AttackData attackData)
     {
         CurrentHealth -= attackData.damage;
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+            // Revive when player lifes remain
+            if (PlayerLifes - 1 > 0)
+            {
+                PlayerLifes--;
+                CurrentHealth = MaxHealth;
+            }
+            else
+            {
+                PlayerLifes--;
+                // Game over
+                CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
+                camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
+                Runner.Despawn(GetComponent<NetworkObject>());
+            }
+
+        }
     }
 
     // RPC function to apply aura buffs

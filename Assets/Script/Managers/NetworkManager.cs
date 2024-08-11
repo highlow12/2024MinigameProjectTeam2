@@ -79,7 +79,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
             PlayerControllerNetworked controller = networkCharacterObject.GetComponent<PlayerControllerNetworked>();
             controller.Player = player;
-            if (player == runner.LocalPlayer) 
+            if (player == runner.LocalPlayer)
             {
                 controller.isLeader = true;
                 controller.isReady = true;
