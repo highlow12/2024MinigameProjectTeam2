@@ -31,6 +31,7 @@ public class CameraMovement : MonoBehaviour
         if (isPlayerDead && !isFollowBoss)
         {
             followTarget = GameObject.FindGameObjectWithTag("Boss");
+            followTarget.GetComponent<BossMonsterNetworked>().RPC_ForceRetarget();
             isFollowBoss = true;
         }
         if (!followTarget)

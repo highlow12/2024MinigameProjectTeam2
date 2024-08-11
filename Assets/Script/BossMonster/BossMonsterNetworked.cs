@@ -635,6 +635,15 @@ public class BossMonsterNetworked : NetworkBehaviour
                 break;
         }
     }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_ForceRetarget()
+    {
+        StopAllCoroutines();
+        FollowTarget = null;
+        StartCoroutine(SetTargetRecursive());
+    }
+
     public void UpdateHealthBarCallback()
     {
         if (healthBar != null)
