@@ -597,8 +597,11 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 PlayerLifes--;
                 // Game over
-                CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
-                camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
+                if (HasInputAuthority)
+                {
+                    CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
+                    camera.followTarget = GameObject.FindGameObjectWithTag("Boss");
+                }
                 Runner.Despawn(GetComponent<NetworkObject>());
             }
 
