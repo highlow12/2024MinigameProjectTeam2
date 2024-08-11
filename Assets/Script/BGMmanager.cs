@@ -1,28 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 public  class BGMmanager : MonoBehaviour
 {
-    static public BGMmanager instance 
+    private static BGMmanager Instance = null;
+    static public BGMmanager instance
     { 
         get 
         {
-            if (instance == null)
-            {
-                instance = new();
-            }
-            return instance;
+            if (Instance == null) { return null; }
+            else { return Instance; }
         }
-        private set { instance = value; }
+
+        
     }
 
     AudioSource bgm;
-    AudioClip[] clip;
+    public AudioClip[] clip;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else {
+            Destroy(this.gameObject);
+        }
+    }
     private void Start()
     {
-        bgm = GetComponent<AudioSource>();
+        if (gameObject.TryGetComponent<AudioSource>(out bgm))
+        {
+            bgm.clip = clip[0];
+            bgm.Play();
+        }
+        else
+        {
+            bgm = gameObject.AddComponent<AudioSource>(); ;
+            bgm.clip = clip[0];
+            bgm.Play();
+        }
     }
     public void playBossBGM()
     {
