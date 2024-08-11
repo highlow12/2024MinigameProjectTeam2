@@ -177,6 +177,7 @@ public class Shield : Weapon
     {
         // Toggle skill by calling ToggleSkill method from Aura script
         skillObject.GetComponent<Aura>().EnableSkill(duration);
+        
         yield return new WaitForFixedUpdate();
     }
 
