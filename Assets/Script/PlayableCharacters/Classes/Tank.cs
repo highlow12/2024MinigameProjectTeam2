@@ -13,7 +13,7 @@ public class Tank : CharacterClass
         characterAnimator = Resources.Load<RuntimeAnimatorController>("TankAnimator");
         var roll = new SkillStruct
         {
-            coolDown = 5.0f,
+            coolDown = 0.0f,
             coolDownTimer = default
         };
         var aura = new SkillStruct
