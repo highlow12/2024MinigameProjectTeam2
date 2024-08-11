@@ -6669,7 +6669,7 @@ Transform:
   m_GameObject: {fileID: 853609673}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30, y: -1.1035, z: 0}
+  m_LocalPosition: {x: 33.5, y: -1.1035, z: 0}
   m_LocalScale: {x: 5, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12412,7 +12412,7 @@ Transform:
   m_GameObject: {fileID: 1740574626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30, y: -1.1035, z: 0}
+  m_LocalPosition: {x: -33.5, y: -1.1035, z: 0}
   m_LocalScale: {x: 5, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12839,7 +12839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 0}
   cameraSpeed: 0.05
-  groundWidth: 60
+  groundWidth: 67
   isBossJumping: 0
 --- !u!1 &1815207434
 GameObject:
