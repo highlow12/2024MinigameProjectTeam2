@@ -619,7 +619,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         }
 
     }
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_PlaySond(PlayerAttack.AttackType a)
     {
         switch (a)
