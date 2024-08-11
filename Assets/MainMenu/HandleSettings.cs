@@ -88,5 +88,6 @@ public class HandleSettings : MonoBehaviour
         else if (kind == VolumeKind.SFX) effectVolume = value;
         
         BGMmanager.instance.SetVolume(masterVolume, backgroundVolume);
+        SFXManager.instance.SetVolume(masterVolume, effectVolume);
     }
 }

@@ -18,18 +18,18 @@ public class SFXManager : MonoBehaviour
 
     public AudioSource[] bgms;
     public AudioClip[] clip;
-    public float vol = 1;
+    float volume = 0;
     Queue<AudioSource> queue = new();
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(this.gameObject);
+            // Destroy(gameObject);
         }
     }
     private void Start()
@@ -45,7 +45,7 @@ public class SFXManager : MonoBehaviour
         if (queue.Count > 0)
         {
             var s = queue.Dequeue();
-            s.PlayOneShot(clip, vol);
+            s.PlayOneShot(clip, volume);
             queue.Enqueue(s);
         }
         else
@@ -54,6 +54,15 @@ public class SFXManager : MonoBehaviour
             {
                 queue.Enqueue(source);
             }
+        }
+    }
+
+    public void SetVolume(float master, float value)
+    {
+        volume = master * value / 81;
+        foreach (AudioSource source in bgms)
+        {
+            source.volume = volume;
         }
     }
 }

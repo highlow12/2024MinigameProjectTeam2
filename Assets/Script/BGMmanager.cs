@@ -28,7 +28,7 @@ public class BGMmanager : MonoBehaviour
             bgm = gameObject.AddComponent<AudioSource>();
         }
         else {
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 
