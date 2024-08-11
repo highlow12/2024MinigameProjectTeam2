@@ -60,7 +60,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Local variables
     NetworkRigidbody2D _rb;
     Animator _animator;
-    public readonly float maxHealth = 70000.0f;
+    public readonly float maxHealth = 50000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
     public Image healthBar;
