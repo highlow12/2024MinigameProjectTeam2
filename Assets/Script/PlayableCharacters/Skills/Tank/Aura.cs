@@ -7,6 +7,7 @@ public class Aura : NetworkBehaviour
 {
 
     [Networked] public NetworkBool IsSkillEnabled { get; set; } = false;
+    public AudioClip sfx;
 
     [SerializeField] PlayerControllerNetworked player;
     NetworkMecanimAnimator _mecanim;
@@ -63,6 +64,7 @@ public class Aura : NetworkBehaviour
     {
         IsSkillEnabled = true;
         StartCoroutine(DisableSkill(duration));
+        SFXManager.instance.playSFX(sfx);
     }
 
     IEnumerator DisableSkill(float duration)

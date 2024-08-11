@@ -673,6 +673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _IsSkillEnabled:
     _value: 0
+  sfx: {fileID: 8300000, guid: 758d799d3bb4d3c4795b3005bc7a56c2, type: 3}
   player: {fileID: 582059640041285958}
 --- !u!70 &7561823663374746271
 CapsuleCollider2D:
