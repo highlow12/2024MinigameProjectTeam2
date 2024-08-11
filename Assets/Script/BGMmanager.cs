@@ -62,4 +62,9 @@ public class BGMmanager : MonoBehaviour
         volume = master * value / 81;
         bgm.volume = volume;
     }
+
+    public bool isBossBGM()
+    {
+        return bgm.clip == clip[1];
+    }
 }
