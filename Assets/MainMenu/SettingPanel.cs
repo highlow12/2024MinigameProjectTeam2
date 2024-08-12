@@ -62,8 +62,6 @@ public class SettingPanel : MonoBehaviour
         // master.onValueChanged.AddListener(OnMasterValueChanged);
         // background.onValueChanged.AddListener(OnBackgroundValueChanged);
         // effect.onValueChanged.AddListener(OnEffectValueChanged);
-
-        gameObject.SetActive(false);
     }
 
     void OnEnable()

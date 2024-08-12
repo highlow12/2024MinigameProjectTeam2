@@ -3,25 +3,17 @@ using UnityEngine;
 public class BGMmanager : MonoBehaviour
 {
     float volume = 0f;
-    private static BGMmanager Instance = null;
-    static public BGMmanager instance
-    {
-        get
-        {
-            if (Instance == null) { return null; }
-            else { return Instance; }
-        }
-    }
+    public static BGMmanager Instance = null;
 
     AudioSource bgm;
     public AudioClip[] clip;
 
     private void Awake()
     {
+        bgm = gameObject.GetComponent<AudioSource>();
         if (Instance == null)
         {
             Instance = this;
-            bgm = gameObject.AddComponent<AudioSource>();
         }
         else
         {
@@ -35,13 +27,18 @@ public class BGMmanager : MonoBehaviour
         Play(0);
     }
 
-    private void Play(int index)
+    public void Play(int index)
     {
         if (index >= clip.Length) return;
         bgm.clip = clip[index];
         bgm.volume = volume;
         bgm.loop = true;
         bgm.Play();
+    }
+
+    public void Stop()
+    {
+        bgm.Stop();
     }
 
     public void playBossBGM()
@@ -58,7 +55,8 @@ public class BGMmanager : MonoBehaviour
     public void SetVolume(float master, float value)
     {
         volume = master * value / 81;
-        bgm.volume = volume;
+        Debug.Log(volume);
+        if (bgm) bgm.volume = volume;
     }
 
     public bool isBossBGM()

@@ -18,6 +18,8 @@ public class HandleSettings : MonoBehaviour
     public int height = 720;
     public bool fullscreen = false;
 
+    bool first = true;
+
     public static string GetKey(VolumeKind kind)
     {
         if (VolumeKind.Master == kind) return "masterVol";
@@ -126,6 +128,7 @@ public class HandleSettings : MonoBehaviour
         SetVolume(VolumeKind.SFX, effectVolume);
 
         SetResolution(resolutionIndex, width, height, fullscreen);
+        if (first) first = false;
     }
 
     public float GetVolume(VolumeKind kind)
@@ -143,9 +146,14 @@ public class HandleSettings : MonoBehaviour
         else if (kind == VolumeKind.Background) backgroundVolume = value;
         else if (kind == VolumeKind.SFX) effectVolume = value;
 
-        SetConf(kind, value);
-        BGMmanager.instance.SetVolume(masterVolume, backgroundVolume);
-        SFXManager.instance.SetVolume(masterVolume, effectVolume);
+        if (!first) SetConf(kind, value);
+        ApplyVolume();
+    }
+
+    public void ApplyVolume()
+    {
+        BGMmanager.Instance.SetVolume(masterVolume, backgroundVolume);
+        SFXManager.Instance.SetVolume(masterVolume, effectVolume);
     }
 
     public void SetResolution(int _index, int _width, int _height, bool _fullscreen)
@@ -158,11 +166,14 @@ public class HandleSettings : MonoBehaviour
         height = _height;
         fullscreen = _fullscreen;
 
-        SetConf("resolutionIndex", resolutionIndex);
-        SetConf("width", width);
-        SetConf("height", height);
-        SetConf("fullscreen", fullscreen);
-        
+        if (!first)
+        {
+            SetConf("resolutionIndex", resolutionIndex);
+            SetConf("width", width);
+            SetConf("height", height);
+            SetConf("fullscreen", fullscreen);
+        }
+
         Screen.SetResolution(width, height, fullscreen);
     }
 }

@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class MainUIController : MonoBehaviour
 {
+    public static MainUIController Instance;
+    [SerializeField] bool reUsable = true;
+
     void Awake()
     {
-        var obj = FindObjectsOfType<MainUIController>();
-        if (obj.Length > 1)
+        if (!reUsable) return;
+        if (Instance == null)
         {
-            Destroy(this);
+            Instance = this;
+            DontDestroyOnLoad(this);
+            Application.targetFrameRate = 64;
         }
         else
         {
-            DontDestroyOnLoad(this);
-        }
+            Destroy(gameObject);
+        }        
+    }
 
-        Application.targetFrameRate = 64;
+    public void SettingPanel()
+    {
+        FindAnyObjectByType<UIController>().SettingPanel();
     }
 
     public void Shutdown()

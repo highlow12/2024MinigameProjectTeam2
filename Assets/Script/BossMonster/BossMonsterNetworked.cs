@@ -60,7 +60,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Local variables
     NetworkRigidbody2D _rb;
     Animator _animator;
-    public readonly float maxHealth = 50000.0f;
+    public readonly float maxHealth = 100.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
     public Image healthBar;
@@ -129,10 +129,6 @@ public class BossMonsterNetworked : NetworkBehaviour
             {
                 BossBehaviour();
             }
-        }
-        if (!BGMmanager.instance.isBossBGM())
-        {
-            BGMmanager.instance.playBossBGM();
         }
     }
     // Networked animation
@@ -585,11 +581,11 @@ public class BossMonsterNetworked : NetworkBehaviour
             case PlayerAttack.AttackType.Katana:
 
                 //Audio.PlayOneShot(audioClips[0]);
-                SFXManager.instance.playSFX(audioClips[0]);
+                SFXManager.Instance.playSFX(audioClips[0]);
                 break;
             case PlayerAttack.AttackType.ProjectileOrShield:
                 //Audio.PlayOneShot(audioClips[1]);
-                SFXManager.instance.playSFX(audioClips[1]);
+                SFXManager.Instance.playSFX(audioClips[1]);
                 break;
         }
         RPC_PlaySond(attack.attackType);
@@ -627,11 +623,11 @@ public class BossMonsterNetworked : NetworkBehaviour
             case PlayerAttack.AttackType.Katana:
 
                 //Audio.PlayOneShot(audioClips[0]);
-                SFXManager.instance.playSFX(audioClips[0]);
+                SFXManager.Instance.playSFX(audioClips[0]);
                 break;
             case PlayerAttack.AttackType.ProjectileOrShield:
                 //Audio.PlayOneShot(audioClips[1]);
-                SFXManager.instance.playSFX(audioClips[1]);
+                SFXManager.Instance.playSFX(audioClips[1]);
                 break;
         }
     }
@@ -654,15 +650,15 @@ public class BossMonsterNetworked : NetworkBehaviour
     }
     public void attackSound1()
     {
-        SFXManager.instance.playSFX(audioClips[2]);
+        SFXManager.Instance.playSFX(audioClips[2]);
     }
     public void attackSound2()
     {
-        SFXManager.instance.playSFX(audioClips[3]);
+        SFXManager.Instance.playSFX(audioClips[3]);
     }
     public void attackSound3()
     {
-        SFXManager.instance.playSFX(audioClips[4]);
+        SFXManager.Instance.playSFX(audioClips[4]);
     }
 
     public void BossDead()

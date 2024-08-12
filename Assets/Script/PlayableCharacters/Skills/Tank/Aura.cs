@@ -64,7 +64,7 @@ public class Aura : NetworkBehaviour
     {
         IsSkillEnabled = true;
         StartCoroutine(DisableSkill(duration));
-        SFXManager.instance.playSFX(sfx);
+        SFXManager.Instance.playSFX(sfx);
     }
 
     IEnumerator DisableSkill(float duration)

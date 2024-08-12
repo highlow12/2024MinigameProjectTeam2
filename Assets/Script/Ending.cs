@@ -11,6 +11,11 @@ public class Ending : MonoBehaviour
         vp = GetComponent<VideoPlayer>();
         vp.loopPointReached += End;
     }
+
+    void Start()
+    {
+        BGMmanager.Instance.Stop();
+    }
     
     void End(VideoPlayer _vp)
     {
@@ -20,6 +25,7 @@ public class Ending : MonoBehaviour
 
     public void Skip()
     {
+        BGMmanager.Instance.Play(0);
         SceneManager.LoadScene("MainMenu2");
     }
 }

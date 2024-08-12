@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2583491599148241236}
-  - component: {fileID: 5445702740314052073}
   - component: {fileID: 2752947707188119089}
   m_Layer: 5
   m_Name: BuffIndicator
@@ -38,18 +37,6 @@ RectTransform:
   m_AnchoredPosition: {x: 69, y: -74}
   m_SizeDelta: {x: 156, y: 24}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &5445702740314052073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2837293064053178918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e05d6cb0a64422386870b2ececefaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2752947707188119089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d6f50240fe143aaa97068a37a81e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   onOther: 1
   playerBuffs: {fileID: 0}
   tooltip: {fileID: 0}
@@ -228,8 +216,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "[1] \uAD81\uC218\uAD81\uC218\uAD81\uC218"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 557adef0988ae4e2ca46e76bd7269732, type: 2}
-  m_sharedMaterial: {fileID: -5368586222262041428, guid: 557adef0988ae4e2ca46e76bd7269732, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7ca36059738394c00845d723bc3c803d, type: 2}
+  m_sharedMaterial: {fileID: -1125164028724956554, guid: 7ca36059738394c00845d723bc3c803d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -253,10 +241,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
+  m_fontSize: 21.25
   m_fontSizeBase: 22
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -271,7 +259,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 3
+  m_overflowMode: 1
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1

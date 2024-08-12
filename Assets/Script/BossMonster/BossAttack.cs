@@ -51,7 +51,7 @@ public class BossAttack : MonoBehaviour
                     if (player.weapon.isDraw)
                     {
                         player.Skill();
-                        SFXManager.instance.playSFX(attackClip);
+                        SFXManager.Instance.playSFX(attackClip);
                         return;
                     }
                 }

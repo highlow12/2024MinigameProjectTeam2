@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        settingPanel.gameObject.SetActive(false);
         pausePanel.SetActive(false);
         resolutions = Screen.resolutions;
         foreach (Resolution res in resolutions)
@@ -46,6 +47,11 @@ public class UIController : MonoBehaviour
         }
         Resolution res = resolutions[dropdown.value];
         HandleSettings.Instance.SetResolution(dropdown.value, res.width, res.height, fullscreen.isOn);
+    }
+
+    public void SettingPanel()
+    {
+        settingPanel.ActiveToggle();
     }
 
     // Update is called once per frame

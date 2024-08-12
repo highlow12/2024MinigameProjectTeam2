@@ -41,7 +41,7 @@ public class BossSwordEnergy : NetworkBehaviour
                     {
                         player.Skill();
                         Runner.Despawn(Object);
-                        SFXManager.instance.playSFX(attackClip);
+                        SFXManager.Instance.playSFX(attackClip);
                         return;
                     }
                 }

@@ -19,6 +19,8 @@ public class VolumeComponent : MonoBehaviour
     Color32 DefaultColor = new Color32(45, 65, 44, 255);
     public float value = 5;
 
+    bool first = true;
+
     void Awake()
     {
         Transform[] childrens = GetComponentsInChildren<Transform>();
@@ -39,13 +41,14 @@ public class VolumeComponent : MonoBehaviour
 
     void Start()
     {
-        SetVolume(HandleSettings.Instance.GetVolume(kind));
+        SetVolume(HandleSettings.Instance.GetVolume(kind), true);
+        HandleSettings.Instance.ApplyVolume();
     }
 
-    public void SetVolume(float volume)
+    public void SetVolume(float volume, bool first = false)
     {
         value = volume;
-        HandleSettings.Instance.SetVolume(kind, volume);
+        if (!first) HandleSettings.Instance.SetVolume(kind, volume);
         for (int i = 0; i < elements.Count; i++)
         {
             if (i <= volume)

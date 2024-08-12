@@ -4,17 +4,7 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    private static SFXManager Instance = null;
-    static public SFXManager instance
-    {
-        get
-        {
-            if (Instance == null) { return null; }
-            else { return Instance; }
-        }
-
-
-    }
+    public static SFXManager Instance = null;
 
     public AudioSource[] bgms;
     public AudioClip[] clip;
