@@ -18,7 +18,8 @@ public class UIController : MonoBehaviour
     bool firstInit = true;
     
     // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         settingPanel.gameObject.SetActive(false);
         pausePanel.SetActive(false);
@@ -33,7 +34,11 @@ public class UIController : MonoBehaviour
 
             Debug.Log($"{res.width} x {res.height}");
         }
+    }
 
+    void Start()
+    {
+        firstInit = true;
         dropdown.value = HandleSettings.Instance.resolutionIndex;
         fullscreen.isOn = HandleSettings.Instance.fullscreen;
     }
@@ -51,7 +56,7 @@ public class UIController : MonoBehaviour
 
     public void SettingPanel()
     {
-        settingPanel.ActiveToggle();
+        settingPanel.gameObject.SetActive(!settingPanel.gameObject.activeSelf);
     }
 
     // Update is called once per frame

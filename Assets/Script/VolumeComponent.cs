@@ -19,8 +19,6 @@ public class VolumeComponent : MonoBehaviour
     Color32 DefaultColor = new Color32(45, 65, 44, 255);
     public float value = 5;
 
-    bool first = true;
-
     void Awake()
     {
         Transform[] childrens = GetComponentsInChildren<Transform>();
