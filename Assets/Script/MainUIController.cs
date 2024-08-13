@@ -15,6 +15,7 @@ public class MainUIController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this);
             Application.targetFrameRate = 64;
+            BGMmanager.Instance.stopBossBGM();
         }
         else
         {

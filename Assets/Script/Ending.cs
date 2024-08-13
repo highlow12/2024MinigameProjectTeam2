@@ -14,7 +14,7 @@ public class Ending : MonoBehaviour
 
     void Start()
     {
-        BGMmanager.Instance.Stop();
+        //BGMmanager.Instance.Stop();
     }
     
     void End(VideoPlayer _vp)
