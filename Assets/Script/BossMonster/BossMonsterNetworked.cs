@@ -283,8 +283,9 @@ public class BossMonsterNetworked : NetworkBehaviour
             {
                 // Initialize the Ball before synchronizing it
                 var script = o.GetComponent<BossSwordEnergy>();
-                script.Init();
+                script.Init((int)BossScale);
                 script.damage = 100;
+                
             }
         );
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
