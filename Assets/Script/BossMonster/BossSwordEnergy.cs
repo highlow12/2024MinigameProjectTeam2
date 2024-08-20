@@ -9,10 +9,15 @@ public class BossSwordEnergy : NetworkBehaviour
     public int damage = 10;
     public float speed = 5;
     public float lifeSeconds = 3;
+    private int dir = 1;
     public AudioClip attackClip;
-    public void Init()
+    public void Init(int _dir)
     {
         life = TickTimer.CreateFromSeconds(Runner, lifeSeconds);
+
+        dir = _dir / Mathf.Abs(_dir);
+
+        transform.localScale = new Vector3(dir, 1);
     }
 
     public override void FixedUpdateNetwork()
@@ -20,7 +25,7 @@ public class BossSwordEnergy : NetworkBehaviour
         if (life.Expired(Runner))
             Runner.Despawn(Object);
         else
-            transform.position += speed * transform.right * Runner.DeltaTime;
+            transform.position += speed * transform.right * Runner.DeltaTime * dir;
     }
 
     void OnTriggerEnter2D(Collider2D other)
