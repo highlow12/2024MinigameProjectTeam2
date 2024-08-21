@@ -41,7 +41,6 @@ public class Katana : Weapon
             controller.AttackState++;
             // 애니메이션 배속
             controller.AttackAnimSpeed = 0.5f * attackSpeed;
-            controller.AttackState = controller.AttackState;
             prevAttack = (int)runner.Tick;
             controller.PrevAttack = prevAttack;
             controller.Attack = true;
