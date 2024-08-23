@@ -44,9 +44,9 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     // Networked variables
     [Networked] public bool IsDead { get; set; }
+    [Networked] public int BossPhase { get; set; } = 1;
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
-    [Networked] public float BossScale { get; set; }
     [Networked] public float BossSpeed { get; set; } = 5.0f;
     [Networked] public NetworkObject FollowTarget { get; set; }
     [Networked] public BossState CurrentState { get; set; }
@@ -110,7 +110,6 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Networked boss behaviour
     public override void FixedUpdateNetwork()
     {
-        transform.localScale = new Vector3(BossScale, Math.Abs(BossScale), 1);
         // Debug.Log(BossAttackTimer.ElapsedTicks(Runner));
         // Debug.Log($"Timer expired: {BossAttackTimer.Expired(Runner)}");
         // Debug.Log($"Timer is default: {Equals(BossAttackTimer, default(CustomTickTimer))}");
@@ -183,11 +182,11 @@ public class BossMonsterNetworked : NetworkBehaviour
             // BossScale is used to flip the boss sprite in FixedUpdateNetwork
             if (distance > 0)
             {
-                BossScale = Mathf.Abs(BossScale);
+                transform.localScale = new Vector3(2, 2, 1);
             }
             else
             {
-                BossScale = -Mathf.Abs(BossScale);
+                transform.localScale = new Vector3(-2, 2, 1);
             }
             _animator.SetInteger("walkState", 1);
             // Move the boss to the player until the distance is less than 2.5f
@@ -213,111 +212,17 @@ public class BossMonsterNetworked : NetworkBehaviour
             yield return null;
         }
     }
-    public IEnumerator Attack()
-    {
-        _animator.SetTrigger("doAttack");
-        float attackLength = 1.2f;
-        // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 50.0f;
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        yield return null;
-    }
-    public IEnumerator bothAttack()
-    {
-        _animator.SetTrigger("doAttack");
-        float attackLength = 1.2f;
-        // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 50.0f;
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            yield return new WaitForFixedUpdate();
-        }
 
-        BossScale *= -1;
-        _animator.SetTrigger("doAttack2");
-        attackLength = 1f;
-        // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-
-        attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        BossScale *= -1;
-        yield return null;
-    }
-    public IEnumerator backAttack()
+    BossSkill GetBossSkill(string skillName, int phase)
     {
-        BossScale *= -1;
-        _animator.SetTrigger("doAttack2");
-        float attackLength = 1f;
-        // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 50.0f;
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        BossScale *= -1;
-        yield return null;
-    }
-    public IEnumerator AttackWithEnergy()
-    {
-        _animator.SetTrigger("doAttack");
-        float attackLength = 1.2f;
-        Vector3 yOffset = ((Vector3)Vector2.up * 2);
-        Vector3 xOffset = BossScale > 0 ? Vector3.left : Vector3.right;
-        // attack logic by animation event required
-        Runner.Spawn(bossSwordEffect,
-            transform.position + yOffset + xOffset, quaternion.Euler(0, 0, 0),
-            Object.InputAuthority, (runner, o) =>
-            {
-                // Initialize the Ball before synchronizing it
-                var script = o.GetComponent<BossSwordEnergy>();
-                script.Init((int)BossScale);
-                script.damage = 100;
-                
-            }
+        return AttackManager.Instance.BossAttacks.Find(
+            skill => skill.name == skillName && skill.phase == phase
         );
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        yield return null;
     }
 
-    public IEnumerator JumpAttack()
+    // This function will be called by the animation event
+    public void JumpTP()
     {
-        _animator.SetTrigger("doJumpAttack");
-
-        float attackLength = 2.2f;
-
-        // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 200.0f;
-
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            //if(_animator.)
-            yield return new WaitForFixedUpdate();
-        }
-        bossAttack.damage = 0.0f;
-        yield return null;
-    }
-    public void jumpTP()
-    {
-
         StartCoroutine(IjumpTP());
     }
     public IEnumerator IjumpTP()
@@ -328,43 +233,6 @@ public class BossMonsterNetworked : NetworkBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
-    public IEnumerator chargeAttack()
-    {
-        _animator.SetTrigger("doChargeAttack");
-
-        float attackLength = 2.2f;
-
-        // attack logic by animation event required
-        bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 10.0f;
-
-        var attackLengthTimer = CustomTickTimer.CreateFromSeconds(Runner, attackLength);
-        while (!attackLengthTimer.Expired(Runner))
-        {
-            //if(_animator.)
-            yield return new WaitForFixedUpdate();
-        }
-        yield return null;
-    }
-    /*
-    public IEnumerator JumpDashAttack()
-    {
-        float jumpVelocity = 15.0f;
-        float dashVelocity = 10.0f;
-        float jumpTime = 0.8f;
-        float dashTime = 0.5f;
-        cameraMovement.isBossJumping = true;
-        _rb.Rigidbody.velocity = Vector2.zero;
-        Vector2 targetPos = FollowTarget.transform.position;
-        Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
-        _rb.Rigidbody.velocity = new Vector2(0, jumpVelocity);
-        yield return new WaitForSecondsRealtime(jumpTime);
-        _rb.Rigidbody.velocity = direction * dashVelocity;
-        yield return new WaitForSecondsRealtime(dashTime);
-        cameraMovement.isBossJumping = false;
-        yield return null;
-    }
-    */
 
     // Coroutine callers
     IEnumerator AttackController(IEnumerator attack)
@@ -433,7 +301,6 @@ public class BossMonsterNetworked : NetworkBehaviour
                 BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(1.5f, 2.0f));
             }
         }
-        UpdateAttribute();
         UpdateCondition();
         switch (CurrentState)
         {
@@ -478,27 +345,34 @@ public class BossMonsterNetworked : NetworkBehaviour
                         switch (attacktype)
                         {
                             case (0):
-                                StartCoroutine(AttackController(Attack()));
+                                BossSkill attack = GetBossSkill("BaseAttack1", BossPhase);
+                                // you can modify attack damage like this
+                                // attack.damage = 100;
+                                // call coroutine with attack.Attack(_animator, Runner, bossAttack)
+                                StartCoroutine(AttackController(attack.Attack(transform, _animator, Runner, bossAttack)));
                                 Debug.Log("Do Melee Attack");
                                 break;
 
                             case (1):
-                                StartCoroutine(AttackController(backAttack()));
+                                BossSkill attack2 = GetBossSkill("BackAttack", BossPhase);
+                                StartCoroutine(AttackController(attack2.Attack(transform, _animator, Runner, bossAttack)));
                                 Debug.Log("Do Melee Attack2");
                                 break;
 
                             case (2):
-                                StartCoroutine(AttackController(bothAttack()));
+                                BossSkill attack3 = GetBossSkill("BothAttack", BossPhase);
+                                StartCoroutine(AttackController(attack3.Attack(transform, _animator, Runner, bossAttack)));
                                 Debug.Log("Do bothAttack");
                                 break;
 
                             case (3):
-                                StartCoroutine(AttackController(AttackWithEnergy()));
+                                BossSkill attack4 = GetBossSkill("EnergyAttack", BossPhase);
+                                StartCoroutine(AttackController(attack4.AttackWithProjectile(transform, _animator, Runner, bossSwordEffect, Object)));
                                 Debug.Log("Do AttackWithEnergy");
                                 break;
                         }
-
-                        StartCoroutine(AttackController(Attack()));
+                        BossSkill defaultAttack = GetBossSkill("BaseAttack1", BossPhase);
+                        StartCoroutine(AttackController(defaultAttack.Attack(transform, _animator, Runner, bossAttack)));
                         Debug.Log("Do Melee Attack");
                         break;
                     case AttackType.JumpDash:
@@ -506,13 +380,9 @@ public class BossMonsterNetworked : NetworkBehaviour
                         switch (attacktype1)
                         {
                             case (0):
-                                StartCoroutine(AttackController(JumpAttack()));
+                                BossSkill attack5 = GetBossSkill("JumpAttack", BossPhase);
+                                StartCoroutine(AttackController(attack5.Attack(transform, _animator, Runner, bossAttack)));
                                 Debug.Log("Do Jump Dash Attack");
-                                break;
-
-                            case (1):
-                                StartCoroutine(AttackController(chargeAttack()));
-                                Debug.Log("Do chargeAttack");
                                 break;
                         }
                         break;
@@ -532,10 +402,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         return Vector2.Distance(transform.position, target);
     }
 
-    private void UpdateAttribute()
-    {
-        // healthBar.fillAmount = CurrentHealth / maxHealth;
-    }
     private void UpdateCondition()
     {
         if (!FollowTarget)
@@ -589,7 +455,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 SFXManager.Instance.playSFX(audioClips[1]);
                 break;
         }
-        RPC_PlaySond(attack.attackType);
+        RPC_PlaySound(attack.attackType);
         // call effect
         var oldestEffect = BossHitFeedbackEffects[0];
         foreach (var effect in BossHitFeedbackEffects)
@@ -617,7 +483,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void RPC_PlaySond(PlayerAttack.AttackType a)
+    public void RPC_PlaySound(PlayerAttack.AttackType a)
     {
         switch (a)
         {

@@ -31,7 +31,6 @@ public class DebugPanel : MonoBehaviour
                         "Is Moving: " + bossScript.isMoving + "\n" +
                         "Max Health: " + bossScript.maxHealth + "\n" +
                         "Current Health: " + bossScript.CurrentHealth + "\n" +
-                        "Boss Scale: " + bossScript.BossScale + "\n" +
                         "Follow Target: " + bossScript.FollowTarget + "\n" +
                         "Attack Type: " + bossScript.attackType;
     }
