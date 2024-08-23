@@ -9,7 +9,7 @@ public class JumpAttack : BossSkill
     public JumpAttack()
     {
         name = "JumpAttack";
-        attackDamage = 50.0f;
+        attackDamage = 200.0f;
         phase = 1;
     }
 
@@ -21,7 +21,7 @@ public class JumpAttack : BossSkill
 
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 200.0f;
+        bossAttack.damage = attackDamage;
 
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))

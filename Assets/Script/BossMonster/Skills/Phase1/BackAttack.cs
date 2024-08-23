@@ -20,7 +20,7 @@ public class BackAttack : BossSkill
         float attackLength = 1f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 50.0f;
+        bossAttack.damage = attackDamage;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {

@@ -10,7 +10,7 @@ public class EnergyAttack : BossSkill
     public EnergyAttack()
     {
         name = "EnergyAttack";
-        attackDamage = 50.0f;
+        attackDamage = 100.0f;
         phase = 1;
     }
 
@@ -33,7 +33,7 @@ public class EnergyAttack : BossSkill
                 // Initialize the sword energy before synchronizing it
                 var script = o.GetComponent<BossSwordEnergy>();
                 script.Init((int)transform.localScale.x);
-                script.damage = 100;
+                script.damage = (int)attackDamage;
 
             }
         );

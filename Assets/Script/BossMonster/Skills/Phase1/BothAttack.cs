@@ -19,7 +19,7 @@ public class BothAttack : BossSkill
         float attackLength = 1.2f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
-        bossAttack.damage = 50.0f;
+        bossAttack.damage = attackDamage;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {
