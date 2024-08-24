@@ -367,7 +367,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
                             case (3):
                                 BossSkill attack4 = GetBossSkill("EnergyAttack", BossPhase);
-                                StartCoroutine(AttackController(attack4.AttackWithProjectile(transform, _animator, Runner, bossSwordEffect, Object)));
+                                StartCoroutine(AttackController(attack4.Attack(transform, _animator, Runner, bossAttack, bossSwordEffect, Object)));
                                 Debug.Log("Do AttackWithEnergy");
                                 break;
                         }
