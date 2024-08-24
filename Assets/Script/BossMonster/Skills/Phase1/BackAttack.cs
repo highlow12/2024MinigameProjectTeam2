@@ -13,7 +13,7 @@ public class BackAttack : BossSkill
         phase = 1;
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
         transform.localScale = new Vector3(transform.localScale.x * -1, 2, 1);
         animator.SetTrigger("doAttack2");
@@ -30,8 +30,4 @@ public class BackAttack : BossSkill
         yield return null;
     }
 
-    public override IEnumerator AttackWithProjectile(Transform transform, Animator animator, NetworkRunner runner, NetworkObject projectile, NetworkObject boss)
-    {
-        throw new NotImplementedException();
-    }
 }

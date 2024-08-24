@@ -14,12 +14,8 @@ public class EnergyAttack : BossSkill
         phase = 1;
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack)
-    {
-        throw new NotImplementedException();
-    }
 
-    public override IEnumerator AttackWithProjectile(Transform transform, Animator animator, NetworkRunner runner, NetworkObject projectile, NetworkObject boss)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
         animator.SetTrigger("doAttack");
         float attackLength = 1.2f;

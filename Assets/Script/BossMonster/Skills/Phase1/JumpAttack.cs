@@ -13,7 +13,7 @@ public class JumpAttack : BossSkill
         phase = 1;
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
         animator.SetTrigger("doJumpAttack");
 
@@ -32,8 +32,5 @@ public class JumpAttack : BossSkill
         yield return null;
     }
 
-    public override IEnumerator AttackWithProjectile(Transform transform, Animator animator, NetworkRunner runner, NetworkObject projectile, NetworkObject boss)
-    {
-        throw new NotImplementedException();
-    }
+
 }

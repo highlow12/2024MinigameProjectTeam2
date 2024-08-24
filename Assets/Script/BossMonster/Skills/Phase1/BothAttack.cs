@@ -13,7 +13,7 @@ public class BothAttack : BossSkill
         phase = 1;
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
         animator.SetTrigger("doAttack");
         float attackLength = 1.2f;
@@ -41,8 +41,5 @@ public class BothAttack : BossSkill
         yield return null;
     }
 
-    public override IEnumerator AttackWithProjectile(Transform transform, Animator animator, NetworkRunner runner, NetworkObject projectile, NetworkObject boss)
-    {
-        throw new NotImplementedException();
-    }
+
 }
