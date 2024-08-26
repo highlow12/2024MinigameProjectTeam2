@@ -6,6 +6,12 @@ using static Fusion.Sockets.NetBitBuffer;
 
 public class SpawnFireSpirit : BossSkill
 {
+    SpawnFireSpirit()
+    {
+        name = "SpawnFireSpirit";
+        phase = 2;
+        attackDamage = 0;
+    }
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
         runner.Spawn(projectile,
