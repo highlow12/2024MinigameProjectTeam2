@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
-    [Networked] public int PlayerLifes { get; set; } = 2;
+    [Networked, OnChangedRender(nameof(LifeChanged))] public int PlayerLifes { get; set; } = 2;
     [Networked] public bool isLeader { get; set; } = false;
     [Networked, OnChangedRender(nameof(ReadyStatusChanged))] public bool isReady { get; set; } = false;
     [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> NickName { get; set; }
@@ -62,6 +62,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public Image healthBar;
     public OtherStatusPanel otherStatusPanel;
     public LobbyUIController lobbyUI;
+
+    Image lifeUI;
 
     #region
     [SerializeField] private LayerMask _groundLayer;
@@ -139,6 +141,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (HasInputAuthority)
         {
             healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
+            lifeUI = GameObject.FindGameObjectWithTag("CharacterLifeUI").GetComponent<Image>();
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
@@ -261,10 +264,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             weapon.attackSpeed = attackSpeed * attackSpeedMultiplier;
             weapon.damageMultiplier = damageMultiplier;
-        }
-        if (!HasInputAuthority)
-        {
-            OtherPanelHPUpdate();
         }
         // RPC_GetTickDeltaBetweenClients(nickName);
     }
@@ -590,8 +589,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             // Revive when player lifes remain
             if (PlayerLifes - 1 > 0)
             {
-                PlayerLifes--;
                 CurrentHealth = MaxHealth;
+                PlayerLifes--;
             }
             else
             {
@@ -757,9 +756,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
+
         if (healthBar)
         {
             healthBar.fillAmount = CurrentHealth / MaxHealth;
+        }
+    }
+
+    private void LifeChanged()
+    {
+        if (otherStatusPanel)
+        {
+            otherStatusPanel.SetLife(PlayerLifes);
+        }
+        
+        if (lifeUI)
+        {
+            lifeUI.fillAmount = (float)PlayerLifes / 2;
         }
     }
 
@@ -780,11 +793,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
     }
+
     public void OtherPanelHpZero()
     {
         if (otherStatusPanel)
         {
             otherStatusPanel.SetHP(0, MaxHealth);
+            otherStatusPanel.SetLife(0);
+        }
+        
+        if (healthBar)
+        {
+            healthBar.fillAmount = 0;
+        }
+
+        if (lifeUI)
+        {
+            lifeUI.fillAmount = 0;
         }
     }
 

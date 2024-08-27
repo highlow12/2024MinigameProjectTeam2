@@ -66,7 +66,6 @@ public class HandleSettings : MonoBehaviour
 
     public bool LoadConf(string key, ref bool _var, bool defaultValue)
     {
-        Debug.Log($"BOBOBOBOBOBLLLL {PlayerPrefs.GetInt(key)}");
         int _def = defaultValue ? 1 : 0;
         if (PlayerPrefs.HasKey(key))
         {
