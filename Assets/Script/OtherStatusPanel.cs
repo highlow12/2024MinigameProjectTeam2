@@ -13,6 +13,8 @@ public class OtherStatusPanel : MonoBehaviour
     public TestBuffIndicator buffIndicator;
     public PlayerControllerNetworked player;
 
+    [SerializeField] List<Image> lifeForeground;
+
     public void Start()
     {
         float[] yPoses = {60f, -60f};
@@ -41,5 +43,14 @@ public class OtherStatusPanel : MonoBehaviour
     {
         // Debug.Log($"{hp} / {maxHP} = {hp / maxHP}");
         hpForeground.fillAmount = hp / maxHP;
+    }
+
+    public void SetLife(int life)
+    {
+        for (int i = 0; i < lifeForeground.Count; i++)
+        {
+            if (life < i - 1) lifeForeground[i].gameObject.SetActive(false);
+            else lifeForeground[i].gameObject.SetActive(true);
+        }
     }
 }
