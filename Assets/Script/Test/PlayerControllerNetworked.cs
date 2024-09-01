@@ -63,7 +63,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public OtherStatusPanel otherStatusPanel;
     public LobbyUIController lobbyUI;
 
-    Image lifeUI;
+    LifeIndicator lifeUI;
 
     #region
     [SerializeField] private LayerMask _groundLayer;
@@ -141,7 +141,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (HasInputAuthority)
         {
             healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
-            lifeUI = GameObject.FindGameObjectWithTag("CharacterLifeUI").GetComponent<Image>();
+            lifeUI = GameObject.FindGameObjectWithTag("CharacterLifeUI").GetComponent<LifeIndicator>();
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
@@ -772,7 +772,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         
         if (lifeUI)
         {
-            lifeUI.fillAmount = (float)PlayerLifes / 2;
+            lifeUI.SetLife(PlayerLifes);
         }
     }
 
@@ -809,7 +809,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
         if (lifeUI)
         {
-            lifeUI.fillAmount = 0;
+            lifeUI.SetLife(0);
         }
     }
 
