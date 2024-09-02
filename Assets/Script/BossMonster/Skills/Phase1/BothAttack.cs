@@ -20,6 +20,7 @@ public class BothAttack : BossSkill
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = attackDamage;
+        bossAttack.isApplyKnockback = true;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {

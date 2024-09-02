@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-
 public class BossAttack : MonoBehaviour
 {
     public float damage;
+    public bool isApplyKnockback;
     public Collider2D attackCollider;
     public List<PlayerRef> playersHit = new();
     public AudioClip attackClip;
@@ -14,6 +14,8 @@ public class BossAttack : MonoBehaviour
     public struct AttackData : INetworkStruct
     {
         public float damage;
+        public Vector2 knockbackDirection;
+        public bool isApplyKnockback;
     }
 
 
@@ -57,7 +59,9 @@ public class BossAttack : MonoBehaviour
                 }
                 AttackData attackData = new()
                 {
-                    damage = damage
+                    damage = damage,
+                    knockbackDirection = (player.transform.position - transform.position).normalized,
+                    isApplyKnockback = isApplyKnockback
                 };
                 player.RPC_OnPlayerHit(attackData);
             }

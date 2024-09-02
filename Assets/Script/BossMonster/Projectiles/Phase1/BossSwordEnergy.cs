@@ -52,7 +52,9 @@ public class BossSwordEnergy : NetworkBehaviour
                 }
                 BossAttack.AttackData attackData = new()
                 {
-                    damage = damage
+                    damage = damage,
+                    knockbackDirection = Vector2.zero,
+                    isApplyKnockback = false
                 };
                 player.RPC_OnPlayerHit(attackData);
 
