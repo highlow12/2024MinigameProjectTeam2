@@ -17,7 +17,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     [SerializeField] string sceneName = "BossMonsterTest.unity";
     [SerializeField] private InputManager inputManager;
     [SerializeField] private NetworkPrefabRef bossPrefab;
-    [SerializeField] private NetworkPrefabRef playerInfosProviderPrefab;
     // [SerializeField] private NetworkPrefabRef objectPoolNetworkedPrefab;
     [SerializeField] private NetworkPrefabRef characterPrefab;
     [SerializeField] public GameObject otherStatusPrefab;
@@ -68,7 +67,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             {
                 spawnPosition = new(0, -4.6f, 0);
                 networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
-                runner.Spawn(playerInfosProviderPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 // runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
                 _spawnedCharacters.Add(newPlayerRef, networkCharacterObject);
