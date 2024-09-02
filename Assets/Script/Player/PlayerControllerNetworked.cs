@@ -769,7 +769,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             otherStatusPanel.SetLife(PlayerLifes);
         }
-        
+
         if (lifeUI)
         {
             lifeUI.SetLife(PlayerLifes);
@@ -801,7 +801,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             otherStatusPanel.SetHP(0, MaxHealth);
             otherStatusPanel.SetLife(0);
         }
-        
+
         if (healthBar)
         {
             healthBar.fillAmount = 0;
