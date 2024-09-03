@@ -44,7 +44,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     // Networked variables
     [Networked] public bool IsDead { get; set; }
-    [Networked] public int BossPhase { get; set; } = 1;
+    [Networked, OnChangedRender(nameof(UpdateBossPhaseCallback))] public int BossPhase { get; set; } = 1;
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float BossSpeed { get; set; } = 5.0f;
@@ -58,8 +58,12 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public bool isMoving { get; set; }
 
     // Local variables
+    [SerializeField] private GameObject phase1;
+    [SerializeField] private GameObject phase2;
+    [SerializeField] private RuntimeAnimatorController _phase1Animator;
+    [SerializeField] private RuntimeAnimatorController _phase2Animator;
     NetworkRigidbody2D _rb;
-    Animator _animator;
+    Animator _currentAnimator;
     public readonly float maxHealth = 50000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
@@ -75,7 +79,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     void Awake()
     {
         _rb = GetComponent<NetworkRigidbody2D>();
-        _animator = GetComponent<Animator>();
+        _currentAnimator = GetComponent<Animator>();
         cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
         healthBar = GameObject.FindGameObjectWithTag("BossHealthUI").GetComponent<Image>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
@@ -188,7 +192,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             {
                 transform.localScale = new Vector3(-2, 2, 1);
             }
-            _animator.SetInteger("walkState", 1);
+            _currentAnimator.SetInteger("walkState", 1);
             // Move the boss to the player until the distance is less than 2.5f
             while (Math.Abs(distance) > 2.5f && isMoving)
             {
@@ -208,7 +212,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 yield return new WaitForFixedUpdate();
             }
             _rb.Rigidbody.velocity = Vector2.zero;
-            _animator.SetInteger("walkState", 0);
+            _currentAnimator.SetInteger("walkState", 0);
             yield return null;
         }
     }
@@ -349,30 +353,30 @@ public class BossMonsterNetworked : NetworkBehaviour
                                 // you can modify attack damage like this
                                 // attack.damage = 100;
                                 // call coroutine with attack.Attack(_animator, Runner, bossAttack)
-                                StartCoroutine(AttackController(attack.Attack(transform, _animator, Runner, bossAttack)));
+                                StartCoroutine(AttackController(attack.Attack(transform, _currentAnimator, Runner, bossAttack)));
                                 Debug.Log("Do Melee Attack");
                                 break;
 
                             case (1):
                                 BossSkill attack2 = GetBossSkill("BackAttack", BossPhase);
-                                StartCoroutine(AttackController(attack2.Attack(transform, _animator, Runner, bossAttack)));
+                                StartCoroutine(AttackController(attack2.Attack(transform, _currentAnimator, Runner, bossAttack)));
                                 Debug.Log("Do Melee Attack2");
                                 break;
 
                             case (2):
                                 BossSkill attack3 = GetBossSkill("BothAttack", BossPhase);
-                                StartCoroutine(AttackController(attack3.Attack(transform, _animator, Runner, bossAttack)));
+                                StartCoroutine(AttackController(attack3.Attack(transform, _currentAnimator, Runner, bossAttack)));
                                 Debug.Log("Do bothAttack");
                                 break;
 
                             case (3):
                                 BossSkill attack4 = GetBossSkill("EnergyAttack", BossPhase);
-                                StartCoroutine(AttackController(attack4.Attack(transform, _animator, Runner, bossAttack, bossSwordEffect, Object)));
+                                StartCoroutine(AttackController(attack4.Attack(transform, _currentAnimator, Runner, bossAttack, bossSwordEffect, Object)));
                                 Debug.Log("Do AttackWithEnergy");
                                 break;
                         }
                         BossSkill defaultAttack = GetBossSkill("BaseAttack1", BossPhase);
-                        StartCoroutine(AttackController(defaultAttack.Attack(transform, _animator, Runner, bossAttack)));
+                        StartCoroutine(AttackController(defaultAttack.Attack(transform, _currentAnimator, Runner, bossAttack)));
                         Debug.Log("Do Melee Attack");
                         break;
                     case AttackType.JumpDash:
@@ -381,7 +385,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                         {
                             case (0):
                                 BossSkill attack5 = GetBossSkill("JumpAttack", BossPhase);
-                                StartCoroutine(AttackController(attack5.Attack(transform, _animator, Runner, bossAttack)));
+                                StartCoroutine(AttackController(attack5.Attack(transform, _currentAnimator, Runner, bossAttack)));
                                 Debug.Log("Do Jump Dash Attack");
                                 break;
                         }
@@ -478,7 +482,16 @@ public class BossMonsterNetworked : NetworkBehaviour
         oldestEffect.PlayEffect();
         if (Runner.IsSceneAuthority && CurrentHealth <= 0)
         {
-            BossDead();
+            if (BossPhase == 2)
+            {
+                BossDead();
+            }
+            else if (BossPhase == 1)
+            {
+                BossPhase++;
+                CurrentHealth = maxHealth;
+                RPC_ForceRetarget();
+            }
         }
 
     }
@@ -515,6 +528,23 @@ public class BossMonsterNetworked : NetworkBehaviour
             bossHealthText.text = $"{CurrentHealth} / {maxHealth}";
         }
     }
+
+    public void UpdateBossPhaseCallback()
+    {
+        if (BossPhase == 1)
+        {
+            phase1.SetActive(true);
+            _currentAnimator.runtimeAnimatorController = _phase1Animator;
+            phase2.SetActive(false);
+        }
+        else if (BossPhase == 2)
+        {
+            phase1.SetActive(false);
+            _currentAnimator.runtimeAnimatorController = _phase2Animator;
+            phase2.SetActive(true);
+        }
+    }
+
     public void attackSound1()
     {
         SFXManager.Instance.playSFX(audioClips[2]);

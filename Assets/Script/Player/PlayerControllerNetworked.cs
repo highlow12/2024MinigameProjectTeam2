@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class PlayerControllerNetworked : NetworkBehaviour
 {
     // Networked Variables
-    [Networked] public int PlayerLifes { get; set; } = 2;
+    [Networked, OnChangedRender(nameof(LifeChanged))] public int PlayerLifes { get; set; } = 2;
     [Networked] public bool isLeader { get; set; } = false;
     [Networked, OnChangedRender(nameof(ReadyStatusChanged))] public bool isReady { get; set; } = false;
     [Networked, OnChangedRender(nameof(NickNameChanged))] public NetworkString<_16> NickName { get; set; }
@@ -63,6 +63,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public OtherStatusPanel otherStatusPanel;
     public LobbyUIController lobbyUI;
 
+    LifeIndicator lifeUI;
+
     #region
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private LayerMask _enemyLayer;
@@ -74,7 +76,16 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public float attackSpeedMultiplier = 1;
     public float damageMultiplier = 1;
     public Items.Weapon weapon;
-
+    [Space]
+    [Header("Knockback")]
+    // knockback is applied by boss attack
+    // knockbackForce is the distance of knockback for each tick
+    // knockbackApplyTick is the tick count of knockback
+    // knockbackYMultiplier is the multiplier of y axis of knockback
+    public float knockbackForce = 0.3f;
+    public int knockbackApplyTick = 15;
+    public float knockbackYMultiplier = 0.8f;
+    [Space]
     //[SerializeField] float _jumpForce = 10f; 
     [SerializeField] float _jumpHeight = 10f;
     [SerializeField] float _timeToApex = 0.5f;
@@ -139,6 +150,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (HasInputAuthority)
         {
             healthBar = GameObject.FindGameObjectWithTag("CharacterHealthUI").GetComponent<Image>();
+            lifeUI = GameObject.FindGameObjectWithTag("CharacterLifeUI").GetComponent<LifeIndicator>();
             // Set camera follow target
             Camera.main.GetComponent<CameraMovement>().followTarget = gameObject;
             buffIndicator = GameObject.FindGameObjectWithTag("BuffIndicator").GetComponent<TestBuffIndicator>();
@@ -261,10 +273,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             weapon.attackSpeed = attackSpeed * attackSpeedMultiplier;
             weapon.damageMultiplier = damageMultiplier;
-        }
-        if (!HasInputAuthority)
-        {
-            OtherPanelHPUpdate();
         }
         // RPC_GetTickDeltaBetweenClients(nickName);
     }
@@ -405,8 +413,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         //Jump
         if (jump || CalculateJumpBuffer())
         {
-            // Run jump animation
-            P_Jump = true;
             // Deprecated jump function
             // void _jump(float __jumpForce)
             // {
@@ -430,6 +436,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 if (!hasDoubleJumped)
                 {
+                    // Run jump animation
+                    P_Jump = true;
                     advanced_jump(_DoubleJumpHeight, _timeToApex);
                     hasDoubleJumped = true;
                 }
@@ -439,7 +447,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
 
             if (IsGrounded || CalculateCoyoteTime())
             {
-                //_jump(_jumpForce);
+                // Run jump animation
+                P_Jump = true;
                 advanced_jump(_jumpHeight, _timeToApex);
             }
 
@@ -527,6 +536,21 @@ public class PlayerControllerNetworked : NetworkBehaviour
         return (Runner.SimulationTime <= _rollBufferTime + _rollBufferThreshold) && IsGrounded;
     }
 
+    // Apply knockback by boss attack
+    public IEnumerator ApplyKnockback(Vector2 direction, float force)
+    {
+        CustomTickTimer knockbackApplyTickTimer = CustomTickTimer.CreateFromTicks(Runner, knockbackApplyTick);
+        while (!knockbackApplyTickTimer.Expired(Runner))
+        {
+            _rb.Rigidbody.velocity = Vector2.zero;
+            _rb.Rigidbody.MovePosition(new Vector2(
+                _rb.Rigidbody.position.x + direction.x * force,
+                _rb.Rigidbody.position.y + force * knockbackYMultiplier
+            ));
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
     private IEnumerator RollCoroutine()
     {
         DurationTickTimer = CustomTickTimer.CreateFromSeconds(Runner, _rollDuration);
@@ -584,14 +608,18 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public void RPC_OnPlayerHit(BossAttack.AttackData attackData)
     {
         CurrentHealth -= attackData.damage;
+        if (attackData.isApplyKnockback)
+        {
+            StartCoroutine(ApplyKnockback(attackData.knockbackDirection, knockbackForce));
+        }
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;
             // Revive when player lifes remain
             if (PlayerLifes - 1 > 0)
             {
-                PlayerLifes--;
                 CurrentHealth = MaxHealth;
+                PlayerLifes--;
             }
             else
             {
@@ -757,9 +785,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
         {
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
+
         if (healthBar)
         {
             healthBar.fillAmount = CurrentHealth / MaxHealth;
+        }
+    }
+
+    private void LifeChanged()
+    {
+        if (otherStatusPanel)
+        {
+            otherStatusPanel.SetLife(PlayerLifes);
+        }
+
+        if (lifeUI)
+        {
+            lifeUI.SetLife(PlayerLifes);
         }
     }
 
@@ -780,11 +822,23 @@ public class PlayerControllerNetworked : NetworkBehaviour
             otherStatusPanel.SetHP(CurrentHealth, MaxHealth);
         }
     }
+
     public void OtherPanelHpZero()
     {
         if (otherStatusPanel)
         {
             otherStatusPanel.SetHP(0, MaxHealth);
+            otherStatusPanel.SetLife(0);
+        }
+
+        if (healthBar)
+        {
+            healthBar.fillAmount = 0;
+        }
+
+        if (lifeUI)
+        {
+            lifeUI.SetLife(0);
         }
     }
 

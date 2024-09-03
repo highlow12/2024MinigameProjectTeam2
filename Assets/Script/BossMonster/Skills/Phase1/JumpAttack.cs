@@ -22,7 +22,7 @@ public class JumpAttack : BossSkill
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = attackDamage;
-
+        bossAttack.isApplyKnockback = false;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {

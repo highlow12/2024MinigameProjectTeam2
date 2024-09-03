@@ -13,6 +13,11 @@ public class OtherStatusPanel : MonoBehaviour
     public TestBuffIndicator buffIndicator;
     public PlayerControllerNetworked player;
 
+    [SerializeField] List<Image> lifeForeground;
+    [SerializeField] Sprite heart;
+    [SerializeField] Sprite brokenHeart;
+    [SerializeField] Sprite darkHeart;
+
     public void Start()
     {
         float[] yPoses = {60f, -60f};
@@ -39,7 +44,25 @@ public class OtherStatusPanel : MonoBehaviour
 
     public void SetHP(float hp, float maxHP)
     {
-        // Debug.Log($"{hp} / {maxHP} = {hp / maxHP}");
         hpForeground.fillAmount = hp / maxHP;
+    }
+
+    public void SetLife(int life)
+    {
+        for (int i = 0; i < lifeForeground.Count; i++)
+        {
+            if (life == 0)
+            {
+                lifeForeground[i].sprite = brokenHeart;
+            }
+            else if (life - 1 < i) 
+            {
+                lifeForeground[i].sprite = darkHeart;
+            }
+            else 
+            {
+                lifeForeground[i].sprite = heart;
+            }
+        }
     }
 }
