@@ -1,8 +1,6 @@
 using Fusion;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Fusion.Sockets.NetBitBuffer;
 
 public class SpawnFireSpirit : BossSkill
 {
@@ -18,11 +16,9 @@ public class SpawnFireSpirit : BossSkill
         transform.position, Quaternion.Euler(0, 0, 0),
             boss.InputAuthority, (runner, o) =>
             {
-                
                 var s = o.GetComponent<FireSpirit>();
                 o.transform.parent = transform;
                 s.setTarget(transform.GetComponent<BossMonsterNetworked>().FollowTarget.transform.position);
-
             }
         );
         yield return null;

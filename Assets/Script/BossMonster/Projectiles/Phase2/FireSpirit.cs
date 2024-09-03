@@ -7,7 +7,7 @@ public class FireSpirit : NetworkBehaviour
 {
     public float MoveTime = 2;
     Vector2 EndPoint = Vector2.left;
-    Vector2 TargetPos = new Vector2(0, 0);
+    Vector2 TargetPos = Vector2.right;
     float currentTime = 0;
     [Networked] private TickTimer life { get; set; }
     public List<PlayerRef> playersHit = new();
@@ -42,17 +42,21 @@ public class FireSpirit : NetworkBehaviour
     // Update is called once per frame
     public override void FixedUpdateNetwork()
     {
+        var t = TargetPos;
+        var e = EndPoint;
+
         currentTime += 1 / Runner.TickRate;
         currentTime %= MoveTime;
+        
         if (currentTime < 1)
         {
             //upward curve
-            transform.position = GetBesierPosition(TargetPos, EndPoint, Vector2.up, currentTime);
+            transform.position = GetBesierPosition(t, e, Vector2.up, currentTime);
         }
         else
         {
             //downward curve
-            transform.position = GetBesierPosition(EndPoint, TargetPos, Vector2.down, currentTime - 1);
+            transform.position = GetBesierPosition(e, t, Vector2.down, currentTime - 1);
         }
     }
 
@@ -85,6 +89,23 @@ public class FireSpirit : NetworkBehaviour
                 player.RPC_OnPlayerHit(attackData);
 
             }
+        }
+    }
+    void OnDrawGizmos()
+    {
+
+        Gizmos.color = Color.red; // 곡선 색상 설정
+        Debug.Log(TargetPos);
+        for (float t = 0; t <= 1; t += 0.1f)
+        {
+            Vector2 position = GetBesierPosition(EndPoint, TargetPos, Vector2.up, t);
+            Gizmos.DrawSphere(position, 0.1f); // 곡선의 각 점에 구체를 그립니다.
+        }
+
+        for (float t = 0; t <= 1; t += 0.1f)
+        {
+            Vector2 position = GetBesierPosition(TargetPos,EndPoint,Vector2.down, t);
+            Gizmos.DrawSphere(position, 0.1f); // 곡선의 각 점에 구체를 그립니다.
         }
     }
 }
