@@ -83,7 +83,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -135,7 +135,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -178,7 +178,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -221,7 +221,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -273,7 +273,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: AttackEffect
+    path: Phase1/AttackEffect
   m_PositionCurves:
   - curve:
       serializedVersion: 2
@@ -380,7 +380,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/leftLegSolver2D/leftLegSolver2D_Target
+    path: Phase1/Crotch/leftLegSolver2D/leftLegSolver2D_Target
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -486,7 +486,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/rightLegSolver2D/RightLegSolver2D_Target
+    path: Phase1/Crotch/rightLegSolver2D/RightLegSolver2D_Target
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -592,7 +592,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch
+    path: Phase1/Crotch
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -680,7 +680,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/New CCDSolver2D/HeadSolver2D_Target
+    path: Phase1/Crotch/New CCDSolver2D/HeadSolver2D_Target
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -759,7 +759,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/RightArmSolver2D/RightArmSolver2D_Target
+    path: Phase1/Crotch/RightArmSolver2D/RightArmSolver2D_Target
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -847,7 +847,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -881,7 +881,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -933,7 +933,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -985,7 +985,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: AttackEffect
+    path: Phase1/AttackEffect
   m_ScaleCurves: []
   m_FloatCurves:
   - serializedVersion: 2
@@ -1032,7 +1032,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 61
     script: {fileID: 0}
     flags: 0
@@ -1071,7 +1071,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Size.x
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 61
     script: {fileID: 0}
     flags: 0
@@ -1110,7 +1110,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Size.y
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 61
     script: {fileID: 0}
     flags: 0
@@ -1206,7 +1206,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Offset.y
-    path: 
+    path:
     classID: 70
     script: {fileID: 0}
     flags: 0
@@ -1246,7 +1246,7 @@ AnimationClip:
     - time: 2.3333333
       value: {fileID: 21300000, guid: 4ddc39033bc964aa4ab62833ef82c21b, type: 3}
     attribute: m_Sprite
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -1258,7 +1258,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1049308459
+      path: 405157171
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1267,7 +1267,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3366314147
+      path: 1506985473
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1276,7 +1276,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2249759769
+      path: 4114153377
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1285,7 +1285,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1597294401
+      path: 818937410
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1294,7 +1294,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2629409438
+      path: 231652412
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1303,7 +1303,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4260666807
+      path: 3680077231
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1312,7 +1312,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 19922483
+      path: 1039882508
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1321,7 +1321,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2216066346
+      path: 2393413586
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1330,7 +1330,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4253623972
+      path: 587711254
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1339,7 +1339,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1212483427
+      path: 3785434135
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -1348,7 +1348,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1318388203
+      path: 77828302
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -1357,7 +1357,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 19922483
+      path: 1039882508
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -1366,7 +1366,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2216066346
+      path: 2393413586
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -1375,7 +1375,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2216066346
+      path: 2393413586
       attribute: 3305885265
       script: {fileID: 0}
       typeID: 61
@@ -1384,7 +1384,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2216066346
+      path: 2393413586
       attribute: 4197328169
       script: {fileID: 0}
       typeID: 61
@@ -1393,7 +1393,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2216066346
+      path: 2393413586
       attribute: 2368279999
       script: {fileID: 0}
       typeID: 61
@@ -1402,7 +1402,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 0
+      path: 2757155153
       attribute: 2368279999
       script: {fileID: 0}
       typeID: 70
@@ -1411,7 +1411,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 0
+      path: 2757155153
       attribute: 1872933342
       script: {fileID: 0}
       typeID: 70
@@ -1420,7 +1420,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4253623972
+      path: 587711254
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -1429,7 +1429,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 4253623972
+      path: 587711254
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -1582,7 +1582,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/leftLegSolver2D/leftLegSolver2D_Target
+    path: Phase1/Crotch/leftLegSolver2D/leftLegSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1693,7 +1693,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/leftLegSolver2D/leftLegSolver2D_Target
+    path: Phase1/Crotch/leftLegSolver2D/leftLegSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1804,7 +1804,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/leftLegSolver2D/leftLegSolver2D_Target
+    path: Phase1/Crotch/leftLegSolver2D/leftLegSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -1915,7 +1915,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/rightLegSolver2D/RightLegSolver2D_Target
+    path: Phase1/Crotch/rightLegSolver2D/RightLegSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2026,7 +2026,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/rightLegSolver2D/RightLegSolver2D_Target
+    path: Phase1/Crotch/rightLegSolver2D/RightLegSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2137,7 +2137,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/rightLegSolver2D/RightLegSolver2D_Target
+    path: Phase1/Crotch/rightLegSolver2D/RightLegSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2248,7 +2248,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch
+    path: Phase1/Crotch
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2359,7 +2359,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch
+    path: Phase1/Crotch
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2470,7 +2470,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch
+    path: Phase1/Crotch
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2563,7 +2563,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/New CCDSolver2D/HeadSolver2D_Target
+    path: Phase1/Crotch/New CCDSolver2D/HeadSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2656,7 +2656,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/New CCDSolver2D/HeadSolver2D_Target
+    path: Phase1/Crotch/New CCDSolver2D/HeadSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2749,7 +2749,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/New CCDSolver2D/HeadSolver2D_Target
+    path: Phase1/Crotch/New CCDSolver2D/HeadSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2833,7 +2833,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/RightArmSolver2D/RightArmSolver2D_Target
+    path: Phase1/Crotch/RightArmSolver2D/RightArmSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2917,7 +2917,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/RightArmSolver2D/RightArmSolver2D_Target
+    path: Phase1/Crotch/RightArmSolver2D/RightArmSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3001,7 +3001,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/RightArmSolver2D/RightArmSolver2D_Target
+    path: Phase1/Crotch/RightArmSolver2D/RightArmSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3094,7 +3094,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3187,7 +3187,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3280,7 +3280,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3355,7 +3355,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3430,7 +3430,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3505,7 +3505,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3562,7 +3562,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3619,7 +3619,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3676,7 +3676,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3724,7 +3724,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3772,7 +3772,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3820,7 +3820,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -3859,7 +3859,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3898,7 +3898,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3937,7 +3937,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3994,7 +3994,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4051,7 +4051,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4108,7 +4108,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4156,7 +4156,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -4204,7 +4204,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -4252,7 +4252,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 16
@@ -4300,7 +4300,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 61
     script: {fileID: 0}
     flags: 0
@@ -4357,7 +4357,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4414,7 +4414,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4471,7 +4471,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4528,7 +4528,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4585,7 +4585,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4642,7 +4642,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4681,7 +4681,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Size.x
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 61
     script: {fileID: 0}
     flags: 0
@@ -4720,7 +4720,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Size.y
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 61
     script: {fileID: 0}
     flags: 0
@@ -4829,7 +4829,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4841,7 +4841,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4853,7 +4853,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
+    path: Phase1/Crotch/Spine/SpineToHead/RightArm/RightHand/bone_14
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4865,7 +4865,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4877,7 +4877,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4889,7 +4889,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Crotch/LeftLegUp/LeftLegDown/LeftFoot
+    path: Phase1/Crotch/LeftLegUp/LeftLegDown/LeftFoot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4901,7 +4901,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4913,7 +4913,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4925,7 +4925,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Crotch/RightLegUp/RightLegDown/RightFoot
+    path: Phase1/Crotch/RightLegUp/RightLegDown/RightFoot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4937,7 +4937,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4949,7 +4949,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4961,7 +4961,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
+    path: Phase1/Crotch/LeftArmSolver2D/LeftArmSolver2D_Target/BossAttack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4973,7 +4973,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4985,7 +4985,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -4997,7 +4997,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: AttackEffect
+    path: Phase1/AttackEffect
     classID: 4
     script: {fileID: 0}
     flags: 0
