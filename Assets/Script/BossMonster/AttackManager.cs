@@ -17,6 +17,11 @@ public class AttackManager : MonoBehaviour
         BossAttacks.Add(new BothAttack());
         BossAttacks.Add(new EnergyAttack());
         BossAttacks.Add(new JumpAttack());
+        //phase2 skills
+        BossAttacks.Add(new Bind());
+        BossAttacks.Add(new Shunpo());
+        BossAttacks.Add(new SpawnFireSpirit());
+
     }
 
 
