@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Bind : BossSkill
 {
-    Bind()
+    public Bind()
     {
-        name = "bind";
+        name = "Bind";
         phase = 2;
         attackDamage = 10;
     }
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
+        Debug.Log("skill " + name);
         yield return new WaitForEndOfFrame();
     }
 }

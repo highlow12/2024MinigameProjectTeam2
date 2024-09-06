@@ -99,6 +99,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             BossHitFeedbackEffects.Add(objects[i].GetComponent<BossHitFeedbackEffect>());
         }
         StartCoroutine(SetTargetRecursive());
+        UpdateBossPhaseCallback();
     }
 
     void Update()

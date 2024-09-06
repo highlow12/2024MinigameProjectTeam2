@@ -6,7 +6,7 @@ using UnityEngine;
 public class Shunpo : BossSkill
 {
     public float WaitTime = 3;
-    Shunpo()
+    public Shunpo()
     {
         name = "Shunpo";
         phase = 2;
@@ -15,6 +15,7 @@ public class Shunpo : BossSkill
 
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null/*<-this is sword*/, NetworkObject boss = null)
     {
+        Debug.Log("skill " + name);
         if (projectile.TryGetComponent<Phase2Sword>(out var sword))
         {
             animator.SetTrigger("Shunpo");

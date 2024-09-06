@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnFireSpirit : BossSkill
 {
-    SpawnFireSpirit()
+    public SpawnFireSpirit()
     {
         name = "SpawnFireSpirit";
         phase = 2;
@@ -12,6 +12,7 @@ public class SpawnFireSpirit : BossSkill
     }
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
     {
+        Debug.Log("skill " + name);
         runner.Spawn(projectile,
         transform.position, Quaternion.Euler(0, 0, 0),
             boss.InputAuthority, (runner, o) =>
