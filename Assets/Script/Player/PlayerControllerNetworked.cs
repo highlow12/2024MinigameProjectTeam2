@@ -263,7 +263,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         CurrentServerTick = (int)Runner.Tick;
-        if (Runner.SessionInfo.IsOpen == true)
+        if (Runner.SessionInfo.IsOpen == true || DebugConsole.Instance.isFocused)
         {
             return;
         }
