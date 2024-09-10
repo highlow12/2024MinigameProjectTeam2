@@ -9,7 +9,7 @@ using System.Linq;
 public class DebugConsole : MonoBehaviour
 {
     public static DebugConsole Instance;
-    private Command[] commands = new Command[3];
+    private Command[] commands = new Command[4];
     private Image consoleImage;
     private bool isHost = false;
     public bool isFocused = false;
