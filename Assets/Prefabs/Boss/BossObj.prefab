@@ -201,10 +201,12 @@ MonoBehaviour:
   phase2: {fileID: 99680791173765289}
   _phase1Animator: {fileID: 9100000, guid: d4bba80ccdc974777a14a59e16d3eb87, type: 2}
   _phase2Animator: {fileID: 9100000, guid: e2ebaaad992984fb09dd5bcd37318267, type: 2}
+  phase1BossAttack: {fileID: 3738774551853245099}
+  phase2BossAttack: {fileID: 4445055384275988246}
   cameraMovement: {fileID: 0}
   healthBar: {fileID: 0}
   durationIndicator: {fileID: 0}
-  bossAttack: {fileID: 3738774551853245099}
+  currentBossAttack: {fileID: 3738774551853245099}
   bossHealthText: {fileID: 0}
   BossHitFeedbackEffects: []
   bossSwordEffect: {fileID: 3392484300069629984, guid: b1d5833ae75d0ee4ab20766621307a07, type: 3}
@@ -761,6 +763,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3768572489175767231, guid: 944c13e076e1c47f4b236051a76dc1ab, type: 3}
   m_PrefabInstance: {fileID: 4005087296371895698}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4445055384275988246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 730972918709224068, guid: 944c13e076e1c47f4b236051a76dc1ab, type: 3}
+  m_PrefabInstance: {fileID: 4005087296371895698}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7866497e72a4047148544061fa0de374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4167564595549429151
 PrefabInstance:
   m_ObjectHideFlags: 0
