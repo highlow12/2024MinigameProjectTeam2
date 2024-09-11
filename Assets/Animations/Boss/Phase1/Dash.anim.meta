@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 7040329237ceab24ea81ff99c1c3b6d2
+<<<<<<<< HEAD:Assets/Animations/Boss/Phase2/Phase2_atteck.anim.meta
+guid: e6661c48ba1c50c438dc56e4217fad9a
+========
+guid: 620451bde80558f4a9f6f28f8249ab26
+>>>>>>>> main:Assets/Animations/Boss/Phase1/Dash.anim.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000

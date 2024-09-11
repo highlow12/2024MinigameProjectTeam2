@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Animators/BossPhase2Animator.controller.meta
 guid: e2ebaaad992984fb09dd5bcd37318267
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 9100000
-========
-guid: 620451bde80558f4a9f6f28f8249ab26
-NativeFormatImporter:
-  externalObjects: {}
-  mainObjectFileID: 7400000
->>>>>>>> main:Assets/Animations/Boss/Phase1/Dash.anim.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 
