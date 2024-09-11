@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Fusion;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public class DebugConsole : MonoBehaviour
 {
@@ -12,17 +13,31 @@ public class DebugConsole : MonoBehaviour
     private Command[] commands = new Command[4];
     private Image consoleImage;
     private bool isHost = false;
+    private Coroutine hideLogCoroutine;
+    private Command currentCommand;
     public bool isFocused = false;
     public TMP_InputField inputField;
     public TMP_Text consoleText;
-    public string currentCommand;
+    public GameObject toolTipObject;
+    public TMP_Text toolTipText;
+    public GameObject debugPanel;
+    public string currentCommandText;
+
+    enum LineType
+    {
+        Info,
+        Warning,
+        Error
+    }
 
     public struct Command
     {
         public string name;
         public string description;
+        public string successMessage;
         public string usage;
         public List<string> parameters;
+        public List<string> availableParameters;
     }
 
     // Commands
@@ -32,6 +47,7 @@ public class DebugConsole : MonoBehaviour
         name = "help",
         description = "Display all available commands",
         usage = "help",
+        successMessage = "That's all the commands",
         parameters = new List<string>()
     };
 
@@ -40,6 +56,7 @@ public class DebugConsole : MonoBehaviour
         name = "panel",
         description = "Toggle the debug panel",
         usage = "panel",
+        successMessage = "Debug panel toggled",
         parameters = new List<string>()
     };
 
@@ -48,15 +65,19 @@ public class DebugConsole : MonoBehaviour
         name = "modify",
         description = "Modify the game state",
         usage = "modify <parameter> <value>",
-        parameters = new List<string>()
+        successMessage = "Game state: {parameter} modified to {value}",
+        parameters = new List<string>(),
+        availableParameters = new List<string> { "phase", "health" }
     };
 
     private Command skill = new()
     {
         name = "skill",
         description = "Execute the boss skill",
-        usage = "skill <skill>",
-        parameters = new List<string>()
+        successMessage = "Boss skill: {parameter} executed",
+        usage = "skill <parameter>",
+        parameters = new List<string>(),
+        availableParameters = new List<string>()
     };
 
 
@@ -84,12 +105,51 @@ public class DebugConsole : MonoBehaviour
         {
             return;
         }
-        // execute command
-        if (Input.GetKeyDown(KeyCode.Return) && isFocused && currentCommand != "")
+
+        if (isFocused)
         {
-            CommandParser();
-            AddLine(currentCommand);
-            inputField.text = "";
+            if (currentCommandText != "")
+            {
+                currentCommand = ParseCommand();
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    bool commandResult = ExecuteCommand(currentCommand);
+                    if (commandResult)
+                    {
+                        string successMessage = currentCommand.successMessage;
+                        if (currentCommand.parameters.Count > 1)
+                        {
+                            successMessage = successMessage.Replace("{parameter}", currentCommand.parameters[0]);
+                            successMessage = successMessage.Replace("{value}", currentCommand.parameters[1]);
+                        }
+                        else if (currentCommand.parameters.Count > 0)
+                        {
+                            successMessage = successMessage.Replace("{parameter}", currentCommand.parameters[0]);
+                        }
+                        AddLine(successMessage);
+                    }
+                    else
+                    {
+                        AddLine("Command failed", LineType.Error);
+                    }
+                    inputField.text = "";
+                }
+            }
+            else
+            {
+                toolTipObject.SetActive(false);
+                toolTipText.text = "";
+            }
+        }
+        else
+        {
+            inputField.DeactivateInputField();
+        }
+
+        // enable console by pressing return 
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ToggleFocus();
         }
     }
 
@@ -100,76 +160,211 @@ public class DebugConsole : MonoBehaviour
         {
             inputField.ActivateInputField();
             consoleImage.enabled = true;
+            consoleText.enabled = true;
         }
         else
         {
             inputField.DeactivateInputField();
             consoleImage.enabled = false;
+            toolTipObject.SetActive(false);
+            toolTipText.text = "";
+            // hide console after 3 seconds
+            if (hideLogCoroutine != null)
+            {
+                StopCoroutine(hideLogCoroutine);
+            }
+            hideLogCoroutine = StartCoroutine(HideLog());
         }
     }
 
     public void ChangeCommand()
     {
-        currentCommand = inputField.text;
+        currentCommandText = inputField.text;
     }
 
-    void AddLine(string line)
+    IEnumerator HideLog()
+    {
+        yield return new WaitForSeconds(3);
+        if (isFocused)
+        {
+            yield break;
+        }
+        consoleText.enabled = false;
+    }
+
+    void AddLine(string line, LineType lineType = LineType.Info)
     {
         // add line to console
-        consoleText.text += line + "\n";
+        string newLine = "";
+        switch (lineType)
+        {
+            case LineType.Info:
+                newLine = $"<b><color=#FFFFFF>{line}</color></b>";
+                break;
+            case LineType.Warning:
+                newLine = $"<color=#FFFF00>{line}</color>";
+                break;
+            case LineType.Error:
+                newLine = $"<b><color=#FF0000>{line}</color></b>";
+                break;
+        }
+        consoleText.text += newLine + "\n";
     }
 
-    void CommandParser()
+    Command ParseCommand()
     {
         // parse command
-        List<string> splitCommand = currentCommand.Split(' ').ToList();
+        List<string> splitCommand = currentCommandText.Split(' ').ToList();
         // get command
+        Command toolTipCommand = commands.FirstOrDefault(c => !Equals(c, default(Command)) && Regex.Match(c.name, splitCommand[0], RegexOptions.IgnoreCase).Success);
         Command command = commands.FirstOrDefault(c => c.name == splitCommand[0]);
-        if (command.name == null)
+        string text = "";
+        command.parameters = splitCommand.GetRange(1, splitCommand.Count - 1);
+        if (toolTipCommand.name != null)
         {
-            AddLine("Invalid command");
-            return;
+            toolTipObject.SetActive(true);
+            if (splitCommand.Count == 1)
+            {
+                text = $"{toolTipCommand.name}: {toolTipCommand.description}\nUsage: {toolTipCommand.usage}";
+            }
+            if (toolTipCommand.availableParameters != null)
+            {
+                if (toolTipCommand.name == "skill" && toolTipCommand.availableParameters.Count == 0)
+                {
+                    var parameters = AttackManager.Instance.BossAttacks.Select(
+                            attack => attack.name).ToList();
+                    Debug.Log(parameters);
+                    toolTipCommand.availableParameters = parameters;
+                    commands[3].availableParameters = parameters;
+                }
+                List<string> matchedParameters = new();
+                foreach (string parameter in toolTipCommand.availableParameters)
+                {
+                    Match match = Regex.Match(parameter, splitCommand.Last(), RegexOptions.IgnoreCase);
+                    if (match.Success)
+                    {
+                        matchedParameters.Add(parameter);
+                    }
+                }
+                text = $"\nAvailable parameters: {string.Join(", ", matchedParameters)}";
+            }
+            toolTipText.text = text;
         }
+        else
+        {
+            toolTipObject.SetActive(false);
+            toolTipText.text = text;
+        }
+        return command;
+
+    }
+
+    bool ExecuteCommand(Command command)
+    {
+        bool result = false;
         switch (command.name)
         {
             case "help":
-                // HelpCommand();
+                result = HelpCommand();
                 break;
             case "panel":
-                // PanelCommand();
+                result = PanelCommand();
                 break;
             case "modify":
-                ModifyCommand(splitCommand.GetRange(1, splitCommand.Count - 1));
+                result = ModifyCommand(command.parameters);
+                break;
+            case "skill":
+                result = SkillCommand(command.parameters);
+                break;
+            default:
+                AddLine("Command not found", LineType.Error);
                 break;
         }
-
+        return result;
     }
 
     // Command functions
-    void ModifyCommand(List<string> parameters)
+    bool HelpCommand()
     {
-        // modify boss state
-        BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
-        if (parameters.Count < 2)
+        // display all available commands
+        AddLine("Available commands:");
+        AddLine("===================================");
+        foreach (Command command in commands)
         {
-            Debug.Log("Invalid parameters");
-            return;
+            AddLine($"{command.name}: {command.description}\nUsage: {command.usage}\n");
         }
-        string parameter = parameters[0];
-        string value = parameters[1];
-        switch (parameter)
+        AddLine("===================================");
+        return true;
+    }
+
+    bool PanelCommand()
+    {
+        try
         {
-            case "phase":
-                // modify boss phase
-                boss.BossPhase = int.Parse(value);
-                break;
-            case "health":
-                // modify boss health
-                boss.CurrentHealth = int.Parse(value);
-                break;
-            default:
-                Debug.Log("Invalid parameter");
-                break;
+            // toggle debug panel
+            debugPanel.SetActive(!debugPanel.activeSelf);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    bool ModifyCommand(List<string> parameters)
+    {
+        try
+        {
+            // modify boss state
+            BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
+            if (parameters.Count < 2)
+            {
+                AddLine("Invalid parameters", LineType.Error);
+                return false;
+            }
+            string parameter = parameters[0];
+            string value = parameters[1];
+            switch (parameter)
+            {
+                case "phase":
+                    // modify boss phase
+                    boss.BossPhase = int.Parse(value);
+                    break;
+                case "health":
+                    // modify boss health
+                    boss.CurrentHealth = int.Parse(value);
+                    break;
+                default:
+                    AddLine("Invalid parameter", LineType.Error);
+                    break;
+            }
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    bool SkillCommand(List<string> parameters)
+    {
+        bool result = false;
+        try
+        {
+            // execute boss skill
+            BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
+            if (parameters.Count < 1)
+            {
+                AddLine("Invalid parameters", LineType.Error);
+                return false;
+            }
+            string parameter = parameters[0];
+            result = boss.ExecuteSkill(parameter);
+            return result;
+        }
+        catch
+        {
+            return false;
         }
     }
 

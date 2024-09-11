@@ -408,6 +408,19 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     }
 
+    // This function is used to execute the boss skill by debug console
+    public bool ExecuteSkill(string skillName)
+    {
+        RPC_ForceRetarget();
+        BossSkill skill = GetBossSkill(skillName, BossPhase);
+        if (skill == null)
+        {
+            return false;
+        }
+        StartCoroutine(skill.Attack(transform, _currentAnimator, Runner, currentBossAttack));
+        return true;
+    }
+
     private float GetDistance(Vector3 target)
     {
         return Vector2.Distance(transform.position, target);
