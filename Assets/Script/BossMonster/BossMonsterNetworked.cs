@@ -415,7 +415,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             return false;
         }
-        StartCoroutine(skill.Attack(transform, _currentAnimator, Runner, currentBossAttack));
+        StartCoroutine(skill.Attack(transform, _currentAnimator, Runner, currentBossAttack, bossSwordEffect, Object));
         return true;
     }
 
