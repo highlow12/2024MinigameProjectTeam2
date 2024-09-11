@@ -93,7 +93,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         CurrentState = BossState.Idle;
         var objects = GameObject.FindGameObjectsWithTag("BossHitFeedbackEffect");
         Debug.Log(objects.Length);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < objects.Length; i++)
         {
             Debug.Log($"Set {i}th object");
             BossHitFeedbackEffects.Add(objects[i].GetComponent<BossHitFeedbackEffect>());
