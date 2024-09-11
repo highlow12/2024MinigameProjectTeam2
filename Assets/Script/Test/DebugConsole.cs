@@ -10,15 +10,12 @@ using System.Text.RegularExpressions;
 public class DebugConsole : MonoBehaviour
 {
     public static DebugConsole Instance;
-    private List<Line> lines = new();
     private Command[] commands = new Command[4];
     private Image consoleImage;
     private bool isHost = false;
     private Coroutine hideLogCoroutine;
     private Command currentCommand;
-    public int historyCursor = -1;
     public bool isFocused = false;
-    public bool requireParse = false;
     public TMP_InputField inputField;
     public TMP_Text consoleText;
     public GameObject toolTipObject;
@@ -26,25 +23,11 @@ public class DebugConsole : MonoBehaviour
     public GameObject debugPanel;
     public string currentCommandText;
 
-    public enum MessageType
-    {
-        Local,
-        Shared
-    }
-
     enum LineType
     {
         Info,
         Warning,
         Error
-    }
-
-    public struct Line
-    {
-        public string text;
-        public MessageType messageType;
-        public int tick;
-
     }
 
     public struct Command
@@ -125,14 +108,9 @@ public class DebugConsole : MonoBehaviour
 
         if (isFocused)
         {
-            RenderLines();
-            if (requireParse)
-            {
-                currentCommand = ParseCommand();
-                requireParse = false;
-            }
             if (currentCommandText != "")
             {
+                currentCommand = ParseCommand();
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     bool commandResult = ExecuteCommand(currentCommand);
@@ -155,22 +133,7 @@ public class DebugConsole : MonoBehaviour
                         AddLine("Command failed", LineType.Error);
                     }
                     inputField.text = "";
-                    RenderLines();
                 }
-                // Work in progress
-                // if (Input.GetKeyDown(KeyCode.UpArrow))
-                // {
-                //     if (historyCursor == -1)
-                //     {
-
-                //         historyCursor = lines.Count - 1;
-                //     }
-                //     else if (historyCursor > 0)
-                //     {
-                //         historyCursor--;
-                //     }
-                //     inputField.text = lines[historyCursor].text;
-                // }
             }
             else
             {
@@ -214,13 +177,10 @@ public class DebugConsole : MonoBehaviour
         }
     }
 
-    // This function is called by Event Listener
     public void ChangeCommand()
     {
         currentCommandText = inputField.text;
-        requireParse = true;
     }
-
 
     IEnumerator HideLog()
     {
@@ -248,19 +208,7 @@ public class DebugConsole : MonoBehaviour
                 newLine = $"<b><color=#FF0000>{line}</color></b>";
                 break;
         }
-        lines.Add(new Line { text = newLine, messageType = MessageType.Local, tick = (int)NetworkRunner.Instances.First().Tick });
-        // consoleText.text += newLine + "\n";
-    }
-
-    void RenderLines()
-    {
-        // render all lines
-        consoleText.text = "";
-        lines.Sort((a, b) => a.tick.CompareTo(b.tick));
-        foreach (Line line in lines)
-        {
-            consoleText.text += line.text + "\n";
-        }
+        consoleText.text += newLine + "\n";
     }
 
     Command ParseCommand()
@@ -279,15 +227,12 @@ public class DebugConsole : MonoBehaviour
             {
                 text = $"{toolTipCommand.name}: {toolTipCommand.description}\nUsage: {toolTipCommand.usage}";
             }
-            else if (toolTipCommand.availableParameters != null)
+            if (toolTipCommand.availableParameters != null)
             {
                 if (toolTipCommand.name == "skill" && toolTipCommand.availableParameters.Count == 0)
                 {
-                    int phase = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>().BossPhase;
-                    List<string> parameters = AttackManager.Instance.BossAttacks
-                        .Where(attack => attack.phase == phase).
-                            Select(attack => attack.name)
-                                .ToList();
+                    var parameters = AttackManager.Instance.BossAttacks.Select(
+                            attack => attack.name).ToList();
                     Debug.Log(parameters);
                     toolTipCommand.availableParameters = parameters;
                     commands[3].availableParameters = parameters;
@@ -384,7 +329,6 @@ public class DebugConsole : MonoBehaviour
                 case "phase":
                     // modify boss phase
                     boss.BossPhase = int.Parse(value);
-                    commands[3].availableParameters.Clear();
                     break;
                 case "health":
                     // modify boss health

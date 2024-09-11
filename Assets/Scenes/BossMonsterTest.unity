@@ -465,7 +465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFocused: 0
-  requireParse: 0
   inputField: {fileID: 719985895}
   consoleText: {fileID: 1228864284}
   toolTipObject: {fileID: 338426361}
@@ -6324,28 +6323,16 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DebugConsole, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 28732447}
         m_TargetAssemblyTypeName: DebugConsole, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: ToggleFocus
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6358,9 +6345,9 @@ MonoBehaviour:
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 28732447}
         m_TargetAssemblyTypeName: DebugConsole, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: ToggleFocus
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7091,7 +7078,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792514754}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30fa70cd0a01d40e48edefb66ec745be, type: 3}
   m_Name: 
