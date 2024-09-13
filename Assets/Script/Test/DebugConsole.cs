@@ -17,8 +17,10 @@ public class DebugConsole : MonoBehaviour
     private Image consoleImage;
     private bool isHost = false;
     private Coroutine hideLogCoroutine;
+    private Coroutine showLogCoroutine;
     private Command currentCommand;
     private NetworkRunner _runner;
+    public char commandPrefix = '/';
     public int historyCursor = -1;
     public bool isFocused = false;
     public bool requireParse = false;
@@ -134,10 +136,10 @@ public class DebugConsole : MonoBehaviour
 
     void Update()
     {
-        if (!isHost)
-        {
-            return;
-        }
+        // if (!isHost)
+        // {
+        //     return;
+        // }
 
         if (isFocused)
         {
@@ -149,7 +151,7 @@ public class DebugConsole : MonoBehaviour
             }
             // Up arrow, Down arrow command history
             CommandHistory();
-            if (currentCommandText != "")
+            if (currentCommandText.Split(commandPrefix).Length > 1)
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
@@ -173,6 +175,16 @@ public class DebugConsole : MonoBehaviour
                     }
                     inputField.text = "";
                     historyCursor = commandHistory.Count;
+                    RenderLines();
+                }
+            }
+            else if (currentCommandText.Length > 0)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    commandHistory.Add(currentCommandText);
+                    MessageHandler.Instance.RPC_ReceieveMessage(currentCommandText, _runner.gameObject.GetComponent<NetworkManager>().nickName, (int)_runner.Tick);
+                    inputField.text = "";
                     RenderLines();
                 }
             }
@@ -224,9 +236,27 @@ public class DebugConsole : MonoBehaviour
         // remove backslashes from input for avoid the argument exception on regex match
         string newText = inputField.text.Replace("\\", "");
         currentCommandText = newText;
-        requireParse = true;
+        if (inputField.text.Split(commandPrefix).Length > 1 && isHost)
+        {
+            requireParse = true;
+        }
     }
 
+    IEnumerator ShowLog()
+    {
+        RenderLines();
+        if (hideLogCoroutine != null)
+        {
+            StopCoroutine(hideLogCoroutine);
+        }
+        consoleText.enabled = true;
+        yield return new WaitForSeconds(3);
+        if (isFocused)
+        {
+            yield break;
+        }
+        consoleText.enabled = false;
+    }
 
     IEnumerator HideLog()
     {
@@ -239,7 +269,7 @@ public class DebugConsole : MonoBehaviour
         consoleText.enabled = false;
     }
 
-    void AddLine(string line, LineType lineType = LineType.Info)
+    void AddLine(string line, LineType lineType = LineType.Info, MessageType messageType = MessageType.Local)
     {
         // add line to console
         string newLine = "";
@@ -261,9 +291,19 @@ public class DebugConsole : MonoBehaviour
         lines.Add(new Line
         {
             text = newLine,
-            messageType = MessageType.Local,
+            messageType = messageType,
             tick = (int)_runner.Tick
         });
+    }
+
+    public void MergeLine(Line line)
+    {
+        lines.Add(line);
+        if (showLogCoroutine != null)
+        {
+            StopCoroutine(showLogCoroutine);
+        }
+        showLogCoroutine = StartCoroutine(ShowLog());
     }
 
     void RenderLines()
@@ -314,7 +354,7 @@ public class DebugConsole : MonoBehaviour
     Command ParseCommand()
     {
         // split text to get command and parameters
-        List<string> splitCommand = currentCommandText.Split(' ').ToList();
+        List<string> splitCommand = currentCommandText.Substring(1, currentCommandText.Length - 1).Split(' ').ToList();
         // get toolTip command with regex
         // get command that is not default and matches with currentCommandText
         Command toolTipCommand = commands.FirstOrDefault(c => !Equals(c, default(Command)) && Regex.Match(c.name, splitCommand[0], RegexOptions.IgnoreCase).Success);

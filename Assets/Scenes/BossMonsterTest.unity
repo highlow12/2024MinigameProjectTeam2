@@ -464,6 +464,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cccac69a3d8634355bf60893bf2f6114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commandHistory: []
+  commandPrefix: 47
+  historyCursor: -1
   isFocused: 0
   requireParse: 0
   inputField: {fileID: 719985895}
