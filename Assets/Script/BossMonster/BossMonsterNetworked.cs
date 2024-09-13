@@ -332,6 +332,15 @@ public class BossMonsterNetworked : NetworkBehaviour
                     return;
                 }
                 isAttacking = true;
+                // If player is not in attack range, cancel the attack
+                // and set state as Move
+                if (!bossCondition.HasFlag(Condition.IsPlayerInAttackRange) && attackType == AttackType.Melee)
+                {
+                    Debug.Log("Player is not in attack range");
+                    CurrentState = BossState.Move;
+                    isAttacking = false;
+                    return;
+                }
                 switch (BossPhase)
                 {
                     case 1:
@@ -340,60 +349,58 @@ public class BossMonsterNetworked : NetworkBehaviour
                             // Attack controller makes sure that the attack is executed once
                             // If end of the attack is reached, isAttacking is set as false
                             case AttackType.Melee:
-                                // If player is not in attack range, cancel the attack
-                                // and set state as Move
-                                if (!bossCondition.HasFlag(Condition.IsPlayerInAttackRange))
+                                int phase1_melee_skillRandom = Random.Range(0, 4);
+                                switch (phase1_melee_skillRandom)
                                 {
-                                    Debug.Log("Player is not in attack range");
-                                    CurrentState = BossState.Move;
-                                    isAttacking = false;
-                                    return;
-                                }
-                                int attacktype = Random.Range(0, 4);
-
-                                switch (attacktype)
-                                {
-                                    case (0):
-                                        BossSkill attack = GetBossSkill("BaseAttack1", BossPhase);
+                                    case 0:
+                                        BossSkill phase1_baseAttack = GetBossSkill("BaseAttack1", BossPhase);
                                         // you can modify attack damage like this
                                         // attack.damage = 100;
                                         // call coroutine with attack.Attack(_animator, Runner, bossAttack)
-                                        StartCoroutine(AttackController(attack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                        StartCoroutine(AttackController(phase1_baseAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
                                         Debug.Log("Do Melee Attack");
                                         break;
 
-                                    case (1):
-                                        BossSkill attack2 = GetBossSkill("BackAttack", BossPhase);
-                                        StartCoroutine(AttackController(attack2.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                    case 1:
+                                        BossSkill phase1_backAttack = GetBossSkill("BackAttack", BossPhase);
+                                        StartCoroutine(AttackController(phase1_backAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
                                         Debug.Log("Do Melee Attack2");
                                         break;
 
-                                    case (2):
-                                        BossSkill attack3 = GetBossSkill("BothAttack", BossPhase);
-                                        StartCoroutine(AttackController(attack3.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                    case 2:
+                                        BossSkill phase1_bothAttack = GetBossSkill("BothAttack", BossPhase);
+                                        StartCoroutine(AttackController(phase1_bothAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
                                         Debug.Log("Do bothAttack");
                                         break;
 
-                                    case (3):
-                                        BossSkill attack4 = GetBossSkill("EnergyAttack", BossPhase);
-                                        StartCoroutine(AttackController(attack4.Attack(transform, _currentAnimator, Runner, currentBossAttack, bossSwordEffect, Object)));
+                                    case 3:
+                                        BossSkill phase1_energyAttack = GetBossSkill("EnergyAttack", BossPhase);
+                                        StartCoroutine(AttackController(phase1_energyAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, bossSwordEffect, Object)));
                                         Debug.Log("Do AttackWithEnergy");
                                         break;
                                 }
-                                BossSkill defaultAttack = GetBossSkill("BaseAttack1", BossPhase);
-                                StartCoroutine(AttackController(defaultAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                BossSkill phase1_defaultAttack = GetBossSkill("BaseAttack1", BossPhase);
+                                StartCoroutine(AttackController(phase1_defaultAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
                                 Debug.Log("Do Melee Attack");
                                 break;
                             case AttackType.JumpDash:
-                                int attacktype1 = Random.Range(0, 1);
-                                switch (attacktype1)
+                                int phase1_jumpDash_skillRandom = Random.Range(0, 1);
+                                switch (phase1_jumpDash_skillRandom)
                                 {
-                                    case (0):
-                                        BossSkill attack5 = GetBossSkill("JumpAttack", BossPhase);
-                                        StartCoroutine(AttackController(attack5.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                    case 0:
+                                        BossSkill phase1_jumpDashAttack = GetBossSkill("JumpAttack", BossPhase);
+                                        StartCoroutine(AttackController(phase1_jumpDashAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
                                         Debug.Log("Do Jump Dash Attack");
                                         break;
                                 }
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (attackType)
+                        {
+                            case AttackType.Melee:
+                                int phase2_melee_skillRandom = Random.Range(0, 4);
                                 break;
                         }
                         break;
@@ -557,12 +564,14 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (BossPhase == 1)
         {
             phase1.SetActive(true);
+            currentBossAttack = phase1BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase1Animator;
             phase2.SetActive(false);
         }
         else if (BossPhase == 2)
         {
             phase1.SetActive(false);
+            currentBossAttack = phase2BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase2Animator;
             phase2.SetActive(true);
         }
