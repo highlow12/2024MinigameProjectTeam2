@@ -21,6 +21,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef characterPrefab;
     [SerializeField] public GameObject otherStatusPrefab;
     [SerializeField] private GameObject debugPanel;
+    [SerializeField] private GameObject messageHandler;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new();
 
     private void Awake()
@@ -67,6 +68,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             {
                 spawnPosition = new(0, -4.6f, 0);
                 networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
+                runner.Spawn(messageHandler, new Vector3(0, 0, 0), Quaternion.identity);
                 // runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
                 _spawnedCharacters.Add(newPlayerRef, networkCharacterObject);
