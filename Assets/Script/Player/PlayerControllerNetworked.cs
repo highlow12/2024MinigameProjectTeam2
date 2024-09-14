@@ -28,6 +28,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
     [Networked] public CustomTickTimer HealthRegenIntervalTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
+    [Networked] public NetworkBool IsBinded { get; set; }
     // Animator parameters
     [Networked] public int RunState { get; set; }
     [Networked] public bool Grounded { get; set; }
@@ -263,8 +264,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         CurrentServerTick = (int)Runner.Tick;
-        if (Runner.SessionInfo.IsOpen == true || DebugConsole.Instance.isFocused)
+        if (Runner.SessionInfo.IsOpen == true || DebugConsole.Instance.isFocused || IsBinded)
         {
+            _rb.Rigidbody.velocity = Vector2.zero;
+            RunState = 0;
             return;
         }
         InputTask();
@@ -551,6 +554,17 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
     }
 
+    public IEnumerator ApplyBind(float duration)
+    {
+        IsBinded = true;
+        CustomTickTimer bindDurationTimer = CustomTickTimer.CreateFromSeconds(Runner, duration);
+        while (!bindDurationTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        IsBinded = false;
+    }
+
     private IEnumerator RollCoroutine()
     {
         DurationTickTimer = CustomTickTimer.CreateFromSeconds(Runner, _rollDuration);
@@ -629,6 +643,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
             }
 
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_ApplyBind(float duration)
+    {
+        StartCoroutine(ApplyBind(duration));
     }
 
     // RPC function to apply aura buffs

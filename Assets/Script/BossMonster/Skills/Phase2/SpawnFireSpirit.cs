@@ -9,8 +9,9 @@ public class SpawnFireSpirit : BossSkill
         name = "SpawnFireSpirit";
         phase = 2;
         attackDamage = 0;
+        projectile = Resources.Load<GameObject>("FireSpirit");
     }
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
         Debug.Log("skill " + name);
         runner.Spawn(projectile,

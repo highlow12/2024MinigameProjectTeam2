@@ -11,9 +11,10 @@ public class Shunpo : BossSkill
         name = "Shunpo";
         phase = 2;
         attackDamage = 10;
+        projectile = Resources.Load<GameObject>("Phase2Sword");
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null/*<-this is sword*/, NetworkObject boss = null)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
         Debug.Log("skill " + name);
         if (projectile.TryGetComponent<Phase2Sword>(out var sword))
