@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -9169618106303365648}
   - component: {fileID: -7433670460835304688}
   - component: {fileID: 1000910286379798731}
-  - component: {fileID: 9146157808524295334}
+  - component: {fileID: 3881486963953138778}
   m_Layer: 0
   m_Name: FireSpirit
   m_TagString: Untagged
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: -1716259091
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b70ae055998444558a3c494a8b346529, type: 3}
   m_Color: {r: 0, g: 0.9800043, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,13 +118,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveTime: 2
+  TurnCount: 3
   playersHit: []
   damage: 10
   speed: 5
   lifeSeconds: 3
   attackClip: {fileID: 8300000, guid: 20db8b918ef8a7b469bbc64e43239d0a, type: 3}
---- !u!61 &9146157808524295334
-BoxCollider2D:
+--- !u!58 &3881486963953138778
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -155,16 +156,6 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 21.923973, y: 21.560001}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: -0.39}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.73
