@@ -32,6 +32,7 @@ public class DebugConsole : MonoBehaviour
     public string currentCommandText;
     List<string> matchedOptions = new();
     int matchedOptionCursor = 0;
+    bool preventClearMatchedOptions = false;
 
 
     public enum MessageType
@@ -255,6 +256,7 @@ public class DebugConsole : MonoBehaviour
         {
             requireParse = true;
         }
+        preventClearMatchedOptions = false;
     }
 
     IEnumerator ShowLog()
@@ -376,7 +378,7 @@ public class DebugConsole : MonoBehaviour
             string result = string.Join(" ", splitText);
             if (splitText.Length == 1)
             {
-                currentCommandText = "/" + result;
+                currentCommandText = commandPrefix + result;
             }
             else
             {
@@ -384,6 +386,11 @@ public class DebugConsole : MonoBehaviour
             }
             inputField.text = currentCommandText;
             inputField.caretPosition = inputField.text.Length;
+            if (matchedOptionCursor + 1 > 0)
+            {
+                preventClearMatchedOptions = true;
+            }
+            matchedOptionCursor = (matchedOptionCursor + 1) % matchedOptions.Count;
         }
     }
 
@@ -465,17 +472,24 @@ public class DebugConsole : MonoBehaviour
                     }
                 }
                 // get matched parameters with regex
-                matchedOptionCursor = 0;
-                matchedOptions.Clear();
-                foreach (string parameter in toolTipCommand.availableParameters)
+                if (!preventClearMatchedOptions)
                 {
-                    Match match = Regex.Match(parameter, splitCommand.Last(), RegexOptions.IgnoreCase);
-                    if (match.Success)
+                    matchedOptionCursor = 0;
+                    matchedOptions.Clear();
+                    foreach (string parameter in toolTipCommand.availableParameters)
                     {
-                        matchedOptions.Add(parameter);
+                        Match match = Regex.Match(parameter, splitCommand.Last(), RegexOptions.IgnoreCase);
+                        if (match.Success)
+                        {
+                            matchedOptions.Add(parameter);
+                        }
                     }
                 }
-                displayToolTipText = $"\nAvailable parameters: {string.Join(", ", matchedOptions)}";
+                else
+                {
+                    preventClearMatchedOptions = false;
+                }
+                displayToolTipText = $"\nAvailable parameters - Cursor: {matchedOptionCursor}: {string.Join(", ", matchedOptions)}";
             }
             toolTipText.text = displayToolTipText;
         }
