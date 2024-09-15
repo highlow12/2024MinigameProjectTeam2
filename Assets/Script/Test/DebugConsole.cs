@@ -176,11 +176,11 @@ public class DebugConsole : MonoBehaviour
                     if (commandResult)
                     {
                         string successMessage = currentCommand.successMessage;
-                        // replace parameters in success message
+                        // replace arguments in success message
                         int idx = 1;
-                        foreach (string parameter in currentCommand.parameters)
+                        foreach (string argument in currentCommand.parameters)
                         {
-                            successMessage = successMessage.Replace($"{{parameter{idx}}}", parameter);
+                            successMessage = successMessage.Replace($"{{argument{idx}}}", argument);
                             idx++;
                         }
                         AddLine(successMessage);
