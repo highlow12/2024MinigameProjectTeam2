@@ -9,9 +9,13 @@ public class BindSword : NetworkBehaviour
     private NetworkMecanimAnimator _mechanimAnimator;
     private bool isDrop = false;
     private bool isBinded = false;
+    private Coroutine despawnCoroutine;
+    private float life = 3;
     public float bindDuration = 3;
     public float drainAmount = 10;
-    public float damagePerTick = 1.5f;
+    [HideInInspector]
+    public float damagePerTick;
+    [HideInInspector]
     public NetworkObject boss;
     // Start is called before the first frame update
     void Start()
@@ -35,20 +39,18 @@ public class BindSword : NetworkBehaviour
         }
         if (!isBinded && isDrop && _rb.gravityScale == 0)
         {
-            Runner.Despawn(Object);
+            despawnCoroutine ??= StartCoroutine(Despawn());
         }
     }
 
     IEnumerator DrainLife(PlayerControllerNetworked player)
     {
-        CustomTickTimer life = CustomTickTimer.CreateFromSeconds(Runner, bindDuration);
-        // 왜 NullReferenceException이 발생하지?
-        // 근데 왜 작동하지?
+        CustomTickTimer duration = CustomTickTimer.CreateFromSeconds(Runner, bindDuration);
         BossMonsterNetworked boss = this.boss.GetComponent<BossMonsterNetworked>();
-        while (!life.Expired(Runner))
+        while (!duration.Expired(Runner))
         {
             yield return new WaitForFixedUpdate();
-            boss.CurrentHealth += drainAmount;
+            boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
             player.RPC_OnPlayerHit(
                 new BossAttack.AttackData
                 {
@@ -59,6 +61,23 @@ public class BindSword : NetworkBehaviour
             );
         }
         Runner.Despawn(Object);
+    }
+
+    IEnumerator Despawn()
+    {
+        CustomTickTimer lifeTimer = CustomTickTimer.CreateFromSeconds(Runner, life);
+        while (Runner != null && !lifeTimer.Expired(Runner)) /* null check */
+        {
+            if (isBinded)
+            {
+                yield break;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        if (Runner != null) /* null check */
+        {
+            Runner.Despawn(Object);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)

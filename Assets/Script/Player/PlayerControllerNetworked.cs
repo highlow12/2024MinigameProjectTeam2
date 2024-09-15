@@ -266,7 +266,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         CurrentServerTick = (int)Runner.Tick;
         if (Runner.SessionInfo.IsOpen == true || DebugConsole.Instance.isFocused || IsBinded)
         {
-            _rb.Rigidbody.velocity = Vector2.zero;
+            _rb.Rigidbody.velocity = new Vector2(0, _rb.Rigidbody.velocity.y);
             RunState = 0;
             return;
         }
@@ -557,12 +557,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public IEnumerator ApplyBind(float duration)
     {
         IsBinded = true;
+        _collider.excludeLayers = _enemyLayer;
         CustomTickTimer bindDurationTimer = CustomTickTimer.CreateFromSeconds(Runner, duration);
         while (!bindDurationTimer.Expired(Runner))
         {
             yield return new WaitForFixedUpdate();
         }
         IsBinded = false;
+        _collider.excludeLayers = 0;
     }
 
     private IEnumerator RollCoroutine()
