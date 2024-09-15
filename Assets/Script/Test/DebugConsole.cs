@@ -93,7 +93,7 @@ public class DebugConsole : MonoBehaviour
         name = "modify",
         description = "Modify the game state",
         usage = "modify <state> <value>",
-        successMessage = "Game state: {parameter1} modified to {parameter2}",
+        successMessage = "Game state: {argument1} modified to {argument2}",
         parameters = new List<string>(),
         availableParameters = new List<string> { "phase", "health" }
     };
@@ -102,7 +102,7 @@ public class DebugConsole : MonoBehaviour
     {
         name = "skill",
         description = "Execute the boss skill",
-        successMessage = "Boss skill: {parameter1} executed",
+        successMessage = "Boss skill: {argument1} executed",
         usage = "skill <skillName>",
         parameters = new List<string>(),
         availableParameters = new List<string>()
@@ -112,7 +112,7 @@ public class DebugConsole : MonoBehaviour
     {
         name = "changeClass",
         description = "Change the player class",
-        successMessage = "Player {parameter1} class changed to {parameter2}",
+        successMessage = "Player {argument1} class changed to {argument2}",
         usage = "changeClass <playerRef> <classId>",
         parameters = new List<string>(),
         availableParameters = new List<string>(),
@@ -122,7 +122,7 @@ public class DebugConsole : MonoBehaviour
     {
         name = "gamerule",
         description = "Change the game rule",
-        successMessage = "Game rule: {parameter1} changed to {parameter2}",
+        successMessage = "Game rule: {argument1} changed to {argument2}",
         usage = "gamerule <rule> <value>",
         parameters = new List<string>(),
         availableParameters = new List<string>()
@@ -176,11 +176,11 @@ public class DebugConsole : MonoBehaviour
                     if (commandResult)
                     {
                         string successMessage = currentCommand.successMessage;
-                        // replace parameters in success message
+                        // replace arguments in success message
                         int idx = 1;
-                        foreach (string parameter in currentCommand.parameters)
+                        foreach (string argument in currentCommand.parameters)
                         {
-                            successMessage = successMessage.Replace($"{{parameter{idx}}}", parameter);
+                            successMessage = successMessage.Replace($"{{argument{idx}}}", argument);
                             idx++;
                         }
                         AddLine(successMessage);
@@ -489,7 +489,7 @@ public class DebugConsole : MonoBehaviour
                 {
                     preventClearMatchedOptions = false;
                 }
-                displayToolTipText = $"\nAvailable parameters - Cursor: {matchedOptionCursor}: {string.Join(", ", matchedOptions)}";
+                displayToolTipText = $"\nAvailable arguments - Cursor: {matchedOptionCursor}: {string.Join(", ", matchedOptions)}";
             }
             toolTipText.text = displayToolTipText;
         }
@@ -570,7 +570,7 @@ public class DebugConsole : MonoBehaviour
             BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
             if (parameters.Count < 2)
             {
-                AddLine("Invalid parameters", LineType.Error);
+                AddLine("Invalid arguments", LineType.Error);
                 return false;
             }
             string parameter = parameters[0];
@@ -588,7 +588,7 @@ public class DebugConsole : MonoBehaviour
                     boss.CurrentHealth = int.Parse(value);
                     break;
                 default:
-                    AddLine("Invalid parameter", LineType.Error);
+                    AddLine("Invalid argument", LineType.Error);
                     break;
             }
             return true;
@@ -608,7 +608,7 @@ public class DebugConsole : MonoBehaviour
             BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
             if (parameters.Count < 1)
             {
-                AddLine("Invalid parameters", LineType.Error);
+                AddLine("Invalid arguments", LineType.Error);
                 return false;
             }
             string parameter = parameters[0];
