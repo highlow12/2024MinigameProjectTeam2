@@ -6,10 +6,11 @@ using Fusion;
 public class FireSpirit : NetworkBehaviour
 {
     public float MoveTime = 2;
+    public int TurnCount = 3;
     Vector2 EndPoint = Vector2.left;
     Vector2 TargetPos = Vector2.right;
     float currentTime = 0;
-    [Networked] private TickTimer life { get; set; }
+    [Networked] private CustomTickTimer life { get; set; }
     public List<PlayerRef> playersHit = new();
     public int damage = 10;
     public float speed = 5;
@@ -17,11 +18,17 @@ public class FireSpirit : NetworkBehaviour
     private int dir = 1;
     public AudioClip attackClip;
 
-    public void Awake()
+    BossMonsterNetworked Boss;
+
+    public void Start()
     {
+        Boss = transform.parent.GetComponent<BossMonsterNetworked>();
         currentTime = 0;
-        releseTarget();
+        EndPoint = Boss.transform.position;
+        life = CustomTickTimer.CreateFromSeconds(Runner, TurnCount * MoveTime);
+        
     }
+    
     public void setTarget(Vector2 vector2)
     {
         TargetPos = vector2;
@@ -30,9 +37,11 @@ public class FireSpirit : NetworkBehaviour
     {
         TargetPos = Vector2.right;
     }
-    Vector2 GetBesierPosition(Vector2 start,Vector2 end, Vector2 point,float time) 
+    Vector2 GetBesierPosition(Vector2 start,Vector2 end,float time) 
     {
         time = Mathf.Clamp01(time);
+        
+        Vector2 point = new((start.x + end.x)/2, (start.y + end.y)/2 + Mathf.Sign(start.x - end.x) );
 
         var AB = Vector2.Lerp(start, point, time);
         var BC = Vector2.Lerp(point, end, time);
@@ -45,32 +54,44 @@ public class FireSpirit : NetworkBehaviour
         var t = TargetPos;
         var e = EndPoint;
 
-        currentTime += 1 / Runner.TickRate;
-        currentTime %= MoveTime;
+        currentTime += 1 * Time.fixedDeltaTime;
         
         if (currentTime < 1)
         {
             //upward curve
-            transform.position = GetBesierPosition(t, e, Vector2.up, currentTime);
+            transform.position = GetBesierPosition(e, t, currentTime);
+            
         }
         else
         {
             //downward curve
-            transform.position = GetBesierPosition(e, t, Vector2.down, currentTime - 1);
+            transform.position = GetBesierPosition(t, e, currentTime - 1);
+        }
+
+        if (currentTime >= 2)
+        {
+            currentTime = 0;
+            if (!life.Expired(Runner))
+            {
+                setTarget(Boss.FollowTarget.transform.position);
+                EndPoint = Boss.transform.position + Vector3.up;
+            }
+            else
+            {
+                Runner.Despawn(Object);
+            }
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("playerHit");
             PlayerControllerNetworked player = other.gameObject.GetComponent<PlayerControllerNetworked>();
             if (player)
             {
-                if (playersHit.Contains(player.Player))
-                {
-                    return;
-                }
                 playersHit.Add(player.Player);
                 if (player.CharacterClass == (int)CharacterClassEnum.Tank)
                 {
@@ -98,13 +119,13 @@ public class FireSpirit : NetworkBehaviour
         Debug.Log(TargetPos);
         for (float t = 0; t <= 1; t += 0.1f)
         {
-            Vector2 position = GetBesierPosition(EndPoint, TargetPos, Vector2.up, t);
+            Vector2 position = GetBesierPosition(EndPoint, TargetPos, t);
             Gizmos.DrawSphere(position, 0.1f); // 곡선의 각 점에 구체를 그립니다.
         }
 
         for (float t = 0; t <= 1; t += 0.1f)
         {
-            Vector2 position = GetBesierPosition(TargetPos,EndPoint,Vector2.down, t);
+            Vector2 position = GetBesierPosition(TargetPos,EndPoint, t);
             Gizmos.DrawSphere(position, 0.1f); // 곡선의 각 점에 구체를 그립니다.
         }
     }
