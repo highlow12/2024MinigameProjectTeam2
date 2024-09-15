@@ -13,7 +13,7 @@ public class DebugConsole : MonoBehaviour
     public static DebugConsole Instance;
     private List<Line> lines = new();
     public List<string> commandHistory = new();
-    private Command[] commands = new Command[5];
+    private Command[] commands = new Command[6];
     private Image consoleImage;
     private bool isHost = false;
     private Coroutine hideLogCoroutine;
@@ -30,6 +30,9 @@ public class DebugConsole : MonoBehaviour
     public TMP_Text toolTipText;
     public GameObject debugPanel;
     public string currentCommandText;
+    List<string> matchedOptions = new();
+    int matchedOptionCursor = 0;
+
 
     public enum MessageType
     {
@@ -114,6 +117,15 @@ public class DebugConsole : MonoBehaviour
         availableParameters = new List<string>(),
     };
 
+    private Command gamerule = new()
+    {
+        name = "gamerule",
+        description = "Change the game rule",
+        successMessage = "Game rule: {parameter1} changed to {parameter2}",
+        usage = "gamerule <rule> <value>",
+        parameters = new List<string>(),
+        availableParameters = new List<string>()
+    };
 
     void Awake()
     {
@@ -126,6 +138,7 @@ public class DebugConsole : MonoBehaviour
         commands[2] = modify;
         commands[3] = skill;
         commands[4] = changeClass;
+        commands[5] = gamerule;
     }
 
     void Start()
@@ -151,6 +164,8 @@ public class DebugConsole : MonoBehaviour
             }
             // Up arrow, Down arrow command history
             CommandHistory();
+            // Auto complete command
+            AutoComplete();
             if (currentCommandText.Split(commandPrefix).Length > 1)
             {
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -351,6 +366,27 @@ public class DebugConsole : MonoBehaviour
         }
     }
 
+    void AutoComplete()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            // get current command text
+            string[] splitText = currentCommandText.Split(' ');
+            splitText[^1] = matchedOptions[matchedOptionCursor];
+            string result = string.Join(" ", splitText);
+            if (splitText.Length == 1)
+            {
+                currentCommandText = "/" + result;
+            }
+            else
+            {
+                currentCommandText = result;
+            }
+            inputField.text = currentCommandText;
+            inputField.caretPosition = inputField.text.Length;
+        }
+    }
+
     Command ParseCommand()
     {
         // split text to get command and parameters
@@ -371,6 +407,8 @@ public class DebugConsole : MonoBehaviour
             // if no parameters given, display command description
             if (splitCommand.Count == 1)
             {
+                matchedOptions.Clear();
+                matchedOptions.Add(toolTipCommand.name);
                 displayToolTipText = $"{toolTipCommand.name}: {toolTipCommand.description}\nUsage: {toolTipCommand.usage}";
             }
             // if parameters given and command has available parameters, display available parameters
@@ -411,17 +449,33 @@ public class DebugConsole : MonoBehaviour
                         toolTipCommand.availableParameters = parameters;
                     }
                 }
+                if (toolTipCommand.name == "gamerule")
+                {
+                    if (splitCommand.Count == 2)
+                    {
+                        // rule parameter
+                        List<string> parameters = new() { "collisionBetweenPlayers" };
+                        toolTipCommand.availableParameters = parameters;
+                    }
+                    if (splitCommand.Count == 3)
+                    {
+                        // value parameter
+                        List<string> parameters = new() { "true", "false" };
+                        toolTipCommand.availableParameters = parameters;
+                    }
+                }
                 // get matched parameters with regex
-                List<string> matchedParameters = new();
+                matchedOptionCursor = 0;
+                matchedOptions.Clear();
                 foreach (string parameter in toolTipCommand.availableParameters)
                 {
                     Match match = Regex.Match(parameter, splitCommand.Last(), RegexOptions.IgnoreCase);
                     if (match.Success)
                     {
-                        matchedParameters.Add(parameter);
+                        matchedOptions.Add(parameter);
                     }
                 }
-                displayToolTipText = $"\nAvailable parameters: {string.Join(", ", matchedParameters)}";
+                displayToolTipText = $"\nAvailable parameters: {string.Join(", ", matchedOptions)}";
             }
             toolTipText.text = displayToolTipText;
         }
@@ -453,6 +507,9 @@ public class DebugConsole : MonoBehaviour
                 break;
             case "changeClass":
                 result = ChangeClassCommand(command.parameters);
+                break;
+            case "gamerule":
+                result = GameRuleCommand(command.parameters);
                 break;
             default:
                 AddLine("Command not found", LineType.Error);
@@ -585,4 +642,36 @@ public class DebugConsole : MonoBehaviour
             return false;
         }
     }
+
+    bool GameRuleCommand(List<string> parameters)
+    {
+        try
+        {
+            // change game rule
+            string rule = parameters[0];
+            string value = parameters[1];
+            switch (rule)
+            {
+                case "collisionBetweenPlayers":
+                    bool.TryParse(value, out bool collisionBetweenPlayers);
+                    PlayerRef[] activePlayers = _runner.ActivePlayers.ToArray();
+                    foreach (PlayerRef playerRef in activePlayers)
+                    {
+                        _runner.TryGetPlayerObject(playerRef, out NetworkObject playerObject);
+                        LayerMask playerLayer = LayerMask.NameToLayer("PlayerLayer");
+                        playerObject.GetComponent<PlayerControllerNetworked>()._collider.excludeLayers = collisionBetweenPlayers ? 0 : playerLayer;
+                    }
+                    break;
+                default:
+                    AddLine("Invalid rule", LineType.Error);
+                    break;
+            }
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 }

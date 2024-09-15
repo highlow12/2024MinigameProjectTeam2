@@ -56,7 +56,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     NetworkRigidbody2D _rb;
     PlayerInputConsumer _input;
     TestBuffIndicator buffIndicator;
-    Collider2D _collider;
+    public Collider2D _collider;
     Animator _anim;
     NetworkMecanimAnimator _mecanim;
     public DurationIndicator durationIndicator;
