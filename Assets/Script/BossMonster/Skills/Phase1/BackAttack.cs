@@ -13,7 +13,7 @@ public class BackAttack : BossSkill
         phase = 1;
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
         transform.localScale = new Vector3(transform.localScale.x * -1, 2, 1);
         animator.SetTrigger("doAttack2");

@@ -17,6 +17,12 @@ public class AttackManager : MonoBehaviour
         BossAttacks.Add(new BothAttack());
         BossAttacks.Add(new EnergyAttack());
         BossAttacks.Add(new JumpAttack());
+        //phase2 skills
+        BossAttacks.Add(new Bind());
+        BossAttacks.Add(new Shunpo());
+        BossAttacks.Add(new SpawnFireSpirit());
+        BossAttacks.Add(new SpawnBindSword());
+
     }
 
 
@@ -27,6 +33,7 @@ public abstract class BossSkill
 {
     public string name;
     public int phase;
-    public abstract IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null);
+    public abstract IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null);
     public float attackDamage;
+    public GameObject projectile;
 }

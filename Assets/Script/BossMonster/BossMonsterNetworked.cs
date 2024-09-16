@@ -74,8 +74,6 @@ public class BossMonsterNetworked : NetworkBehaviour
     public BossAttack currentBossAttack;
     public TextMeshProUGUI bossHealthText;
     public List<BossHitFeedbackEffect> BossHitFeedbackEffects = new();
-    public NetworkObject bossSwordEffect;
-
     public AudioClip[] audioClips;
     private AudioSource Audio;
     void Awake()
@@ -375,7 +373,7 @@ public class BossMonsterNetworked : NetworkBehaviour
 
                                     case 3:
                                         BossSkill phase1_energyAttack = GetBossSkill("EnergyAttack", BossPhase);
-                                        StartCoroutine(AttackController(phase1_energyAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, bossSwordEffect, Object)));
+                                        StartCoroutine(AttackController(phase1_energyAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                         Debug.Log("Do AttackWithEnergy");
                                         break;
                                 }
@@ -424,7 +422,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         {
             return false;
         }
-        StartCoroutine(skill.Attack(transform, _currentAnimator, Runner, currentBossAttack, bossSwordEffect, Object));
+        StartCoroutine(skill.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object));
         return true;
     }
 
