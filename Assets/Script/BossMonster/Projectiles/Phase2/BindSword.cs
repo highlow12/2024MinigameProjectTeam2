@@ -7,8 +7,8 @@ public class BindSword : NetworkBehaviour
 {
     private Rigidbody2D _rb;
     private NetworkMecanimAnimator _mechanimAnimator;
-    private bool isDrop = false;
-    private bool isBinded = false;
+    [Networked] public bool P_Drop { get; set; } = false;
+    [Networked] public bool P_Binded { get; set; } = false;
     private Coroutine despawnCoroutine;
     private float life = 3;
     public float bindDuration = 3;
@@ -30,14 +30,20 @@ public class BindSword : NetworkBehaviour
 
     }
 
+    public override void Render()
+    {
+        _mechanimAnimator.Animator.SetBool("Drop", P_Drop);
+        _mechanimAnimator.Animator.SetBool("Bind", P_Binded);
+        base.Render();
+    }
+
     public override void FixedUpdateNetwork()
     {
-        if (!isDrop && _rb.velocity.y < -5)
+        if (!P_Drop && _rb.velocity.y < -5)
         {
-            isDrop = true;
-            _mechanimAnimator.Animator.SetBool("Drop", true);
+            P_Drop = true;
         }
-        if (!isBinded && isDrop && _rb.gravityScale == 0)
+        if (!P_Binded && !P_Drop && _rb.gravityScale == 0)
         {
             despawnCoroutine ??= StartCoroutine(Despawn());
         }
@@ -68,7 +74,7 @@ public class BindSword : NetworkBehaviour
         CustomTickTimer lifeTimer = CustomTickTimer.CreateFromSeconds(Runner, life);
         while (Runner != null && !lifeTimer.Expired(Runner)) /* null check */
         {
-            if (isBinded)
+            if (P_Binded)
             {
                 yield break;
             }
@@ -86,12 +92,11 @@ public class BindSword : NetworkBehaviour
         {
             _rb.velocity = Vector2.zero;
             _rb.gravityScale = 0;
-            _mechanimAnimator.Animator.SetBool("Drop", false);
+            P_Drop = false;
         }
-        if (collision.gameObject.CompareTag("Player") && !isBinded)
+        if (collision.gameObject.CompareTag("Player") && !P_Binded)
         {
-            isBinded = true;
-            _mechanimAnimator.Animator.SetBool("Bind", true);
+            P_Binded = true;
             PlayerControllerNetworked player = collision.gameObject.GetComponent<PlayerControllerNetworked>();
             if (!player.IsBinded)
             {

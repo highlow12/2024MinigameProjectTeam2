@@ -19,7 +19,8 @@ public class Shunpo : BossSkill
         Debug.Log("skill " + name);
         if (projectile.TryGetComponent<Phase2Sword>(out var sword))
         {
-            animator.SetTrigger("Shunpo");
+            BossMonsterNetworked bossScript = boss.GetComponent<BossMonsterNetworked>();
+            bossScript.P_Shunpo = true;
             var target = boss.GetComponent<BossMonsterNetworked>().FollowTarget;
             sword.ThrowSword(target.transform.position);
             yield return new WaitForSeconds(WaitTime);

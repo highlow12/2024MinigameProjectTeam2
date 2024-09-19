@@ -30,6 +30,7 @@ public class DebugConsole : MonoBehaviour
     public TMP_Text toolTipText;
     public GameObject debugPanel;
     public string currentCommandText;
+    public LayerMask playerLayer;
     List<string> matchedOptions = new();
     int matchedOptionCursor = 0;
     bool preventClearMatchedOptions = false;
@@ -672,7 +673,6 @@ public class DebugConsole : MonoBehaviour
                     foreach (PlayerRef playerRef in activePlayers)
                     {
                         _runner.TryGetPlayerObject(playerRef, out NetworkObject playerObject);
-                        LayerMask playerLayer = LayerMask.NameToLayer("PlayerLayer");
                         playerObject.GetComponent<PlayerControllerNetworked>()._collider.excludeLayers = collisionBetweenPlayers ? 0 : playerLayer;
                     }
                     break;

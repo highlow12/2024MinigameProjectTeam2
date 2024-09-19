@@ -56,6 +56,12 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public float currentDistance { get; set; }
     [Networked] public bool isAttacking { get; set; }
     [Networked] public bool isMoving { get; set; }
+    // Animator parameters
+    [Networked] public int P_WalkState { get; set; }
+    [Networked] public bool P_DoAttack { get; set; }
+    [Networked] public bool P_DoAttack2 { get; set; }
+    [Networked] public bool P_DoJumpAttack { get; set; }
+    [Networked] public bool P_Shunpo { get; set; }
 
     // Local variables
     [SerializeField] private GameObject phase1;
@@ -66,6 +72,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public BossAttack phase2BossAttack;
     NetworkRigidbody2D _rb;
     Animator _currentAnimator;
+    NetworkMecanimAnimator _networkAnimator;
     public readonly float maxHealth = 50000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
@@ -80,6 +87,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         _rb = GetComponent<NetworkRigidbody2D>();
         _currentAnimator = GetComponent<Animator>();
+        _networkAnimator = GetComponent<NetworkMecanimAnimator>();
         cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
         healthBar = GameObject.FindGameObjectWithTag("BossHealthUI").GetComponent<Image>();
         durationIndicator = GameObject.FindGameObjectWithTag("DurationUI").GetComponent<DurationIndicator>();
@@ -135,8 +143,34 @@ public class BossMonsterNetworked : NetworkBehaviour
         }
     }
     // Networked animation
+    // 뭔 짓을 쳐 해도 AssertException이 계속 뜨네
     public override void Render()
     {
+        if (!HasStateAuthority)
+        {
+            return;
+        }
+        _networkAnimator.Animator.SetInteger("WalkState", P_WalkState);
+        if (P_DoAttack)
+        {
+            _networkAnimator.Animator.SetTrigger("DoAttack");
+            P_DoAttack = false;
+        }
+        if (P_DoAttack2)
+        {
+            _networkAnimator.Animator.SetTrigger("DoAttack2");
+            P_DoAttack2 = false;
+        }
+        if (P_DoJumpAttack)
+        {
+            _networkAnimator.Animator.SetTrigger("DoJumpAttack");
+            P_DoJumpAttack = false;
+        }
+        if (P_Shunpo)
+        {
+            _networkAnimator.Animator.SetTrigger("Shunpo");
+            P_Shunpo = false;
+        }
         base.Render();
     }
 
@@ -192,7 +226,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             {
                 transform.localScale = new Vector3(-2, 2, 1);
             }
-            _currentAnimator.SetInteger("walkState", 1);
+            P_WalkState = 1;
             // Move the boss to the player until the distance is less than 2.5f
             while (Math.Abs(distance) > 2.5f && isMoving)
             {
@@ -212,7 +246,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 yield return new WaitForFixedUpdate();
             }
             _rb.Rigidbody.velocity = Vector2.zero;
-            _currentAnimator.SetInteger("walkState", 0);
+            P_WalkState = 0;
             yield return null;
         }
     }
@@ -355,19 +389,19 @@ public class BossMonsterNetworked : NetworkBehaviour
                                         // you can modify attack damage like this
                                         // attack.damage = 100;
                                         // call coroutine with attack.Attack(_animator, Runner, bossAttack)
-                                        StartCoroutine(AttackController(phase1_baseAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                        StartCoroutine(AttackController(phase1_baseAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                         Debug.Log("Do Melee Attack");
                                         break;
 
                                     case 1:
                                         BossSkill phase1_backAttack = GetBossSkill("BackAttack", BossPhase);
-                                        StartCoroutine(AttackController(phase1_backAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                        StartCoroutine(AttackController(phase1_backAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                         Debug.Log("Do Melee Attack2");
                                         break;
 
                                     case 2:
                                         BossSkill phase1_bothAttack = GetBossSkill("BothAttack", BossPhase);
-                                        StartCoroutine(AttackController(phase1_bothAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                        StartCoroutine(AttackController(phase1_bothAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                         Debug.Log("Do bothAttack");
                                         break;
 
@@ -378,7 +412,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                                         break;
                                 }
                                 BossSkill phase1_defaultAttack = GetBossSkill("BaseAttack1", BossPhase);
-                                StartCoroutine(AttackController(phase1_defaultAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                StartCoroutine(AttackController(phase1_defaultAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                 Debug.Log("Do Melee Attack");
                                 break;
                             case AttackType.JumpDash:
@@ -387,7 +421,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                                 {
                                     case 0:
                                         BossSkill phase1_jumpDashAttack = GetBossSkill("JumpAttack", BossPhase);
-                                        StartCoroutine(AttackController(phase1_jumpDashAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack)));
+                                        StartCoroutine(AttackController(phase1_jumpDashAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                         Debug.Log("Do Jump Dash Attack");
                                         break;
                                 }

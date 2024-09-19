@@ -475,6 +475,9 @@ MonoBehaviour:
   toolTipText: {fileID: 154175262}
   debugPanel: {fileID: 1113971551}
   currentCommandText: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &47826957
 GameObject:
   m_ObjectHideFlags: 0
