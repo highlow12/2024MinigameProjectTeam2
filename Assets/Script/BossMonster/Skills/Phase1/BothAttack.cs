@@ -15,7 +15,8 @@ public class BothAttack : BossSkill
 
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
-        animator.SetTrigger("doAttack");
+        BossMonsterNetworked bossScript = boss.GetComponent<BossMonsterNetworked>();
+        bossScript.P_DoAttack = true;
         float attackLength = 1.2f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
@@ -28,7 +29,7 @@ public class BothAttack : BossSkill
         }
 
         transform.localScale = new Vector3(transform.localScale.x * -1, 2, 1);
-        animator.SetTrigger("doAttack2");
+        bossScript.P_DoAttack2 = true;
         attackLength = 1f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();

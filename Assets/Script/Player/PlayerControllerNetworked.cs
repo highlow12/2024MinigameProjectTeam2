@@ -168,6 +168,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
             GameObject otherStatusPrefab = Runner.gameObject.GetComponent<NetworkManager>().otherStatusPrefab;
             GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
             OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            // Always render behind local player
+            spriteRenderer.sortingOrder = -1;
             otherStatusPanel = osp;
             osp.player = this;
             osp.buffIndicator.playerBuffs = buffs;

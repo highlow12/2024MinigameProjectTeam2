@@ -15,8 +15,9 @@ public class BackAttack : BossSkill
 
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
+        BossMonsterNetworked bossScript = boss.GetComponent<BossMonsterNetworked>();
+        bossScript.P_DoAttack2 = true;
         transform.localScale = new Vector3(transform.localScale.x * -1, 2, 1);
-        animator.SetTrigger("doAttack2");
         float attackLength = 1f;
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();

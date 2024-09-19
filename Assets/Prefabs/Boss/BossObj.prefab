@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4801390968722332957}
   - component: {fileID: 8149352383674939608}
   - component: {fileID: 1674390112210278752}
-  - component: {fileID: 5910259068244404599}
   - component: {fileID: 1093798385208338031}
   - component: {fileID: 4409269672460476466}
+  - component: {fileID: 6300357676001728871}
   m_Layer: 7
   m_Name: BossObj
   m_TagString: Boss
@@ -150,7 +150,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8149352383674939608}
   - {fileID: 1674390112210278752}
-  - {fileID: 5910259068244404599}
+  - {fileID: 6300357676001728871}
 --- !u!114 &8149352383674939608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +197,11 @@ MonoBehaviour:
   _currentDistance: 0
   _isAttacking: 0
   _isMoving: 0
+  _P_WalkState: 0
+  _P_DoAttack: 0
+  _P_DoAttack2: 0
+  _P_DoJumpAttack: 0
+  _P_Shunpo: 0
   phase1: {fileID: 2816814393190296404}
   phase2: {fileID: 99680791173765289}
   _phase1Animator: {fileID: 9100000, guid: d4bba80ccdc974777a14a59e16d3eb87, type: 2}
@@ -209,31 +214,12 @@ MonoBehaviour:
   currentBossAttack: {fileID: 3738774551853245099}
   bossHealthText: {fileID: 0}
   BossHitFeedbackEffects: []
-  bossSwordEffect: {fileID: 3392484300069629984, guid: b1d5833ae75d0ee4ab20766621307a07, type: 3}
   audioClips:
   - {fileID: 8300000, guid: aaf68617f80fd734d95f6fc8c90b88b9, type: 3}
   - {fileID: 8300000, guid: 133cecb013443874db92cb9bad567e0f, type: 3}
   - {fileID: 8300000, guid: 20db8b918ef8a7b469bbc64e43239d0a, type: 3}
   - {fileID: 8300000, guid: 41f8b855c7055424eacc09e81963bc78, type: 3}
   - {fileID: 8300000, guid: 0fee0bae5e3aa3e4b9e463256613a831, type: 3}
---- !u!114 &5910259068244404599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895783993757917225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 7477494818530682466}
-  TotalWords: 2
-  ApplyTiming: 2
-  SyncSettings: 79
-  StateHashes: 000000002b1a167c794069556bd5a32d398fdc040d286c404e865f43c801c928d290f3c2deac0a80c43d306af096008932e4c12b29d37feb8c97985498ae24641c8df28b
-  TriggerHashes: 000000008ac4d3bdf7070517fa0e29f6b0a3ddd2
 --- !u!82 &1093798385208338031
 AudioSource:
   m_ObjectHideFlags: 0
@@ -342,6 +328,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c64417d6aa89f4583ba4558789cbb08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6300357676001728871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895783993757917225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 7477494818530682466}
+  TotalWords: 2
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 000000002b1a167c794069556bd5a32d398fdc040d286c404e865f4329d37feb8c97985498ae24641c8df28b
+  TriggerHashes: 00000000dca6a5445485f49502d518ee68dbb91f
 --- !u!1 &3549729730493415894
 GameObject:
   m_ObjectHideFlags: 0
