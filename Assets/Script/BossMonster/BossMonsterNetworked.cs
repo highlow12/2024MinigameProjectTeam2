@@ -138,6 +138,13 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
             if (CurrentState != BossState.Die)
             {
+                ScheduledBehaviors.Behavior behavior = ScheduledBehaviors.instance.GetBehavior(maxHealth, CurrentHealth, isAttacking, BossPhase);
+                if (!Equals(behavior.runBy, ScheduledBehaviors.RunBy.Default))
+                {
+                    StartCoroutine(AttackController(
+                        GetBossSkill((string)behavior.skillName, BossPhase)
+                            .Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
+                }
                 BossBehaviour();
             }
         }
@@ -606,6 +613,23 @@ public class BossMonsterNetworked : NetworkBehaviour
             currentBossAttack = phase2BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase2Animator;
             phase2.SetActive(true);
+            ScheduledBehaviors.Behavior[] behaviors =
+            {
+                new() {
+                    skillName = "SpawnBindSword",
+                    runBy = ScheduledBehaviors.RunBy.Tick,
+                    tick = Runner.Tick + (15 * Runner.TickRate),
+                    phase = 2,
+                    canPend = false,
+                    canRenew = true,
+                    renewTick = 15 * Runner.TickRate
+                },
+            };
+            foreach (var behavior in behaviors)
+            {
+                ScheduledBehaviors.instance.AddBehavior(behavior);
+            }
+
         }
     }
 
