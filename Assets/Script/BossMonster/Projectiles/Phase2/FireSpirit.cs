@@ -17,7 +17,8 @@ public class FireSpirit : NetworkBehaviour
     public float lifeSeconds = 3;
     private int dir = 1;
     public AudioClip attackClip;
-
+    Vector2 e1;
+    Vector2 e2;
     BossMonsterNetworked Boss;
 
     public void Start()
@@ -26,7 +27,7 @@ public class FireSpirit : NetworkBehaviour
         currentTime = 0;
         EndPoint = Boss.transform.position;
         life = CustomTickTimer.CreateFromSeconds(Runner, TurnCount * MoveTime);
-        
+        updateEndpoint();
     }
     
     public void setTarget(Vector2 vector2)
@@ -36,6 +37,10 @@ public class FireSpirit : NetworkBehaviour
     public void releseTarget()
     {
         TargetPos = Vector2.right;
+    }
+    void updateEndpoint(){
+        e1 = transform.position;
+        e2 = Boss.transform.position;
     }
     Vector2 GetBesierPosition(Vector2 start,Vector2 end,float time) 
     {
@@ -51,21 +56,21 @@ public class FireSpirit : NetworkBehaviour
     // Update is called once per frame
     public override void FixedUpdateNetwork()
     {
-        var t = TargetPos;
-        var e = EndPoint;
+        
+        
 
         currentTime += 1 * Time.fixedDeltaTime;
         
         if (currentTime < 1)
         {
             //upward curve
-            transform.position = GetBesierPosition(e, t, currentTime);
+            transform.position = GetBesierPosition(e1, TargetPos, currentTime);
             
         }
         else
         {
             //downward curve
-            transform.position = GetBesierPosition(t, e, currentTime - 1);
+            transform.position = GetBesierPosition(TargetPos, e2, currentTime - 1);
         }
 
         if (currentTime >= 2)
@@ -74,7 +79,8 @@ public class FireSpirit : NetworkBehaviour
             if (!life.Expired(Runner))
             {
                 setTarget(Boss.FollowTarget.transform.position);
-                EndPoint = Boss.transform.position + Vector3.up;
+                updateEndpoint();
+                //EndPoint = Boss.transform.position + Vector3.up;
             }
             else
             {
