@@ -216,11 +216,11 @@ public class DebugConsole : MonoBehaviour
             inputField.DeactivateInputField();
         }
 
-        // enable console by pressing return 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            ToggleFocus();
-        }
+        // now. this logic runs in InputTask
+        // if (Input.GetKeyDown(KeyCode.Return))
+        // {
+        //     ToggleFocus();
+        // }
     }
 
     public void ToggleFocus()

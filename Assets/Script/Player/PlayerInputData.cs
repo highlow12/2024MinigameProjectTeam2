@@ -10,6 +10,7 @@ enum PlayerButtons
     Roll = 2,
     Attack = 3,
     Parry = 4,
+    ConsoleFocus = 5,
 }
 public struct PlayerInputData : INetworkInput
 {

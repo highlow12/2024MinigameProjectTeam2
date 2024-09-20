@@ -29,6 +29,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer HealthRegenIntervalTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
     [Networked] public NetworkBool IsBinded { get; set; }
+    [Networked] public NetworkBool IsConsoleFocused { get; set; }
     // Animator parameters
     [Networked] public int RunState { get; set; }
     [Networked] public bool Grounded { get; set; }
@@ -267,7 +268,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         CurrentServerTick = (int)Runner.Tick;
-        if (Runner.SessionInfo.IsOpen == true || DebugConsole.Instance.isFocused || IsBinded)
+        if (Runner.SessionInfo.IsOpen == true || IsConsoleFocused /* use InputTask */ || IsBinded)
         {
             _rb.Rigidbody.velocity = new Vector2(0, _rb.Rigidbody.velocity.y);
             RunState = 0;
@@ -289,6 +290,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
         var dir = _input.dir.normalized;
         UpdateMovement(dir.x);
         // PlayerButtons are set in OnInput function of CharacterSpawner.cs script
+        if (_input.pressed.IsSet(PlayerButtons.ConsoleFocus))
+        {
+            IsConsoleFocused = !IsConsoleFocused;
+            if (HasInputAuthority)
+            {
+                DebugConsole.Instance.ToggleFocus();
+            }
+        }
         Jump(_input.pressed.IsSet(PlayerButtons.Jump));
         BetterJumpLogic(_input.pressed.IsSet(PlayerButtons.Jump));
         Roll(_input.pressed.IsSet(PlayerButtons.Roll));
