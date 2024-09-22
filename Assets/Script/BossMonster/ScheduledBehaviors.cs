@@ -30,7 +30,8 @@ public class ScheduledBehaviors : NetworkBehaviour
     }
 
     public static ScheduledBehaviors instance;
-    public int pendingTickThreshold = 5; // 5 seconds
+    [Tooltip("The threshold for pending tick, if the pending tick is greater than this value, the behavior will be executed immediately. This value will be multiplied by the tick rate when start.")]
+    public float pendingTickThreshold = 1.2f; // 1.2 seconds
 
     [Networked]
     [Capacity(20)]
@@ -139,7 +140,7 @@ public class ScheduledBehaviors : NetworkBehaviour
             if (behavior.isPending)
             {
                 // if pending for too long, force execute the behavior
-                if ((int)Runner.Tick - behavior.pendedTick > pendingTickThreshold)
+                if ((int)Runner.Tick - behavior.pendedTick > (int)pendingTickThreshold)
                 {
                     behavior.isPending = false;
                     behavior.pendedTick = 0;

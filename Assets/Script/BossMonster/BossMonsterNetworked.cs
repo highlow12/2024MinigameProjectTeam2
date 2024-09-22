@@ -141,6 +141,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 ScheduledBehaviors.Behavior behavior = ScheduledBehaviors.instance.GetBehavior(maxHealth, CurrentHealth, isAttacking, BossPhase);
                 if (!Equals(behavior.runBy, ScheduledBehaviors.RunBy.Default))
                 {
+                    isAttacking = true;
                     StartCoroutine(AttackController(
                         GetBossSkill((string)behavior.skillName, BossPhase)
                             .Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
@@ -366,7 +367,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 break;
             case BossState.Attack:
                 // Check if attack timer is default
-                if (!Equals(BossAttackTimer, default(CustomTickTimer)))
+                if (!Equals(BossAttackTimer, default(CustomTickTimer)) || isAttacking)
                 {
                     return;
                 }
