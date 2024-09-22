@@ -30,6 +30,7 @@ public class ScheduledBehaviors : NetworkBehaviour
     }
 
     public static ScheduledBehaviors instance;
+    public int pendingTickThreshold = 5; // 5 seconds
 
     [Networked]
     [Capacity(20)]
@@ -39,13 +40,14 @@ public class ScheduledBehaviors : NetworkBehaviour
     void Start()
     {
         instance = this;
+        pendingTickThreshold *= Runner.TickRate;
         AddBehavior(new Behavior
         {
             tick = 0,
             phase = 1,
             healthRatio = 0.99f,
             skillName = "JumpAttack",
-            canPend = false,
+            canPend = true,
             canRenew = true,
             renewHealthRatio = 0.1f,
             runBy = RunBy.Health
@@ -133,10 +135,24 @@ public class ScheduledBehaviors : NetworkBehaviour
         }
         if (isAttacking && behavior.canPend)
         {
-            behavior.isPending = true;
-            behavior.pendedTick = (int)Runner.Tick + 1;
-            Behaviors.Set(behaviorIndex, behavior);
-            return default;
+            // if already pending, not update the pending tick
+            if (behavior.isPending)
+            {
+                // if pending for too long, force execute the behavior
+                if ((int)Runner.Tick - behavior.pendedTick > pendingTickThreshold)
+                {
+                    behavior.isPending = false;
+                    behavior.pendedTick = 0;
+                }
+                return default;
+            }
+            else
+            {
+                behavior.isPending = true;
+                behavior.pendedTick = (int)Runner.Tick + 1;
+                Behaviors.Set(behaviorIndex, behavior);
+                return default;
+            }
         }
         if (behavior.canRenew)
         {
