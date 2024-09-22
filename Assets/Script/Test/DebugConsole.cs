@@ -20,6 +20,7 @@ public class DebugConsole : MonoBehaviour
     private Coroutine showLogCoroutine;
     private Command currentCommand;
     private NetworkRunner _runner;
+    public PlayerControllerNetworked localPlayer;
     public char commandPrefix = '/';
     public int historyCursor = -1;
     public bool isFocused = false;
@@ -216,11 +217,11 @@ public class DebugConsole : MonoBehaviour
             inputField.DeactivateInputField();
         }
 
-        // now. this logic runs in InputTask
-        // if (Input.GetKeyDown(KeyCode.Return))
-        // {
-        //     ToggleFocus();
-        // }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ToggleFocus();
+            localPlayer.RPC_ToggleConsoleFocus();
+        }
     }
 
     public void ToggleFocus()

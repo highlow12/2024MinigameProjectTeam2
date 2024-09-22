@@ -160,8 +160,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffIndicator.player = this;
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
+            DebugConsole.Instance.localPlayer = this;
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
             RPC_SetClass(0);
+
         }
         else
         {
@@ -268,13 +270,28 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         CurrentServerTick = (int)Runner.Tick;
-        if (Runner.SessionInfo.IsOpen == true || IsConsoleFocused /* use InputTask */ || IsBinded)
+        if (
+            // conditon 1: if room is open to join
+            (Runner.SessionInfo.IsOpen == true)
+            ||
+            // condition 2: if player is binded by boss
+            (
+                IsBinded
+            )
+            ||
+            // condition 3: if player focus on console
+            (
+                IsConsoleFocused
+            )
+        )
         {
             _rb.Rigidbody.velocity = new Vector2(0, _rb.Rigidbody.velocity.y);
             RunState = 0;
-            return;
         }
-        InputTask();
+        else
+        {
+            InputTask();
+        }
         Velocity = _rb.Rigidbody.velocity;
         if (weapon != null)
         {
@@ -290,14 +307,6 @@ public class PlayerControllerNetworked : NetworkBehaviour
         var dir = _input.dir.normalized;
         UpdateMovement(dir.x);
         // PlayerButtons are set in OnInput function of CharacterSpawner.cs script
-        if (_input.pressed.IsSet(PlayerButtons.ConsoleFocus))
-        {
-            IsConsoleFocused = !IsConsoleFocused;
-            if (HasInputAuthority)
-            {
-                DebugConsole.Instance.ToggleFocus();
-            }
-        }
         Jump(_input.pressed.IsSet(PlayerButtons.Jump));
         BetterJumpLogic(_input.pressed.IsSet(PlayerButtons.Jump));
         Roll(_input.pressed.IsSet(PlayerButtons.Roll));
@@ -794,6 +803,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
                 CharacterStatMultipliers.Set(i, default);
             }
         }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_ToggleConsoleFocus()
+    {
+        IsConsoleFocused = !IsConsoleFocused;
     }
 
     // TEST RPC FUNCTION
