@@ -321,7 +321,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (bossCondition.HasFlag(Condition.IsPlayerInFar))
         {
             conditionDuration += Time.fixedDeltaTime;
-            if (conditionDuration >= 2.0f)
+            if (conditionDuration >= 2.0f && BossPhase == 1)
             {
                 attackType = AttackType.JumpDash;
                 CurrentState = BossState.Attack;
@@ -437,6 +437,9 @@ public class BossMonsterNetworked : NetworkBehaviour
                         {
                             case AttackType.Melee:
                                 int phase2_melee_skillRandom = Random.Range(0, 4);
+                                BossSkill phase2_baseAttack = GetBossSkill("BaseAttack2", BossPhase);
+                                Debug.Log(phase2_baseAttack);
+                                StartCoroutine(AttackController(phase2_baseAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
                                 break;
                         }
                         break;

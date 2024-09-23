@@ -188,8 +188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _IsDead: 0
+  _LastAttackTick: 0
   _BossPhase: 1
   _CurrentHealth: 0
+  _DefaultBossSpeed: 5
   _BossSpeed: 5
   _FollowTarget: {fileID: 0}
   _CurrentState: 0
@@ -360,6 +362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 838a859bf96af4a29a1427a149fd03d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pendingTickThreshold: 1.2
+  _Behaviors: []
 --- !u!1 &3549729730493415894
 GameObject:
   m_ObjectHideFlags: 0
