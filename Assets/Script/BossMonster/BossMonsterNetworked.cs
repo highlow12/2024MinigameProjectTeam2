@@ -44,9 +44,11 @@ public class BossMonsterNetworked : NetworkBehaviour
 
     // Networked variables
     [Networked] public bool IsDead { get; set; }
+    [Networked] public int LastAttackTick { get; set; }
     [Networked, OnChangedRender(nameof(UpdateBossPhaseCallback))] public int BossPhase { get; set; } = 1;
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
+    [Networked] public float DefaultBossSpeed { get; set; } = 5.0f;
     [Networked] public float BossSpeed { get; set; } = 5.0f;
     [Networked] public NetworkObject FollowTarget { get; set; }
     [Networked] public BossState CurrentState { get; set; }
@@ -283,7 +285,11 @@ public class BossMonsterNetworked : NetworkBehaviour
     // Coroutine callers
     IEnumerator AttackController(IEnumerator attack)
     {
-        yield return attack;
+        LastAttackTick = Runner.Tick;
+        BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(1.5f, 2.0f));
+        Coroutine attackCoroutine = StartCoroutine(attack);
+        // Wait for the attack to finish
+        yield return attackCoroutine;
         isAttacking = false;
         yield return null;
     }
@@ -336,16 +342,6 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (bossCondition.HasFlag(Condition.IsPlayerInAttackRange) && CurrentState != BossState.Attack)
         {
             CurrentState = BossState.Attack;
-        }
-        // If attack timer is default and boss is in attack state,
-        // not attacking, and set new attack timer
-        if (Equals(BossAttackTimer, default(CustomTickTimer)))
-        {
-            if (CurrentState == BossState.Attack && isAttacking == true)
-            {
-                Debug.Log("Set timer");
-                BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(1.5f, 2.0f));
-            }
         }
         UpdateCondition();
         switch (CurrentState)
@@ -503,8 +499,28 @@ public class BossMonsterNetworked : NetworkBehaviour
             case float distance when distance > 10.0f:
                 bossCondition |= Condition.IsPlayerInFar;
                 break;
-
         }
+        // Set boss speed based on the LastAttackTick
+        if (LastAttackTick != 0)
+        {
+            int tickDelta = Runner.Tick - LastAttackTick;
+            BossSpeed = Math.Min(DefaultBossSpeed * (tickDelta * 0.001f + 1), DefaultBossSpeed * 2);
+        }
+        // Schedule the next behavior
+        switch (BossPhase)
+        {
+            case 1:
+                int healthRatio = (int)Math.Round(CurrentHealth / maxHealth, 2) * 100;
+                if (healthRatio % 5 == 0)
+                {
+
+                }
+
+                break;
+            case 2:
+                break;
+        }
+
 
     }
 

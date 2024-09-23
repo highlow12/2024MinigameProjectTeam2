@@ -93,32 +93,42 @@ public class ScheduledBehaviors : NetworkBehaviour
         return -1;
     }
 
-    public Behavior GetBehavior(float maxHealth = -1, float currentHealth = -1, bool isAttacking = false, int phase = 1)
+    public Behavior GetBehavior(float maxHealth = -1, float currentHealth = -1, bool isAttacking = false, int phase = 1, bool bypassPending = false)
     {
         int currentServerTick = (int)Runner.Tick;
         // if pending behavior exists, execute it first
-        List<Behavior> pendingBehaviors = Behaviors.Select(behavior => behavior).Where(behavior => behavior.isPending).ToList();
-        if (pendingBehaviors.Count > 0)
+        List<Behavior> pendingBehaviors = Behaviors.Select(behavior => behavior)
+            .Where(behavior => behavior.isPending
+                // if the pending tick is greater than the threshold, add list
+                && (int)Runner.Tick - behavior.pendedTick > (int)pendingTickThreshold
+            )
+                .ToList();
+        if (pendingBehaviors.Count > 0 && !bypassPending)
         {
-            pendingBehaviors.Sort((a, b) => a.pendedTick.CompareTo(b.pendedTick));
+            pendingBehaviors.Sort(
+                (a, b) =>
+                    a.pendedTick.CompareTo(b.pendedTick));
             return pendingBehaviors[0];
         }
-        foreach (var behavior in Behaviors)
+        List<Behavior> currentPhaseBehaviors = Behaviors.Select(behavior => behavior)
+            .Where(behavior => behavior.phase == phase)
+                .ToList();
+        foreach (var behavior in currentPhaseBehaviors)
         {
             if (behavior.runBy == RunBy.Tick)
             {
                 if (behavior.tick == currentServerTick)
                 {
-                    return CheckBehavior(behavior, isAttacking, phase);
+                    return CheckBehavior(behavior, isAttacking);
                 }
             }
             else if (behavior.runBy == RunBy.Health)
             {
                 if (maxHealth != -1 && currentHealth != -1)
                 {
-                    if ((currentHealth / maxHealth <= behavior.healthRatio) || (phase != behavior.phase) /* for remove behavior */)
+                    if (currentHealth / maxHealth <= behavior.healthRatio)
                     {
-                        return CheckBehavior(behavior, isAttacking, phase);
+                        return CheckBehavior(behavior, isAttacking);
                     }
                 }
             }
@@ -126,26 +136,16 @@ public class ScheduledBehaviors : NetworkBehaviour
         return default;
     }
 
-    public Behavior CheckBehavior(Behavior behavior, bool isAttacking, int phase)
+    public Behavior CheckBehavior(Behavior behavior, bool isAttacking)
     {
         int behaviorIndex = GetIndex(behavior);
-        if (phase != behavior.phase)
-        {
-            RemoveBehavior(behaviorIndex);
-            return default;
-        }
         if (isAttacking && behavior.canPend)
         {
             // if already pending, not update the pending tick
             if (behavior.isPending)
             {
-                // if pending for too long, force execute the behavior
-                if ((int)Runner.Tick - behavior.pendedTick > (int)pendingTickThreshold)
-                {
-                    behavior.isPending = false;
-                    behavior.pendedTick = 0;
-                }
-                return default;
+                behavior.isPending = false;
+                behavior.pendedTick = 0;
             }
             else
             {
