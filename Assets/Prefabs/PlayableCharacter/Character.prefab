@@ -266,6 +266,8 @@ MonoBehaviour:
   _SkillObject: {fileID: 3891574702104424951}
   _IsBinded:
     _value: 0
+  _IsConsoleFocused:
+    _value: 0
   _RunState: 0
   _Grounded: 0
   _Falling: 0

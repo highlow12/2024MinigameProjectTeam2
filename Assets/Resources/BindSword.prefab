@@ -180,7 +180,6 @@ GameObject:
   - component: {fileID: 1333555955118089484}
   - component: {fileID: 7660138107819100166}
   - component: {fileID: 212299715344395741}
-  - component: {fileID: 7403102485818857655}
   - component: {fileID: 3083394760899702817}
   - component: {fileID: 8269610659933692009}
   - component: {fileID: 3137874621430230015}
@@ -300,26 +299,9 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 7403102485818857655}
   - {fileID: 3137874621430230015}
   - {fileID: 7125995138128323351}
   - {fileID: 946027289032391825}
---- !u!114 &7403102485818857655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8955336226820343642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c8516761c4e141b18b9893b05d4a495, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bindDuration: 3
-  drainAmount: 10
-  damagePerTick: 0
-  boss: {fileID: 0}
 --- !u!61 &3083394760899702817
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -422,6 +404,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8516761c4e141b18b9893b05d4a495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mechanimAnimator: {fileID: 0}
+  _P_Drop: 0
+  _P_Bind: 0
+  _IsApplyingBind: 0
   bindDuration: 3
   drainAmount: 10
   damagePerTick: 0

@@ -645,6 +645,15 @@ public class BossMonsterNetworked : NetworkBehaviour
                     canRenew = true,
                     renewTick = 15 * Runner.TickRate
                 },
+                new () {
+                    skillName = "SpawnHorizontalBindSword",
+                    runBy = ScheduledBehaviors.RunBy.Tick,
+                    tick = Runner.Tick + (20 * Runner.TickRate),
+                    phase = 2,
+                    canPend = false,
+                    canRenew = true,
+                    renewTick = 15 * Runner.TickRate
+                }
             };
             foreach (var behavior in behaviors)
             {

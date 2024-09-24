@@ -6,9 +6,12 @@ using UnityEngine;
 public class BindSword : NetworkBehaviour
 {
     private Rigidbody2D _rb;
+    [SerializeField]
     private NetworkMecanimAnimator _mechanimAnimator;
     [Networked] public bool P_Drop { get; set; } = false;
-    [Networked] public bool P_Binded { get; set; } = false;
+    [Networked] public bool P_Bind { get; set; } = false;
+    [Networked] public bool P_Idle { get; set; } = false;
+    [Networked] public bool IsApplyingBind { get; set; } = false;
     private Coroutine despawnCoroutine;
     private float life = 3;
     public float bindDuration = 3;
@@ -32,20 +35,53 @@ public class BindSword : NetworkBehaviour
 
     public override void Render()
     {
+        if (_mechanimAnimator == null)
+        {
+            return;
+        }
         _mechanimAnimator.Animator.SetBool("Drop", P_Drop);
-        _mechanimAnimator.Animator.SetBool("Bind", P_Binded);
+        _mechanimAnimator.Animator.SetBool("Bind", P_Bind);
+        _mechanimAnimator.Animator.SetBool("Idle", P_Idle);
         base.Render();
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (_rb == null)
+        {
+            return;
+        }
         if (!P_Drop && _rb.velocity.y < -5)
         {
             P_Drop = true;
         }
-        if (!P_Binded && !P_Drop && _rb.gravityScale == 0)
+        if (!P_Bind && !P_Drop && (_rb.gravityScale == 0))
         {
             despawnCoroutine ??= StartCoroutine(Despawn());
+        }
+        if (transform.position.y < -20 || transform.position.x > 30)
+        {
+            // Despawn immediately if out of bounds
+            Runner.Despawn(Object);
+        }
+    }
+
+    public IEnumerator ApplyHorizontalMovement()
+    {
+        P_Idle = true;
+        CustomTickTimer duariotn = CustomTickTimer.CreateFromSeconds(Runner, 3);
+        while (!duariotn.Expired(Runner))
+        {
+            if (_rb == null)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            if (P_Bind)
+            {
+                yield break;
+            }
+            _rb.MovePosition(_rb.position + new Vector2(0.7f, 0));
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -53,7 +89,7 @@ public class BindSword : NetworkBehaviour
     {
         CustomTickTimer duration = CustomTickTimer.CreateFromSeconds(Runner, bindDuration);
         BossMonsterNetworked boss = this.boss.GetComponent<BossMonsterNetworked>();
-        while (!duration.Expired(Runner))
+        while (Runner != null && !duration.Expired(Runner)) /* null check */
         {
             yield return new WaitForFixedUpdate();
             boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
@@ -66,7 +102,10 @@ public class BindSword : NetworkBehaviour
                 }
             );
         }
-        Runner.Despawn(Object);
+        if (Runner != null)
+        {
+            Runner.Despawn(Object);
+        }
     }
 
     IEnumerator Despawn()
@@ -74,13 +113,13 @@ public class BindSword : NetworkBehaviour
         CustomTickTimer lifeTimer = CustomTickTimer.CreateFromSeconds(Runner, life);
         while (Runner != null && !lifeTimer.Expired(Runner)) /* null check */
         {
-            if (P_Binded)
+            if (P_Bind)
             {
                 yield break;
             }
             yield return new WaitForFixedUpdate();
         }
-        if (Runner != null) /* null check */
+        if (Runner != null && lifeTimer.Expired(Runner)) /* null check */
         {
             Runner.Despawn(Object);
         }
@@ -94,12 +133,12 @@ public class BindSword : NetworkBehaviour
             _rb.gravityScale = 0;
             P_Drop = false;
         }
-        if (collision.gameObject.CompareTag("Player") && !P_Binded)
+        if (collision.gameObject.CompareTag("Player") && !P_Bind)
         {
-            P_Binded = true;
             PlayerControllerNetworked player = collision.gameObject.GetComponent<PlayerControllerNetworked>();
             if (!player.IsBinded)
             {
+                P_Bind = true;
                 player.RPC_ApplyBind(bindDuration);
                 StartCoroutine(DrainLife(player));
             }
