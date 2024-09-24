@@ -18,11 +18,10 @@ public class AttackManager : MonoBehaviour
         BossAttacks.Add(new EnergyAttack());
         BossAttacks.Add(new JumpAttack());
         //phase2 skills
-        
-        
         BossAttacks.Add(new SpawnFireSpirit());
         BossAttacks.Add(new SpawnBindSword());
         BossAttacks.Add(new BaseAttack2());
+        BossAttacks.Add(new SpawnHorizontalBindSword());
 
     }
 

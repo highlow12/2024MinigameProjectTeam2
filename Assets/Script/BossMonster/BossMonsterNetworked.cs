@@ -286,6 +286,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     IEnumerator AttackController(IEnumerator attack)
     {
         LastAttackTick = Runner.Tick;
+        // Set the attack cooldown
         BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(1.5f, 2.0f));
         Coroutine attackCoroutine = StartCoroutine(attack);
         // Wait for the attack to finish
