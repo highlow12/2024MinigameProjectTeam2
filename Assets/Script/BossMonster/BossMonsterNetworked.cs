@@ -648,11 +648,11 @@ public class BossMonsterNetworked : NetworkBehaviour
                 new () {
                     skillName = "SpawnHorizontalBindSword",
                     runBy = ScheduledBehaviors.RunBy.Tick,
-                    tick = Runner.Tick + (20 * Runner.TickRate),
+                    tick = Runner.Tick + (19 * Runner.TickRate),
                     phase = 2,
                     canPend = false,
                     canRenew = true,
-                    renewTick = 15 * Runner.TickRate
+                    renewTick = 19 * Runner.TickRate
                 }
             };
             foreach (var behavior in behaviors)
