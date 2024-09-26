@@ -70,6 +70,7 @@ public class BindSword : NetworkBehaviour
     {
         P_Idle = true;
         CustomTickTimer duariotn = CustomTickTimer.CreateFromSeconds(Runner, 3);
+        int extraMovementTick = 0;
         while (!duariotn.Expired(Runner))
         {
             if (_rb == null)
@@ -78,7 +79,11 @@ public class BindSword : NetworkBehaviour
             }
             if (P_Bind)
             {
-                yield break;
+                if (extraMovementTick >= 5)
+                {
+                    yield break;
+                }
+                extraMovementTick++;
             }
             _rb.MovePosition(_rb.position + new Vector2(0.7f, 0));
             yield return new WaitForFixedUpdate();
