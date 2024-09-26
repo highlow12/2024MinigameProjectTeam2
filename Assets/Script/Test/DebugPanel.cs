@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Fusion;
 using TMPro;
 using UnityEngine;
 
@@ -24,6 +26,8 @@ public class DebugPanel : MonoBehaviour
             return;
         }
         panelText.text = "Boss State: " + bossScript.CurrentState + "\n" +
+                        "Boss Speed: " + bossScript.BossSpeed + "\n" +
+                        "Attack Timer: " + bossScript.BossAttackTimer.NormalizedValue(NetworkRunner.Instances.First()) + "\n" +
                         "Condition: " + bossScript.bossCondition + "\n" +
                         "Condition Duration: " + bossScript.conditionDuration + "\n" +
                         "Current Distance: " + bossScript.currentDistance + "\n" +

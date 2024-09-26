@@ -28,6 +28,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer SkillTickTimer { get; set; }
     [Networked] public CustomTickTimer HealthRegenIntervalTickTimer { get; set; }
     [Networked] public NetworkObject SkillObject { get; set; }
+    [Networked] public NetworkBool IsBinded { get; set; }
+    [Networked] public NetworkBool IsConsoleFocused { get; set; }
     // Animator parameters
     [Networked] public int RunState { get; set; }
     [Networked] public bool Grounded { get; set; }
@@ -55,7 +57,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
     NetworkRigidbody2D _rb;
     PlayerInputConsumer _input;
     TestBuffIndicator buffIndicator;
-    Collider2D _collider;
+    public Collider2D _collider;
     Animator _anim;
     NetworkMecanimAnimator _mecanim;
     public DurationIndicator durationIndicator;
@@ -158,8 +160,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
             buffIndicator.player = this;
             buffs.buffIndicator = buffIndicator;
             buffs.Test();
+            DebugConsole.Instance.localPlayer = this;
             RPC_SetNickName(Runner.gameObject.GetComponent<NetworkManager>().nickName);
             RPC_SetClass(0);
+
         }
         else
         {
@@ -167,6 +171,9 @@ public class PlayerControllerNetworked : NetworkBehaviour
             GameObject otherStatusPrefab = Runner.gameObject.GetComponent<NetworkManager>().otherStatusPrefab;
             GameObject other = Instantiate(otherStatusPrefab, canvas.gameObject.transform);
             OtherStatusPanel osp = other.GetComponent<OtherStatusPanel>();
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            // Always render behind local player
+            spriteRenderer.sortingOrder = -1;
             otherStatusPanel = osp;
             osp.player = this;
             osp.buffIndicator.playerBuffs = buffs;
@@ -263,11 +270,28 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         CurrentServerTick = (int)Runner.Tick;
-        if (Runner.SessionInfo.IsOpen == true || DebugConsole.Instance.isFocused)
+        if (
+            // conditon 1: if room is open to join
+            (Runner.SessionInfo.IsOpen == true)
+            ||
+            // condition 2: if player is binded by boss
+            (
+                IsBinded
+            )
+            ||
+            // condition 3: if player focus on console
+            (
+                IsConsoleFocused
+            )
+        )
         {
-            return;
+            _rb.Rigidbody.velocity = new Vector2(0, _rb.Rigidbody.velocity.y);
+            RunState = 0;
         }
-        InputTask();
+        else
+        {
+            InputTask();
+        }
         Velocity = _rb.Rigidbody.velocity;
         if (weapon != null)
         {
@@ -551,6 +575,19 @@ public class PlayerControllerNetworked : NetworkBehaviour
         }
     }
 
+    public IEnumerator ApplyBind(float duration)
+    {
+        IsBinded = true;
+        _collider.excludeLayers = _enemyLayer;
+        CustomTickTimer bindDurationTimer = CustomTickTimer.CreateFromSeconds(Runner, duration);
+        while (!bindDurationTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        IsBinded = false;
+        _collider.excludeLayers = 0;
+    }
+
     private IEnumerator RollCoroutine()
     {
         DurationTickTimer = CustomTickTimer.CreateFromSeconds(Runner, _rollDuration);
@@ -629,6 +666,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
             }
 
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_ApplyBind(float duration)
+    {
+        StartCoroutine(ApplyBind(duration));
     }
 
     // RPC function to apply aura buffs
@@ -760,6 +803,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
                 CharacterStatMultipliers.Set(i, default);
             }
         }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_ToggleConsoleFocus()
+    {
+        IsConsoleFocused = !IsConsoleFocused;
     }
 
     // TEST RPC FUNCTION

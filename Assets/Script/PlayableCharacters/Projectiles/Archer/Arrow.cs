@@ -53,7 +53,11 @@ public class Arrow : NetworkBehaviour
 
     }
 
-
+    public override void Render()
+    {
+        _base._networkAnimator.Animator.SetFloat("Velocity", _rb.Rigidbody.velocity.magnitude);
+        base.Render();
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {

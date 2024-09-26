@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class BGMmanager : MonoBehaviour
 {
     float volume = 0f;

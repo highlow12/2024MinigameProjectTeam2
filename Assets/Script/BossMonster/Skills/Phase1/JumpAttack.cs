@@ -13,12 +13,11 @@ public class JumpAttack : BossSkill
         phase = 1;
     }
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
-        animator.SetTrigger("doJumpAttack");
-
+        BossMonsterNetworked bossScript = boss.GetComponent<BossMonsterNetworked>();
+        bossScript.P_DoJumpAttack = true;
         float attackLength = 2.2f;
-
         // attack logic by animation event required
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = attackDamage;
