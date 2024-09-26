@@ -58,12 +58,14 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public float currentDistance { get; set; }
     [Networked] public bool isAttacking { get; set; }
     [Networked] public bool isMoving { get; set; }
+    [Networked] public bool isRushing { get; set; }
     // Animator parameters
     [Networked] public int P_WalkState { get; set; }
     [Networked] public bool P_DoAttack { get; set; }
     [Networked] public bool P_DoAttack2 { get; set; }
     [Networked] public bool P_DoJumpAttack { get; set; }
     [Networked] public bool P_Shunpo { get; set; }
+    [Networked] public bool P_DoRush { get; set; }
 
     // Local variables
     [SerializeField] private GameObject phase1;
@@ -83,6 +85,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     public BossAttack currentBossAttack;
     public TextMeshProUGUI bossHealthText;
     public List<BossHitFeedbackEffect> BossHitFeedbackEffects = new();
+    public Coroutine moveCoroutine;
     public AudioClip[] audioClips;
     private AudioSource Audio;
     void Awake()
@@ -181,6 +184,11 @@ public class BossMonsterNetworked : NetworkBehaviour
             _networkAnimator.Animator.SetTrigger("Shunpo");
             P_Shunpo = false;
         }
+        if (P_DoRush)
+        {
+            _networkAnimator.Animator.SetTrigger("DoRush");
+            P_DoRush = false;
+        }
         base.Render();
     }
 
@@ -221,13 +229,15 @@ public class BossMonsterNetworked : NetworkBehaviour
     {
         if (FollowTarget == null)
         {
-            yield return new WaitForSecondsRealtime(1.0f);
-            StartCoroutine(Move());
+            yield break;
         }
         else
         {
+            if (isRushing)
+            {
+                yield break;
+            }
             float distance = transform.position.x - FollowTarget.transform.position.x;
-            // BossScale is used to flip the boss sprite in FixedUpdateNetwork
             if (distance > 0)
             {
                 transform.localScale = new Vector3(2, 2, 1);
@@ -255,7 +265,10 @@ public class BossMonsterNetworked : NetworkBehaviour
                 // wait for the next tick
                 yield return new WaitForFixedUpdate();
             }
-            _rb.Rigidbody.velocity = Vector2.zero;
+            if (!isRushing)
+            {
+                _rb.Rigidbody.velocity = Vector2.zero;
+            }
             P_WalkState = 0;
             yield return null;
         }
@@ -364,7 +377,7 @@ public class BossMonsterNetworked : NetworkBehaviour
                 break;
             case BossState.Attack:
                 // Check if attack timer is default
-                if (!Equals(BossAttackTimer, default(CustomTickTimer)) || isAttacking)
+                if (!Equals(BossAttackTimer, default(CustomTickTimer)) || isAttacking || isRushing)
                 {
                     return;
                 }
