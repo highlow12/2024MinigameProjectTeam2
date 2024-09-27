@@ -23,6 +23,7 @@ public class AttackManager : MonoBehaviour
         BossAttacks.Add(new SpawnBindSword());
         BossAttacks.Add(new BaseAttack2());
         BossAttacks.Add(new SpawnHorizontalBindSword());
+        BossAttacks.Add(new Rush2());
 
     }
 

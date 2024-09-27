@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Fusion;
 using System;
 
-public class Rush1 : BossSkill
+public class Rush2 : BossSkill
 {
-    public Rush1()
+    public Rush2()
     {
         name = "Rush";
-        attackDamage = 100.0f;
-        phase = 1;
+        attackDamage = 150.0f;
+        phase = 2;
     }
 
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
@@ -20,8 +20,8 @@ public class Rush1 : BossSkill
         Rigidbody2D _rb = boss.GetComponent<Rigidbody2D>();
         bossScript.P_DoRush = true;
         bossScript.isRushing = true;
-        float omenLength = 0.5f;
-        float attackLength = 0.95f;
+        float omenLength = 0.33f;
+        float attackLength = 0.1f;
         var omenLengthTimer = CustomTickTimer.CreateFromSeconds(runner, omenLength);
         while (!omenLengthTimer.Expired(runner))
         {
@@ -37,7 +37,7 @@ public class Rush1 : BossSkill
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {
-            _rb.velocity = new Vector2(direction * 10, 0);
+            _rb.velocity = new Vector2(direction * 100, 0);
             yield return new WaitForFixedUpdate();
         }
         _rb.velocity = Vector2.zero;
