@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using System;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public class Rush1 : BossSkill
 {
     public Rush1()
     {
-        name = "Rush";
+        name = "RushAttack";
         attackDamage = 100.0f;
         phase = 1;
     }
@@ -31,9 +33,35 @@ public class Rush1 : BossSkill
         bossAttack.damage = attackDamage;
         bossAttack.isApplyKnockback = true;
         _collider.excludeLayers = LayerMask.GetMask("PlayerLayer");
-        int direction = (bossScript.FollowTarget.transform.position.x - transform.position.x) > 0 ? 1 : -1;
+        int rushDirectionType = Random.Range(0, 2);
+        int direction = 1;
+        switch (rushDirectionType)
+        {
+            case 0:
+                IEnumerable<float> playersXPos = runner.ActivePlayers.ToArray()
+                    .Select(player => runner.TryGetPlayerObject(player, out NetworkObject playerObject)
+                        ? playerObject.transform.position.x : 0);
+                int positiveX = 0;
+                int negativeX = 0;
+                foreach (var playerXPos in playersXPos)
+                {
+                    if (playerXPos > transform.position.x)
+                    {
+                        positiveX++;
+                    }
+                    else
+                    {
+                        negativeX++;
+                    }
+                }
+                direction = positiveX > negativeX ? 1 : -1;
+                break;
+            case 1:
+                direction = (bossScript.FollowTarget.transform.position.x - transform.position.x) > 0 ? 1 : -1;
+                break;
+        }
+
         transform.localScale = new Vector3(direction * -2, 2, 1);
-        Debug.Log(direction);
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {
