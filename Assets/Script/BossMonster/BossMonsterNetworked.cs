@@ -666,6 +666,15 @@ public class BossMonsterNetworked : NetworkBehaviour
                     canPend = false,
                     canRenew = true,
                     renewTick = 19 * Runner.TickRate
+                },
+                new () {
+                    skillName = "SpawnFireSpirit",
+                    runBy = ScheduledBehaviors.RunBy.Tick,
+                    tick = Runner.Tick + (27 * Runner.TickRate),
+                    phase = 2,
+                    canPend = false,
+                    canRenew = true,
+                    renewTick = 27 * Runner.TickRate
                 }
             };
             foreach (var behavior in behaviors)
