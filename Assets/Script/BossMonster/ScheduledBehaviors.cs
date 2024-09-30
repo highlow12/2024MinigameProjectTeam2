@@ -31,28 +31,21 @@ public class ScheduledBehaviors : NetworkBehaviour
 
     public static ScheduledBehaviors instance;
     [Tooltip("The threshold for pending tick, if the pending tick is greater than this value, the behavior will be executed immediately. This value will be multiplied by the tick rate when start.")]
-    public float pendingTickThreshold = 1.2f; // 1.2 seconds
+    public float pendingTickThreshold = 1.0f; // 1.0 seconds
 
     [Networked]
     [Capacity(20)]
     public NetworkArray<Behavior> Behaviors { get; }
         = MakeInitializer(new Behavior[] { });
 
-    void Start()
+    void Awake()
     {
         instance = this;
+    }
+
+    void Start()
+    {
         pendingTickThreshold *= Runner.TickRate;
-        AddBehavior(new Behavior
-        {
-            tick = 0,
-            phase = 1,
-            healthRatio = 0.99f,
-            skillName = "JumpAttack",
-            canPend = true,
-            canRenew = true,
-            renewHealthRatio = 0.1f,
-            runBy = RunBy.Health
-        });
     }
 
     public override void FixedUpdateNetwork()
@@ -112,12 +105,13 @@ public class ScheduledBehaviors : NetworkBehaviour
         }
         List<Behavior> currentPhaseBehaviors = Behaviors.Select(behavior => behavior)
             .Where(behavior => behavior.phase == phase)
-                .ToList();
+                .OrderBy(behavior => behavior.tick)
+                    .ToList();
         foreach (var behavior in currentPhaseBehaviors)
         {
             if (behavior.runBy == RunBy.Tick)
             {
-                if (behavior.tick == currentServerTick)
+                if (behavior.tick < currentServerTick)
                 {
                     return CheckBehavior(behavior, isAttacking);
                 }

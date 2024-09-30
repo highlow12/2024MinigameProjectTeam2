@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class DebugPanel : MonoBehaviour
 {
     private BossMonsterNetworked bossScript;
+    private Rigidbody2D rb;
     [SerializeField]
     private TextMeshProUGUI panelText;
 
@@ -16,6 +18,7 @@ public class DebugPanel : MonoBehaviour
     void Start()
     {
         bossScript = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossMonsterNetworked>();
+        rb = bossScript.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -27,6 +30,7 @@ public class DebugPanel : MonoBehaviour
         }
         panelText.text = "Boss State: " + bossScript.CurrentState + "\n" +
                         "Boss Speed: " + bossScript.BossSpeed + "\n" +
+                        "Boss x Velocity: " + Math.Abs(rb.velocity.x) + "\n" +
                         "Attack Timer: " + bossScript.BossAttackTimer.NormalizedValue(NetworkRunner.Instances.First()) + "\n" +
                         "Condition: " + bossScript.bossCondition + "\n" +
                         "Condition Duration: " + bossScript.conditionDuration + "\n" +

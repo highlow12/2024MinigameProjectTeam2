@@ -14265,7 +14265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 0}
   cameraSpeed: 0.05
-  groundWidth: 67
+  groundWidth: 53
   isBossJumping: 0
   isPlayerDead: 0
   isFollowBoss: 0
