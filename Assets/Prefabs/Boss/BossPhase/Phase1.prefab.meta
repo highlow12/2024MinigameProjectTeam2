@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/Boss/BossPhase/Phase1.prefab.meta
 guid: 7a435e78b71c44aad82daa2dde6171dd
-========
-guid: 4274b7cf87bc7a349bc226fc3228386e
->>>>>>>> main:Assets/Sprites/boss/BossPrefab.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
