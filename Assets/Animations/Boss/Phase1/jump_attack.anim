@@ -1051,6 +1051,15 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.7666667
+        value: 1.1
+        inSlope: 0.6130393
+        outSlope: 0.6130393
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2.1166666
         value: 2
         inSlope: 0
         outSlope: 0
@@ -1206,7 +1215,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Offset.y
-    path:
+    path: 
     classID: 70
     script: {fileID: 0}
     flags: 0
@@ -1402,7 +1411,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2757155153
+      path: 0
       attribute: 2368279999
       script: {fileID: 0}
       typeID: 70
@@ -1411,7 +1420,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2757155153
+      path: 0
       attribute: 1872933342
       script: {fileID: 0}
       typeID: 70
@@ -4661,6 +4670,15 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.7666667
+        value: 1.1
+        inSlope: 0.6130393
+        outSlope: 0.6130393
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2.1166666
         value: 2
         inSlope: 0
         outSlope: 0

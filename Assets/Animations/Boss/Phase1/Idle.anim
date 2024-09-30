@@ -90,7 +90,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: Phase1/400144377
+      path: 2234682974
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -99,7 +99,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: Phase1/3374898408
+      path: 2164785562
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -108,7 +108,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: Phase1/2106327360
+      path: 2713050892
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -117,7 +117,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: Phase1/114034284
+      path: 2038051337
       attribute: 4
       script: {fileID: 0}
       typeID: 4

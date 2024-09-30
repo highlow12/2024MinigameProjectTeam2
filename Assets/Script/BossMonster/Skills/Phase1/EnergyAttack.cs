@@ -12,12 +12,14 @@ public class EnergyAttack : BossSkill
         name = "EnergyAttack";
         attackDamage = 100.0f;
         phase = 1;
+        projectile = Resources.Load<GameObject>("BossSwordEnergy");
     }
 
 
-    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject projectile = null, NetworkObject boss = null)
+    public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
     {
-        animator.SetTrigger("doAttack");
+        BossMonsterNetworked bossScript = boss.GetComponent<BossMonsterNetworked>();
+        bossScript.P_DoAttack = true;
         float attackLength = 1.2f;
         Vector3 yOffset = ((Vector3)Vector2.up * 2);
         Vector3 xOffset = transform.localScale.x > 0 ? Vector3.left : Vector3.right;
