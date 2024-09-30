@@ -690,6 +690,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (BossPhase == 1)
         {
             phase1.SetActive(true);
+            CurrentHealth = maxHealth;
             currentBossAttack = phase1BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase1Animator;
             phase2.SetActive(false);
@@ -722,6 +723,7 @@ public class BossMonsterNetworked : NetworkBehaviour
         else if (BossPhase == 2)
         {
             phase1.SetActive(false);
+            CurrentHealth = maxHealth;
             currentBossAttack = phase2BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase2Animator;
             phase2.SetActive(true);
