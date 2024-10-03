@@ -13,14 +13,13 @@ public class DebugConsole : MonoBehaviour
     public static DebugConsole Instance;
     private List<Line> lines = new();
     public List<string> commandHistory = new();
-    private Command[] commands = new Command[6];
+    private Command[] commands = new Command[5];
     private Image consoleImage;
     private bool isHost = false;
     private Coroutine hideLogCoroutine;
     private Coroutine showLogCoroutine;
     private Command currentCommand;
     private NetworkRunner _runner;
-    public PlayerControllerNetworked localPlayer;
     public char commandPrefix = '/';
     public int historyCursor = -1;
     public bool isFocused = false;
@@ -31,11 +30,6 @@ public class DebugConsole : MonoBehaviour
     public TMP_Text toolTipText;
     public GameObject debugPanel;
     public string currentCommandText;
-    public LayerMask playerLayer;
-    List<string> matchedOptions = new();
-    int matchedOptionCursor = 0;
-    bool preventClearMatchedOptions = false;
-
 
     public enum MessageType
     {
@@ -95,7 +89,7 @@ public class DebugConsole : MonoBehaviour
         name = "modify",
         description = "Modify the game state",
         usage = "modify <state> <value>",
-        successMessage = "Game state: {argument1} modified to {argument2}",
+        successMessage = "Game state: {parameter1} modified to {parameter2}",
         parameters = new List<string>(),
         availableParameters = new List<string> { "phase", "health" }
     };
@@ -104,7 +98,7 @@ public class DebugConsole : MonoBehaviour
     {
         name = "skill",
         description = "Execute the boss skill",
-        successMessage = "Boss skill: {argument1} executed",
+        successMessage = "Boss skill: {parameter1} executed",
         usage = "skill <skillName>",
         parameters = new List<string>(),
         availableParameters = new List<string>()
@@ -114,21 +108,12 @@ public class DebugConsole : MonoBehaviour
     {
         name = "changeClass",
         description = "Change the player class",
-        successMessage = "Player {argument1} class changed to {argument2}",
+        successMessage = "Player {parameter1} class changed to {parameter2}",
         usage = "changeClass <playerRef> <classId>",
         parameters = new List<string>(),
         availableParameters = new List<string>(),
     };
 
-    private Command gamerule = new()
-    {
-        name = "gamerule",
-        description = "Change the game rule",
-        successMessage = "Game rule: {argument1} changed to {argument2}",
-        usage = "gamerule <rule> <value>",
-        parameters = new List<string>(),
-        availableParameters = new List<string>()
-    };
 
     void Awake()
     {
@@ -141,7 +126,6 @@ public class DebugConsole : MonoBehaviour
         commands[2] = modify;
         commands[3] = skill;
         commands[4] = changeClass;
-        commands[5] = gamerule;
     }
 
     void Start()
@@ -167,8 +151,6 @@ public class DebugConsole : MonoBehaviour
             }
             // Up arrow, Down arrow command history
             CommandHistory();
-            // Auto complete command
-            AutoComplete();
             if (currentCommandText.Split(commandPrefix).Length > 1)
             {
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -178,11 +160,11 @@ public class DebugConsole : MonoBehaviour
                     if (commandResult)
                     {
                         string successMessage = currentCommand.successMessage;
-                        // replace arguments in success message
+                        // replace parameters in success message
                         int idx = 1;
-                        foreach (string argument in currentCommand.parameters)
+                        foreach (string parameter in currentCommand.parameters)
                         {
-                            successMessage = successMessage.Replace($"{{argument{idx}}}", argument);
+                            successMessage = successMessage.Replace($"{{parameter{idx}}}", parameter);
                             idx++;
                         }
                         AddLine(successMessage);
@@ -217,10 +199,10 @@ public class DebugConsole : MonoBehaviour
             inputField.DeactivateInputField();
         }
 
+        // enable console by pressing return 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             ToggleFocus();
-            localPlayer.RPC_ToggleConsoleFocus();
         }
     }
 
@@ -258,7 +240,6 @@ public class DebugConsole : MonoBehaviour
         {
             requireParse = true;
         }
-        preventClearMatchedOptions = false;
     }
 
     IEnumerator ShowLog()
@@ -370,32 +351,6 @@ public class DebugConsole : MonoBehaviour
         }
     }
 
-    void AutoComplete()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            // get current command text
-            string[] splitText = currentCommandText.Split(' ');
-            splitText[^1] = matchedOptions[matchedOptionCursor];
-            string result = string.Join(" ", splitText);
-            if (splitText.Length == 1)
-            {
-                currentCommandText = commandPrefix + result;
-            }
-            else
-            {
-                currentCommandText = result;
-            }
-            inputField.text = currentCommandText;
-            inputField.caretPosition = inputField.text.Length;
-            if (matchedOptionCursor + 1 > 0)
-            {
-                preventClearMatchedOptions = true;
-            }
-            matchedOptionCursor = (matchedOptionCursor + 1) % matchedOptions.Count;
-        }
-    }
-
     Command ParseCommand()
     {
         // split text to get command and parameters
@@ -416,8 +371,6 @@ public class DebugConsole : MonoBehaviour
             // if no parameters given, display command description
             if (splitCommand.Count == 1)
             {
-                matchedOptions.Clear();
-                matchedOptions.Add(toolTipCommand.name);
                 displayToolTipText = $"{toolTipCommand.name}: {toolTipCommand.description}\nUsage: {toolTipCommand.usage}";
             }
             // if parameters given and command has available parameters, display available parameters
@@ -458,40 +411,17 @@ public class DebugConsole : MonoBehaviour
                         toolTipCommand.availableParameters = parameters;
                     }
                 }
-                if (toolTipCommand.name == "gamerule")
-                {
-                    if (splitCommand.Count == 2)
-                    {
-                        // rule parameter
-                        List<string> parameters = new() { "collisionBetweenPlayers" };
-                        toolTipCommand.availableParameters = parameters;
-                    }
-                    if (splitCommand.Count == 3)
-                    {
-                        // value parameter
-                        List<string> parameters = new() { "true", "false" };
-                        toolTipCommand.availableParameters = parameters;
-                    }
-                }
                 // get matched parameters with regex
-                if (!preventClearMatchedOptions)
+                List<string> matchedParameters = new();
+                foreach (string parameter in toolTipCommand.availableParameters)
                 {
-                    matchedOptionCursor = 0;
-                    matchedOptions.Clear();
-                    foreach (string parameter in toolTipCommand.availableParameters)
+                    Match match = Regex.Match(parameter, splitCommand.Last(), RegexOptions.IgnoreCase);
+                    if (match.Success)
                     {
-                        Match match = Regex.Match(parameter, splitCommand.Last(), RegexOptions.IgnoreCase);
-                        if (match.Success)
-                        {
-                            matchedOptions.Add(parameter);
-                        }
+                        matchedParameters.Add(parameter);
                     }
                 }
-                else
-                {
-                    preventClearMatchedOptions = false;
-                }
-                displayToolTipText = $"\nAvailable arguments - Cursor: {matchedOptionCursor}: {string.Join(", ", matchedOptions)}";
+                displayToolTipText = $"\nAvailable parameters: {string.Join(", ", matchedParameters)}";
             }
             toolTipText.text = displayToolTipText;
         }
@@ -523,9 +453,6 @@ public class DebugConsole : MonoBehaviour
                 break;
             case "changeClass":
                 result = ChangeClassCommand(command.parameters);
-                break;
-            case "gamerule":
-                result = GameRuleCommand(command.parameters);
                 break;
             default:
                 AddLine("Command not found", LineType.Error);
@@ -572,7 +499,7 @@ public class DebugConsole : MonoBehaviour
             BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
             if (parameters.Count < 2)
             {
-                AddLine("Invalid arguments", LineType.Error);
+                AddLine("Invalid parameters", LineType.Error);
                 return false;
             }
             string parameter = parameters[0];
@@ -590,7 +517,7 @@ public class DebugConsole : MonoBehaviour
                     boss.CurrentHealth = int.Parse(value);
                     break;
                 default:
-                    AddLine("Invalid argument", LineType.Error);
+                    AddLine("Invalid parameter", LineType.Error);
                     break;
             }
             return true;
@@ -610,7 +537,7 @@ public class DebugConsole : MonoBehaviour
             BossMonsterNetworked boss = GameObject.FindWithTag("Boss").GetComponent<BossMonsterNetworked>();
             if (parameters.Count < 1)
             {
-                AddLine("Invalid arguments", LineType.Error);
+                AddLine("Invalid parameters", LineType.Error);
                 return false;
             }
             string parameter = parameters[0];
@@ -658,35 +585,4 @@ public class DebugConsole : MonoBehaviour
             return false;
         }
     }
-
-    bool GameRuleCommand(List<string> parameters)
-    {
-        try
-        {
-            // change game rule
-            string rule = parameters[0];
-            string value = parameters[1];
-            switch (rule)
-            {
-                case "collisionBetweenPlayers":
-                    bool.TryParse(value, out bool collisionBetweenPlayers);
-                    PlayerRef[] activePlayers = _runner.ActivePlayers.ToArray();
-                    foreach (PlayerRef playerRef in activePlayers)
-                    {
-                        _runner.TryGetPlayerObject(playerRef, out NetworkObject playerObject);
-                        playerObject.GetComponent<PlayerControllerNetworked>()._collider.excludeLayers = collisionBetweenPlayers ? 0 : playerLayer;
-                    }
-                    break;
-                default:
-                    AddLine("Invalid rule", LineType.Error);
-                    break;
-            }
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
 }

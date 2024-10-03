@@ -26,6 +26,7 @@ public class BossHitFeedbackEffect : NetworkBehaviour
             IsCallable = true;
             AttackType = 0;
             EffectType = 0;
+            Debug.Log("SetAsDefault");
             AnimationTimer = default;
         }
         if (ParentScale != (transform.parent.localScale.x > 0 ? 1 : -1))

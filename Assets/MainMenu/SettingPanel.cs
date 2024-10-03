@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class SettingPanel : MonoBehaviour
 {
     HandleSettings settings;
-    [SerializeField]
     GameObject panel;
 
     GameObject VolumePanel;
@@ -32,13 +31,11 @@ public class SettingPanel : MonoBehaviour
     Color32 ButtonDefaultColor = new Color32(97, 126, 97, 255);
     Color32 ButtonActiveColor = new Color32(231, 239, 241, 255);
 
-    IEnumerable<T> Finds<T>() where T : UnityEngine.Object
-    {
+    IEnumerable<T> Finds<T>() where T : UnityEngine.Object {
         return FindObjectsByType<T>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     }
 
-    T Find<T>(string name) where T : UnityEngine.Object
-    {
+    T Find<T>(string name) where T : UnityEngine.Object {
         return Finds<T>().Where(t => t.name == name).First();
     }
 
@@ -72,43 +69,38 @@ public class SettingPanel : MonoBehaviour
         VolumePanelShow();
     }
 
-    void OnMasterValueChanged(float value)
-    {
+    void OnMasterValueChanged(float value) {
         float volume = (float)Math.Round(value, 2) * 100;
         settings.masterVolume = volume;
         masterValueLabel.SetText($"({volume}%)");
     }
 
-    void OnBackgroundValueChanged(float value)
-    {
+    void OnBackgroundValueChanged(float value) {
         float volume = (float)Math.Round(value, 2) * 100;
         settings.backgroundVolume = volume;
         backgroundValueLabel.SetText($"({volume}%)");
     }
 
-    void OnEffectValueChanged(float value)
-    {
+    void OnEffectValueChanged(float value) {
         float volume = (float)Math.Round(value, 2) * 100;
         settings.effectVolume = volume;
         effectValueLabel.SetText($"({volume}%)");
     }
 
-    void HideAllPanel()
-    {
+    void HideAllPanel() {
         ColorBlock vol = VolumeNavButton.colors;
         vol.normalColor = ButtonDefaultColor;
 
         VolumePanel.SetActive(false);
         VolumeNavButton.colors = vol;
         VolumeNavButtonLabel.color = ButtonDefaultColor;
-
+        
         DisplayPanel.SetActive(false);
         DisplayNavButton.colors = vol;
         DisplayNavButtonLabel.color = ButtonDefaultColor;
     }
 
-    public void VolumePanelShow()
-    {
+    public void VolumePanelShow() {
         HideAllPanel();
 
         ColorBlock vol = VolumeNavButton.colors;
@@ -119,8 +111,7 @@ public class SettingPanel : MonoBehaviour
         VolumeNavButtonLabel.color = ButtonActiveColor;
     }
 
-    public void DisplayPanelShow()
-    {
+    public void DisplayPanelShow() {
         HideAllPanel();
 
         ColorBlock vol = DisplayNavButton.colors;

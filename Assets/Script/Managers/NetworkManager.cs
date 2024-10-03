@@ -67,7 +67,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             if (runner.ActivePlayers.Count() == 1)
             {
                 spawnPosition = new(0, -4.6f, 0);
-                networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity, player);
+                networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity);
                 runner.Spawn(messageHandler, new Vector3(0, 0, 0), Quaternion.identity);
                 // runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
