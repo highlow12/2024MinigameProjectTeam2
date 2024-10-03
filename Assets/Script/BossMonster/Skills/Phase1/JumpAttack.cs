@@ -22,12 +22,14 @@ public class JumpAttack : BossSkill
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = attackDamage;
         bossAttack.isApplyKnockback = false;
+        bossAttack.isParryable = false;
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {
             yield return new WaitForFixedUpdate();
         }
         bossAttack.damage = 0.0f;
+        bossAttack.isParryable = true;
         yield return null;
     }
 

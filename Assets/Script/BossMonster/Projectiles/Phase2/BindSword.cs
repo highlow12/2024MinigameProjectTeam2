@@ -94,17 +94,19 @@ public class BindSword : NetworkBehaviour
     {
         CustomTickTimer duration = CustomTickTimer.CreateFromSeconds(Runner, bindDuration);
         BossMonsterNetworked boss = this.boss.GetComponent<BossMonsterNetworked>();
+        BossAttack.AttackData attackData = new()
+        {
+            damage = damagePerTick,
+            knockbackDirection = Vector2.zero,
+            isApplyKnockback = false
+        };
         while (Runner != null && !duration.Expired(Runner)) /* null check */
         {
             yield return new WaitForFixedUpdate();
             boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
+            player.transform.position = new Vector3(transform.position.x, player.transform.position.y, player.transform.position.z);
             player.RPC_OnPlayerHit(
-                new BossAttack.AttackData
-                {
-                    damage = damagePerTick,
-                    knockbackDirection = Vector2.zero,
-                    isApplyKnockback = false
-                }
+                attackData
             );
         }
         if (Runner != null)
@@ -143,6 +145,15 @@ public class BindSword : NetworkBehaviour
             PlayerControllerNetworked player = collision.gameObject.GetComponent<PlayerControllerNetworked>();
             if (!player.IsBinded)
             {
+                if (player.CharacterClass == (int)CharacterClassEnum.Tank)
+                {
+                    if (player.weapon.isDraw)
+                    {
+                        player.Skill();
+                        Runner.Despawn(Object);
+                        return;
+                    }
+                }
                 P_Bind = true;
                 player.RPC_ApplyBind(bindDuration);
                 StartCoroutine(DrainLife(player));

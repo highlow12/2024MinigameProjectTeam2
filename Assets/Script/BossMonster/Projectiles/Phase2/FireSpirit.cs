@@ -12,7 +12,7 @@ public class FireSpirit : NetworkBehaviour
     float currentTime = 0;
     [Networked] private CustomTickTimer life { get; set; }
     public List<PlayerRef> playersHit = new();
-    public int damage = 10;
+    public int damage = 90;
     public float speed = 5;
     public float lifeSeconds = 3;
     private int dir = 1;
@@ -29,7 +29,7 @@ public class FireSpirit : NetworkBehaviour
         life = CustomTickTimer.CreateFromSeconds(Runner, TurnCount * MoveTime);
         updateEndpoint();
     }
-    
+
     public void setTarget(Vector2 vector2)
     {
         TargetPos = vector2;
@@ -38,15 +38,16 @@ public class FireSpirit : NetworkBehaviour
     {
         TargetPos = Vector2.right;
     }
-    void updateEndpoint(){
+    void updateEndpoint()
+    {
         e1 = transform.position;
         e2 = Boss.transform.position;
     }
-    Vector2 GetBesierPosition(Vector2 start,Vector2 end,float time) 
+    Vector2 GetBesierPosition(Vector2 start, Vector2 end, float time)
     {
         time = Mathf.Clamp01(time);
-        
-        Vector2 point = new((start.x + end.x)/2, (start.y + end.y)/2 + Mathf.Sign(start.x - end.x) );
+
+        Vector2 point = new((start.x + end.x) / 2, (start.y + end.y) / 2 + Mathf.Sign(start.x - end.x));
 
         var AB = Vector2.Lerp(start, point, time);
         var BC = Vector2.Lerp(point, end, time);
@@ -56,16 +57,16 @@ public class FireSpirit : NetworkBehaviour
     // Update is called once per frame
     public override void FixedUpdateNetwork()
     {
-        
-        
+
+
 
         currentTime += 1 * Time.fixedDeltaTime;
-        
+
         if (currentTime < 1)
         {
             //upward curve
             transform.position = GetBesierPosition(e1, TargetPos, currentTime);
-            
+
         }
         else
         {
@@ -91,7 +92,7 @@ public class FireSpirit : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        
+
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("playerHit");
@@ -131,7 +132,7 @@ public class FireSpirit : NetworkBehaviour
 
         for (float t = 0; t <= 1; t += 0.1f)
         {
-            Vector2 position = GetBesierPosition(TargetPos,EndPoint, t);
+            Vector2 position = GetBesierPosition(TargetPos, EndPoint, t);
             Gizmos.DrawSphere(position, 0.1f); // 곡선의 각 점에 구체를 그립니다.
         }
     }

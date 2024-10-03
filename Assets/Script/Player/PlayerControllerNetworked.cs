@@ -401,6 +401,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
         {
             skillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, skillStruct.coolDown);
+            RPC_CreateDurationIndicator(skillStruct.duration, "아우라 쿨다운");
             SkillList.Set("Aura", skillStruct);
             StartCoroutine(weapon.Skill(gameObject.transform, skillStruct.duration));
         }
@@ -420,6 +421,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
             if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
             {
                 skillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, skillStruct.coolDown);
+                RPC_CreateDurationIndicator(skillStruct.coolDown, "패링 쿨다운");
                 SkillList.Set("Parry", skillStruct);
                 StartCoroutine(weapon.Parry(gameObject.transform));
             }
@@ -563,6 +565,10 @@ public class PlayerControllerNetworked : NetworkBehaviour
     // Apply knockback by boss attack
     public IEnumerator ApplyKnockback(Vector2 direction, float force)
     {
+        if (!IsGrounded)
+        {
+            yield break;
+        }
         CustomTickTimer knockbackApplyTickTimer = CustomTickTimer.CreateFromTicks(Runner, knockbackApplyTick);
         while (!knockbackApplyTickTimer.Expired(Runner))
         {
@@ -639,6 +645,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
     private void RPC_UpdateClass(int classTypeInt)
     {
         UpdateCharacterClass(classTypeInt);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    private void RPC_CreateDurationIndicator(float duration, string name)
+    {
+        durationIndicator.CreateDurationIndicator(duration, name);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

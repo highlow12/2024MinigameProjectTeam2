@@ -7,6 +7,7 @@ public class BossAttack : MonoBehaviour
 {
     public float damage;
     public bool isApplyKnockback;
+    public bool isParryable = true;
     public Collider2D attackCollider;
     public List<PlayerRef> playersHit = new();
     public AudioClip attackClip;
@@ -48,7 +49,7 @@ public class BossAttack : MonoBehaviour
                     return;
                 }
                 playersHit.Add(player.Player);
-                if (player.CharacterClass == (int)CharacterClassEnum.Tank)
+                if (player.CharacterClass == (int)CharacterClassEnum.Tank && isParryable)
                 {
                     if (player.weapon.isDraw)
                     {

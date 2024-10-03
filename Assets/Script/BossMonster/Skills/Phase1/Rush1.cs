@@ -32,6 +32,7 @@ public class Rush1 : BossSkill
         bossAttack.playersHit = new List<PlayerRef>();
         bossAttack.damage = attackDamage;
         bossAttack.isApplyKnockback = true;
+        bossAttack.isParryable = false;
         _collider.excludeLayers = LayerMask.GetMask("PlayerLayer");
         int rushDirectionType = Random.Range(0, 2);
         int direction = 1;
@@ -70,6 +71,7 @@ public class Rush1 : BossSkill
         }
         _rb.velocity = Vector2.zero;
         bossScript.isRushing = false;
+        bossAttack.isParryable = true;
         _collider.excludeLayers = 0;
         yield return null;
     }

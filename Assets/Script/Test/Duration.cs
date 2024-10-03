@@ -17,7 +17,7 @@ public class Duration : MonoBehaviour
     {
         _durationIndicator = GetComponent<Image>();
         _durationText = GetComponentInChildren<TextMeshProUGUI>();
-        _durationText.text = $"{skillName} - {maxDuration}s";
+        _durationText.text = $"{skillName}\n{maxDuration}초";
         order = transform.GetSiblingIndex();
         SetPos(order);
         StartCoroutine(Run());
@@ -26,14 +26,15 @@ public class Duration : MonoBehaviour
     void Update()
     {
         order = transform.GetSiblingIndex();
-        _durationText.text = $"{skillName} - {Math.Round(currentDuration, 1)}s";
+        _durationText.text = $"{skillName}\n{Math.Round(currentDuration, 1)}초";
         SetPos(order);
     }
 
     private void SetPos(int order)
     {
         var pos = GetComponent<RectTransform>().anchoredPosition;
-        pos.x = 230 * order;
+        pos.x = 250 * order + 30;
+        pos.y = 20;
         GetComponent<RectTransform>().anchoredPosition = pos;
     }
 
