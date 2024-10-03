@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animations/Boss/Phase2/Phase2_standby.anim.meta
 guid: c98fd5d073f3ef94b8d6431d8ce6ee55
+========
+guid: 7040329237ceab24ea81ff99c1c3b6d2
+>>>>>>>> main:Assets/Prefabs/Dash.anim.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000
