@@ -62,16 +62,17 @@ public class Rush1 : BossSkill
                 break;
         }
 
-        transform.localScale = new Vector3(direction * -2, 2, 1);
         var attackLengthTimer = CustomTickTimer.CreateFromSeconds(runner, attackLength);
         while (!attackLengthTimer.Expired(runner))
         {
+            transform.localScale = new Vector3(direction * -2, 2, 1);
             _rb.velocity = new Vector2(direction * 10, 0);
             yield return new WaitForFixedUpdate();
         }
         _rb.velocity = Vector2.zero;
         bossScript.isRushing = false;
         bossAttack.isParryable = true;
+        bossScript.RPC_ForceRetarget();
         _collider.excludeLayers = 0;
         yield return null;
     }

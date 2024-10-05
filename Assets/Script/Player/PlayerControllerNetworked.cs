@@ -584,14 +584,14 @@ public class PlayerControllerNetworked : NetworkBehaviour
     public IEnumerator ApplyBind(float duration)
     {
         IsBinded = true;
-        _collider.excludeLayers = _enemyLayer;
+        _collider.excludeLayers |= _enemyLayer;
         CustomTickTimer bindDurationTimer = CustomTickTimer.CreateFromSeconds(Runner, duration);
         while (!bindDurationTimer.Expired(Runner))
         {
             yield return new WaitForFixedUpdate();
         }
         IsBinded = false;
-        _collider.excludeLayers = 0;
+        _collider.excludeLayers &= ~_enemyLayer;
     }
 
     private IEnumerator RollCoroutine()
@@ -601,13 +601,12 @@ public class PlayerControllerNetworked : NetworkBehaviour
         P_Roll = true;
         Vector2 dashDirection = _rb.Rigidbody.velocity.normalized; // -1 or 1
         _rb.Rigidbody.velocity = dashDirection * Vector2.right * _rollDistance / _rollDuration;
-        _collider.excludeLayers = _enemyLayer;
+        _collider.excludeLayers |= _enemyLayer;
         while (!DurationTickTimer.Expired(Runner))
         {
             yield return new WaitForFixedUpdate();
         }
-        _collider.excludeLayers = 0;
-
+        _collider.excludeLayers &= ~_enemyLayer;
         _rb.Rigidbody.velocity = new Vector2(0, _rb.Rigidbody.velocity.y); // reset velocity except y
         _isRolling = false;
         yield return new WaitForFixedUpdate();
@@ -647,7 +646,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         UpdateCharacterClass(classTypeInt);
     }
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.InputAuthority)]
     private void RPC_CreateDurationIndicator(float duration, string name)
     {
         durationIndicator.CreateDurationIndicator(duration, name);

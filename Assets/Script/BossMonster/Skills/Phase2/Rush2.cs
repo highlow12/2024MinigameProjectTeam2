@@ -71,6 +71,7 @@ public class Rush2 : BossSkill
         _rb.velocity = Vector2.zero;
         bossScript.isRushing = false;
         bossAttack.isParryable = true;
+        bossScript.RPC_ForceRetarget();
         _collider.excludeLayers = 0;
         yield return null;
     }

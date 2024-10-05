@@ -162,34 +162,34 @@ public class BossMonsterNetworked : NetworkBehaviour
     // 뭔 짓을 쳐 해도 AssertException이 계속 뜨네
     public override void Render()
     {
-        if (!HasStateAuthority)
+        if (IsProxy)
         {
             return;
         }
         _networkAnimator.Animator.SetInteger("WalkState", P_WalkState);
         if (P_DoAttack)
         {
-            _networkAnimator.Animator.SetTrigger("DoAttack");
+            _networkAnimator.SetTrigger("DoAttack");
             P_DoAttack = false;
         }
         if (P_DoAttack2)
         {
-            _networkAnimator.Animator.SetTrigger("DoAttack2");
+            _networkAnimator.SetTrigger("DoAttack2");
             P_DoAttack2 = false;
         }
         if (P_DoJumpAttack)
         {
-            _networkAnimator.Animator.SetTrigger("DoJumpAttack");
+            _networkAnimator.SetTrigger("DoJumpAttack");
             P_DoJumpAttack = false;
         }
         if (P_Shunpo)
         {
-            _networkAnimator.Animator.SetTrigger("Shunpo");
+            _networkAnimator.SetTrigger("Shunpo");
             P_Shunpo = false;
         }
         if (P_DoRush)
         {
-            _networkAnimator.Animator.SetTrigger("DoRush");
+            _networkAnimator.SetTrigger("DoRush");
             P_DoRush = false;
         }
         base.Render();
