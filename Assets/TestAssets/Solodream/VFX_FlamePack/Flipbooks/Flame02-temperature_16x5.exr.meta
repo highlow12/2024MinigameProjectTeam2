@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -123,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -135,6 +142,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -147,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -159,6 +168,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1855,89 +1865,88 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Flame02-temperature_16x4_14: -1996419505
-      Flame02-temperature_16x4_79: -969089619
-      Flame02-temperature_16x4_35: 883434035
-      Flame02-temperature_16x4_17: -1823768204
-      Flame02-temperature_16x4_75: -309369694
-      Flame02-temperature_16x4_12: -1832359043
-      Flame02-temperature_16x4_8: -470225068
-      Flame02-temperature_16x4_36: 345606027
-      Flame02-temperature_16x4_1: -198597587
-      Flame02-temperature_16x4_52: 1480032602
-      Flame02-temperature_16x4_77: 1254720846
-      Flame02-temperature_16x4_60: -1040221286
-      Flame02-temperature_16x4_5: 25947533
-      Flame02-temperature_16x4_23: 1496324470
-      Flame02-temperature_16x4_73: 2141243788
-      Flame02-temperature_16x4_7: 730832558
-      Flame02-temperature_16x4_28: -1800598395
-      Flame02-temperature_16x4_47: 1675933138
-      Flame02-temperature_16x4_22: -1774466966
-      Flame02-temperature_16x4_74: 795641641
-      Flame02-temperature_16x4_42: -1318683541
-      Flame02-temperature_16x4_56: 235672013
-      Flame02-temperature_16x4_66: 344125219
-      Flame02-temperature_16x4_64: 1107389012
-      Flame02-temperature_16x4_67: 1302239242
-      Flame02-temperature_16x4_4: -61773692
-      Flame02-temperature_16x4_34: 693393798
-      Flame02-temperature_16x4_39: 775654366
-      Flame02-temperature_16x4_2: 291573950
-      Flame02-temperature_16x4_13: 1213041152
-      Flame02-temperature_16x4_71: -2018666133
-      Flame02-temperature_16x4_49: 1896828966
-      Flame02-temperature_16x4_29: -291080020
-      Flame02-temperature_16x4_76: 1153235513
-      Flame02-temperature_16x4_70: -496254505
-      Flame02-temperature_16x4_59: 2116006061
-      Flame02-temperature_16x4_69: 252390740
-      Flame02-temperature_16x4_10: 417573986
-      Flame02-temperature_16x4_61: 2133960970
-      Flame02-temperature_16x4_48: -960158840
-      Flame02-temperature_16x4_26: 1607167563
-      Flame02-temperature_16x4_50: -1515857033
-      Flame02-temperature_16x4_31: -1232913865
-      Flame02-temperature_16x4_58: -576899080
-      Flame02-temperature_16x4_20: 1773582100
-      Flame02-temperature_16x4_38: 30057431
-      Flame02-temperature_16x4_62: 1167034184
-      Flame02-temperature_16x4_9: -806511912
-      Flame02-temperature_16x4_45: 532464500
-      Flame02-temperature_16x4_11: 599026844
-      Flame02-temperature_16x4_19: 1277469830
-      Flame02-temperature_16x4_68: 1107144927
-      Flame02-temperature_16x4_44: 1090252126
-      Flame02-temperature_16x4_6: 83801720
       Flame02-temperature_16x4_0: 720549847
-      Flame02-temperature_16x4_41: 1349613735
+      Flame02-temperature_16x4_1: -198597587
+      Flame02-temperature_16x4_10: 417573986
+      Flame02-temperature_16x4_11: 599026844
+      Flame02-temperature_16x4_12: -1832359043
+      Flame02-temperature_16x4_13: 1213041152
+      Flame02-temperature_16x4_14: -1996419505
       Flame02-temperature_16x4_15: -700239886
-      Flame02-temperature_16x4_65: -1342873300
-      Flame02-temperature_16x4_21: -1177612754
-      Flame02-temperature_16x4_30: -457438369
-      Flame02-temperature_16x4_24: -1357560726
-      Flame02-temperature_16x4_3: 721989096
-      Flame02-temperature_16x4_25: -105272379
-      Flame02-temperature_16x4_51: -1164646805
-      Flame02-temperature_16x4_18: 166098090
       Flame02-temperature_16x4_16: -1621298684
-      Flame02-temperature_16x4_43: 2137004992
-      Flame02-temperature_16x4_33: 574189090
-      Flame02-temperature_16x4_54: 446502924
-      Flame02-temperature_16x4_57: -309482632
-      Flame02-temperature_16x4_32: 2122316784
-      Flame02-temperature_16x4_55: -55554274
+      Flame02-temperature_16x4_17: -1823768204
+      Flame02-temperature_16x4_18: 166098090
+      Flame02-temperature_16x4_19: 1277469830
+      Flame02-temperature_16x4_2: 291573950
+      Flame02-temperature_16x4_20: 1773582100
+      Flame02-temperature_16x4_21: -1177612754
+      Flame02-temperature_16x4_22: -1774466966
+      Flame02-temperature_16x4_23: 1496324470
+      Flame02-temperature_16x4_24: -1357560726
+      Flame02-temperature_16x4_25: -105272379
+      Flame02-temperature_16x4_26: 1607167563
       Flame02-temperature_16x4_27: 2106536325
-      Flame02-temperature_16x4_63: -244300952
-      Flame02-temperature_16x4_46: 1502515542
+      Flame02-temperature_16x4_28: -1800598395
+      Flame02-temperature_16x4_29: -291080020
+      Flame02-temperature_16x4_3: 721989096
+      Flame02-temperature_16x4_30: -457438369
+      Flame02-temperature_16x4_31: -1232913865
+      Flame02-temperature_16x4_32: 2122316784
+      Flame02-temperature_16x4_33: 574189090
+      Flame02-temperature_16x4_34: 693393798
+      Flame02-temperature_16x4_35: 883434035
+      Flame02-temperature_16x4_36: 345606027
       Flame02-temperature_16x4_37: 1000242678
-      Flame02-temperature_16x4_72: -691729085
-      Flame02-temperature_16x4_78: 161329252
+      Flame02-temperature_16x4_38: 30057431
+      Flame02-temperature_16x4_39: 775654366
+      Flame02-temperature_16x4_4: -61773692
       Flame02-temperature_16x4_40: 1423553868
+      Flame02-temperature_16x4_41: 1349613735
+      Flame02-temperature_16x4_42: -1318683541
+      Flame02-temperature_16x4_43: 2137004992
+      Flame02-temperature_16x4_44: 1090252126
+      Flame02-temperature_16x4_45: 532464500
+      Flame02-temperature_16x4_46: 1502515542
+      Flame02-temperature_16x4_47: 1675933138
+      Flame02-temperature_16x4_48: -960158840
+      Flame02-temperature_16x4_49: 1896828966
+      Flame02-temperature_16x4_5: 25947533
+      Flame02-temperature_16x4_50: -1515857033
+      Flame02-temperature_16x4_51: -1164646805
+      Flame02-temperature_16x4_52: 1480032602
       Flame02-temperature_16x4_53: -660295191
-  spritePackingTag: 
+      Flame02-temperature_16x4_54: 446502924
+      Flame02-temperature_16x4_55: -55554274
+      Flame02-temperature_16x4_56: 235672013
+      Flame02-temperature_16x4_57: -309482632
+      Flame02-temperature_16x4_58: -576899080
+      Flame02-temperature_16x4_59: 2116006061
+      Flame02-temperature_16x4_6: 83801720
+      Flame02-temperature_16x4_60: -1040221286
+      Flame02-temperature_16x4_61: 2133960970
+      Flame02-temperature_16x4_62: 1167034184
+      Flame02-temperature_16x4_63: -244300952
+      Flame02-temperature_16x4_64: 1107389012
+      Flame02-temperature_16x4_65: -1342873300
+      Flame02-temperature_16x4_66: 344125219
+      Flame02-temperature_16x4_67: 1302239242
+      Flame02-temperature_16x4_68: 1107144927
+      Flame02-temperature_16x4_69: 252390740
+      Flame02-temperature_16x4_7: 730832558
+      Flame02-temperature_16x4_70: -496254505
+      Flame02-temperature_16x4_71: -2018666133
+      Flame02-temperature_16x4_72: -691729085
+      Flame02-temperature_16x4_73: 2141243788
+      Flame02-temperature_16x4_74: 795641641
+      Flame02-temperature_16x4_75: -309369694
+      Flame02-temperature_16x4_76: 1153235513
+      Flame02-temperature_16x4_77: 1254720846
+      Flame02-temperature_16x4_78: 161329252
+      Flame02-temperature_16x4_79: -969089619
+      Flame02-temperature_16x4_8: -470225068
+      Flame02-temperature_16x4_9: -806511912
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -123,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -135,6 +142,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -147,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -159,6 +168,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1435,69 +1445,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SmallFlame01-mini_16x4_50: -210787301
-      SmallFlame01-mini_16x4_13: -1204546204
-      SmallFlame01-mini_16x4_30: -1937627884
-      SmallFlame01-mini_16x4_33: -1345872191
-      SmallFlame01-mini_16x4_51: -355130225
-      SmallFlame01-mini_16x4_5: 1440472983
-      SmallFlame01-mini_16x4_11: 557312502
-      SmallFlame01-mini_16x4_40: 2879440
-      SmallFlame01-mini_16x4_21: -566748542
-      SmallFlame01-mini_16x4_27: -365793968
-      SmallFlame01-mini_16x4_42: -430798934
-      SmallFlame01-mini_16x4_31: -2011720461
-      SmallFlame01-mini_16x4_24: -2014408362
-      SmallFlame01-mini_16x4_49: -360058424
-      SmallFlame01-mini_16x4_28: -1655647618
-      SmallFlame01-mini_16x4_18: -1644489834
-      SmallFlame01-mini_16x4_45: 1671463965
-      SmallFlame01-mini_16x4_12: 5503581
-      SmallFlame01-mini_16x4_4: 97475178
-      SmallFlame01-mini_16x4_8: -1049579850
-      SmallFlame01-mini_16x4_2: -530716549
-      SmallFlame01-mini_16x4_19: -38734733
-      SmallFlame01-mini_16x4_52: -1466655663
-      SmallFlame01-mini_16x4_10: -1618474762
-      SmallFlame01-mini_16x4_7: 36090481
-      SmallFlame01-mini_16x4_41: 194243111
-      SmallFlame01-mini_16x4_47: -1050934475
-      SmallFlame01-mini_16x4_22: 974744799
-      SmallFlame01-mini_16x4_43: 1630439684
-      SmallFlame01-mini_16x4_39: 552126792
-      SmallFlame01-mini_16x4_55: -173906279
-      SmallFlame01-mini_16x4_58: -57389941
-      SmallFlame01-mini_16x4_23: -530289842
-      SmallFlame01-mini_16x4_44: -1858784
-      SmallFlame01-mini_16x4_25: -1691841089
-      SmallFlame01-mini_16x4_54: -1613774356
-      SmallFlame01-mini_16x4_59: 2026856194
-      SmallFlame01-mini_16x4_16: 1869606516
-      SmallFlame01-mini_16x4_37: -1367843651
-      SmallFlame01-mini_16x4_15: 1460963176
-      SmallFlame01-mini_16x4_20: 1355344239
-      SmallFlame01-mini_16x4_46: -1058206061
-      SmallFlame01-mini_16x4_32: -1819510262
-      SmallFlame01-mini_16x4_53: 1275666977
       SmallFlame01-mini_16x4_0: 1380984701
-      SmallFlame01-mini_16x4_36: -1886429148
-      SmallFlame01-mini_16x4_56: 1610110528
       SmallFlame01-mini_16x4_1: -698934978
-      SmallFlame01-mini_16x4_34: 881136735
-      SmallFlame01-mini_16x4_29: 1152374975
+      SmallFlame01-mini_16x4_10: -1618474762
+      SmallFlame01-mini_16x4_11: 557312502
+      SmallFlame01-mini_16x4_12: 5503581
+      SmallFlame01-mini_16x4_13: -1204546204
       SmallFlame01-mini_16x4_14: 1482446926
-      SmallFlame01-mini_16x4_35: 580061419
-      SmallFlame01-mini_16x4_48: 1042409989
-      SmallFlame01-mini_16x4_26: -1554536962
+      SmallFlame01-mini_16x4_15: 1460963176
+      SmallFlame01-mini_16x4_16: 1869606516
       SmallFlame01-mini_16x4_17: 1751627903
-      SmallFlame01-mini_16x4_57: 1753584207
-      SmallFlame01-mini_16x4_9: 88108416
-      SmallFlame01-mini_16x4_6: 1883990576
+      SmallFlame01-mini_16x4_18: -1644489834
+      SmallFlame01-mini_16x4_19: -38734733
+      SmallFlame01-mini_16x4_2: -530716549
+      SmallFlame01-mini_16x4_20: 1355344239
+      SmallFlame01-mini_16x4_21: -566748542
+      SmallFlame01-mini_16x4_22: 974744799
+      SmallFlame01-mini_16x4_23: -530289842
+      SmallFlame01-mini_16x4_24: -2014408362
+      SmallFlame01-mini_16x4_25: -1691841089
+      SmallFlame01-mini_16x4_26: -1554536962
+      SmallFlame01-mini_16x4_27: -365793968
+      SmallFlame01-mini_16x4_28: -1655647618
+      SmallFlame01-mini_16x4_29: 1152374975
       SmallFlame01-mini_16x4_3: -721571958
+      SmallFlame01-mini_16x4_30: -1937627884
+      SmallFlame01-mini_16x4_31: -2011720461
+      SmallFlame01-mini_16x4_32: -1819510262
+      SmallFlame01-mini_16x4_33: -1345872191
+      SmallFlame01-mini_16x4_34: 881136735
+      SmallFlame01-mini_16x4_35: 580061419
+      SmallFlame01-mini_16x4_36: -1886429148
+      SmallFlame01-mini_16x4_37: -1367843651
       SmallFlame01-mini_16x4_38: 1161071498
-  spritePackingTag: 
+      SmallFlame01-mini_16x4_39: 552126792
+      SmallFlame01-mini_16x4_4: 97475178
+      SmallFlame01-mini_16x4_40: 2879440
+      SmallFlame01-mini_16x4_41: 194243111
+      SmallFlame01-mini_16x4_42: -430798934
+      SmallFlame01-mini_16x4_43: 1630439684
+      SmallFlame01-mini_16x4_44: -1858784
+      SmallFlame01-mini_16x4_45: 1671463965
+      SmallFlame01-mini_16x4_46: -1058206061
+      SmallFlame01-mini_16x4_47: -1050934475
+      SmallFlame01-mini_16x4_48: 1042409989
+      SmallFlame01-mini_16x4_49: -360058424
+      SmallFlame01-mini_16x4_5: 1440472983
+      SmallFlame01-mini_16x4_50: -210787301
+      SmallFlame01-mini_16x4_51: -355130225
+      SmallFlame01-mini_16x4_52: -1466655663
+      SmallFlame01-mini_16x4_53: 1275666977
+      SmallFlame01-mini_16x4_54: -1613774356
+      SmallFlame01-mini_16x4_55: -173906279
+      SmallFlame01-mini_16x4_56: 1610110528
+      SmallFlame01-mini_16x4_57: 1753584207
+      SmallFlame01-mini_16x4_58: -57389941
+      SmallFlame01-mini_16x4_59: 2026856194
+      SmallFlame01-mini_16x4_6: 1883990576
+      SmallFlame01-mini_16x4_7: 36090481
+      SmallFlame01-mini_16x4_8: -1049579850
+      SmallFlame01-mini_16x4_9: 88108416
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

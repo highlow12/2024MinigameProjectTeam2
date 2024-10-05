@@ -81,7 +81,7 @@ public class LobbyUIController : MonoBehaviour
             }
         }
     }
-    
+
     public void SetClass(PlayerRef player, int classID)
     {
         int i = GetIndex(player);

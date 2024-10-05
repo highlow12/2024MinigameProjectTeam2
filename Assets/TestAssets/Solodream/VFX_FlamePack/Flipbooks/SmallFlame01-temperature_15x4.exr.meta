@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -123,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -135,6 +142,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -147,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -159,6 +168,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1435,69 +1445,68 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SmallFlame01-temperature_16x4_10: 1210127200
-      SmallFlame01-temperature_16x4_22: 810991306
-      SmallFlame01-temperature_16x4_55: -1126305914
-      SmallFlame01-temperature_16x4_50: 200694369
-      SmallFlame01-temperature_16x4_44: -109530991
-      SmallFlame01-temperature_16x4_9: 1639964356
-      SmallFlame01-temperature_16x4_16: -415215008
-      SmallFlame01-temperature_16x4_27: 1783936724
-      SmallFlame01-temperature_16x4_56: -324365950
-      SmallFlame01-temperature_16x4_20: 2038774540
-      SmallFlame01-temperature_16x4_41: -1707925113
-      SmallFlame01-temperature_16x4_45: -415461105
-      SmallFlame01-temperature_16x4_5: -1834643149
-      SmallFlame01-temperature_16x4_4: -2037148281
-      SmallFlame01-temperature_16x4_8: 441575076
-      SmallFlame01-temperature_16x4_7: 85282261
-      SmallFlame01-temperature_16x4_29: 667798239
-      SmallFlame01-temperature_16x4_51: -1175413183
-      SmallFlame01-temperature_16x4_57: -709248480
-      SmallFlame01-temperature_16x4_18: -1134065257
-      SmallFlame01-temperature_16x4_47: -2115816124
-      SmallFlame01-temperature_16x4_28: 1881945883
-      SmallFlame01-temperature_16x4_34: 864205807
-      SmallFlame01-temperature_16x4_53: 836415179
-      SmallFlame01-temperature_16x4_23: 1806146108
-      SmallFlame01-temperature_16x4_12: 1268970321
-      SmallFlame01-temperature_16x4_32: -127802961
-      SmallFlame01-temperature_16x4_36: -1204760567
-      SmallFlame01-temperature_16x4_25: 1850120002
-      SmallFlame01-temperature_16x4_46: 952383386
-      SmallFlame01-temperature_16x4_19: 1624067100
-      SmallFlame01-temperature_16x4_52: 795075240
-      SmallFlame01-temperature_16x4_33: -1619887894
-      SmallFlame01-temperature_16x4_26: 299487029
-      SmallFlame01-temperature_16x4_11: -1345952961
-      SmallFlame01-temperature_16x4_6: 987369053
-      SmallFlame01-temperature_16x4_48: -2013979603
-      SmallFlame01-temperature_16x4_14: 1558088517
-      SmallFlame01-temperature_16x4_13: -2043142657
-      SmallFlame01-temperature_16x4_17: -307885715
-      SmallFlame01-temperature_16x4_39: 565620555
-      SmallFlame01-temperature_16x4_24: 974912440
-      SmallFlame01-temperature_16x4_49: 665221592
-      SmallFlame01-temperature_16x4_3: 1059388650
-      SmallFlame01-temperature_16x4_58: 631056279
-      SmallFlame01-temperature_16x4_1: 1513074848
-      SmallFlame01-temperature_16x4_43: -903899262
-      SmallFlame01-temperature_16x4_42: -1803361932
-      SmallFlame01-temperature_16x4_38: 165931326
-      SmallFlame01-temperature_16x4_59: 184642912
-      SmallFlame01-temperature_16x4_37: -736504377
-      SmallFlame01-temperature_16x4_54: 519664031
-      SmallFlame01-temperature_16x4_40: -2064571398
-      SmallFlame01-temperature_16x4_30: -2036786449
       SmallFlame01-temperature_16x4_0: -1618359015
-      SmallFlame01-temperature_16x4_35: 98154083
+      SmallFlame01-temperature_16x4_1: 1513074848
+      SmallFlame01-temperature_16x4_10: 1210127200
+      SmallFlame01-temperature_16x4_11: -1345952961
+      SmallFlame01-temperature_16x4_12: 1268970321
+      SmallFlame01-temperature_16x4_13: -2043142657
+      SmallFlame01-temperature_16x4_14: 1558088517
       SmallFlame01-temperature_16x4_15: -1691949222
-      SmallFlame01-temperature_16x4_31: -817467144
-      SmallFlame01-temperature_16x4_21: 1067191588
+      SmallFlame01-temperature_16x4_16: -415215008
+      SmallFlame01-temperature_16x4_17: -307885715
+      SmallFlame01-temperature_16x4_18: -1134065257
+      SmallFlame01-temperature_16x4_19: 1624067100
       SmallFlame01-temperature_16x4_2: 385636563
-  spritePackingTag: 
+      SmallFlame01-temperature_16x4_20: 2038774540
+      SmallFlame01-temperature_16x4_21: 1067191588
+      SmallFlame01-temperature_16x4_22: 810991306
+      SmallFlame01-temperature_16x4_23: 1806146108
+      SmallFlame01-temperature_16x4_24: 974912440
+      SmallFlame01-temperature_16x4_25: 1850120002
+      SmallFlame01-temperature_16x4_26: 299487029
+      SmallFlame01-temperature_16x4_27: 1783936724
+      SmallFlame01-temperature_16x4_28: 1881945883
+      SmallFlame01-temperature_16x4_29: 667798239
+      SmallFlame01-temperature_16x4_3: 1059388650
+      SmallFlame01-temperature_16x4_30: -2036786449
+      SmallFlame01-temperature_16x4_31: -817467144
+      SmallFlame01-temperature_16x4_32: -127802961
+      SmallFlame01-temperature_16x4_33: -1619887894
+      SmallFlame01-temperature_16x4_34: 864205807
+      SmallFlame01-temperature_16x4_35: 98154083
+      SmallFlame01-temperature_16x4_36: -1204760567
+      SmallFlame01-temperature_16x4_37: -736504377
+      SmallFlame01-temperature_16x4_38: 165931326
+      SmallFlame01-temperature_16x4_39: 565620555
+      SmallFlame01-temperature_16x4_4: -2037148281
+      SmallFlame01-temperature_16x4_40: -2064571398
+      SmallFlame01-temperature_16x4_41: -1707925113
+      SmallFlame01-temperature_16x4_42: -1803361932
+      SmallFlame01-temperature_16x4_43: -903899262
+      SmallFlame01-temperature_16x4_44: -109530991
+      SmallFlame01-temperature_16x4_45: -415461105
+      SmallFlame01-temperature_16x4_46: 952383386
+      SmallFlame01-temperature_16x4_47: -2115816124
+      SmallFlame01-temperature_16x4_48: -2013979603
+      SmallFlame01-temperature_16x4_49: 665221592
+      SmallFlame01-temperature_16x4_5: -1834643149
+      SmallFlame01-temperature_16x4_50: 200694369
+      SmallFlame01-temperature_16x4_51: -1175413183
+      SmallFlame01-temperature_16x4_52: 795075240
+      SmallFlame01-temperature_16x4_53: 836415179
+      SmallFlame01-temperature_16x4_54: 519664031
+      SmallFlame01-temperature_16x4_55: -1126305914
+      SmallFlame01-temperature_16x4_56: -324365950
+      SmallFlame01-temperature_16x4_57: -709248480
+      SmallFlame01-temperature_16x4_58: 631056279
+      SmallFlame01-temperature_16x4_59: 184642912
+      SmallFlame01-temperature_16x4_6: 987369053
+      SmallFlame01-temperature_16x4_7: 85282261
+      SmallFlame01-temperature_16x4_8: 441575076
+      SmallFlame01-temperature_16x4_9: 1639964356
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

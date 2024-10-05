@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -123,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -135,6 +142,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -147,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -159,6 +168,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1519,73 +1529,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Flame03-temperature_16x4_7: 1443601596
-      Flame03-temperature_16x4_16: 2075595063
       Flame03-temperature_16x4_0: -257120475
-      Flame03-temperature_16x4_46: 1143365292
+      Flame03-temperature_16x4_1: 1553612467
+      Flame03-temperature_16x4_10: 1398168091
+      Flame03-temperature_16x4_11: 922370620
+      Flame03-temperature_16x4_12: 437240563
+      Flame03-temperature_16x4_13: -628232343
+      Flame03-temperature_16x4_14: -2036053194
       Flame03-temperature_16x4_15: 416161666
-      Flame03-temperature_16x4_27: -1025588582
-      Flame03-temperature_16x4_33: 2074680403
+      Flame03-temperature_16x4_16: 2075595063
+      Flame03-temperature_16x4_17: -1276680731
+      Flame03-temperature_16x4_18: -514062278
+      Flame03-temperature_16x4_19: -450389220
+      Flame03-temperature_16x4_2: 819491118
       Flame03-temperature_16x4_20: -1632756161
+      Flame03-temperature_16x4_21: -1974945495
+      Flame03-temperature_16x4_22: -1036922624
+      Flame03-temperature_16x4_23: 2056628943
+      Flame03-temperature_16x4_24: 692632499
+      Flame03-temperature_16x4_25: -2062463081
+      Flame03-temperature_16x4_26: -1220364353
+      Flame03-temperature_16x4_27: -1025588582
+      Flame03-temperature_16x4_28: 1772038780
+      Flame03-temperature_16x4_29: -683305497
+      Flame03-temperature_16x4_3: -1788872459
+      Flame03-temperature_16x4_30: 2072720707
       Flame03-temperature_16x4_31: -2074083366
+      Flame03-temperature_16x4_32: -2095514811
+      Flame03-temperature_16x4_33: 2074680403
+      Flame03-temperature_16x4_34: 1248854121
+      Flame03-temperature_16x4_35: 1230551728
+      Flame03-temperature_16x4_36: -431436480
+      Flame03-temperature_16x4_37: -506899572
+      Flame03-temperature_16x4_38: -1313432341
+      Flame03-temperature_16x4_39: -500365798
       Flame03-temperature_16x4_4: 1922187283
-      Flame03-temperature_16x4_8: -33431105
+      Flame03-temperature_16x4_40: 1554775182
       Flame03-temperature_16x4_41: 1091778445
       Flame03-temperature_16x4_42: 1944796455
-      Flame03-temperature_16x4_63: 461937763
-      Flame03-temperature_16x4_40: 1554775182
-      Flame03-temperature_16x4_19: -450389220
-      Flame03-temperature_16x4_47: -1199360868
-      Flame03-temperature_16x4_50: 995308930
-      Flame03-temperature_16x4_17: -1276680731
-      Flame03-temperature_16x4_39: -500365798
-      Flame03-temperature_16x4_1: 1553612467
-      Flame03-temperature_16x4_28: 1772038780
-      Flame03-temperature_16x4_24: 692632499
-      Flame03-temperature_16x4_59: -1917625081
-      Flame03-temperature_16x4_12: 437240563
-      Flame03-temperature_16x4_2: 819491118
-      Flame03-temperature_16x4_11: 922370620
-      Flame03-temperature_16x4_52: -222806160
-      Flame03-temperature_16x4_18: -514062278
-      Flame03-temperature_16x4_55: -1383770623
-      Flame03-temperature_16x4_13: -628232343
-      Flame03-temperature_16x4_35: 1230551728
-      Flame03-temperature_16x4_34: 1248854121
-      Flame03-temperature_16x4_48: 1012533467
-      Flame03-temperature_16x4_54: -1920883479
-      Flame03-temperature_16x4_58: -1220238634
-      Flame03-temperature_16x4_61: -1383338142
-      Flame03-temperature_16x4_38: -1313432341
-      Flame03-temperature_16x4_6: 1038796180
-      Flame03-temperature_16x4_56: -2125331051
-      Flame03-temperature_16x4_14: -2036053194
-      Flame03-temperature_16x4_51: 2027310576
-      Flame03-temperature_16x4_10: 1398168091
-      Flame03-temperature_16x4_23: 2056628943
-      Flame03-temperature_16x4_45: -229120586
-      Flame03-temperature_16x4_5: -2029288220
       Flame03-temperature_16x4_43: -534633560
-      Flame03-temperature_16x4_22: -1036922624
-      Flame03-temperature_16x4_57: -303801920
-      Flame03-temperature_16x4_25: -2062463081
-      Flame03-temperature_16x4_32: -2095514811
-      Flame03-temperature_16x4_37: -506899572
-      Flame03-temperature_16x4_9: 880783696
-      Flame03-temperature_16x4_36: -431436480
-      Flame03-temperature_16x4_26: -1220364353
-      Flame03-temperature_16x4_29: -683305497
-      Flame03-temperature_16x4_62: -365268573
-      Flame03-temperature_16x4_30: 2072720707
-      Flame03-temperature_16x4_53: 1894308629
-      Flame03-temperature_16x4_21: -1974945495
-      Flame03-temperature_16x4_49: -275367779
-      Flame03-temperature_16x4_3: -1788872459
-      Flame03-temperature_16x4_60: -221746051
       Flame03-temperature_16x4_44: 394311504
-  spritePackingTag: 
+      Flame03-temperature_16x4_45: -229120586
+      Flame03-temperature_16x4_46: 1143365292
+      Flame03-temperature_16x4_47: -1199360868
+      Flame03-temperature_16x4_48: 1012533467
+      Flame03-temperature_16x4_49: -275367779
+      Flame03-temperature_16x4_5: -2029288220
+      Flame03-temperature_16x4_50: 995308930
+      Flame03-temperature_16x4_51: 2027310576
+      Flame03-temperature_16x4_52: -222806160
+      Flame03-temperature_16x4_53: 1894308629
+      Flame03-temperature_16x4_54: -1920883479
+      Flame03-temperature_16x4_55: -1383770623
+      Flame03-temperature_16x4_56: -2125331051
+      Flame03-temperature_16x4_57: -303801920
+      Flame03-temperature_16x4_58: -1220238634
+      Flame03-temperature_16x4_59: -1917625081
+      Flame03-temperature_16x4_6: 1038796180
+      Flame03-temperature_16x4_60: -221746051
+      Flame03-temperature_16x4_61: -1383338142
+      Flame03-temperature_16x4_62: -365268573
+      Flame03-temperature_16x4_63: 461937763
+      Flame03-temperature_16x4_7: 1443601596
+      Flame03-temperature_16x4_8: -33431105
+      Flame03-temperature_16x4_9: 880783696
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

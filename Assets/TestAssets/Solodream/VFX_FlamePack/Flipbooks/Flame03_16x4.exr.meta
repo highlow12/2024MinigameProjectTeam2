@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -123,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -135,6 +142,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -147,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -159,6 +168,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1519,73 +1529,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Flame03_16x4_10: 1383167772
-      Flame03_16x4_30: 1930992952
-      Flame03_16x4_49: 1087745541
-      Flame03_16x4_48: 283300958
-      Flame03_16x4_12: -1691841296
-      Flame03_16x4_27: 1480188817
-      Flame03_16x4_24: -1135206310
-      Flame03_16x4_58: 1107556962
-      Flame03_16x4_8: 1683182906
-      Flame03_16x4_7: -1338009632
-      Flame03_16x4_22: 407057866
-      Flame03_16x4_37: 893444252
-      Flame03_16x4_14: 897074629
-      Flame03_16x4_43: -559863605
-      Flame03_16x4_5: -642570919
-      Flame03_16x4_39: -1439407309
-      Flame03_16x4_6: -316261661
-      Flame03_16x4_52: 1176892057
-      Flame03_16x4_42: 1435590832
-      Flame03_16x4_55: -468043071
-      Flame03_16x4_1: 249733435
-      Flame03_16x4_44: -1445838782
-      Flame03_16x4_56: -435059507
-      Flame03_16x4_60: -177792558
-      Flame03_16x4_45: 2057953796
-      Flame03_16x4_25: -324506425
       Flame03_16x4_0: -774832712
-      Flame03_16x4_57: -171454016
-      Flame03_16x4_59: 738354705
-      Flame03_16x4_33: 2026453055
-      Flame03_16x4_62: -1394618162
-      Flame03_16x4_53: 464692882
-      Flame03_16x4_40: 860937914
-      Flame03_16x4_23: 1990169285
-      Flame03_16x4_4: 1009264502
-      Flame03_16x4_63: -516307568
+      Flame03_16x4_1: 249733435
+      Flame03_16x4_10: 1383167772
+      Flame03_16x4_11: 1884005218
+      Flame03_16x4_12: -1691841296
+      Flame03_16x4_13: 2029831882
+      Flame03_16x4_14: 897074629
+      Flame03_16x4_15: 619461118
       Flame03_16x4_16: -2038204630
-      Flame03_16x4_54: 484626769
-      Flame03_16x4_31: -1760584862
-      Flame03_16x4_34: -867303057
-      Flame03_16x4_46: 2093242743
-      Flame03_16x4_50: 1998113177
+      Flame03_16x4_17: 139088201
       Flame03_16x4_18: -2081248726
+      Flame03_16x4_19: 997692203
+      Flame03_16x4_2: 1644662164
       Flame03_16x4_20: 1828059191
       Flame03_16x4_21: -819395850
-      Flame03_16x4_28: 437773398
-      Flame03_16x4_13: 2029831882
-      Flame03_16x4_32: -872915578
-      Flame03_16x4_61: 1648245447
-      Flame03_16x4_17: 139088201
-      Flame03_16x4_9: -1298154819
-      Flame03_16x4_3: 1485119320
-      Flame03_16x4_15: 619461118
-      Flame03_16x4_41: 38336155
-      Flame03_16x4_11: 1884005218
-      Flame03_16x4_35: 354015310
-      Flame03_16x4_29: 929089438
-      Flame03_16x4_2: 1644662164
-      Flame03_16x4_36: -806274866
-      Flame03_16x4_38: 786379409
-      Flame03_16x4_19: 997692203
-      Flame03_16x4_47: -1655337433
+      Flame03_16x4_22: 407057866
+      Flame03_16x4_23: 1990169285
+      Flame03_16x4_24: -1135206310
+      Flame03_16x4_25: -324506425
       Flame03_16x4_26: 658988799
+      Flame03_16x4_27: 1480188817
+      Flame03_16x4_28: 437773398
+      Flame03_16x4_29: 929089438
+      Flame03_16x4_3: 1485119320
+      Flame03_16x4_30: 1930992952
+      Flame03_16x4_31: -1760584862
+      Flame03_16x4_32: -872915578
+      Flame03_16x4_33: 2026453055
+      Flame03_16x4_34: -867303057
+      Flame03_16x4_35: 354015310
+      Flame03_16x4_36: -806274866
+      Flame03_16x4_37: 893444252
+      Flame03_16x4_38: 786379409
+      Flame03_16x4_39: -1439407309
+      Flame03_16x4_4: 1009264502
+      Flame03_16x4_40: 860937914
+      Flame03_16x4_41: 38336155
+      Flame03_16x4_42: 1435590832
+      Flame03_16x4_43: -559863605
+      Flame03_16x4_44: -1445838782
+      Flame03_16x4_45: 2057953796
+      Flame03_16x4_46: 2093242743
+      Flame03_16x4_47: -1655337433
+      Flame03_16x4_48: 283300958
+      Flame03_16x4_49: 1087745541
+      Flame03_16x4_5: -642570919
+      Flame03_16x4_50: 1998113177
       Flame03_16x4_51: 258053239
-  spritePackingTag: 
+      Flame03_16x4_52: 1176892057
+      Flame03_16x4_53: 464692882
+      Flame03_16x4_54: 484626769
+      Flame03_16x4_55: -468043071
+      Flame03_16x4_56: -435059507
+      Flame03_16x4_57: -171454016
+      Flame03_16x4_58: 1107556962
+      Flame03_16x4_59: 738354705
+      Flame03_16x4_6: -316261661
+      Flame03_16x4_60: -177792558
+      Flame03_16x4_61: 1648245447
+      Flame03_16x4_62: -1394618162
+      Flame03_16x4_63: -516307568
+      Flame03_16x4_7: -1338009632
+      Flame03_16x4_8: 1683182906
+      Flame03_16x4_9: -1298154819
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
