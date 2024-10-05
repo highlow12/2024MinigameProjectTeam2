@@ -8,6 +8,7 @@ public class SpawnBindSword : BossSkill
     {
         name = "SpawnBindSword";
         phase = 2;
+        baseDamage = 1.2f;
         attackDamage = 1.2f;
         /* damage per tick -> total damage: bind duration 3s * tick rate 64 * attackDamage 1.2 = 230.4 */
         projectile = Resources.Load<GameObject>("BindSword");

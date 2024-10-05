@@ -673,10 +673,18 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 PlayerLifes--;
                 OtherPanelHpZero();
+                RPC_SetPlayerCameraFollowTargetToBoss();
                 Runner.Despawn(GetComponent<NetworkObject>());
             }
 
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    public void RPC_SetPlayerCameraFollowTargetToBoss()
+    {
+        CameraMovement cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        cameraMovement.isPlayerDead = true;
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

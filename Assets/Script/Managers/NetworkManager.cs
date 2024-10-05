@@ -75,7 +75,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 // debugPanel.SetActive(true);
             }
 
-            spawnPosition = new(player.RawEncoded % runner.Config.Simulation.PlayerCount * 1, 1, 0);
+            spawnPosition = new(runner.ActivePlayers.Count() * -5, 1, 0);
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
             PlayerControllerNetworked controller = networkCharacterObject.GetComponent<PlayerControllerNetworked>();
             controller.Player = player;

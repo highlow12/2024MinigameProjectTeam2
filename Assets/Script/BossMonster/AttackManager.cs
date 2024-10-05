@@ -36,6 +36,7 @@ public abstract class BossSkill
     public string name;
     public int phase;
     public abstract IEnumerator Attack(Transform transform, /* DO NOT USE animator parameter!!! It will be removed*/ Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null);
+    public float baseDamage;
     public float attackDamage;
     public GameObject projectile;
 }

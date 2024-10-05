@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System;
 using Fusion;
 using Fusion.Addons.Physics;
@@ -49,6 +50,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public int LastAttackTick { get; set; }
     [Networked, OnChangedRender(nameof(UpdateBossPhaseCallback))] public int BossPhase { get; set; } = 1;
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
+    [Networked, OnChangedRender(nameof(UpdateBossSkillDamageMultiplier))] public float BossSkillDamageMultiplier { get; set; } = 1.0f;
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
     [Networked] public float DefaultBossSpeed { get; set; } = 5.0f;
     [Networked] public float BossSpeed { get; set; } = 5.0f;
@@ -76,10 +78,16 @@ public class BossMonsterNetworked : NetworkBehaviour
     [SerializeField] private RuntimeAnimatorController _phase2Animator;
     public BossAttack phase1BossAttack;
     public BossAttack phase2BossAttack;
+    public Vector2[] phase1ColliderProperties;
+    public Vector2[] phase2ColliderProperties;
+    public float[] bossSkillCooldownRange;
+    CapsuleCollider2D _collider;
     NetworkRigidbody2D _rb;
     Animator _currentAnimator;
     NetworkMecanimAnimator _networkAnimator;
-    public readonly float maxHealth = 50000.0f;
+    public float maxHealth = 50000.0f;
+    public float phase1MaxHealth = 20000.0f;
+    public float phase2MaxHealth = 40000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
     public Image healthBar;
@@ -93,6 +101,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     void Awake()
     {
         _rb = GetComponent<NetworkRigidbody2D>();
+        _collider = GetComponent<CapsuleCollider2D>();
         _currentAnimator = GetComponent<Animator>();
         _networkAnimator = GetComponent<NetworkMecanimAnimator>();
         cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
@@ -137,6 +146,8 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
             else if (IsReady == false)
             {
+                // Adjust boss difficulty by player count
+                AdjustBossDifficulty(Runner.ActivePlayers.Count());
                 IsReady = true;
             }
             if (IsDead)
@@ -309,7 +320,7 @@ public class BossMonsterNetworked : NetworkBehaviour
             }
             isAttacking = true;
             // Set the attack cooldown
-            BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(1.5f, 2.0f));
+            BossAttackTimer = CustomTickTimer.CreateFromSeconds(Runner, Random.Range(bossSkillCooldownRange[0], bossSkillCooldownRange[1]));
         }
         LastAttackTick = Runner.Tick;
         Coroutine attackCoroutine = StartCoroutine(attack);
@@ -328,6 +339,30 @@ public class BossMonsterNetworked : NetworkBehaviour
         isMoving = false;
         yield return null;
     }
+
+    void AdjustBossDifficulty(int playerCount)
+    {
+        switch (playerCount)
+        {
+            case 1:
+                phase1MaxHealth *= 0.5f;
+                phase2MaxHealth *= 0.5f;
+                bossSkillCooldownRange[0] *= 2f;
+                bossSkillCooldownRange[1] *= 2f;
+                BossSkillDamageMultiplier *= 0.7f;
+                break;
+            case 2:
+                phase1MaxHealth *= 0.75f;
+                phase2MaxHealth *= 0.75f;
+                bossSkillCooldownRange[0] *= 1.5f;
+                bossSkillCooldownRange[1] *= 1.5f;
+                BossSkillDamageMultiplier *= 0.85f;
+                break;
+            case 3:
+                break;
+        }
+    }
+
     // Behaviour Tree
     void BossBehaviour()
     {
@@ -675,6 +710,14 @@ public class BossMonsterNetworked : NetworkBehaviour
         StartCoroutine(SetTargetRecursive());
     }
 
+    public void UpdateBossSkillDamageMultiplier()
+    {
+        AttackManager.Instance.BossAttacks.ForEach(skill =>
+        {
+            skill.attackDamage = skill.baseDamage * BossSkillDamageMultiplier;
+        });
+    }
+
     public void UpdateHealthBarCallback()
     {
         if (healthBar != null)
@@ -690,7 +733,10 @@ public class BossMonsterNetworked : NetworkBehaviour
         if (BossPhase == 1)
         {
             phase1.SetActive(true);
-            CurrentHealth = maxHealth;
+            _collider.offset = phase1ColliderProperties[0];
+            _collider.size = phase1ColliderProperties[1];
+            CurrentHealth = phase1MaxHealth;
+            maxHealth = phase1MaxHealth;
             currentBossAttack = phase1BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase1Animator;
             phase2.SetActive(false);
@@ -723,7 +769,10 @@ public class BossMonsterNetworked : NetworkBehaviour
         else if (BossPhase == 2)
         {
             phase1.SetActive(false);
-            CurrentHealth = maxHealth;
+            _collider.offset = phase2ColliderProperties[0];
+            _collider.size = phase2ColliderProperties[1];
+            CurrentHealth = phase2MaxHealth;
+            maxHealth = phase2MaxHealth;
             currentBossAttack = phase2BossAttack;
             _currentAnimator.runtimeAnimatorController = _phase2Animator;
             phase2.SetActive(true);

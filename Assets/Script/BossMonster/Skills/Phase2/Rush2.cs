@@ -11,6 +11,7 @@ public class Rush2 : BossSkill
     public Rush2()
     {
         name = "RushAttack";
+        baseDamage = 150.0f;
         attackDamage = 150.0f;
         phase = 2;
     }

@@ -9,6 +9,7 @@ public class JumpAttack : BossSkill
     public JumpAttack()
     {
         name = "JumpAttack";
+        baseDamage = 200.0f;
         attackDamage = 200.0f;
         phase = 1;
     }
