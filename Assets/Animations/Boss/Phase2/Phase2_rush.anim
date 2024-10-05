@@ -2251,11 +2251,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-<<<<<<< Updated upstream
-        time: 0.46666667
-=======
         time: 0.8
->>>>>>> Stashed changes
         value: 0
         inSlope: 0
         outSlope: 0
