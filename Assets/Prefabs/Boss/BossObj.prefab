@@ -54,7 +54,7 @@ Animator:
   m_GameObject: {fileID: 895783993757917225}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e2ebaaad992984fb09dd5bcd37318267, type: 2}
+  m_Controller: {fileID: 9100000, guid: d4bba80ccdc974777a14a59e16d3eb87, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -364,8 +364,8 @@ MonoBehaviour:
   TotalWords: 2
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000006f13643eca5783811b912ccef5f3e4bb97310e515543cff3d5b7c64670f321f9d51d7e1196b34d12
-  TriggerHashes: 00000000dca6a5445485f495cd54007e88a72c4a
+  StateHashes: 000000002b1a167c794069556bd5a32d398fdc040d286c404e865f4329d37feb8c97985498ae24641c8df28bd1710155832b7e7c
+  TriggerHashes: 00000000dca6a5445485f49502d518ee68dbb91f88a72c4a
 --- !u!114 &4344955322518706098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,7 +554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4137722977099850358, guid: 7a435e78b71c44aad82daa2dde6171dd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5055836965494854296, guid: 7a435e78b71c44aad82daa2dde6171dd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -874,7 +874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817524913732051140, guid: 595e86ad4bc60435692fbb5599926f09, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4822421070596377363, guid: 595e86ad4bc60435692fbb5599926f09, type: 3}
       propertyPath: m_Enabled
