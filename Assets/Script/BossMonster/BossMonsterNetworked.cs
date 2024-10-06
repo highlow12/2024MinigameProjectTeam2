@@ -52,6 +52,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     [Networked] public CustomTickTimer BossAttackTimer { get; set; }
     [Networked, OnChangedRender(nameof(UpdateBossSkillDamageMultiplier))] public float BossSkillDamageMultiplier { get; set; } = 1.0f;
     [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float CurrentHealth { get; set; }
+    [Networked, OnChangedRender(nameof(UpdateHealthBarCallback))] public float maxHealth { get; set; } = 50000.0f;
     [Networked] public float DefaultBossSpeed { get; set; } = 5.0f;
     [Networked] public float BossSpeed { get; set; } = 5.0f;
     [Networked] public NetworkObject FollowTarget { get; set; }
@@ -85,7 +86,6 @@ public class BossMonsterNetworked : NetworkBehaviour
     NetworkRigidbody2D _rb;
     Animator _currentAnimator;
     NetworkMecanimAnimator _networkAnimator;
-    public float maxHealth = 50000.0f;
     public float phase1MaxHealth = 20000.0f;
     public float phase2MaxHealth = 40000.0f;
     // public GameObject effectPool;

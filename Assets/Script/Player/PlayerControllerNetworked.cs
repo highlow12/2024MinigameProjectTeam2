@@ -673,6 +673,8 @@ public class PlayerControllerNetworked : NetworkBehaviour
             {
                 PlayerLifes--;
                 OtherPanelHpZero();
+                BossMonsterNetworked boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossMonsterNetworked>();
+                boss.RPC_ForceRetarget();
                 RPC_SetPlayerCameraFollowTargetToBoss();
                 Runner.Despawn(GetComponent<NetworkObject>());
             }

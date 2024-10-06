@@ -103,11 +103,18 @@ public class BindSword : NetworkBehaviour
         while (Runner != null && !duration.Expired(Runner)) /* null check */
         {
             yield return new WaitForFixedUpdate();
-            boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
-            player.transform.position = new Vector3(transform.position.x, player.transform.position.y, player.transform.position.z);
-            player.RPC_OnPlayerHit(
-                attackData
-            );
+            try
+            {
+                boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
+                player.transform.position = new Vector3(transform.position.x, player.transform.position.y, player.transform.position.z);
+                player.RPC_OnPlayerHit(
+                    attackData
+                );
+            }
+            catch
+            {
+                Runner.Despawn(Object);
+            }
         }
         if (Runner != null)
         {
