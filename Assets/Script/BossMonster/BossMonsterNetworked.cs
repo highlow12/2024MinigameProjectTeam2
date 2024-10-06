@@ -87,7 +87,7 @@ public class BossMonsterNetworked : NetworkBehaviour
     Animator _currentAnimator;
     NetworkMecanimAnimator _networkAnimator;
     public float phase1MaxHealth = 20000.0f;
-    public float phase2MaxHealth = 40000.0f;
+    public float phase2MaxHealth = 20000.0f;
     // public GameObject effectPool;
     public CameraMovement cameraMovement;
     public Image healthBar;
