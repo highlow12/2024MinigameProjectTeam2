@@ -401,7 +401,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (Equals(cooldownTimer, default(CustomTickTimer)) || cooldownTimer.Expired(Runner))
         {
             skillStruct.coolDownTimer = CustomTickTimer.CreateFromSeconds(Runner, skillStruct.coolDown);
-            RPC_CreateDurationIndicator(skillStruct.duration, "아우라 쿨다운");
+            RPC_CreateDurationIndicator(skillStruct.coolDown, "아우라 쿨다운");
             SkillList.Set("Aura", skillStruct);
             StartCoroutine(weapon.Skill(gameObject.transform, skillStruct.duration));
         }

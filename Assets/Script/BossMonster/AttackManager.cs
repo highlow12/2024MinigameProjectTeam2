@@ -22,6 +22,8 @@ public class AttackManager : MonoBehaviour
         BossAttacks.Add(new SpawnFireSpirit());
         BossAttacks.Add(new SpawnBindSword());
         BossAttacks.Add(new BaseAttack2());
+        BossAttacks.Add(new BackAttack2());
+        BossAttacks.Add(new BothAttack2());
         BossAttacks.Add(new SpawnHorizontalBindSword());
         BossAttacks.Add(new Rush2());
 

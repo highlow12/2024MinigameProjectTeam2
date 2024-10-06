@@ -347,15 +347,15 @@ public class BossMonsterNetworked : NetworkBehaviour
             case 1:
                 phase1MaxHealth *= 0.5f;
                 phase2MaxHealth *= 0.5f;
-                bossSkillCooldownRange[0] *= 2f;
-                bossSkillCooldownRange[1] *= 2f;
+                bossSkillCooldownRange[0] *= 1.3f;
+                bossSkillCooldownRange[1] *= 1.3f;
                 BossSkillDamageMultiplier *= 0.7f;
                 break;
             case 2:
                 phase1MaxHealth *= 0.75f;
                 phase2MaxHealth *= 0.75f;
-                bossSkillCooldownRange[0] *= 1.5f;
-                bossSkillCooldownRange[1] *= 1.5f;
+                bossSkillCooldownRange[0] *= 1.15f;
+                bossSkillCooldownRange[1] *= 1.15f;
                 BossSkillDamageMultiplier *= 0.85f;
                 break;
             case 3:
@@ -528,10 +528,22 @@ public class BossMonsterNetworked : NetworkBehaviour
                         switch (attackType)
                         {
                             case AttackType.Melee:
-                                int phase2_melee_skillRandom = Random.Range(0, 4);
-                                BossSkill phase2_baseAttack = GetBossSkill("BaseAttack2", BossPhase);
-                                Debug.Log(phase2_baseAttack);
-                                StartCoroutine(AttackController(phase2_baseAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
+                                int phase2_melee_skillRandom = Random.Range(0, 3);
+                                switch (phase2_melee_skillRandom)
+                                {
+                                    case 0:
+                                        BossSkill phase2_baseAttack = GetBossSkill("BaseAttack2", BossPhase);
+                                        StartCoroutine(AttackController(phase2_baseAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
+                                        break;
+                                    case 1:
+                                        BossSkill phase2_backAttack = GetBossSkill("BackAttack2", BossPhase);
+                                        StartCoroutine(AttackController(phase2_backAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
+                                        break;
+                                    case 2:
+                                        BossSkill phase2_bothAttack = GetBossSkill("BothAttack2", BossPhase);
+                                        StartCoroutine(AttackController(phase2_bothAttack.Attack(transform, _currentAnimator, Runner, currentBossAttack, Object)));
+                                        break;
+                                }
                                 break;
                             case AttackType.Rush:
                                 int phase2_rush_skillRandom = Random.Range(0, 1);
@@ -810,11 +822,11 @@ public class BossMonsterNetworked : NetworkBehaviour
                 new () {
                     skillName = "SpawnFireSpirit",
                     runBy = ScheduledBehaviors.RunBy.Tick,
-                    tick = Runner.Tick + (27 * Runner.TickRate),
+                    tick = Runner.Tick + (10 * Runner.TickRate),
                     phase = 2,
                     canPend = false,
                     canRenew = true,
-                    renewTick = 27 * Runner.TickRate
+                    renewTick = 20 * Runner.TickRate
                 }
 
 
