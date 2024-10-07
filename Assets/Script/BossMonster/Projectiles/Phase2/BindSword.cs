@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using System.Linq;
 using UnityEngine;
 
 public class BindSword : NetworkBehaviour
@@ -25,6 +26,13 @@ public class BindSword : NetworkBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _mechanimAnimator = GetComponent<NetworkMecanimAnimator>();
+        drainAmount = Runner.ActivePlayers.Count() switch
+        {
+            1 => 10,
+            2 => 5,
+            3 => 3,
+            _ => 10
+        };
     }
 
     // Update is called once per frame

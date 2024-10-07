@@ -193,6 +193,7 @@ MonoBehaviour:
   _BossPhase: 1
   _BossSkillDamageMultiplier: 1
   _CurrentHealth: 0
+  _maxHealth: 50000
   _DefaultBossSpeed: 5
   _BossSpeed: 5
   _FollowTarget: {fileID: 0}
@@ -225,9 +226,8 @@ MonoBehaviour:
   bossSkillCooldownRange:
   - 1.5
   - 2
-  maxHealth: 50000
-  phase1MaxHealth: 35000
-  phase2MaxHealth: 50000
+  phase1MaxHealth: 20000
+  phase2MaxHealth: 20000
   cameraMovement: {fileID: 0}
   healthBar: {fileID: 0}
   durationIndicator: {fileID: 0}
