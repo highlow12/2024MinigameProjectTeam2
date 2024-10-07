@@ -9,6 +9,7 @@ public class BackAttack : BossSkill
     public BackAttack()
     {
         name = "BackAttack";
+        baseDamage = 50.0f;
         attackDamage = 50.0f;
         phase = 1;
     }

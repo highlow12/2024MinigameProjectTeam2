@@ -187,10 +187,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3555934bfa1bc4f478225e5874bef57b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _IsReady: 0
   _IsDead: 0
   _LastAttackTick: 0
   _BossPhase: 1
+  _BossSkillDamageMultiplier: 1
   _CurrentHealth: 0
+  _maxHealth: 50000
   _DefaultBossSpeed: 5
   _BossSpeed: 5
   _FollowTarget: {fileID: 0}
@@ -214,6 +217,17 @@ MonoBehaviour:
   _phase2Animator: {fileID: 9100000, guid: e2ebaaad992984fb09dd5bcd37318267, type: 2}
   phase1BossAttack: {fileID: 3738774551853245099}
   phase2BossAttack: {fileID: 7674309817953824100}
+  phase1ColliderProperties:
+  - {x: -0.09, y: 1.5}
+  - {x: 1.080214, y: 3}
+  phase2ColliderProperties:
+  - {x: 0.2612276, y: 1.144326}
+  - {x: 0.8223502, y: 2.288653}
+  bossSkillCooldownRange:
+  - 1.5
+  - 2
+  phase1MaxHealth: 20000
+  phase2MaxHealth: 20000
   cameraMovement: {fileID: 0}
   healthBar: {fileID: 0}
   durationIndicator: {fileID: 0}

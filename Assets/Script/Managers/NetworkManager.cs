@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Bogus.DataSets;
 using Fusion;
 using Fusion.Sockets;
 using Fusion.Addons.Physics;
@@ -46,7 +46,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         {
             sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
         }
-
         // Start or join (depends on gamemode) a session with a specific name
         await _runner.StartGame(new StartGameArgs()
         {
@@ -67,7 +66,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             if (runner.ActivePlayers.Count() == 1)
             {
                 spawnPosition = new(0, -4.6f, 0);
-                networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity, player);
+                networkCharacterObject = runner.Spawn(bossPrefab, spawnPosition, Quaternion.identity, null);
                 runner.Spawn(messageHandler, new Vector3(0, 0, 0), Quaternion.identity);
                 // runner.Spawn(objectPoolNetworkedPrefab, new Vector3(0, 0, 0), Quaternion.identity, player);
                 var newPlayerRef = new PlayerRef();
@@ -75,7 +74,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 // debugPanel.SetActive(true);
             }
 
-            spawnPosition = new(player.RawEncoded % runner.Config.Simulation.PlayerCount * 1, 1, 0);
+            spawnPosition = new(runner.ActivePlayers.Count() * -5, 1, 0);
             networkCharacterObject = runner.Spawn(characterPrefab, spawnPosition, Quaternion.identity, player);
             PlayerControllerNetworked controller = networkCharacterObject.GetComponent<PlayerControllerNetworked>();
             controller.Player = player;

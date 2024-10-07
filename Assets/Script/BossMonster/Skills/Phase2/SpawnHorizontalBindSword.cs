@@ -8,6 +8,7 @@ public class SpawnHorizontalBindSword : BossSkill
     {
         name = "SpawnHorizontalBindSword";
         phase = 2;
+        baseDamage = 1.2f;
         attackDamage = 1.2f;
         /* damage per tick -> total damage: bind duration 3s * tick rate 64 * attackDamage 1.2 = 230.4 */
         projectile = Resources.Load<GameObject>("BindSword");
@@ -19,12 +20,11 @@ public class SpawnHorizontalBindSword : BossSkill
         var omenPos = new Vector3(0, -1, 0);
         var projectilePos = new Vector3(-30, -1, 0);
         NetworkObject omen = runner.Spawn(omenEffect, omenPos, Quaternion.identity, boss.InputAuthority);
-        CustomTickTimer life = CustomTickTimer.CreateFromSeconds(runner, 1.5f);
-        while (!life.Expired(runner))
+        CustomTickTimer omenDuration = CustomTickTimer.CreateFromSeconds(runner, 1.5f);
+        while (!omenDuration.Expired(runner))
         {
             yield return new WaitForFixedUpdate();
         }
-        runner.Despawn(omen);
         runner.Spawn(projectile, projectilePos, Quaternion.Euler(0, 0, 90), boss.InputAuthority, (runner, o) =>
         {
             var s = o.GetComponent<BindSword>();

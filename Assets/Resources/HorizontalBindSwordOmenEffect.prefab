@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1740380032405757827}
   - component: {fileID: 1222638508484784284}
   - component: {fileID: 168003457769950868}
+  - component: {fileID: 4441639652067516058}
+  - component: {fileID: -7282167807292953087}
   m_Layer: 0
   m_Name: HorizontalBindSwordOmenEffect
   m_TagString: Untagged
@@ -101,4 +103,34 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 4441639652067516058}
+  - {fileID: -7282167807292953087}
+--- !u!114 &4441639652067516058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635217084377748311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f9c1f3230654b9a9504002ff14d921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7282167807292953087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635217084377748311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

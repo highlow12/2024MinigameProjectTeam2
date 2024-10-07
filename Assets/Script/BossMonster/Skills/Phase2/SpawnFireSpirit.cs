@@ -8,7 +8,8 @@ public class SpawnFireSpirit : BossSkill
     {
         name = "SpawnFireSpirit";
         phase = 2;
-        attackDamage = 0;
+        baseDamage = 90;
+        attackDamage = 90;
         projectile = Resources.Load<GameObject>("FireSpirit");
     }
     public override IEnumerator Attack(Transform transform, Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null)
@@ -19,6 +20,7 @@ public class SpawnFireSpirit : BossSkill
             boss.InputAuthority, (runner, o) =>
             {
                 var s = o.GetComponent<FireSpirit>();
+                s.damage = attackDamage;
                 o.transform.parent = transform;
                 s.setTarget(transform.GetComponent<BossMonsterNetworked>().FollowTarget.transform.position);
             }

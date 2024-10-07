@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using System.Linq;
 using UnityEngine;
 
 public class BindSword : NetworkBehaviour
@@ -25,6 +26,13 @@ public class BindSword : NetworkBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _mechanimAnimator = GetComponent<NetworkMecanimAnimator>();
+        drainAmount = Runner.ActivePlayers.Count() switch
+        {
+            1 => 3,
+            2 => 5,
+            3 => 10,
+            _ => 3
+        };
     }
 
     // Update is called once per frame
@@ -103,11 +111,18 @@ public class BindSword : NetworkBehaviour
         while (Runner != null && !duration.Expired(Runner)) /* null check */
         {
             yield return new WaitForFixedUpdate();
-            boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
-            player.transform.position = new Vector3(transform.position.x, player.transform.position.y, player.transform.position.z);
-            player.RPC_OnPlayerHit(
-                attackData
-            );
+            try
+            {
+                boss.CurrentHealth = Mathf.Min(boss.CurrentHealth + drainAmount, boss.maxHealth);
+                player.transform.position = new Vector3(transform.position.x, player.transform.position.y, player.transform.position.z);
+                player.RPC_OnPlayerHit(
+                    attackData
+                );
+            }
+            catch
+            {
+                Runner.Despawn(Object);
+            }
         }
         if (Runner != null)
         {

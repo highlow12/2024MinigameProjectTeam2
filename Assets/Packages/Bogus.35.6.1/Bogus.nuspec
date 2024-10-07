@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Bogus</id>
+    <version>35.6.1</version>
+    <authors>Brian Chavez</authors>
+    <licenseUrl>https://raw.githubusercontent.com/bchavez/Bogus/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/bchavez/Bogus</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/bchavez/Bogus/master/Docs/logo.png</iconUrl>
+    <description>A simple and sane data generator for populating objects that supports different locales. A delightful port of the famed faker.js and inspired by FluentValidation. Use Bogus to create UIs with fake data or seed databases. Get started by using Faker class or a DataSet directly.</description>
+    <releaseNotes>## v35.6.1
+Release Date: 2024-09-02
+* PR 560: Ensure Belgian National Numbers has padded checksum. Thanks @vyruz1986!
+
+## v35.6.0
+Release Date: 2024-04-27
+* PR 556: Remove obsolete/non-working LoremPixel image service. `Images.LoremPixelUrl()` is removed. Thanks @marijnz0r!
+* PR 557: Added `Bogus.Extensions.Belgium` extension methods below. Thanks @vyruz1986!
+* Added `f.Person.NationalNumber()` - Rijksregisternummer / Numéro Nationale
+
+## v35.5.1
+Release Date: 2024-04-27
+* PR 538: Fixes Invalid Costa Rica IBAN format. Thanks @dangerman!
+
+## v35.5.0
+Release Date: 2024-03-09
+* PR 500: Allows locally set time references for Date calculations instead of global statics. See Faker[T].UseDateTimeReference(), Faker.DateTimeReference, and DataSets.Date.LocalSystemClock. Thanks @garcipat!
+
+## v35.4.1
+Release Date: 2024-03-02
+* PR 529: XML Docs: Add inclusive / exclusive number ranges documentation for Randomizer. Thanks @Mitchman215!
+* PR 535: Fix gender-digit for Swedish Personnummer. Thanks @LarsBergqvist!
+
+
+Full History Here: https://github.com/bchavez/Bogus/blob/master/HISTORY.md</releaseNotes>
+    <tags>faker fake bogus poco data generator database seed values test-data test tdd testing .net EF</tags>
+    <repository type="git" url="https://github.com/bchavez/Bogus" commit="905a7e753ed2d7bfd42fc5099a50278adf45b467" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="System.Globalization.Extensions" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework=".NETFramework4.0" />
+      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
