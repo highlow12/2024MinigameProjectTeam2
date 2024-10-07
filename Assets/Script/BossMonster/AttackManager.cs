@@ -22,6 +22,8 @@ public class AttackManager : MonoBehaviour
         BossAttacks.Add(new SpawnFireSpirit());
         BossAttacks.Add(new SpawnBindSword());
         BossAttacks.Add(new BaseAttack2());
+        BossAttacks.Add(new BackAttack2());
+        BossAttacks.Add(new BothAttack2());
         BossAttacks.Add(new SpawnHorizontalBindSword());
         BossAttacks.Add(new Rush2());
 
@@ -36,6 +38,7 @@ public abstract class BossSkill
     public string name;
     public int phase;
     public abstract IEnumerator Attack(Transform transform, /* DO NOT USE animator parameter!!! It will be removed*/ Animator animator, NetworkRunner runner, BossAttack bossAttack = null, NetworkObject boss = null);
+    public float baseDamage;
     public float attackDamage;
     public GameObject projectile;
 }

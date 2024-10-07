@@ -10,6 +10,7 @@ public class EnergyAttack : BossSkill
     public EnergyAttack()
     {
         name = "EnergyAttack";
+        baseDamage = 100.0f;
         attackDamage = 100.0f;
         phase = 1;
         projectile = Resources.Load<GameObject>("BossSwordEnergy");

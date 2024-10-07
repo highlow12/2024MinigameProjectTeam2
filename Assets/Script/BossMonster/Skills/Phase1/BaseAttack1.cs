@@ -9,6 +9,7 @@ public class BaseAttack1 : BossSkill
     public BaseAttack1()
     {
         name = "BaseAttack1";
+        baseDamage = 50.0f;
         attackDamage = 50.0f;
         phase = 1;
     }

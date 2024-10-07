@@ -11,6 +11,7 @@ public class Rush2 : BossSkill
     public Rush2()
     {
         name = "RushAttack";
+        baseDamage = 150.0f;
         attackDamage = 150.0f;
         phase = 2;
     }
@@ -71,6 +72,7 @@ public class Rush2 : BossSkill
         _rb.velocity = Vector2.zero;
         bossScript.isRushing = false;
         bossAttack.isParryable = true;
+        bossScript.RPC_ForceRetarget();
         _collider.excludeLayers = 0;
         yield return null;
     }

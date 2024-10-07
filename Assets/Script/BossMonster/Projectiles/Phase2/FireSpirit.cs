@@ -12,7 +12,7 @@ public class FireSpirit : NetworkBehaviour
     float currentTime = 0;
     [Networked] private CustomTickTimer life { get; set; }
     public List<PlayerRef> playersHit = new();
-    public int damage = 90;
+    public float damage = 90;
     public float speed = 5;
     public float lifeSeconds = 3;
     private int dir = 1;
@@ -100,6 +100,7 @@ public class FireSpirit : NetworkBehaviour
             if (player)
             {
                 playersHit.Add(player.Player);
+                StartCoroutine(RemovePlayerFromList(player.Player));
                 if (player.CharacterClass == (int)CharacterClassEnum.Tank)
                 {
                     if (player.weapon.isDraw)
@@ -119,6 +120,17 @@ public class FireSpirit : NetworkBehaviour
             }
         }
     }
+
+    IEnumerator RemovePlayerFromList(PlayerRef player)
+    {
+        CustomTickTimer pendingTimer = CustomTickTimer.CreateFromSeconds(Runner, 1);
+        while (!pendingTimer.Expired(Runner))
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        playersHit.Remove(player);
+    }
+
     void OnDrawGizmos()
     {
 

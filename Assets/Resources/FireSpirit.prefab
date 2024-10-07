@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: -7433670460835304688}
   - component: {fileID: 1000910286379798731}
   - component: {fileID: 3881486963953138778}
+  - component: {fileID: -4563657175816892608}
   m_Layer: 0
   m_Name: FireSpirit
   m_TagString: Untagged
@@ -212,6 +213,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1000910286379798731}
+  - {fileID: -4563657175816892608}
 --- !u!114 &1000910286379798731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,3 +268,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.39}
   serializedVersion: 2
   m_Radius: 0.73
+--- !u!114 &-4563657175816892608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682793371404010143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
