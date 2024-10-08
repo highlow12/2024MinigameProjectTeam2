@@ -349,14 +349,14 @@ public class BossMonsterNetworked : NetworkBehaviour
                 phase2MaxHealth *= 0.5f;
                 bossSkillCooldownRange[0] *= 1.3f;
                 bossSkillCooldownRange[1] *= 1.3f;
-                BossSkillDamageMultiplier *= 0.7f;
+                BossSkillDamageMultiplier *= 0.5f;
                 break;
             case 2:
                 phase1MaxHealth *= 0.75f;
                 phase2MaxHealth *= 0.75f;
                 bossSkillCooldownRange[0] *= 1.15f;
                 bossSkillCooldownRange[1] *= 1.15f;
-                BossSkillDamageMultiplier *= 0.85f;
+                BossSkillDamageMultiplier *= 0.75f;
                 break;
             case 3:
                 break;
