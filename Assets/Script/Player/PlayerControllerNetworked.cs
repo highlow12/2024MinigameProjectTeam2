@@ -737,7 +737,7 @@ public class PlayerControllerNetworked : NetworkBehaviour
         if (Equals(HealthRegenIntervalTickTimer, default(CustomTickTimer)) || HealthRegenIntervalTickTimer.Expired(Runner))
         {
             HealthRegenIntervalTickTimer = CustomTickTimer.CreateFromSeconds(Runner, auraBuffs.healthRegenInterval);
-            CurrentHealth += auraBuffs.healthRegen;
+            CurrentHealth = Mathf.Min(CurrentHealth + auraBuffs.healthRegen, MaxHealth);
         }
     }
 
