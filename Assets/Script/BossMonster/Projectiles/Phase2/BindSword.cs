@@ -28,10 +28,10 @@ public class BindSword : NetworkBehaviour
         _mechanimAnimator = GetComponent<NetworkMecanimAnimator>();
         drainAmount = Runner.ActivePlayers.Count() switch
         {
-            1 => 3,
-            2 => 5,
-            3 => 10,
-            _ => 3
+            1 => 1.5f,
+            2 => 3,
+            3 => 7,
+            _ => 1
         };
     }
 
